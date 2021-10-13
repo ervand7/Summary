@@ -1,0 +1,70 @@
+Документация по тегам здесь: https://django.fun/docs/django/ru/3.0/ref/templates/builtins/
+Больше здесь: https://djbook.ru/rel1.9/ref/templates/builtins.html
+
+● Переменные мы выводим в двойных {{title}}
+● Если хотим вывести переменную, которой нет, то Джанго выведет просто пустую строку {{test123321}}
+● Теги прописываются так {% for i in news_project %}. Для тега for нужен закрывающий тег {% endfor %}
+● Фильтры нужны, чтобы изменить значения строки. Они могут быть
+с аргументами {{item.created_at|date:"Y-m-d H:i:s"}} и без {{item.created_at|date}}
+● В шаблоне мы можем выводить не только атрибуты класса, но и методы.
+{% for i in news_project %}  # i - это объект модели news_project
+    {{ i.my_func }}
+
+● autoescape
+По умолчанию в тексте все теги экранируются. Чтобы отключить экранирование, нужно перевести autoescape
+в режим off
+{% autoescape on %}
+    {{ body }}
+{% endautoescape %}
+
+● cycle
+Возвращает один из аргументов при вызове. Первый аргумент при первом вызове, второй - при втором, и т.д. Когда аргументы кончаются, тег начинает с начала списка аргументов. Этот тег полезен в циклах:
+{% for i in news_project %}
+    <h5 class="card-title {% cycle 'text-danger'  'text-success' %}">{{ i.title }}</h5>
+    {% endfor %}
+Таким образом мы настраиваем, что у нас один заголовок будет красным цветом, другой зеленым. И так будут чередоваться
+все заголовки.
+
+
+● {{forloop.counter}}
+Номер текущей итерации цикла начиная с 1
+
+● {{forloop.counter0}}
+Номер текущей итерации цикла начиная с 0
+
+● Вы можете использовать цикл по списку в обратном порядке {% for obj in list reversed %}
+
+
+● for ... empty
+Тег for содержит необязательную часть {% empty %}, которая будет отображена, если список пуст или не найден:
+<ul>
+{% for athlete in athlete_list %}
+    <li>{{ athlete.name }}</li>
+{% empty %}
+    <li>Sorry, no athletes in this list.</li>
+{% endfor %}
+</ul>
+
+● if
+Тег {% if %} вычисляет переменную и если она равна “true” (то есть существует, не пустая и не равна “false”) выводит
+содержимое блока:
+{% if athlete_list %}
+    Number of athletes: {{ athlete_list|length }}
+{% elif athlete_in_locker_room_list %}
+    Athletes should be out of the locker room soon!
+{% else %}
+    No athletes.
+{% endif %}
+
+● {% now "Y-m-d H:i:s"%}
+Текущее время. Правда тут его нужно будет настраивать, а то он явно не по мск показывает время.
+
+● spaceless
+Убирает пробелы между HTML тегами, включая символы табуляции и перенос строки. Пример использования:
+{% spaceless %}
+    <p>
+        <a href="foo/">Foo</a>
+    </p>
+{% endspaceless %}
+__________________________________________________________________________________________________________________
+● Список фильтров https://djbook.ru/rel1.9/ref/templates/builtins.html#add

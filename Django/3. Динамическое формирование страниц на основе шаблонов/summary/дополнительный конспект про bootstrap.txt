@@ -1,0 +1,15 @@
+● Переходим на сайт Bootstrap:
+https://getbootstrap.com/docs/4.4/getting-started/introduction/#starter-template
+● Копируем оттуда Starter template
+● На данном этапе PyCharm возникла необходимость настроить перенос текста и
+избавиться от скролла. Для этого идем в
+настройки -> Editor -> General -> Soft wrap these files -> и там прописываем *.html
+
+● Теперь нам нужен navbar. Копируем отсюда:
+https://getbootstrap.com/docs/4.4/components/navbar/
+
+● Далее возьмем какой-нибудь компонент карточки
+https://getbootstrap.com/docs/4.4/components/card/
+
+● Сгенерируем 3 абзаца текста здесь и встаим их в наши новости через админку:
+https://ru.lipsum.com/feed/html

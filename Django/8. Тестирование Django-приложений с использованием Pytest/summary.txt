@@ -1,0 +1,54 @@
+ВНИМАНИЕ!!!!!!!!!!!!!!!!!
+ОСНОВНАЯ ИНФОРМАЦИЯ В ПРЕЗЕНТАЦИИ, КОТОРАЯ НАХОДИТСЯ В ЭТОЙ ЖЕ ПАПКЕ!!!!!!!!!!!!!!!
+Документации:
+  ●  pytest: https://docs.pytest.org/en/stable/
+
+  ●  pytest-django: https://pytest-django.readthedocs.io/en/latest/
+
+  ●  тестирование DRF: https://www.django-rest-framework.org/api-guide/testing/
+
+  ●  аргументы коммандной строки в pytest: https://docs.pytest.org/en/6.2.x/usage.html#usage-and-invocations
+
+======================================================================================
+
+По умолчанию джанго использует unittest (запускается командой manage.py test)
+1) ==== Установка библиотеки ====:
+ ● pip install pytest
+ ● pip install pytest-django
+
+2) ==== Конфигурация ====
+Заведите в корне проекта файл <pytest.ini> и укажите там, какой файл настроек
+является основным для тестов:
+
+[pytest]
+DJANGO_SETTINGS_MODULE = django_testing.settings
+
+Документация: https://pytest-django.readthedocs.io/en/latest/tutorial.html
+
+3) ==== Организация тестов ====
+Заведем директорию tests на уровне проекта:
+tests/
+    conftest.py
+    папка_название_которой_это_название_приложения/
+            __init__.py
+            test_api.py
+
+Внимание! Не нужно добавлять файл __init__.py в директорию tests
+
+4) ==== Логика внутри теста ====
+При написании теста следует придерживаться определенной структуры.
+Один из общепринятых подходов – Arrange, Act, Assert.
+ ● Arrange: готовим данные;
+ ● Act: совершаем действие, которое хотим протестировать;
+ ● Assert: проверяем результат
+
+https://github.com/testdouble/contributing-tests/wiki/Arrange-Act-Assert
+
+ДАЛЕЕ СМОТРИ ПРЕЗЕНТАЦИЮ!
+
+Есть фишка, помог мне в этом Александр Бардин. Если ни при каких условиях
+тесты не дебажатся, а просто проходят, нужно запустить их через терминал с
+параметром <-s>, например
+pytest '/Users/USER/Desktop/My_best_summary_about_python/summary/Django/8. Тестирование Django-приложений с использованием Pytest/django_testing/tests/students/test_courses_api.py' -s
+
+После этого можно в пайчарме через кнопки снова запускать дебаг.

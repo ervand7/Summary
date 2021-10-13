@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/chat/section.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/chat/message.css' %}"/>
+{% endblock %}
+
+{% block extra_js %}
+  <script type="text/javascript"
+          src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+  <script type="text/javascript" src="{% static 'js/chat/section.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+  <div class="section-container">
+    <div class="section-container__common section-container__left">
+      <div class="section-title__common section-title__left">
+        <a href="{% url 'index' %}" class="section-title__back">
+          <img src="{% static 'images/chat/back.svg' %}" alt="Назад"/>
+        </a>
+        <p class="section-title__text">{{ section.title }}</p>
+        <div class="section-title__fake"></div>
+      </div>
+
+      <div class="message-list">
+        {% for conversation in conversations %}
+          {% include 'chat/message.html' with message=conversation conversation_id=conversation.id %}
+        {% empty %}
+          Еще никто ничего не писал здесь.
+        {% endfor %}
+      </div>
+
+      {% include 'chat/message_form.html' with value='conversation' form=conversation_form %}
+    </div>
+
+    <div class="section-container__common section-container__right">
+      {% if conversation %}
+        <div class="section-title__common section-title__right">
+          <p class="section-title__text">{{ conversation.user.get_full_name }}</p>
+        </div>
+
+        <div class="message-list">
+          {% for message in messages %}
+            {% include 'chat/message.html' %}
+          {% empty %}
+            Еще никто ничего не писал здесь.
+          {% endfor %}
+        </div>
+
+        {% include 'chat/message_form.html' with value='message' form=message_form %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

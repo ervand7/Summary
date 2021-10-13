@@ -1,0 +1,2 @@
+1) не получалось отдебажить тесты в Django. Pycharm запускал прогон теста вместо дебага. И это несмотря на правильно расставленные точки остановок. Решить эту проблему помог параметр -s, о чем подробно описано здесь
+https://docs.pytest.org/en/stable/capture.html#accessing-captured-output-from-a-test-function

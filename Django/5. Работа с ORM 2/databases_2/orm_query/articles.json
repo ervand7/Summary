@@ -1,0 +1,38 @@
+[
+  {
+    "model": "articles.article",
+    "pk": 1,
+    "fields": {
+      "author": 1,
+      "genre": 1,
+      "title": "Тайтл 1",
+      "text": "Текст статьи 1",
+      "published_at": "2018-09-30T19:26:52Z",
+      "image": "th_946876594_EntghVT.jpg"
+    }
+  },
+  {
+    "model": "articles.article",
+    "pk": 2,
+    "fields": {
+      "author": 2,
+      "genre": 3,
+      "title": "Тайтл 2",
+      "text": "Текст статьи 2",
+      "published_at": "2018-08-30T20:04:44Z",
+      "image": "th_1488217075_CVC0Ltk.jpg"
+    }
+  },
+  {
+    "model": "articles.article",
+    "pk": 3,
+    "fields": {
+      "author": 2,
+      "genre": 2,
+      "title": "Тайтл 3",
+      "text": "Текст статьи 3",
+      "published_at": "2018-07-30T20:08:20Z",
+      "image": "th_1521804489_cfyJCMV.jpg"
+    }
+  }
+]

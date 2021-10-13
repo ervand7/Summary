@@ -1,0 +1,49 @@
+{% load static %}
+{% load gravatar %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Лучший чат</title>
+
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+        integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+        crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+  {% block extra_css %}{% endblock %}
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+<header class="header">
+  <div class="{% block header_container_class %}container-xl{% endblock %}">
+    <a href="{% url 'profile' %}" class="header__profile">
+      <img
+              class="header__profile__img"
+              src="{% if user.avatar %}{{ user.avatar.url }}{% elif user.email %}{% gravatar_url user.email 50 %}{% else %}{% static 'images/user.svg' %}{% endif %}"
+              alt="userpic"
+      />
+      <span class="header__profile__bio">{{ user.get_full_name|default:user.username }}</span>
+    </a>
+
+    <div class="header__controls">
+      <a class="header__controls__link" href="{% url 'index' %}">Главная</a>
+      {% if user.is_anonymous %}
+        <a class="header__controls__link" href="{% url 'login' %}">Войти</a>
+        <a class="header__controls__link" href="{% url 'django_registration_register' %}">Регистрация</a>
+      {% else %}
+        <a class="header__controls__link" href="{% url 'logout' %}">Выйти</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+{% block main %}{% endblock %}
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

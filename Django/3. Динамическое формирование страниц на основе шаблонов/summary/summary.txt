@@ -1,0 +1,224 @@
+Переместимся в settings.
+
+ TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+ ●  секция BACKEND отвечает за то, какой движок будет использоваться
+в генерации темплейтов. В джанго есть 2 движка:
+ - DjangoTemplates
+ - Jinja: https://ru.wikipedia.org/wiki/Jinja
+
+ ● DIRS - это директория, где по умолчанию нужно искать наши шаблоны
+ ● 'APP_DIRS': True - означает, что джанго должен искать шаблоны в каталогах приложения
+ ● OPTIONS - здесь прописываются контекстные процессы для обработки шаблонов
+
+________________________________________________________________________________
+                    Р А Б О Т А   С   Ш А Б Л О Н А М И
+________________________________________________________________________________
+документация: https://docs.djangoproject.com/en/2.1/topics/templates/
+
+Как создаются шаблоны:
+В нашем приложении мы создаем папку templates, в templates еще одну папку
+с названием нашего приложения. И уже в этой папке создаем HTML-файлы
+
+Шаблоны — это расширенный HTML.
+Подстановка значения переменной происходит в {{ }}:
+{{ username }}
+
+Через точку можно получить атрибут, ключ или вызвать метод:
+{{ user.first_name }}
+{{ name.strip }}
+{{ some_dict.key }}
+
+Методы вызываются без () и без параметров.
+Пример текста:
+My first name is {{ first_name }}. My last name is {{ last_name }}
+
+_______________________________ФУНКЦИЯ RENDER___________________________________
+ФУНКЦИЯ RENDER
+render — функция, позволяющая отрендерить шаблон с определенным «контекстом».
+Контекст шаблона — это параметры, которые будут подставлены в HTML динамически.
+Даже если вы не передаете явно никакие параметры, определенные глобальные
+объекты будут заданы через context_processors:
+https://docs.djangoproject.com/en/2.1/topics/http/shortcuts/#render
+
+________________________________for, if_________________________________________
+ТЕГИ указываются через {% ... %}
+Полный список тегов можно найти в документации:
+https://docs.djangoproject.com/en/2.1/ref/templates/builtins/#built-intemplate-tags-and-filters
+
+Рассмотрим часть из них:
+— for
+— if
+— cycle
+
+Важно! Как и HTML-теги, теги шаблонов необходимо закрывать. Но не все:
+{% for user in data%}
+{% endfor %}
+
+________________________________cycle____________________________________________
+Тег cycle используется когда нам нужно отобразить информацию в циклическом виде.
+Этот тег не закрывается!
+Пример шаблона с тегом cycle:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заголовок страницы</title>
+</head>
+<body>
+    <h1>Заголовок страницы</h1>
+        {% for item in data %}
+            {% cycle 'red' 'blue' as color silent%}
+                <p style="background-color: {{ color }}">{{ item.info }}</p>
+        {% endfor %}
+    </body>
+</html>
+
+____________________________________url__________________________________________
+Пример шаблона с тегом url:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заголовок страницы</title>
+</head>
+<body>
+    <h1>Заголовок страницы</h1>
+        <a href="{% url 'time-page' %}">Нажми меня</a>
+    </body>
+</html>
+
+________________________________________________________________________________
+___________________________________ФИЛЬТРЫ______________________________________
+________________________________________________________________________________
+РАБОТА С ФИЛЬТРАМИ
+документация:
+https://docs.djangoproject.com/en/3.2/ref/templates/builtins/
+
+Пример работы с фильтрами date, slice:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заголовок страницы</title>
+</head>
+<body>
+    <h1>Заголовок страницы</h1>
+        <p>{{ datetime|date:"D d M Y" }}</p>
+        <p>{{ data|slice:':10' }}</p>
+    </body>
+</html>
+
+________________________________________________________________________________
+Теперь попробуем реализовать собственный фильтр
+https://docs.djangoproject.com/en/2.1/howto/custom-template-tags/
+
+Для этого нужно в нашем приложении app создать python package под названием
+"templatetags" и внутри него прописать такую конструкцию:
+
+from django import template
+register = template.Library()
+@register.filter()
+def up_upper(value):
+    return value.upper()
+
+Далее уже наужно будет этот фильтр загрузить в шаблон.
+Вот пример шаблона с кастомным фильтром:
+
+{% load my_filter %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заголовок страницы</title>
+</head>
+<body>
+    <h1>Заголовок страницы</h1>
+        <p>{{ datetime|date:"D d M Y" }}</p>
+        <p>{{ data|slice:':10' }}</p>
+        {% for user in users %}
+            {% if user.age > 18 %}
+                <p>{{ user.info|up_upper }}</p>
+            {% endif %}
+        {% endfor %}
+    </body>
+</html>
+
+________________________________________________________________________________
+____________________________НАСЛЕДОВАНИЕ В ШАБЛОНАХ_____________________________
+________________________________________________________________________________
+https://docs.djangoproject.com/en/2.1/ref/templates/language/#templateinheritance
+При наследовании в дочерних шаблонах мы наследуем родительский
+шаблон полностью, а в блоках мы делаем динамические изменения.
+1) мы прописываем основной шаблон (index4.html)
+{% load my_filter %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Заголовок
+        {% endblock title %}
+    </title>
+</head>
+<body>
+    <h1>ХЕДЕР</h1>
+    <h1>
+        {% block page_name %}
+        {% endblock page_name %}
+    </h1>
+        {% block data %}
+
+        {% endblock data %}
+<h1>ФУТЕР</h1>
+    </body>
+</html>
+
+
+2) прописываем другой шаблон, в котором указываем, что мы наследуемся
+от основного шаблона
+{% extends 'app/index4.html' %}
+
+{% block title %} Текущее время {% endblock title %}
+
+{% block page_name %} Сейчас время {% endblock page_name %}
+
+{%  block data %}
+    <p>{{ date }}</p>
+{% endblock data %}
+
+
+3) прописываем еще один шаблон, в котором также указываем, что мы наследуемся
+от основного шаблона
+{% extends 'app/index4.html' %}
+
+{%  block data %}
+    <a href="{% url 'time-page2' %}">Нажми меня</a>
+{% endblock data %}
+
+________________________________________________________________________________
+______________________________Композиция. Include_______________________________
+________________________________________________________________________________
+Композиция. Include
+Документация по include:
+https://docs.djangoproject.com/en/2.1/ref/templates/builtins/#include

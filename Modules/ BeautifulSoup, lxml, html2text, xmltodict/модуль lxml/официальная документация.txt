@@ -1,0 +1,2 @@
+https://lxml.de/tutorial.html#elementpath
+это огромная документция, но некоторые моменты стоит посмотреть

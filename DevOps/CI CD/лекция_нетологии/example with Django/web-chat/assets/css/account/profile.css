@@ -1,0 +1,74 @@
+.title-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  color: rgba(70, 26, 105, 0.67);
+  margin: 15px 0;
+}
+
+.separator {
+  margin: 0;
+  background-color: rgba(70, 26, 105, 0.67);
+}
+
+.profile-form {
+  margin-top: 20px;
+}
+
+.profile-row {
+  display: flex;
+}
+
+.profile-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-block-half {
+  display: flex;
+  width: 100%;
+}
+
+.form-label {
+  font-size: 20px;
+  color: rgba(70, 26, 105, 0.67);
+  margin: 10px 20px;
+  width: 100%;
+}
+
+.form-block {
+  display: flex;
+  background-color: rgba(70, 26, 105, 0.2);
+  border: none;
+  border-radius: 20px;
+  font-size: 18px;
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.form-field-error {
+  color: indianred;
+}
+
+.form-button {
+  font-size: 24px;
+  color: #FFFFFF;
+  background: rgba(70, 26, 105, 0.67);
+  border-radius: 30px;
+  border: none;
+  padding: 6px 30px;
+  margin-top: 20px;
+}
+
+.form-block:active, .form-block:focus,
+.form-button:active, .form-button:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 600px) {
+  .profile-bio {
+    flex-direction: column;
+  }
+}

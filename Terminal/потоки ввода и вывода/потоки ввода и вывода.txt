@@ -1,0 +1,20 @@
+информация про:
+ ● >
+ ● >>
+ ● 2>/dev/null
+https://ru.wikipedia.org/wiki//dev/null
+https://ru.wikipedia.org/wiki/Стандартные_потоки
+https://tldp.org/LDP/abs/html/io-redirection.html
+______________________________________________________________________________________________
+
+применим стандартный потор вывода
+ ● cd Desktop/My_best_summary_about_python/summary/Django/1.\ Знакомство\ с\ Django.\ Подготовка\ и\ запуск\ проекта/first-project/first_project/
+ ● cat manage.py
+
+перенаправим поток вывода вфайл который прямо сйчас и создадим
+ ● cat manage.py > demo.txt
+
+применим поток ввода
+ ● python3 print_hello.py < data_for_print.txt
+hello my friend
+

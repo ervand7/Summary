@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  api:
+    depends_on:
+      - api-postgres
+    image: simple-flask
+    build:
+      context: simple_flask
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 5001:5000
+    volumes:
+      - ./simple_flask/app:/app
+    stdin_open: true
+    networks:
+      - my-network
+    tty: true
+  api-postgres:
+    image: postgres:11.0-alpine
+    environment:
+#      тут, в отличие от секции api, мы не используем env_file, а прописываем переменные вручную
+      POSTGRES_USER: ervand
+      POSTGRES_PASSWORD: ervand
+      POSTGRES_DB: db_api
+    ports:
+      - 5433:5432
+    volumes:
+#      pg-data в данном случае - это название волюма
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - my-network
+  api-nginx:
+    image: nginx
+    ports:
+      - 80:80
+volumes:
+  pg-data:
+    external: true
+networks:
+  my-network:

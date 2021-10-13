@@ -1,0 +1,72 @@
+###
+GET http://127.0.0.1:8000/api/v1/products/
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/products/8/
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/products/?id=1
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/products/?price_gte=200
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/products/?price_lte=100
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/products/?name=mil
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/products/?description=вес
+Accept: application/json
+
+###
+POST http://127.0.0.1:8000/api/v1/products/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+{
+  "name": "Shaurma5",
+  "description": "Ps or director pra s or director prac ctice sor director practice.",
+  "price": 15.0
+}
+
+###
+PUT localhost:4000/api/v1/products/1/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+{
+  "id": 1,
+  "name": "Milk ++++qwe++",
+  "description": "Show follow join hundred else her. Never appear science skill. Animal smile by bad if employee.",
+  "price": 50.0,
+  "created_at": "2021-07-28T03:56:30.594433Z",
+  "updated_at": "2021-07-28T03:56:30.594458Z"
+}
+
+###
+PATCH localhost:4000/api/v1/products/1/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+{
+  "id": 1,
+  "name": "Milk +",
+  "description": "Serious here bag own dog start month. Approach area perhaps..",
+  "price": 50.0,
+  "created_at": "2021-07-28T03:56:30.594433Z",
+  "updated_at": "2021-07-28T03:56:30.594458Z"
+}
+
+###
+DELETE http://127.0.0.1:8000/api/v1/products/19/
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+

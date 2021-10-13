@@ -1,0 +1,119 @@
+Связь m2m мы можем прописать в любой из двух зависимых таблиц с помощью
+x = models.ManyToManyField('Зависимый_класс', related_name='любое_слово', through='CarInShop')
+________________________________________________________________________________________________________________
+ ● python manage.py showmigrations
+посмотреть список всех миграций, которые есть.
+[x] - миграции, которые уже синхронизированны с БД
+[ ] - миграции, которые еще не синхронизированны с БД
+ ● python manage.py makemigrations --empty app
+так мы можем создать пустую миграцию и реализовать в ней свою логику.
+Например, сейчас, с помощью миграций мы сделаем пользователя админки:
+
+# Это применяется в том случае, если нам нужно загрузить какие-либо фикстурные данные в БД
+from django.contrib.auth.models import User
+from django.db import migrations
+
+
+def add_admin(app, schema_editor):
+    """
+    Функция создаст в миграции нашего администратора.
+    """
+    user = User(
+        id=1,
+        username='admin',
+        is_active=True,
+        email='admin@email.com',
+        is_staff=True,
+        is_superuser=True
+    )
+    user.set_password('admin')
+    user.save()
+
+
+class Migration(migrations.Migration):
+
+    dependencies = [
+        ('app', '0001_initial'),
+    ]
+    # обязательно здесь регистрируем нашу функцию
+    operations = [
+        migrations.RunPython(add_admin)
+    ]
+
+
+________________________________________________________________________________________________________________
+Что можно сделать, чтобы улучшить работу с админкой. Прописываем в admin.py следующее:
+
+from django.contrib import admin
+
+from .models import Car, CarShop
+
+
+class CarShopInline(admin.TabularInline):
+    """
+    Этот класс создается для того, чтобы потом в админке при создании машины
+    можно было сразу прикрепить к ней магазин.
+    """
+    model = CarShop.car.through
+    extra = 1
+
+
+# теперь в наших моделях прописываем, что они инлайновые
+
+@admin.register(Car)
+class CarAdmin(admin.ModelAdmin):
+    inlines = [
+        CarShopInline
+    ]
+
+
+@admin.register(CarShop)
+class CarShopAdmin(admin.ModelAdmin):
+    inlines = [
+        CarShopInline
+    ]
+
+    exclude = ('car', )
+________________________________________________________________________________________________________________
+Рассмотрим 2й вариант работы с m2m, через ForeignKey.
+Мы хотим в нашу таблицу m2m внести какую-то доп информцию, например, отмечать, что какая-то машина
+является кастомной. Мы не можем это сделать в Car, так как здесь все машины должны быть одинаковыми.
+Для реализации этого функционала нам необходимо сделать эту модель самостоятельной. Прописываем отдельный класс
+CarInShop, у которого одно поле будет ссылаться на CarShop, второе на Car. А в третьем поле мы как раз
+реализуем доп информацию как is_custom (булевое).
+
+________________________________________________________________________________________________________________
+Оптимизация запросов в БД
+Используем prefetch_related('car') в context=
+например: context = {'shops': CarShop.objects.all().prefetch_related('car')}
+
+Если мы выбираем просто all(), то запросы будут делаться на каждом цикле итерации.
+context = {'shops': CarShop.objects.all()}
+И мы получаем такой результат:
+SELECT "app_car"."id", "app_car"."name" FROM "app_car" INNER JOIN "app_carinshop" ON ("app_car"."id" = "app_carinshop"."car_id") WHERE "app_carinshop"."shop_id" = 3; args=(3,)
+SELECT "app_car"."id", "app_car"."name" FROM "app_car" INNER JOIN "app_carinshop" ON ("app_car"."id" = "app_carinshop"."car_id") WHERE "app_carinshop"."shop_id" = 1; args=(1,)
+SELECT "app_car"."id", "app_car"."name" FROM "app_car" INNER JOIN "app_carinshop" ON ("app_car"."id" = "app_carinshop"."car_id") WHERE "app_carinshop"."shop_id" = 2; args=(2,)
+
+
+Но если мы применим prefetch_related:
+context = {'shops': CarShop.objects.all().prefetch_related('car')}
+То результат уже будет таким:
+SELECT ("app_carinshop"."shop_id") AS "_prefetch_related_val_shop_id", "app_car"."id", "app_car"."name" FROM "app_car"
+INNER JOIN "app_carinshop" ON ("app_car"."id" = "app_carinshop"."car_id") WHERE "app_carinshop"."shop_id" IN (3, 1, 2);
+args=(3, 1, 2)
+
+________________________________________________________________________________________________________________
+django-debug-toolbar
+Инструкция по настройке: https://django-debug-toolbar.readthedocs.io/en/latest/installation.html
+1) pip install django-debug-toolbar
+2) в settings.py в INSTALLED_APPS прописываем 'debug_toolbar'
+3) в settings.py в MIDDLEWARE прописываем 'debug_toolbar.middleware.DebugToolbarMiddleware'
+4) в settings.py прописываем
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+5) урлах прописываем path('__debug__/', include(debug_toolbar.urls))
+
+Для тех же целей еще существует модуль django-silk

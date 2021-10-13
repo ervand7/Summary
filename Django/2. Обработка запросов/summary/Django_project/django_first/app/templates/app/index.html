@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<head>
+    <title>Статьи</title>
+</head>
+<body>
+    {% for article in articles %}
+        <div>{{ article }}</div>
+    {% endfor %}
+    <p>
+        Текущая страница: {{ current_page }}
+    </p>
+    {% if next_page %}
+    <br>
+    <a href="?page={{ next_page }}">Следующая страница</a>
+    {% endif %}
+    {% if prev_page %}
+    <br>
+    <a href="?page={{ prev_page }}">Предыдущая страница</a>
+    {% endif %}
+</body>
+

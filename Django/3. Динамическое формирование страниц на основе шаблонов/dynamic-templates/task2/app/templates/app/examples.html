@@ -1,0 +1,8 @@
+{% extends "app/base_page.html" %}
+{% block title %}Каталог компьютеров Apple{% endblock %}
+{% block examples %}active{% endblock examples %}
+{% block content %}
+  {% for item in items %}
+    {% include "app/product_listing_logic.html" %}
+  {% endfor %}
+{% endblock content %}

@@ -1,0 +1,2 @@
+ ● sudo ss -lptn 'sport = :5432'
+look processes on 5432 port

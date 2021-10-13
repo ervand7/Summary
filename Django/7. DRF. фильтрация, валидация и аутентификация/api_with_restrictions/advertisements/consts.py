@@ -1,0 +1,2 @@
+OPEN = 'OPEN'
+CLOSED = 'CLOSED'

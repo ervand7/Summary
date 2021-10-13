@@ -1,0 +1,65 @@
+###
+GET http://127.0.0.1:8000/api/v1/product-reviews/
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/product-reviews/6/
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/product-reviews/?creator=1
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/product-reviews/?created_at_before=2021-07-31
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/product-reviews/?created_at_after=2021-07-31
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/product-reviews/?product=3
+Accept: application/json
+
+###
+POST http://127.0.0.1:8000/api/v1/product-reviews/
+Content-Type: application/json
+Authorization: Token 553f9f14bb506f6911917c5cf42ea282ed23fe24
+
+{
+  "text": "Serve find large bad. Break resource least nothing time.",
+  "grade": 1,
+  "product": 16,
+  "creator": 2
+}
+
+###
+PUT localhost:8000/api/v1/product-reviews/18/
+Content-Type: application/json
+Authorization: Token 553f9f14bb506f6911917c5cf42ea282ed23fe24
+
+  {
+    "id": 18,
+    "text": "Serve find large bad. Break resource least nothing time.",
+    "grade": 2,
+    "product": 16,
+    "creator": 1
+  }
+
+###
+PATCH localhost:8000/api/v1/product-reviews/17/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+  {
+    "id": 17,
+    "text": "Serve find large bad. Break resource least nothing time.",
+    "grade": 3,
+    "product": 17
+  }
+
+###
+DELETE http://127.0.0.1:8000/api/v1/product-reviews/17/
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f

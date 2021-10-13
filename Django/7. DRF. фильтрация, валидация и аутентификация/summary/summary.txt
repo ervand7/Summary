@@ -1,0 +1,65 @@
+1.Фильтрация данных
+Официальная документация:
+https://django-filter.readthedocs.io/en/stable/ref/filters.html?highlight=MultipleChoiceFilter#filter-reference
+
+Фильтры в DRF принято передавать через GET-параметры запроса.
+Инструкция по установке django-filter:
+https://www.django-rest-framework.org/api-guide/filtering/#djangofilterbackend
+
+Интеграция django_filters.rest_framework и DRF
+https://django-filter.readthedocs.io/en/stable/guide/rest_framework.html#using-the-filterset-fields-shortcut
+
+
+Сериализация нужна для преобразования queryset'ов в json
+---------------------------------------------------------------------------------------------------
+Аутентификация и авторизация
+
+Аутентификация – проверка того, что пользователь является тем, за кого он себя выдает.
+Авторизация – проверка прав пользователя.
+
+---------------------------------------- Аутентификация -------------------------------------------
+Виды аутентификации:
+● BasicAuthentication – подходит только для тестирования
+(плохой вариант для прода)
+● SessionAuthentication – использует стандартный механизм аутентификации через использование
+сессии в Джанго, не рекомендуется для использования в микросервисной архитектуре
+(используется только в монолитной архитектуре)
+● TokenAuthentication – аутентификация через специальный токен в заголовках.
+Универсальный и хороший метод. Рассмотрим его подробнее.
+(используется в микросервисной архитектуре)
+
+Токены передаются через заголовки.
+
+Инструкция по настройке TokenAuthentication:
+1) прописываем 'rest_framework.authtoken' в INSTALLED_APPS
+2) чтобы ViewSet’ы стали использовать указанный метод аутентификации,
+прописываем DEFAULT_AUTHENTICATION_CLASSES в конфиге REST_FRAMEWORK или задаем
+authentication_classes на уровне ViewSet’а
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+документация:
+https://www.django-rest-framework.org/api-guide/authentication/#setting-the-authentication-scheme
+3) прописать в урлах что-то на подобие этого:
+urlpatterns += [
+    url(r'^api-token-auth/', views.obtain_auth_token)
+]
+4) запустить миграцию: manage.py migrate
+Так как это приложение добавляет таблицу.
+
+---------------------------------------- Авторизация -------------------------------------------
+Решается с помощью атрибута permission_classes во ViewSet или с помощью декоратора
+permission_classes
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def example_view(request, format=None):
+   """Ваша view-функция, доступная только залогинившимся
+      пользователям.
+   """

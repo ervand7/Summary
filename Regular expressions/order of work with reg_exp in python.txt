@@ -1,0 +1,14 @@
+At first we open debugger of regular experiences https://regex101.com/ and work there with our data
+
+Secondly we transform our result in PyCharm
+for example:
+import re
+
+text = 'stoms.ru/index.php?option=com_content&view=article&id=8018&
+Itemid=1878;354037, Краснодарский край, г. Сочи, Новороссийское шо
+ссе, д. 2;2,30E+18;52243166;1,02E+12;2319027603;pobeda@sochi.com;8 (862)265
+-88-29;8 (862)265-88-25;'
+
+pattern = re.compile("(\+7|8)?\s*\((\d+)\)\s*(\d+)[-\s]?(\d+)[-\s]?(\d+)[-\s]?")
+text2 = pattern.sub(r"+7(\2)\3-\4-\5", text)
+print(text2)

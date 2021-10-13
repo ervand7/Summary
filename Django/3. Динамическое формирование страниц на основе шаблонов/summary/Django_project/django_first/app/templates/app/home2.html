@@ -1,0 +1,7 @@
+{% extends 'app/index4.html' %}
+
+{%  block data %}
+    {% for car in cars %}
+        <p><a href="{% url 'detail-page' car %}">{{ car }}</a></p>
+    {% endfor %}
+{% endblock data %}

@@ -1,0 +1,28 @@
+source: https://github.com/django/django
+
+Open Terminal and input:
+ ● pip install Django
+ ● python -m django --version
+проверить версию
+ ● django-admin startproject django_first
+creating a project
+ ● cd django_first
+
+ ● python manage.py startapp app
+или
+ ● ./manage.py startapp another_app
+
+Make your external django_first as a root in PyCharm.
+Далее, для каждого приложения мы создаем свой набор урлов, в данном случае app/urls.py,
+и его уже подключаем к django_first/urls.py
+Далее идем в INSTALLED_APPS и прописывае там наш app
+
+ ● ./manage.py migrate
+
+________________________________________________________________________
+Отладка в Django:
+1) добавляем конфигурацию:
+ - в Script path прописываем путь к manage.py
+ - в Parameters пишем 'runserver'
+ - нажимаем apply и ok
+2) ставим точки остановки

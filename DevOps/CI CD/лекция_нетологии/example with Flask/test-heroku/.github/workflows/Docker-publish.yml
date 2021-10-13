@@ -1,0 +1,28 @@
+# В этом файле описан второй этап сборки
+name: Docker-publish
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login to Heroku Container registry
+      env:
+# secrets прописывается в гитхабе: Settings-Secrets. Внимание! Секрет нельзя прочитать, его можно только обновить
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+# используем консоль heroku
+      run: heroku container:login
+    - name: Build the Docker image
+      run: docker build -t web:latest .
+    - name: Push the Docker image to the Heroku registry
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+# эти команды мы модем запустить и в теринале heroku
+        heroku container:push web --app ${{ secrets.HEROKU_APP_NAME }}
+        heroku container:release web --app ${{ secrets.HEROKU_APP_NAME }}
+        heroku ps:scale web=1 -a ${{ secrets.HEROKU_APP_NAME }}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filters %}
+
+{% block title %}Книга{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1><a href="/books">Каталог</a></h1>
+        </div>
+        <div class="row text-center justify-content-center">
+            <div class="card-deck">
+            {% for book in books %}
+            <div  class="card border-info mb-3" style="width: 30rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{ book.name }}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Автор: {{ book.author }}</h6>
+                  <div class="card-footer bg-transparent border-success">
+                     Дата: {{ book.pub_date|format_date }}
+                  </div>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="book col-md-6 text-right">
+                {% if prev_page_url %}
+                <a href='{% url "book_date" dt=prev_page_url %}' class="btn btn-info btn-lg"><i class="bi bi-chevron-double-left"></i> Назад</a>
+                {% endif %}
+            </div>
+            <div class="book col-md-6 text-left">
+                {% if next_page_url %}
+                <a href='{% url "book_date" dt=next_page_url %}' class="btn btn-info btn-lg">Вперед <i class="bi bi-chevron-double-right"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/chat/index.css' %}"/>
+{% endblock %}
+
+{% block main %}
+  <div class="main">
+    <div class="container-xl">
+      {% for section in sections %}
+        {% url 'section' section.id as link %}
+        {% if section.image %}
+          {% include 'chat/section_card.html' with image_url=section.image.url name=section.title image_alt=section.title %}
+        {% else %}
+          {% include 'chat/section_card.html' with image_url=None name=section.title image_alt=section.title %}
+        {% endif %}
+      {% endfor %}
+
+      <div class="main__section main__section-hidden"></div>
+      <div class="main__section main__section-hidden"></div>
+    </div>
+  </div>
+{% endblock %}

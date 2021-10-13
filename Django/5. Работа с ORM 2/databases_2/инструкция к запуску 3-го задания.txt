@@ -1,0 +1,4 @@
+python manage.py makemigrations
+python manage.py migrate
+python manage.py my_custom_command
+python manage.py loaddata articles.json

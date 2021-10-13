@@ -1,0 +1,1 @@
+https://aiosmtplib.readthedocs.io/en/stable/usage.html

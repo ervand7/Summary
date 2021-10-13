@@ -1,0 +1,24 @@
+{% extends "articles/base.html" %}
+{% load static %}
+
+{% block title %}Новости{% endblock %}
+{% block content %}
+<div class="row">
+  {% for article in articles %}
+  <div class="col-lg-4 col-sm-6 portfolio-item">
+    <div class="card h-100">
+      <a href="#"><img class="card-img-top" src="{% get_media_prefix %}{{ article.image }}" alt="Здесь должна была быть картинка..."></a>
+      <div class="card-body">
+        <h4 class="card-title">
+          <a href="#">{{ article.title }}</a>
+        </h4>
+        <p class="card-text">{{ article.text }}</p>
+        {% for tag in article.sorted_tags %}
+          <span class="badge {% if tag.is_main %}badge-primary{% else %}badge-secondary{% endif %}">{{ tag }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

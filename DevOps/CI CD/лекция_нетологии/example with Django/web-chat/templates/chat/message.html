@@ -1,0 +1,34 @@
+{% load static %}
+{% load gravatar %}
+
+<div class="message">
+  <div class="message__icon">
+    <img class="header__profile__img"
+         src="{% if message.user.avatar %}{{ message.user.avatar.url }}{% elif message.user.email %}{% gravatar_url message.user.email 50 %}{% else %}{% static 'images/user.svg' %}{% endif %}"
+         alt="userpic"
+    />
+  </div>
+
+  <div class="message__body">
+    <div class="message__header">
+      <div class="message__header__info">
+        <div class="message__header__name">
+          {{ message.user.get_full_name|default:message.user.username }}
+        </div>
+        <div class="message__header__time">
+          {{ message.created_at|date:'Y.m.d H:i:s' }}
+        </div>
+      </div>
+
+      {% if conversation_id %}
+        <a href="?conversation={{ conversation_id }}" class="message__forward">
+          <img src="{% static 'images/chat/forward.svg' %}" alt="В чат"/>
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="message__text">
+      {{ message.text|linebreaksbr }}
+    </div>
+  </div>
+</div>

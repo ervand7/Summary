@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filters %}
+
+{% block title %}Каталог{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1>Сравнение телефонов</h1>
+            <div class="row">
+
+
+                <table class="table table-striped table-hover">
+                    <caption>Всего телефонов: {{ phones|length }}</caption>
+                    <tr class="table-primary">
+                        <th scope="row">Модель:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {{ phone.name }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Внешний вид:</th>
+                        {% for phone in phones %}
+                        <td>
+                            <img src="{{ phone.image }}" height="100">
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Бренд:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {{ phone.brand }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Вес:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {{ phone.weight }} гр.
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Год выпуска:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {{ phone.release_date|format_date }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Дополнительно:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {{ phone.additional_info }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Макс. размер карты:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {% if phone.phonesamsung %}
+                                {{ phone.phonesamsung.max_card_size }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Видеоускоритель:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {% if phone.phoneapple %}
+                                {{ phone.phoneapple.video_acc }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                    <tr>
+                        <th scope="row">FM радио:</th>
+                        {% for phone in phones %}
+                        <td>
+                            {% if phone.phonenokia %}
+                                {{ phone.phonenokia.fm_radio|format_bool }}
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <th scope="row">Цена:</th>
+                        {% for phone in phones %}
+                        <td class="text-primary">
+                            {{ phone.price }} руб.
+                        </td>
+                        {% endfor %}
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

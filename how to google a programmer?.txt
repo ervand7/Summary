@@ -1,0 +1,45 @@
+источник: https://www.youtube.com/watch?v=_0SG7jrNWeE
+_____________________________________________________________________________________________
+
+<"">
+для нахождения точного совпадения фразы нужно взять фразу в кавычки, например
+ ● "django.db.utils.ProgrammingError: relation "django_session" does not exist"
+
+<название_сайта.домен:>
+для нахождения ответа на каком-либо определенном сайте пишем запрос следующим образом:
+название_сайта.домен: запрос
+ ● stackoverflow.com: django.db.utils.ProgrammingError: relation "django_session" does not exist
+Или же это можно сделать через оператор <site:>, например:
+ ● site: stackoverflow.com django.db.utils.ProgrammingError: relation "django_session" does not exist
+
+<OR>
+использование оператора OR. Так мы можем получить либо один результат либо другой
+ ● python frozenset OR set
+
+<->
+если мы хотим исключить из выдачи какие-либо слова, то ставим минус перед нежелательным словом
+ ● what is errno in linux -errno.h
+
+<+>
+если хотим получить помимо конкретного вхождения фразы еще и обязательное наличие какого-то слова
+ ● "what is selenium grid" +python
+
+<***>
+если каке-то слово или часть запроса мы забыли (или оно нам неизвестно), то используем оператор ***
+ ● selenium stale***
+
+<allintitle>
+поиск запроса по заголовкам страниц с точным вхожднием фразы в заголовок
+ ● allintitle:"locust tutorial"
+
+<allintext>
+поиск запроса по тексту на странице
+ ● allintext:conftest pytest_sessionfinish
+
+<inurl>
+поиск по вхождению значений в url
+ ● inurl:pandas/tutorial
+
+<filetype:>
+поиск информации в файлах какого-то конкретного расширения
+ ● testrail tutorial filetype:pdf

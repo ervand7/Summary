@@ -1,0 +1,5 @@
+Что такое GraphQL
+https://habr.com/ru/post/326986/
+
+Хороший ролик на ютубе
+https://www.youtube.com/watch?v=7zEaHr_iJjA

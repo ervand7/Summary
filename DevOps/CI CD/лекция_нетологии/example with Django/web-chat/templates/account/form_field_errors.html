@@ -1,0 +1,5 @@
+{% if field.errors %}
+  {% for error in field.errors %}
+    <span class="form-field-error">{{ error|escape }}</span>
+  {% endfor %}
+{% endif %}

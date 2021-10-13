@@ -1,0 +1,86 @@
+https://www.youtube.com/watch?v=6DI_7Zja8Zc&t=127s
+
+create an account on heroku
+
+ ● brew tap heroku/brew && brew install heroku
+ ● heroku
+look all heroku commands
+ ● heroku login
+ ● pip install gunicorn
+ ● git init
+ ● git add -A
+ ● git commit -m 'initial commit'
+ ● heroku create ervand-app3
+ ● heroku open
+ ● heroku git:remote -a ervand-app3 (иначе ошибка https://stackoverflow.com/questions/18406721/heroku-does-not-appear-to-be-a-git-repository)
+ ● git push heroku master
+ ● heroku logs (при проблемах)
+
+set variables values in settings.py:
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+ALLOWED_HOSTS = ['ervand-app3.herokuapp.com']
+
+ ● heroku logs --tail
+extended logs
+
+create Procfile with content
+web: gunicorn project_shop.wsgi
+
+go to python console to generate a secret key:
+>>>import secrets
+>>>secrets.token_hex(24)
+'ea5568d273929eb31bf3c92b303c0a218e145b4f0e54fbab'
+
+go to ~/.zshrc and write there:
+export SECRET_KEY="83c8e044172061bfd6dfa7ebae113342699800b6fa7b8ab0"
+export DEBUG_VALUE="True"
+export AWS_ACCESS_KEY_ID="ervand"
+export AWS_SECRET_ACCESS_KEY="ervand3"
+export AWS_STORAGE_BUCKET_NAME="django-blog-files"
+
+ ● heroku config:set AWS_ACCESS_KEY_ID="ervand"
+ ● heroku config:set AWS_SECRET_ACCESS_KEY="ervand3"
+ ● heroku config:set AWS_STORAGE_BUCKET_NAME="django-blog-files"
+ ● heroku config:set EMAIL_USER="ervand7@mail.ru"
+ ● heroku config:set EMAIL_PASS="MyPass"
+
+set variables values in settings.py:
+SECRET_KEY = os.environ.get('SECRET_KEY')
+
+ ● heroku addons
+ ● heroku pg
+ ● pip install django-heroku
+
+set variables values in settings.py:
+import django_heroku
+//go to the bottom of file and write//
+django_heroku.settings(locals())
+
+ ● pip install django-heroku
+ ● pip freeze > requirements.txt
+update requirements
+
+ ● heroku run python manage.py migrate
+ ● heroku run python manage.py loaddata fixtures.json
+
+https://ervand-app3.herokuapp.com/api/v1/
+
+
+дополнительные команды:
+ ● ps
+look processes list
+ ● heroku ps -a ervand-app3
+look specific application processes
+ ● heroku ps:scale web
+ ● heroku ps:scale web -a ervand-app3
+ ● heroku ps:scale web=1 -a ervand-app3
+
+ ● heroku auth:token
+генерируем токен
+ ● heroku config:get DATABASE_URL -a <название_приложения>
+получаем урл который ведет к хероковскому постгресу
+ ● heroku config:get PORT -a <название_приложения>
+получаем порт
+ ● heroku run bash -a <название_приложения>
+заходим в терминал приложения на хероку

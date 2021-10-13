@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filters %}
+
+{% block title %}Каталог книг{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="header">
+            <h1><a href="/books">Каталог</a></h1>
+        </div>
+        <div class="row text-center justify-content-center">
+            <div class="card-deck">
+            {% for book in books %}
+                <div  class="card border-info mb-3" style="width: 30rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ book.name }}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">Автор: {{ book.author }}</h6>
+                      <div class="card-footer bg-transparent border-success">
+                          <a href='{% url "book_date" dt=book.pub_date %}' class="card-link">Дата: {{ book.pub_date|format_date }}</a>
+                      </div>
+                  </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

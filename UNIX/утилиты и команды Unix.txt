@@ -1,0 +1,11 @@
+https://ru.wikipedia.org/wiki/Категория:Утилиты_Unix
+
+ ● ln - утилита для создания жесткой символьной ссылки
+https://ru.wikipedia.org/wiki/Ln_(Unix)
+
+ ● netcat - утилита, позволяющая устанавливать соединения TCP и UDP,
+принимать оттуда данные и передавать их.
+https://ru.wikipedia.org/wiki/Netcat
+
+ ● curl - guide:
+https://flaviocopes.com/http-curl/#set-a-different-user-agent

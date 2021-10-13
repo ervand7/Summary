@@ -1,0 +1,77 @@
+Нельзя напрямую импортировать что-то из модуля settings.py, можно только через
+приложение django.conf
+from django.conf import settings
+from django.http import HttpResponse
+
+def hello_view(request):
+msg = f'Свяжитесь с вдмином {settings.CONTACT_EMAIL}'
+return HttpResponse('Всем привет! Я Django' + msg)
+----------------------------------------------------------------------------------
+
+Часть URL также может быть динамической. Django умеет парсить URL в соответствии с
+заданным шаблоном и передавать полученные параметры во view:
+https://docs.djangoproject.com/en/3.1/topics/http/urls/#example
+
+Пример:
+urlpatterns = [
+    path('date/<dt>', date_view, name='date'),  # где <dt> - это имя параметра
+]
+
+def date_view(request, dt):  # имя параметра (dt) должно совпадать с тем, как он прописан в урле
+    date = datetime(dt)
+    return HttpResponse(date)
+
+Но так мы можем получить во входящем параметре неожиданные значения. Чтобы этого избежать,
+мы можем прописать в урлах проверку на правильный тип данных.
+urlpatterns = [
+    path('old_date/<int:year>-<int:month>-<int:day>', date_view, name='date_view'),
+]
+
+def date_view(request, year, month, day):
+    date = datetime(year, month, day)
+    return HttpResponse(date)
+
+НО ЭТО ЧЕРЕСЧУР ГРОМОСТКИЙ ВАРИАНТ. ЭЛЕГАНТНЕЙ БУДЕТ ВРЕШИТЬ ДАННЫЙ ВОПРОС ЧЕРЕЗ КОНВЕРТОРЫ!!!!!!!
+----------------------------------------------------------------------------------
+
+Реализуем наш собственный конвертор по такой документации
+https://docs.djangoproject.com/en/3.2/topics/http/urls/
+
+Для этого в нашем приложении моздадим модуль convertor.py и в нем пропишем:
+from datetime import datetime
+
+
+class DateConverter:
+    """Внимание! regex, to_python, to_url - это зарезервированные имена!"""
+    regex = '[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}'
+
+    def to_python(self, value: str) -> datetime:
+        """Принимаем строку и возвращаем время"""
+        return datetime.strptime(value, '%Y-%d-%m')
+
+    def to_url(self, value: datetime) -> str:
+        """Принимаем время и возвращаем строку"""
+        return value.strftime(value)
+
+
+Далее регистрируем конвертор в урлах:
+from django.contrib import admin
+from django.urls import path, register_converter
+from app import views
+from app.convertor import DateConverter
+
+# регистрируем
+register_converter(converter=DateConverter, type_name='my_convertor')
+
+# применяем
+urlpatterns = [
+    path('date/<my_convertor:value>/', date_view, name='date'),
+]
+
+# вьюха еперь будет выгляжеть вот так:
+def date_view(request, value):
+    return HttpResponse(value)
+----------------------------------------------------------------------------------
+
+Реализуем наш собственный пагинатор
+https://docs.djangoproject.com/en/3.1/topics/pagination/

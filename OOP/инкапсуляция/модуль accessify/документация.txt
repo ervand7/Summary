@@ -1,0 +1,2 @@
+здесь все понятно на хороших примерах описано:
+https://pypi.org/project/accessify/

@@ -1,0 +1,47 @@
+###
+GET http://localhost:4000/api/v1/projects/
+Accept: application/json
+
+
+###
+GET http://localhost:4000/api/v1/projects/2
+Accept: application/json
+
+
+###
+GET http://localhost:4000/api/v1/measurements/
+Accept: application/json
+
+
+
+###
+GET http://localhost:4000/api/v1/measurements/2
+Accept: application/json
+
+<> 2021-07-10T104334.200.json
+
+
+
+###
+POST http://localhost:4000/api/v1/measurements/
+Content-Type: application/json
+
+{"value": 10.9, "project":  1}
+
+
+###
+PUT http://localhost:4000/api/v1/measurements/9/
+Content-Type: application/json
+
+{"value": 8.9, "project":  3}
+
+
+
+###
+
+DELETE http://localhost:4000/api/v1/measurements/6/
+Content-Type: application/json
+
+
+
+

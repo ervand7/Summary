@@ -1,0 +1,125 @@
+###
+GET http://127.0.0.1:8000/api/v1/orders/
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/199
+Accept: application/json
+Authorization: Token 553f9f14bb506f6911917c5cf42ea282ed23fe24
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?id=199
+Accept: application/json
+Authorization: Token 553f9f14bb506f6911917c5cf42ea282ed23fe24
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?user_id=2
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?status=DONE
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?total_sum_gte=700
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?total_sum_lte=650
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?created_at_before=2021-08-02
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?created_at_after=2021-08-03
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?updated_at_before=2021-08-02
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?updated_at_after=2021-08-03
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+GET http://127.0.0.1:8000/api/v1/orders/?product_name=Potato
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+###
+POST http://127.0.0.1:8000/api/v1/orders/
+Content-Type: application/json
+Authorization: Token 553f9f14bb506f6911917c5cf42ea282ed23fe24
+
+  {
+    "positions": [
+      {
+        "product": 6,
+        "quantity": 2
+      },
+      {
+        "product": 1,
+        "quantity": 1
+      }
+    ],
+      "user": 2
+  }
+
+
+###
+PUT localhost:8000/api/v1/orders/197/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+  {
+    "id": 197,
+    "positions": [
+      {
+        "product": 1,
+        "quantity": 2122
+      }
+    ],
+    "status": "IN_PROGRESS",
+    "created_at": "2021-08-02T12:16:16.274521Z",
+    "updated_at": "2021-08-02T12:16:16.274563Z",
+    "user": 2
+  }
+
+###
+PATCH localhost:8000/api/v1/orders/190/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+  {
+    "id": 190,
+    "positions": [
+      {
+        "product": 5,
+        "quantity": 12
+      },
+      {
+        "product": 4,
+        "quantity": 2
+      }
+    ],
+    "status": "IN_PROGRESS",
+    "user": 2
+  }
+
+###
+DELETE http://127.0.0.1:8000/api/v1/orders/152/
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+

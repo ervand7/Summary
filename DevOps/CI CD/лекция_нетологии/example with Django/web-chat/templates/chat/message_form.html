@@ -1,0 +1,14 @@
+{% load static %}
+
+{% if user.is_authenticated %}
+  <form class="message-form" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="form" value="{{ value }}">
+    <textarea rows="3" class="message-form__input" name="text" required aria-label="text"></textarea>
+    <button class="message-form__submit" type="submit">
+      <img src="{% static 'images/chat/send.svg' %}" alt="Отправить">
+    </button>
+  </form>
+{% else %}
+  Войдите в систему, чтобы отправлять сообщения
+{% endif %}

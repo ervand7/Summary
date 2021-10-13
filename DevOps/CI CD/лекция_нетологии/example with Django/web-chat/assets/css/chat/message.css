@@ -1,0 +1,39 @@
+.message {
+  display: flex;
+  margin: 16px 10px;
+}
+
+.message__icon {
+  margin-right: 5px;
+}
+
+.message__body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.message__header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.message__header__name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.message__header__time {
+  font-size: 14px;
+  color: slategray;
+}
+
+.message__forward {
+  margin-right: 5px;
+}
+
+.message__text {
+  margin-top: 4px;
+  font-size: 16px;
+}

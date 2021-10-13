@@ -1,0 +1,9 @@
+<a class="main__section" href="{{ link }}">
+  <span class="main__section__header">{{ name }}</span>
+  {% if image_url %}
+    <img class="main__section__img"
+         src="{{ image_url }}"
+         alt="{{ image_alt }}"
+    />
+  {% endif %}
+</a>

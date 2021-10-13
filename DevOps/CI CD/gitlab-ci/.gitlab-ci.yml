@@ -1,0 +1,51 @@
+# основной туториал: https://www.youtube.com/watch?v=R58OuSts948
+
+# инструкция по установке раннера: https://docs.gitlab.com/runner/install/osx.html
+# инструкция по регистрации раннера: https://www.dmosk.ru/miniinstruktions.php?mini=gitlab-runner-web
+# посмотреть свои активные и неактивные раннеры: https://gitlab.com/ervand7/superops/-/settings/ci_cd#runners
+
+# ключевые слова: https://docs.gitlab.com/ee/ci/yaml/
+# predefined variables: https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+
+stages:  # стадии в pipeline
+  - build
+  - test
+  - deploy
+
+# проработаем stage "build"
+Docker build:  # это название джобы
+  only:
+    changes:
+      - .gitlab-ci.yml
+  stage: build  # говорим, что эта джоба находится в stage build
+  script: echo 'docker build is successfull'  # script - это то, что будет исполняться
+  tags:  # это те теги, которые мы указывали при регистрации раннера
+    - docker  # это не наш "specific runner", но это раннер из "shared runners"
+
+# проработаем stage "test"
+Unit tests:
+  stage: test
+  script:
+    - echo 'this is unit test!'
+  tags:
+    - docker
+
+Linters:
+  stage: test
+  script:
+    - echo 'this is linter test!'
+  tags:
+    - docker
+
+# проработаем stage "deploy"
+Deploy to Dev:
+  stage: deploy
+  environment:
+    name: ${MYSPACE}
+  only:
+    variables:
+      - $MYSPACE == "super"
+  script:
+    - echo "${CI_PROJECT_NAME} from branch ${CI_COMMIT_REF_SLUG} [#${CI_COMMIT_SHORT_SHA}]" >> ~/build.txt
+  tags:
+    - er2

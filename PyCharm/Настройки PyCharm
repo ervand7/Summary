@@ -1,0 +1,11 @@
+theme - Arc Dark
+
+Appearance and Behavior > Appearance > Use customs font - .AppleSystemsUiFont - size: 18
+
+Editor > General > Editor tabs > Font - JetBrains Mono, size: 17
+
+Editor > Color scheme > Color scheme font - font Menlo, size: 17; Fallback font: Fira Code
+
+Editor > Color scheme > Console font - font Menlo, size: 17; Fallback font: Fira Code
+
+Editor > Color scheme > VCS - Scheme Material Solarized Dark

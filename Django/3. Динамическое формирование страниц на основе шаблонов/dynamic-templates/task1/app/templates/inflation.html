@@ -1,0 +1,75 @@
+<!--
+Документация про forloop: https://djbook.ru/ch04s03.html
+Тег <table> используем для таблиц. В него оборачиваем всю таблицу.
+Тег <tr> пришем при объявлении циклов.
+Тег <td> пришем внутри <tr>. В <td> оборачиваем уже айтемы итерации.
+-->
+
+<!DOCTYPE html>
+{% load task1_filters %}
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Инфляция в России</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!--Let bhorizon_row_as_dictser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    {% block main %}
+    <div class="horizon_row_as_dict">
+        <h1 class="col s12">Инфляция в России</h1>
+        <div class="col s12 m8">
+           <table class="u-full-width centered highlight responsive-table">
+               <!--        это колонки (самый верхний ряд) таблицы           -->
+               <tr>
+               {% for column_name in columns_names %}
+                  <td class="yellow lighten-4">{{ column_name }}</td>
+               {% endfor %}
+               </tr>
+<!-- ------------------------- это основная таблица ------------------------------ -->
+               <tr>
+               {% for horizon_row_as_dict in all_table %}
+                  {% for column_name in columns_names %}
+<!-- словарь horizon_row_as_dict летит первым параметром в фильтр get_dict_value
+Так задумано по умолчанию в Django. Вторым параметром через ":" мы передаем
+уже название ключа.-->
+                    {% with cell=horizon_row_as_dict|get_dict_value:column_name %}
+<!--       определяем цвета каждой крайней левой и крайней правой колонки     -->
+                    {% if forloop.first %}
+                        <td class="yellow lighten-4">{{ cell }}</td>
+                    {% elif forloop.last %}
+                        <td class="grey lighten-0">{{ cell }}</td>
+                    {% else %}
+                        {% with indicator=cell|convert_str_to_float %}
+<!--       определяем значение для ячеек, в которых null        -->
+                            {% if not cell %}
+                                <td>-</td>
+<!--       определяем цвета для всех остальных значений         -->
+                            {% else %}
+                                {% if indicator < 0 %} <td class="green darken-2">
+                                {% elif indicator >= 5 %} <td class="red lighten-1">
+                                {% elif indicator >= 2 %} <td class="red lighten-3">
+                                {% elif indicator >= 1 %} <td class="red lighten-5">
+                                <!-- значения, не попадающие под условия выше, будут прозрачными -->
+                                {% else %} <td>
+                                {% endif %}
+                                {{ cell }}</td> <!-- один закрывающий тег на все <td> -->
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
+                    {% endwith %}
+                 {% endfor %}
+              </tr>
+              {% endfor %}
+           </table>
+        </div>
+    </div>
+    {% endblock main %}
+  </body>
+</html>

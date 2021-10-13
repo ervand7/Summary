@@ -1,0 +1,265 @@
+Модель в джанго - это представление о таблице в БД посредством Python. Модель
+описывется классом в файле models.py, который должен являться подклассом импортированного
+модуля from django.db import models. Наш класс будет наследоваться от него и
+получать все его методы для работы сданными.
+В этом классе мы будем описывать атрибуты класса. Эти атрибуты будут представлять
+из себя не что иное как соответствующие поля в таблицах БД. Получается,
+что в models.py мы будем описывать некую таблицу.
+
+Давайте создадим приложение, в котором будет 2 таблицы: игроки и команды,
+в которых играют игроки.
+____________________________________________________________________________________
+Настройка БД, часть 1
+документация:
+https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+Сначала устанавливаем psycopg2-binary==2.8.6
+Далее идем в settings.py, вставляем то, что скопировали с документации
+с нашими кстомными изменениями:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'netology_db',
+        'USER': 'ervand',
+        'PASSWORD': 'ervand',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+____________________________________________________________________________________
+Настройка БД, часть 2
+Открываем терминал и вводим:
+ ● createdb netology_db
+этой командой мы создаем БД. Если в ответ мы получаем такую ошбку:
+createdb: error: could not connect to database template1: could not connect to server: No such file or directory
+        Is the server running locally and accepting
+        connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+то прописываем ее решение (stackoverflow):
+ ● rm /usr/local/var/postgres/postmaster.pid
+ ● brew services restart postgresql
+далее снова вводим:
+ ● createdb netology_db
+и если получаем такую ошибку:
+createdb: error: could not connect to database template1: FATAL:  the database system is starting up
+то просто еще раз вводим:
+ ● createdb netology_db
+далее все должно работать
+
+ ● dropdb netology_db
+удаление БД
+
+ ● psql netology_db
+проверяем, что можем подключиться к нашей БД.
+Этой командой мы переходим в консоль
+
+ ● ./manage.py dbshell
+ Внимание! Еще возможна эта команда, но так мы попадаем на суперпользователя,
+ что на в нашем случает не нужно!
+
+ ● create user ervand with password 'ervand';
+настраиваем пользователя
+
+ ● ./manage.py migrate
+прогоним наши 18 unapplied migration(s)
+
+____________________________________________________________________________________
+____________________________________________________________________________________
+____________________________________________________________________________________
+Работа c models.py
+DEFAULT
+default= нужен всегда, когда мы добавляем NotNull колонку
+
+После заполнения модуля models переходим в терминал:
+ ● psql netology_db
+снова подключаемся к БД, перезодя в консоль
+
+ ● \d
+смотрим, какие таблицы у нас есть и видим, что системные таблицы создались благодаря миграции
+
+открываем другое окно терминала
+ ● ./manage.py makemigrations
+создаем миграции. Видим, что после этого в директории migrations у нас создался 0001_initial
+
+ ● ./manage.py migrate
+прогоняем миграцию. Сейчас у нас в БД появилась новая таблица players_player
+
+открывает предыдущее окно терминала с консолью
+ ● \d players_player
+смотрим содержимое нашей таблицы
+____________________________________________________________________________________
+Django записывает себе все миграции в служебную таблицу django_migrations.
+Мы даже можем их посмотреть:
+select * from django_migrations
+
+В Django есть специальный механизм для того, чтобы нам задавать набор констант.
+Он называется choices.
+choices - это просто набор значений, которые может принимать колонка.
+В нашем случае это class CountryChoices(models.TextChoices):
+документация: https://docs.djangoproject.com/en/3.2/ref/models/fields/
+То есть это должен быть класс, который наследуется от models.TextChoices
+и внутри него прописаны разные значения.
+
+Как Django именует таблицы. По умолчанию таблицы именуются:
+имя-приложения_имя-модели
+
+Про shell и CRUD берем информацию с моего старого конспекта по ютубовскому курсу:
+https://github.com/ervand7/Django/blob/97e93c14dfa101c302525863aa8b6b628e359731/Django/summary/7.%20CRUD.txt
+____________________________________________________________________________________
+
+ЛОГИРОВАНИЕ
+Идем сюда https://docs.djangoproject.com/en/3.2/topics/logging/
+Копируем это:
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+Корректируем 'level': 'DEBUG'
+и вставляем в конец файла settings.py
+
+Теперь, если мы в shell исполним команду Player.objects.all(), мы получим QuerySet,
+в котором будут все поля из таблицы. А если будем обновлять страницу в браузере, то
+получим логирование в терминале, где мы стартовали сервер.
+____________________________________________________________________________________
+
+READ-запросы (в консоли)
+ ● Player.objects.filter(name='Averige player')
+получаем все данные игрока с определенным именем
+
+Contains
+Все фильтры в Django - это **kwargs, поэтому применяем __
+ ● Player.objects.filter(name__contains='Be')
+найти всех игроков, имена которых содержат 'Be'.
+Здесь:
+name       - это атрибут нашего класса
+__contains - это фильтр
+'Be'       - совпадение, которое мы ищем
+
+great then
+ ● Player.objects.filter(id__gt=1)
+найти всех игроков, у которых id больше чем 1
+
+Mixed filters
+ ● Player.objects.filter(id__gt=1, name__contains='Best')
+
+ ● Player.objects.filter(team__name='Real')
+
+Фильтрация без учета регистра, добавляем префикс "i" к фильтру
+ ● Player.objects.filter(id__gt=1, name__icontains='PLAYER')
+
+Мы можем также запросы присваивать в переменные
+ ● q = Player.objects.filter(id__gt=1, name__icontains='PLAYER')
+ ● q
+ ● type(q)
+Out[13]: django.db.models.query.QuerySet
+будет возвращать объект QuerySet, который является подготовленным, но еще не исполненным запросом
+ ● q = q.filter(id__lt=1)
+этот запрос мы можем расширять и дополнять
+ ● list(q)
+а так мы уже исполняем запрос, приводя QuerySet к списку
+
+Добавим пару команд
+ ● from players.models import Player, CountryChoices, Team
+ ● team1 = Team.objects.create(name='Real Madrid')
+ ● team2 = Team.objects.create(name='Spartak Moscow')
+ ● team2.country = CountryChoices.RUSSIA
+ ● team2.save()
+видим, что после save() у нас пошел UPDATE запрос
+
+first()
+ ● p1 = Player.objects.filter(id=1).first()
+получим первый объект из таблицы. Здесь ставится LIMIT 1
+
+получение None:
+ ● p1 = Player.objects.filter(id=100).first()
+получаем заведомо несуществующего игрока
+ ● p1 is None
+Out[24]: True
+
+Метод get. Он бросает исключение, если None или если возвращается более одного объекта
+ ● p1 = Player.objects.get(id=1)
+ ● p1.team = team1
+ ● p2 = Player.objects.get(id=2)
+ ● p2.team = team2
+ ● p1.save()
+ ● p2.save()
+
+Сейчас специально создадим проблему. Создадим еще несколько игроков
+ ● p3 = Player.objects.create(team=team1, name='Test1')
+ ● p3 = Player.objects.create(team=team1, name='Test2')
+ ● p3 = Player.objects.create(team=team1, name='Test3')
+ ● p3 = Player.objects.create(team=team1, name='Test4')
+ ● p3 = Player.objects.create(team=team1, name='Test5')
+ ● p3 = Player.objects.create(team=team1, name='Test6')
+теперь заходим в логи и видим, что у нас огромное кол-во запросов.
+Это произошло из-за того, что у нас во view прописан
+players_query = Player.objects.all()
+Всю эту ситуацию мы можем исправить используя конструкцию
+select_related, которая позволяет соединять две модели. Она работает только для
+связи «один к одному» и «многие к одному».
+players_query = Player.objects.select_related('team')
+Тогда Django дополнительно приджоинет команды к игрокам с помощью LEFT OUTER JOIN
+____________________________________________________________________________________
+Полный список фильтров находится тут:
+https://docs.djangoproject.com/en/2.1/ref/models/querysets/#field-lookups
+
+Пример комбинированного фильтра:
+Person.objects.filter(
+     birthday__gt=datetime.date().today() — datetime.timedelta(days=365*18)).exclude(is_deleted=True
+)
+
+____________________________________________________________________________________
+ ● python manage.py sqlmigrate название_приложения 0001
+смотрим, какой запрос сформирует Django для определенной миграции
+
+____________________________________________________________________________________
+Откат миграций:
+$ python manage.py makemigrations
+
+Migrations for 'название_приложения':
+  название_приложения/migrations/0001_initial.py
+      — Create model Car
+      — Create model Person
+# основная команда для применения всех непримененных миграций
+$ python manage.py migrate
+
+
+# откат изменения на нужную точку
+python manage.py migrate название_приложения 0001
+# откат всех изменений
+python manage.py migrate название_приложения zero
+____________________________________________________________________________________
+Информация про Class Based View: http://ccbv.co.uk
+
+____________________________________________________________________________________
+____________________________________________________________________________________
+____________________________________________________________________________________
+АДМИНКА Django
+http://127.0.0.1:8000/admin/
+ ● cd netology_db
+ ● python manage.py createsuperuser
+Имя пользователя (leave blank to use 'user'): admin_ervand
+Адрес электронной почты: admin@admin.org
+Password: Внимание! На маке пароль не виден во время ввода! (admin)
+Password (again): То же самое
+Superuser created successfully.
+
+В файле admin.py можно настроить, какие именно поля будут отображаться в админке, например:
+classBookAdmin(admin.ModelAdmin):
+    list_display = ('name', 'author', 'pub_date', )

@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  postgresdb:
+    image: postgres:11.0-alpine
+    ports:
+      - "5432:5432"
+    env_file:
+      - web.env
+  web:
+    image: my_web
+    build:
+      context: ./
+      dockerfile: Dockerfile
+#      благодаря этому volumes, при любом изменении у нас в коде, наш гуникорновский
+#      сервер перезагрузится и все изменения в контейнере также вступят в силу
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./project_shop:/usr/src/app
+    depends_on:
+      - postgresdb
+    ports:
+      - "8000:8000"
+    env_file:
+      - web.env
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - web
+      - postgresdb
+    ports:
+      - "80:80"
+    volumes:
+      - ./project_shop/static/:/static

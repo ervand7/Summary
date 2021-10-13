@@ -1,0 +1,22 @@
+{% extends "articles/base.html" %}
+{% load static %}
+
+{% block title %}Новости{% endblock %}
+{% block content %}
+<div class="row">
+  {% for article in object_list %}
+  <div class="col-lg-4 col-sm-6 portfolio-item">
+    <div class="card h-100">
+      <a href="#"><img class="card-img-top" src="{% get_media_prefix %}{{ article.image }}" alt="Картинка не прогрузилась"></a>
+      <div class="card-body">
+        <h4 class="card-title">
+          <a href="#">{{ article.title }}</a>
+        </h4>
+        <p class="card-text">{{ article.text }}</p>
+        <p class="card-text">Автор {{ article.author }}. Жанр статьи: <{{ article.genre }}></p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

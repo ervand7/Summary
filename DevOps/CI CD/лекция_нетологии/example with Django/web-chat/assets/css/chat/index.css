@@ -1,0 +1,45 @@
+.main {
+  flex-grow: 1;
+}
+
+.main > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.main__section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(70, 26, 105, 0.67);
+  box-shadow: 15px 15px 20px rgba(70, 26, 105, 0.35);
+  border-radius: 40px;
+  height: 300px;
+  width: 300px;
+  margin: 30px 60px;
+  text-decoration: none;
+}
+
+.main__section-hidden {
+  visibility: hidden;
+  height: 0;
+  margin: 0 60px;
+}
+
+.main__section:hover {
+  box-shadow: 15px 15px 20px white;
+}
+
+.main__section__header {
+  color: white;
+  text-align: center;
+  font-size: 30px;
+}
+
+.main__section__img {
+  max-width: 200px;
+  max-height: 200px;
+  margin-top: 20px;
+}

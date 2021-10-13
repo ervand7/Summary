@@ -1,0 +1,3 @@
+тренажер: https://gitexplorer.com
+
+https://www.atlassian.com/ru/git/tutorials/inspecting-a-repository/git-blame

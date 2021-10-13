@@ -1,0 +1,1 @@
+https://docs.locust.io/en/stable/running-locust-without-web-ui.html#allow-tasks-to-finish-their-iteration-on-shutdown

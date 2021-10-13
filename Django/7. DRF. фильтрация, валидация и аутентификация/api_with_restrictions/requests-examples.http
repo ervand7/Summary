@@ -1,0 +1,57 @@
+# примеры API-запросов
+
+# Пример запроса без фильтрации
+GET http://localhost:8000/api/v1/advertisements/
+Content-Type: application/json
+
+
+###
+# Пример запроса с фильтрацией по дате <_before>
+GET http://127.0.0.1:4000/api/v1/advertisements/?created_at_before=2021-07-16
+Content-Type: application/json
+
+###
+# Пример запроса с фильтрацией по дате <_after>
+GET http://127.0.0.1:4000/api/v1/advertisements/?created_at_after=2021-07-18
+Content-Type: application/json
+
+###
+# Пример запроса с фильтрацией по создателю
+GET http://127.0.0.1:4000/api/v1/advertisements/?creator=2
+Content-Type: application/json
+
+
+###
+# Пример комбинированного запроса (создатель и дата)
+GET http://127.0.0.1:4000/api/v1/advertisements/?creator=2&status=OPEN
+Content-Type: application/json
+
+###
+# Пример создания объявления
+POST http://localhost:8000/api/v1/advertisements/
+Content-Type: application/json
+Authorization: Token 840538f64454b5f652f6ce3d327c132ce88bb05a
+
+{
+  "title": "вв",
+  "description": "wq;",
+  "status": "CLOSED",
+  "is_draft": "False"
+}
+
+###
+
+# попытка поменять объявление
+PATCH localhost:4000/api/v1/advertisements/127/
+Content-Type: application/json
+Authorization: Token 840538f64454b5f652f6ce3d327c132ce88bb05a
+
+{
+  "status": "CLOSED"
+}
+
+###
+
+DELETE localhost:4000/api/v1/advertisements/130/
+Content-Type: application/json
+Authorization: Token f9a71abc80a8c7ee96114c03177d39cba76d61b3

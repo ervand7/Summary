@@ -1,0 +1,9 @@
+Python:
+● правильно измерять время: https://www.youtube.com/watch?v=9AHe6NhLs0s
+● лёгкое логирование в Python с Loguru: https://www.youtube.com/watch?v=3ndEeGDVqD4
+● зачем в Python .pyi файлы и чем они полезны: https://www.youtube.com/watch?v=KofihAoSp2U&t=2s
+
+
+Unix:
+● настраиваем авторизацию SSH по ключу в Linux / Unix: https://www.youtube.com/watch?v=IVHv3eVQa14&t=4s
+● изучаем Vim, команды и макросы: https://www.youtube.com/watch?v=SHo3fAZfXMk

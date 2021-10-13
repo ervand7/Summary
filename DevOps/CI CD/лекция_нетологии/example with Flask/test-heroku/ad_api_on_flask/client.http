@@ -1,0 +1,40 @@
+###
+GET http://127.0.0.1:5001/
+Accept: application/json
+
+
+###
+POST http://127.0.0.1:5001/api/v1/user-create/
+Content-Type: application/json
+
+{
+  "username": "Erqwwerevwand2",
+  "email": "er12vaqwend72mail.ru",
+  "password": "paswerqwesword",
+  "token": "tokenwerqwe23"
+}
+
+###
+POST http://127.0.0.1:5001/api/v1/auth/login/
+Content-Type: application/json
+
+{
+  "username": "Ervand",
+  "password": "password"
+}
+
+###
+GET http://127.0.0.1:5001/api/v1/user-info/1/
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzMjQyMDQ5MCwianRpIjoiYTRlNmYyNjMtNjA0Yy00ZWJjLTg5MmMtYzgyODUwMjdhMjNmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Ik5vbmUiLCJuYmYiOjE2MzI0MjA0OTAsImV4cCI6MTYzMzAyNTI5MH0.0ZNK8q1m6qxAwAGffAm-3tXBow-gkn1ON1krvOWXCv4
+
+
+###
+GET http://127.0.0.1:5001/api/v1/user-info/1
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzMjQyMDQ5MCwianRpIjoiYTRlNmYyNjMtNjA0Yy00ZWJjLTg5MmMtYzgyODUwMjdhMjNmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Ik5vbmUiLCJuYmYiOjE2MzI0MjA0OTAsImV4cCI6MTYzMzAyNTI5MH0.0ZNK8q1m6qxAwAGffAm-3tXBow-gkn1ON1krvOWXCv4
+
+###
+GET http://127.0.0.1:5001/api/v1/user-info/1/del
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzMjQyMDQ5MCwianRpIjoiYTRlNmYyNjMtNjA0Yy00ZWJjLTg5MmMtYzgyODUwMjdhMjNmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6Ik5vbmUiLCJuYmYiOjE2MzI0MjA0OTAsImV4cCI6MTYzMzAyNTI5MH0.0ZNK8q1m6qxAwAGffAm-3tXBow-gkn1ON1krvOWXCv4

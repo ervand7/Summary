@@ -1,0 +1,10 @@
+django
+pillow
+defusedxml
+psycopg2-binary
+django-registration
+gunicorn
+django-heroku
+python-dotenv
+django-svg-image-form-field
+django-gravatar2

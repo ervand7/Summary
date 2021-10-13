@@ -1,0 +1,5 @@
+python manage.py makemigrations
+python manage.py migrate
+python manage.py my_custom_command
+
+далее перейдите в rest-api_2.http (находится в этой же папке) и отправляете запросы

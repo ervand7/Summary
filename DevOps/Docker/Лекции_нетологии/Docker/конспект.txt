@@ -1,0 +1,129 @@
+Установка докера:
+1 шаг: https://www.docker.com/products/docker-desktop
+получилось установить не с первого раза. После установки желательно перезагрузить комп
+еще есть возможность установить программу через brew:
+https://stackoverflow.com/questions/44084846/cannot-connect-to-the-docker-daemon-on-macos?rq=1
+2 шаг: brew install docker
+
+ ● docker
+помощь
+
+ ● docker container
+помощь по контейнерам
+
+ ● docker image
+помощь по образам
+
+ ● docker volume
+помощь по волюмам
+
+ ● docker ps
+полный аналог docker container ls,
+смотрим, какие контейнеры сейчас запущены. <ps> - это от слова processes
+
+https://hub.docker.com/search?q=&type=image - список образов
+
+ ● docker pull postgres
+скачать образ постгреса последней версии (по умолчанию)
+ ● docker pull postgres:13.4
+скачать образ постгреса какой-то определенной версии
+
+ ● docker run -e POSTGRES_PASSWORD=password postgres
+запускаем контейнер с образом постгреса и сразу перед этим прописываем переменную
+окружения POSTGRES_PASSWORD=password. Но, таким образом контейнер нам заблочит терминал
+ ● docker ps (запускаем в другом окне)
+видим, что контейнер запустился
+ ● docker run -d -e POSTGRES_PASSWORD=password postgres
+запускаем контейнер в фоновом режиме с параметром -d, чтобы контейнер не блочил терминал
+Видим, что контейнер запустился, и видим хеш контенера
+
+ ● pgcli -U postgres -h localhost -p 5432
+видим, что не пожем подключиться к постгресу через порт 5432 так как этот порт открыт только внутри контейнера
+
+ ● docker container stop <хеш или имя>
+останавливаем контейнер, запущенный в фоновом режиме
+
+ ● docker ps -a
+посмотреть все контейнеры, которые были
+
+ ● docker run -d -e POSTGRES_PASSWORD=password -p 5433:5432 postgres
+пробрасываем порты: 5433 (внешний порт) - порт хоста, 5432 (внутренний порт) - порт внутри контейнера
+
+ ● pgcli -U postgres -h localhost -p 5433
+теперь через внешний порт можем подключиться к постгресу из контейнера
+
+ ● docker exec -i -t <имя контейнера> sh
+запускаем терминал внутри контейнера.
+<-i> - интерактивный режим
+<-t> - терминал
+<sh> - shell
+
+ ● exit
+выход из терминала
+
+ ● docker run -d --name my-nginx -p 80:80 nginx
+запустим контейнер nginx на локалхосте
+
+ ● docker exec -ti my-nginx sh
+подключаемся к терминалу нджинкса. Далее заходим в браузер, вводим localhost и видим
+приветствие от нджинкса. Поставим задачу изменить это приветствие. Для начала посмотрим структуру html
+этого приветствия. Чтобы узнать, где этот html-файл располагается, мы идем в описание нджинкса на docker hub.
+Видим, что контент находится в директории /usr/share/nginx/html. Смотрим в файл html командой:
+cat /usr/share/nginx/html/index.html
+ ● docker stop my-nginx
+ ● docker rm my-nginx
+останавливаем и удаляем контейнер
+Сейчас мы хотим примонтировать volume к контейнеру.
+Создадим папку html с файлом index.html - все как в нджинксе. Мы хотим изменить приветствие нджинкса
+ ● docker run -v /Users/dasaagadzanan/Desktop/My_best_summary_about_python/summary/DevOps/Docker/Лекции_нетологии/Docker/html:/usr/share/nginx/html -d --name my-nginx -p 80:80 nginx
+этой командой монтируем к контейнеру нджинкса свой volume
+
+ ● docker volume ls
+смотрим волюмы, которые у нас есть
+
+ ● docker volume inspect html
+инспектируем конкретный volume "html"
+
+ ● docker volume create
+создание волюма. При такой команде имя волюма будет сгенерированно автоматически
+
+ ● docker network create --driver=bridge my-net
+создадим сеть с названием <my-net>
+ ● docker run -v /Users/dasaagadzanan/Desktop/My_best_summary_about_python/summary/DevOps/Docker/Лекции_нетологии/Docker/html:/usr/share/nginx/html -d --name my-nginx -p 80:80 --network my-net nginx
+запускаем nginx с подключением к этой сети
+ ● docker run -d -e POSTGRES_PASSWORD=password -p 5433:5432 --network my-net postgres
+теперь подключаем и постгрес к этой сети
+ ● docker run -it -d --name my-alpine --network my-net alpine sh
+подключаем (и сначала скачиваем) alpine
+ ● docker logs <имя контейнера>
+смотрим логи постгреса
+ ● docker exec -ti my-alpine sh
+заходим в терминал alpine
+ ● ping my-nginx
+пингуем nginx
+
+----------------------- билдим -------------------
+Команды Dockerfile
+● FROM (+FROM as) — контекст из базового образа
+● ADD и COPY — копирование файлов из хоста в контейнер
+● RUN — запуск команды внутри образа
+● CMD — запуск команды с разделением аргументов внутри массива
+● ENTRYPOINT —  запуск команды в контейнере через run
+● VOLUME — настройка томов
+● ARG — задает переменные, которые пользователь передает сборщику образа docker build с помощью флага --build-arg <varname>=<value>
+● ENV — замена переменных окружения для контейнера
+● WORKDIR — устанавливает рабочий каталог для всех инструкций RUN, CMD и тд., которые будут выполнены в Dockerfile
+
+
+Создаем приложение app, прописывем в нем Dockerfile
+Переходим в директорию simple_flask
+ ● docker build . -t my-flask
+билдим наше приложение. Нужно указать тег через флаг -t, иначе он будет none
+ ● docker image ls
+видим, что среди прочих, у нас появился еще и только что сбилденный образ
+ ● docker build . -t my-flask:1.0
+можем билдить с указанием тега-версии через двоеточие
+ ● docker run -d -p 5000:5000 --name=flask-container --network my-net my-flask
+запускаем контейнер со сбилденным образом
+ ● docker ps
+видим, что контейнер запустился

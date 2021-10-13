@@ -1,0 +1,11 @@
+1) создать сервер на reg.ru. Вот инструкция:
+https://github.com/ervand7/py-homeworks-web/tree/new/1.1-console
+
+2) настроить сервер по этому туториалу
+https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-20-04-ru
+
+3) при возникающих ошибках мне помогли эти ссылки:
+https://stackoverflow.com/questions/60253711/active-failed-result-service-start-limit-hit/66287311#66287311
+
+https://stackoverflow.com/questions/24488891/gunicorn-errors-haltserver-haltserver-worker-failed-to-boot-3-django#comment119646215_55623889
+2й ответ

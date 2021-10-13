@@ -1,0 +1,69 @@
+Вся основная информация в презентации.
+
+ ● docker volume create pg-data
+создаем волюм с названием pg-data,
+далее закоментируем в pg-data: # external: true
+
+ ● docker-compose up -d
+запустим docker-compose
+
+ ● docker-compose ps
+видим 2 запущенных контейнера
+ ● docker container ls
+также видим 2 запущенных контейнера
+
+ ● docker volume ls
+среди прочих волюмов видим docker-compose-example_01_pg-data и pg-data
+Почему их 2? Мы 2 раза запускали <docker-compose up -d> и докер не стал использовать
+ранее созданный волюм, так как у нас было закомментированно <pg-data: # external: true>,
+а создал свой с префиксом
+
+ ● docker-compose down
+останавливаем и удаляем контейнеры
+ ● docker volume ls
+видим, что все равно волюмы docker-compose-example_01_pg-data и pg-data не удалились
+ ● docker-compose up -d
+заново запускаем docker-compose
+ ● docker volume ls
+и видим, что он использует ранее созданные волюмы
+
+теперь раскомментируем pg-data: external: true
+ ● docker-compose down
+останавливаем и удаляем контейнеры
+ ● docker volume rm docker-compose-example_01_pg-data
+удаляем волюм
+ ● docker-compose up -d
+заново запускаем docker-compose
+ ● docker volume ls
+видим, что новых волюмов не создалось, мы использовали ранее существующий pg-data
+
+ ● docker-compose -f /Users/dasaagadzanan/Desktop/My_best_summary_about_python/summary/DevOps/Docker/Лекции_нетологии/Docker_compose/docker-compose-example_01/docker-compose.yml up -d
+так можно запустить docker-compose с указанием файла
+
+создадим еще один файл докер композ: docker-compose-test.yml
+ ● docker-compose -f /Users/dasaagadzanan/Desktop/My_best_summary_about_python/summary/DevOps/Docker/Лекции_нетологии/Docker_compose/docker-compose-example_01/docker-compose.yml up -d
+еще раз запустим (с указанием файла) наш первый файл docker-compose
+Переходим по http://localhost:5001 и видим наше работающее приложение
+ ● docker-compose -f docker-compose.yml -f docker-compose-test.yml up
+таким образом мы запускаем одновременно 2 docker-compose файла, причем второй важнее первого
+по приоритету. Второй будет наследоваться от первого, но он будет перезатирать первый
+
+
+ ● docker-compose exec api-postgres sh
+переходим интеррактивно к сервису api-postgres
+
+
+ ● ping api-postgres
+пингуем
+
+ ● docker compose logs
+увидеть логи всех сервисов
+ ● docker compose logs api
+увидеть логи конкретного сервиса
+
+ ● docker-compose up -d
+запускаем docker-compose
+ ● docker network ls
+смотрим, какие сети у нас есть. Видим, что появилась docker-compose-example_01_default
+ ● docker network inspect docker-compose-example_01_default
+инспектируем эту сеть и видим в конфигурации "Driver": "bridge"

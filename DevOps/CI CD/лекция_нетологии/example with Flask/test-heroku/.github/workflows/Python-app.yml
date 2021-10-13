@@ -1,0 +1,49 @@
+# В этом файле описан первый этап сборки
+# указываем имя, которое будет отбражаться в github Actions
+name: Python application
+
+# дефолтные настройки
+defaults:
+  run:
+#    указываем, с каким терминалом мы работаем
+    shell: bash
+#    прописываем рабочую директорию, из которой будут выполняться дальнейшие действия в скрипте
+    working-directory: ad_api_on_flask
+
+# on - это действия по которым происходит триггер об изменениях
+on:
+#  push и pull_request - это не единственные триггеры, но самые популярные
+  push:
+#    тут указываем перечень веток. В данном случае только master
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+#  джобов может быть много, в данном примере указан только build
+  build:
+# runs-on - обязательный пункт. Указываем, на основе какой версии эти actions будут работать
+    runs-on: ubuntu-latest
+# steps - это шаги, которые мы выполняем
+    steps:
+# uses - это что используется в этих шагах. Тут первые 2 пункта используют заготовки гитхаба
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+# далее уже исполняется наш код
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest

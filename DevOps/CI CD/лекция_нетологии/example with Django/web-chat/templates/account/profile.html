@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load gravatar %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/account/profile.css' %}"/>
+{% endblock %}
+
+{% block main %}
+  <div class="title-row">Профиль</div>
+
+  <hr class="separator"/>
+
+  <div class="container-xl">
+    {% if user.avatar %}
+      <img src="{{ user.avatar.url }}" alt="userpic" height="200"/>
+    {% endif %}
+
+    <form class="profile-form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+          <span class="form-field-error">{{ error|escape }}</span>
+        {% endfor %}
+      {% endif %}
+
+      <div class="profile-row profile-bio">
+        <div class="form-block-half">
+          <label class="form-label">
+            Имя
+            <input class="form-block"
+                   type="text"
+                   name="first_name"
+                   placeholder="Имя"
+                   value="{{ form.first_name.value }}"
+                   maxlength="150">
+            {% include 'account/form_field_errors.html' with field=form.first_name %}
+          </label>
+        </div>
+        <div class="form-block-half">
+          <label class="form-label">
+            Фамилия
+            <input class="form-block"
+                   type="text"
+                   name="last_name"
+                   placeholder="Фамилия"
+                   value="{{ form.last_name.value }}"
+                   maxlength="150">
+            {% include 'account/form_field_errors.html' with field=form.last_name %}
+          </label>
+        </div>
+      </div>
+
+      <div class="profile-row">
+        <label class="form-label">
+          Адрес электронной почты
+          <input class="form-block"
+                 type="text"
+                 name="email"
+                 placeholder="Адрес электронной почты"
+                 value="{{ form.email.value }}"
+                 maxlength="150">
+          {% include 'account/form_field_errors.html' with field=form.email %}
+        </label>
+      </div>
+
+      <div class="profile-row profile-center">
+        <button type="submit" class="form-button">Сохранить</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

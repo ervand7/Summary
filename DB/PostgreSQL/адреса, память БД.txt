@@ -1,0 +1,17 @@
+Чтобы узнать, где на компьютере хранятся БД Postgres вводим следующие команды:
+ ● psql
+ ● show data_directory;
+либо
+ ● ps aux | grep postgres | grep -- -D
+
+нахождение файлов конфигурации
+ ● psql
+ ● SELECT name, setting FROM pg_settings WHERE category = 'File Locations';
+
+узнать, сколько памяти занимает та или иная база
+ ● psql
+ ● \l+ <database_name>
+
+_____________________________________________________________________________________
+psql meta-command
+https://www.postgresql.org/docs/current/app-psql.html

@@ -1,0 +1,24 @@
+{% load my_filter %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Заголовок по умолчанию
+        {% endblock title %}
+    </title>
+</head>
+<body>
+    <h1>ХЕДЕР</h1>
+    <h1>
+        {% block page_name %}
+        {% endblock page_name %}
+    </h1>
+        {% block data %}
+
+        {% endblock data %}
+<h1>ФУТЕР</h1>
+    </body>
+</html>

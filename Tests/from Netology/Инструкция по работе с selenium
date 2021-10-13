@@ -1,0 +1,11 @@
+● не называть никогда файлы 'selenium.py' или 'webdriver.py'
+
+● pip install selenium
+
+● /usr/bin/safaridriver --enable (в терминале активируем Safari driver и вводим пароль пользователя Mac)
+
+● ModuleNotFoundError: No module named 'test_webkit.webdriver'; 'test_webkit' is not a package
+при наличие такой ошибки при первом запуске просто удаляем и заново устанавливаем selenium
+
+● Для нужных атрибутов через панель разработчика в браузере (F12)
+находим нужный HTML элемент и смотрим его аттрибут name

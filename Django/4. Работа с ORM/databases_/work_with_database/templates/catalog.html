@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filters %}
+
+{% block title %}Catalog{% endblock title %}
+{% block content %}
+        <div>{{query_set}}</div>
+        <div class="sort-block row justify-content-center m-3">
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Вы видите продукты, отсортированные
+                  {% if by_date %} по дате релиза
+                  {% elif by_name %} по алфавиту
+                  {% elif by_min_price %} начиная от самого бюджетного
+                  {% elif by_max_price %} начиная от самого дорогого
+                  {% endif %}
+              </button>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/catalog">Сортировать по дате</a>
+                  <a class="dropdown-item" href="/catalog?sort=min_price">Самые бюджетные</a>
+                  <a class="dropdown-item" href="/catalog?sort=max_price">Самые дорогие</a>
+                  <a class="dropdown-item" href="/catalog?sort=name">Сортировать по алфавиту</a>
+              </div>
+            </div>
+        </div>
+
+        <div class="content row justify-content-center">
+            <div class="card-deck text-center">
+            {% for phone in phones %}
+            <div class="card bg-light mb-3" style="max-width: 14rem;">
+              <div class="card-header">
+                <a href="/catalog/{{phone.slug}}"><h6 class="card-title">{{phone.name}}</h6></a>
+              </div>
+                <a href="/catalog/{{phone.slug}}"><img src="{{phone.image}}" class="card-img-top" alt="{{phone.name}}"></a>
+              <div class="card-body">
+                <p class="card-text">Релиз: {{phone.release_date|format_date}}</p>
+                <p class="card-text">LTE: {{phone.lte_exists|format_bool_LTE}}</p>
+                <a href="/catalog/{{phone.slug}}" class="btn btn-outline-primary">{{phone.price}} р.</a>
+              </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+{% endblock content %}

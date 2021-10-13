@@ -1,0 +1,3 @@
+Ссылки для работы с gino:
+https://pypi.org/project/gino/0.8.5/
+https://python-gino.org/docs/en/1.1b2/how-to/bakery.html

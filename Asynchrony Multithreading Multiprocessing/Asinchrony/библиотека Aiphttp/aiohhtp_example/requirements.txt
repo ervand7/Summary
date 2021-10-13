@@ -1,0 +1,16 @@
+aiodns==1.2.0
+aiohttp==3.7.4.post0
+async-timeout==3.0.1
+asyncpg==0.24.0
+attrs==21.2.0
+cchardet==2.1.7
+chardet==4.0.0
+gino==1.0.1
+idna==3.2
+multidict==5.1.0
+pycares==2.4.0
+pydantic==1.8.2
+SQLAlchemy==1.3.24
+typing==3.7.4.3
+typing-extensions==3.10.0.0
+yarl==1.6.3

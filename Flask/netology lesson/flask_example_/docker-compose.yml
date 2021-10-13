@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ervand
+      POSTGRES_USER: ervand
+      POSTGRES_DB: flask_test
+
+    ports:
+    - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8079:8080

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Игроки</title>
+</head>
+<body>
+
+{% block content %}
+    <ul>
+    {% for player in players %}
+<!-- get_что-то_display - это специальный метод, который Django генерирует для choice филдов -->
+        <li>{{ player.name }} - {{ player.get_country_display }} - {{ player.team }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+
+</body>
+</html>

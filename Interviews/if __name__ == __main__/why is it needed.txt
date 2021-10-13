@@ -1,0 +1,13 @@
+Объясняем на примере файлов <first> и <second>.
+1) Конструкция if __name__ == '__main__': нужна для для того, чтобы при запуске файла
+<second>, в файле <first> не срабатывал print(res).
+
+2) Запустите файл <first> и посмотрите, что на выводе print(__name__) превращается в '__main__'.
+Также вы видите, что
+    - print('this will be printed while file <second> will run') сработал;
+    - print(res) сработал.
+
+3) Запустите файл <second> и посмотрите, что на выводе print(__name__) из файла <first>
+превращается уже в 'first'. Также вы видите, что
+    - print('this will be printed while file <second> will run') из файла <first> сработал;
+    - print(res) из файла <first> уже НЕ сработал.

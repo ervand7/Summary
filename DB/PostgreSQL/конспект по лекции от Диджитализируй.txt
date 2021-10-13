@@ -1,0 +1,151 @@
+лекция: https://www.youtube.com/watch?v=WpojDncIWOw
+Создадим бд для интернет-магазина
+ ● psql
+ ● create user digital with password 'digital';
+ ● create database my_shop with owner digital;
+ ● \q
+ ● psql -U digital -d my_shop
+ ● \c my_shop
+подключаемся к нашей бд
+
+create table customer(
+id serial primary key,
+name varchar(255),
+phone varchar(30),
+email varchar(255)
+);
+
+ ● \d
+показывает все таблички, которые созданы
+ ● \d customer
+показывает содержимое конкретной таблички
+
+create table product(
+id serial primary key,
+name varchar(255),
+description text,
+price integer
+);
+
+ ● \d product
+
+create table product_photo(
+id serial primary key,
+url varchar(255),
+product_id integer references product(id)
+);
+
+ ● \d product_photo
+
+create table cart(
+id serial primary key,
+customer_id integer references customer(id)
+);
+
+ ● \d cart
+
+create table cart_product(
+cart_id integer references cart(id),
+product_id integer references product(id)
+);
+
+ ● \d cart_product
+ ● \d
+
+ ● insert into customer(name, phone, email) values ('Василий', '02', 'vac@gmail.com');
+ ● insert into customer(name, phone, email) values ('Петр', '03', 'petr@gmail.com');
+ ● select * from customer;
+
+ ● insert into product(name, description, price) values ('iPhone', 'крутой телефон', '100000');
+ ● insert into product(name, description, price) values ('Apple watch', 'крутые часы', '50000');
+ ● select * from product;
+
+ ● insert into product_photo(url, product_id) values ('iphone_photo', 1);
+ ● select * from product_photo;
+
+ ●
+select * from product_photo pp
+left join product p on p.id=pp.product_id;
+
+ ●
+select pp.*, p.name from product_photo pp
+left join product p on p.id=pp.product_id;
+
+ ● alter table product_photo drop constraint product_photo_product_id_fkey;
+удаляем foreign key
+
+ ● insert into product_photo (url, product_id) values ('unknown_photo', 100);
+попробуем создать фотография для продукта с несуществующим id.
+Для того, чтобы потом сравнить отличие left join, right join и inner join
+
+ ●
+select pp.*, p.name from product_photo pp
+left join product p on p.id=pp.product_id;
+
+ ●
+select pp.*, p.name from product_photo pp
+right join product p on p.id=pp.product_id;
+
+ ●
+select pp.*, p.name from product_photo pp
+inner join product p on p.id=pp.product_id;
+
+ ● delete from product_photo where id=2;
+удалим фотографию, ссылающуюся на несуществующий продукт
+
+ ● update product_photo set url='iphone-image_2' where id=1;
+обновим url в фотографии
+
+ ● insert into cart (customer_id) values (1);
+ ● insert into cart_product (cart_id, product_id) values (1, 1), (1, 2);
+
+----------------------------------------------------------------------------------------
+Попробуем достать имена клиентов с общей суммой их заказов
+ ●
+select c.name, cart.id as cart_id, cp.product_id, p.price from customer c
+left join cart on cart.customer_id=c.id
+left join cart_product cp on cp.cart_id=cart.id
+left join product p on p.id=cp.product_id;
+
+ ●
+select c.name, sum(p.price) from customer c
+left join cart on cart.customer_id=c.id
+left join cart_product cp on cp.cart_id=cart.id
+left join product p on p.id=cp.product_id
+group by c.name;
+
+ ●
+select c.name, coalesce(sum(p.price), 0) as orders_sum from customer c
+left join cart on cart.customer_id=c.id
+left join cart_product cp on cp.cart_id=cart.id
+left join product p on p.id=cp.product_id
+group by c.name
+order by orders_sum desc;
+
+ ●
+select c.name, coalesce(sum(p.price), 0) as orders_sum from customer c
+left join cart on cart.customer_id=c.id
+left join cart_product cp on cp.cart_id=cart.id
+left join product p on p.id=cp.product_id
+group by c.name
+having sum(p.price)>0;
+
+Отличие WHERE от HAVING в том, что WHERE фильтрует конкретные строки, а HAVING фильтрует группы.
+Поэтому HAVING прописывается всегда только после GROUP BY
+
+ ●
+select * from customer
+order by name using ~<~;
+Если у нас как-то неправильно работает order by, то мы можем использовать конструкцию ~<~
+
+ ●
+select * from customer
+order by name using ~<~
+limit 1;
+
+ ●
+select * from customer
+order by name using ~<~
+limit 1
+offset 1;
+используем offset, если нам нужно смещение

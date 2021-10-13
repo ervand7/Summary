@@ -1,0 +1,3 @@
+ ● flake8
+pip install flake8
+flake8 ervand_site/ervand_site/settings.py

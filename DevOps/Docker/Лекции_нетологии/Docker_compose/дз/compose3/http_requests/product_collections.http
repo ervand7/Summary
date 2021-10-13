@@ -1,0 +1,59 @@
+###
+GET http://127.0.0.1:4000/api/v1/product-collections/
+Accept: application/json
+
+###
+GET http://127.0.0.1:4000/api/v1/product-collections/1/
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/api/v1/product-collections/?id=3
+Accept: application/json
+
+###
+POST http://127.0.0.1:8000/api/v1/product-collections/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+{
+  "header": "Sometimes pretty hair practice",
+  "text": "Sometimes pretty hair practice stock one sign network. Career gas role study month result two hot.",
+  "products": [
+    1, 4
+  ]
+}
+
+###
+PUT localhost:4000/api/v1/product-collections/2/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+{
+  "header": "Sometimes pret",
+  "text": "Sometimes pretty hair pre study month result two hot.",
+  "products": [
+    4,
+    1,
+    5
+  ]
+}
+
+###
+PATCH localhost:4000/api/v1/product-collections/1/
+Content-Type: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+
+{
+  "header": "Sometimes pret",
+  "text": "Sometimes pretty hair pre study month result two hot.",
+  "products": [
+    4,
+    5
+  ]
+}
+
+###
+DELETE http://127.0.0.1:8000/api/v1/product-collections/2/
+Accept: application/json
+Authorization: Token 1b3c83cf642437e9c3c91ce5289edeeeb35f1d5f
+

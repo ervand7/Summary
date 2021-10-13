@@ -1,0 +1,27 @@
+/.idea/
+*.idea
+/.env/
+env/
+venv/
+.venv/
+/__pycache__/
+__pycache__/
+__MACOSX/
+DevIntensive-master/
+/new/
+.geckodriver.log
+.env/
+# IDE specific
+.vscode/
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+*.sqlite3
+
+### Project specific ###
+settings_local.py
+
+### OS specific ###
+.DS_Store

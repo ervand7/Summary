@@ -1,0 +1,44 @@
+Here is the full list of hotkeys in PyCharm for MAC, Windows & Linux:
+https://resources.jetbrains.com/storage/products/intellij-idea/docs/IntelliJIDEA_ReferenceCard.pdf
+https://www.youtube.com/watch?v=lArM1o0SoMw
+Note: symbol '⌃' on mac is 'ctrl'. Don't confuse with symbol '^' located on button '6'
+
+ • command + click       viewing of the documentation
+
+ • command + alt + ⇽     moving on the points, where were your cursor (definite position on string
+where did click). Sometimes me can use as alternative <click + command + alt + B>
+
+ • command + ,           switch to preference panel
+
+ • command + E           the list of files which we work with last time (in chronological order)
+
+ • command + K           clear terminal buffer
+
+ • command + O           go to classes or symbols or files. The same method is <double shift>
+
+ • sel. obj. + alt + fn + f7        show us places in code where used object which we have highlighted
+
+ • command + fn + f12    there opens the structure of current file before us
+
+ • command + Z           canceling of the last act (similarly to graphical editors)
+
+ • command + shift + Z   reverse command for <command + Z>
+
+ • alt + fn + f3         bookmark mnemonic. Further to navigate by this bookmarks use tab 'favourites'
+in the lower left corner
+
+ • <command + F> then <command + R>    change the spelling of the object at once in all places in the file
+
+ • command + shift + F   finding of values at once in all project
+
+ • sel. obj. + ctrl + H               viewing of hierarchy of highlighted class
+
+ • sel. obj. + ctrl + alt + H         hierarchy of calling methods and classes
+
+ • alt + ↑               semantic allocation of code sections
+
+ • fn + f6               move the file to the new directory
+
+ • ctrl + enter          generator start
+
+ • ctrl + alt + O        delete all not used imports and arrange them in PEP8 order

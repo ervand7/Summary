@@ -1,0 +1,43 @@
+version: '3.8'
+
+volumes:
+  pgdata:
+
+networks:
+  private:
+
+services:
+  db:
+    image: postgres:alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    networks:
+      - private
+
+  web:
+    image: artrey/web-chat:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+    networks:
+      - private
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./static:/var/www/django/static:ro
+      - ./media:/var/www/django/media:ro
+    depends_on:
+      - web
+    networks:
+      - private

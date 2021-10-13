@@ -1,0 +1,13 @@
+Установка Tunnelblick на MAC https://www.youtube.com/watch?v=P-WaRNM9PJs
+
+1) download Stable from https://tunnelblick.net/downloads.html
+2) while open DMG select double click on Tunnelblick
+3) click 'i have conf files'
+4) look the icon appearance on top panel of the desktop
+5) go here https://freevpn4you.net/ru/
+6) select Швеция
+7) select TCP
+8) drag the downloaded file onto the icon Tunnelblick on top panel of the desktop
+9) select все пользователи
+10) click Tunnelblickicon and then click соединить
+11) paste login and password which are on the same place where you selected TCP here https://freevpn4you.net/ru/locations/sweden.php

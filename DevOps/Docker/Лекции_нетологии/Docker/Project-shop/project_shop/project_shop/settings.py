@@ -150,7 +150,7 @@ INTERNAL_IPS = [
 #             'filters': ['require_debug_true'],
 #             'class': 'logging.StreamHandler',
 #         },
-#     },
+#     }2,
 #     'loggers': {
 #         'django': {
 #             'handlers': ['console'],

@@ -1,0 +1,2 @@
+https://refactoring.guru/ru/design-patterns/python
+https://proglib.io/p/python-patterns

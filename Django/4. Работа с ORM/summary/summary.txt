@@ -216,6 +216,11 @@ select_related, которая позволяет соединять две мо
 players_query = Player.objects.select_related('team')
 Тогда Django дополнительно приджоинет команды к игрокам с помощью LEFT OUTER JOIN
 ____________________________________________________________________________________
+bulk_create. Можем одним инсертом сразу создать множество команд:
+names = ['Harder', 'Better', 'Faster', 'Stronger']
+teams = [Team(name=name) for name in names]
+Team.objects.bulk_create(teams)
+____________________________________________________________________________________
 Полный список фильтров находится тут:
 https://docs.djangoproject.com/en/2.1/ref/models/querysets/#field-lookups
 

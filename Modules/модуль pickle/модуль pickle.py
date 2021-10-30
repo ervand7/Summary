@@ -1,3 +1,4 @@
+# https://pythonworld.ru/moduli/modul-pickle.html
 import pickle
 
 initial_data = {

@@ -130,3 +130,7 @@ cat /usr/share/nginx/html/index.html
 запускаем контейнер со сбилденным образом
  ● docker ps
 видим, что контейнер запустился
+
+ ● docker stop $(docker ps -a -q)
+ ● docker rm $(docker ps -a -q)
+остановка и удаление всех контейнеров

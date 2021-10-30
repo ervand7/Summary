@@ -9,7 +9,7 @@ ________________________________________________________________________________
 ● brew install mongodb-community@4.4
 ● brew services start mongodb-community@4.4
 ● mongo --version
-● mongo --host lockalhost:27017
+● mongo --host localhost:27017
 ● Этот пункт под вопросом: далее нужно на Macintosh HD создать data/db и дать все права https://www.youtube.com/watch?v=j5tHVw055bs&t=325s
 ● далее скачиваем и устанавливаем MongoDB Compass
 
@@ -28,7 +28,6 @@ ________________________________________________________________________________
 ● mongo -u "user" -p "password" HOSTIP --authenticationDatabase "admin"
 __________________________________________________________________________________________________________
 
-после команды <mongo --host lockalhost:27017> прописываем нашу первую бд itproger
 ● use itproger
 
 создадим коллекцию users

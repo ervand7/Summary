@@ -1,5 +1,9 @@
 https://ru.wikipedia.org/wiki/Категория:Утилиты_Unix
 
+ ● mediainfo 'путь до файла'
+Вы дает подробную информацию о файле. Установка:
+brew install media-info
+
  ● ln - утилита для создания жесткой символьной ссылки
 https://ru.wikipedia.org/wiki/Ln_(Unix)
 

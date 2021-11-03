@@ -1,0 +1,2 @@
+ ● how to execute multiple commands
+https://stackoverflow.com/questions/30063907/using-docker-compose-how-to-execute-multiple-commands

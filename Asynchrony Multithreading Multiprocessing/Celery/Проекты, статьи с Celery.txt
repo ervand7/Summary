@@ -1,0 +1,12 @@
+ ● Проект, конвертирующий картинки: https://github.com/amcquistan/image_parroter
+
+ ● Статья, из которой я взял пример:
+https://blog.miguelgrinberg.com/post/using-celery-with-flask
+и ее код
+https://github.com/miguelgrinberg/flask-celery-example
+
+ ● Статьи от Ахамата Искакова:
+Легаси проект:
+https://realpython.com/asynchronous-tasks-with-django-and-celery/#setup
+Не легаси:
+https://stackabuse.com/asynchronous-tasks-in-django-with-redis-and-celery/

@@ -1,0 +1,5 @@
+https://tproger.ru/problems/what-is-the-difference-between-threads-and-processes/
+
+https://coderoad.ru/200469/В-чем-разница-между-процессом-и-потоком
+
+https://learnc.info/c/processes_and_threads.html

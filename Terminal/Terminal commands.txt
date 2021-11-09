@@ -19,6 +19,7 @@ ________________________________________________________________________________
  ● echo "Moscow is the capital of Russia" >> existing_file.txt          с помощью >> мы можем добавлять инфо в существующий файл
  ● echo "this is a garbage file" | tee garbage1.tmp garbage2.tmp        создаем два файла с одинаковым расширением и содержимым
 
+ ● printenv           вывод всех переменных окружения
  ● chmod              изменить права доступа. Хорошее описание агрументов здесь https://ru.wikipedia.org/wiki/Chmod
  ● pwd                Print Working Directory — показывает текущую директорию
  ● cd 'абс. путь'     поменять директорию (change directory)

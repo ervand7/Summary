@@ -1,0 +1,48 @@
+https://www.youtube.com/watch?v=AvT_MDXRjpY
+
+ ● grep "режим" /Users/dasaagadzanan/Desktop/Summary/UNIX/vim.txt
+по умолчанию grep использует регистрозависимый поиск
+
+ ● grep -i "дале" /Users/dasaagadzanan/Desktop/Summary/UNIX/vim.txt
+так наш поиск стал регистронезависимым, но он ищет не точные вхождения
+
+ ● grep -iw "дале" /Users/dasaagadzanan/Desktop/Summary/UNIX/vim.txt
+с помощью флага "w" ищем точное вхождение
+
+ ● grep -iwn "нужное" /Users/dasaagadzanan/Desktop/Summary/UNIX/vim.txt
+с помощью параметра n получаем номер строки
+
+ ● grep -iwn -A 2 "нужное" /Users/dasaagadzanan/Desktop/Summary/UNIX/vim.txt
+получаем n строк после (-A (after)) нашего вхождения
+
+ ● grep -iwn -B 2 "нужное" /Users/dasaagadzanan/Desktop/Summary/UNIX/vim.txt
+получаем n строк до (-B (before)) нашего вхождения
+
+ ● grep -iwn -C 2 "нужное" /Users/dasaagadzanan/Desktop/Summary/UNIX/vim.txt
+получаем n строк до и после (-C (context)) нашего вхождения
+
+ ● grep -iwn "и" /Users/dasaagadzanan/Desktop/Summary/UNIX/*
+оператор * помогает найти вхождения во всех файлах директории
+
+ ● grep -iwnr "ivan" /Users/dasaagadzanan/Desktop/Summary/*
+флаг "r" дает возможность рекурсивного поиска
+
+ ● grep -iwnr "ivan" /Users/dasaagadzanan/Desktop/Summary/*.txt
+поиск во всех файлах с расширением .txt
+
+ ● grep -iwnrl "ivan" /Users/dasaagadzanan/Desktop/Summary/*
+флаг "l" (List) показывает лишь список файлов, в которых было найдено вхождение
+
+ ● grep -iwnrc "ivan" /Users/dasaagadzanan/Desktop/Summary/*
+с помощью флага "c" перечислит все файлы и кол-во вхождений
+
+ ● pip freeze | grep req
+requests==2.25.1
+
+ ● grep -E "\d{3}-\d{2}-\d{2}" /Users/dasaagadzanan/Desktop/Summary/UNIX/grep.txt
++7 495 739-70-00
+Внимание! На линуксе работает через флаг -P
+
+ ● grep -oE "\d{3}-\d{2}-\d{2}" /Users/dasaagadzanan/Desktop/Summary/UNIX/grep.txt > tel.txt
+с помощью флага "o" мы можем при записи результата в файл записывать только результат полного совпадения.
+Например, после "\d{3}-\d{2}-\d{2}" запишется не +7 495 739-70-00, а 739-70-00

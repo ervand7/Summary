@@ -1,0 +1,14 @@
+File
+ ● экспорт и импорт настроек (Manage IDE Settings)
+ ● преобразование любого файла в HTML (Export)
+ ● отключить режим подсказок (Power Save Mode)
+
+Edit
+ ● История буффера обмена (Paste - Paste from History)
+ ● Можно код python записать и исполнить в одну строку (Join Lines)
+ ● Отсортировать построчно содержимое файла (Sort Lines)
+ ● Emoji & Symbols
+
+Tools
+ ● Start SSH Session
+

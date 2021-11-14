@@ -1,0 +1,58 @@
+ ● uptime
+текущее время + сколько времени включен компъютер
+
+ ● uname
+ ● uname -a
+выведет название ОС
+
+ ● lscpu
+ ● на маке: sysctl -a | grep machdep.cpu
+инфо о процессоре
+
+ ● echo $PATH
+выведет директории, в которых записаны команды
+
+ ● man -k time
+выведет все команды, в названиях которых есть слово "time"
+/<слово> + enter
+аналог command+F для такого режима
+
+ ● info uptime
+ ● whatis uptime
+еще варианты вывода информации
+
+ ● whereis uptime
+ ● locate uptime (не работает)
+показывает, где находится команда uptime
+
+ ● ps
+показывает процессы в текущей сессии терминала
+
+Отличие ctrl+Z от ctrl+C
+ ● ping www.google.com
+ ● ctrl+C
+обрываем ping
+ ● ping www.google.com
+ ● ctrl+Z
+ ● fg
+останавливаем процесс и заного его запускаем
+
+ ● sudo ls -la -R /
+рекурсивный обход всех файлов диска
+
+ ● more file.txt
+аналог "cat". Только для пролистывания нужно нажимать Enter
+
+ ● less file.txt
+аналог "cat". Только здесь мы попадаем в режим viewer, где можем с помощью
+/<слово> + Enter
+искать вхождения
+
+ ● cp *.http /home/sammy
+скопировать все файлы с расширением .http в директорию /home/sammy
+
+ ● rm -R папка
+рекурсивно удалить все содержимое папки
+
+ ● ln -s /usr/src/qwe/rty/asd/qwe/rty/asd /usr/src/
+создание символьной ссылки директории /usr/src/qwe/rty/asd/qwe/rty/asd в /usr/src/

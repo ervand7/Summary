@@ -11,7 +11,7 @@ def do_something(seconds):
 
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
-    seconds = [5, 4, 3, 2, 1]
+    seconds = [5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1]
     results = executor.map(do_something, seconds)
 
     for result in results:
@@ -19,4 +19,4 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
 finish = time.perf_counter()
 
-print(f'Finished in {round(finish - start, 2)} second(s)')
+print(f'Finished in {round(finish - t1, 2)} second(s)')

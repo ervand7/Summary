@@ -56,3 +56,21 @@
 
  ● ln -s /usr/src/qwe/rty/asd/qwe/rty/asd /usr/src/
 создание символьной ссылки директории /usr/src/qwe/rty/asd/qwe/rty/asd в /usr/src/
+
+ ● find / -name "*.txt"
+найти все файлы с расширением .txt
+
+ ● wc /var/log/alternatives.log
+выведет кол-во строк, слов и символов, которые содержатся в файле
+ ● wc -l /var/log/alternatives.log
+выведет только кол-во строк
+ ● wc -w /var/log/alternatives.log
+выведет только кол-во слов
+
+ ● sort -n numbers.txt
+если в файле построчно указаны цифры, то логически правильная сортировка возможна только с флагом -n
+
+ ● cut -d ";" -f 3 file.txt
+выведем только значения 3й колонки файла file.txt, значения в котором разделены сепаратором ";"
+ ● cut -d ";" -f 3 file.txt | sort -n
++ сортируем

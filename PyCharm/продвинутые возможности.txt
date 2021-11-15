@@ -1,3 +1,4 @@
+Верхнее меню:
 File
  ● экспорт и импорт настроек (Manage IDE Settings)
  ● преобразование любого файла в HTML (Export)
@@ -12,3 +13,12 @@ Edit
 Tools
  ● Start SSH Session
 
+Help
+ ● Keymap Preference
+_____________________________________________________________________
+
+Контекстное меню:
+ ● More Run/Debug
+ ● Open in
+ ● Local History
+ ● Run file in python console

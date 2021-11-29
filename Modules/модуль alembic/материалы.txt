@@ -1,0 +1,6 @@
+документация:
+https://alembic.sqlalchemy.org/en/latest/index.html
+
+YouTube:
+https://www.youtube.com/watch?v=KFj3VhMTAdk
+https://www.youtube.com/watch?v=28w7848Sj08

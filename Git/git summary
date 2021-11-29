@@ -464,6 +464,10 @@ $ git pull --rebase
 репозитории, ставить поверх вытянутых изменений
 
 $ git stash
+$ git stash apply
+$ git stash save "подсказка"
+$ git stash list
+$ git stash pop stash@{2}
 https://www.atlassian.com/ru/git/tutorials/saving-changes/git-stash
 
 ```````````````````````````````````````````````

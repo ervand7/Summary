@@ -470,6 +470,9 @@ $ git stash list
 $ git stash pop stash@{2}
 https://www.atlassian.com/ru/git/tutorials/saving-changes/git-stash
 
+$ git rebase
+https://www.atlassian.com/ru/git/tutorials/rewriting-history/git-rebase
+
 ```````````````````````````````````````````````
 issues, pull requests, GitHub Pages - см. презентацию
 

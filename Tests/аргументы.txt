@@ -1,0 +1,6 @@
+ ● -k
+Запуск конкретного теста в терминале:
+https://stackoverflow.com/questions/36456920/is-there-a-way-to-specify-which-pytest-tests-to-run-from-a-file
+
+ ● -s
+правильный поток исполнения (при дебаге)

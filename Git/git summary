@@ -472,6 +472,7 @@ https://www.atlassian.com/ru/git/tutorials/saving-changes/git-stash
 
 $ git rebase
 https://www.atlassian.com/ru/git/tutorials/rewriting-history/git-rebase
+https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 
 ```````````````````````````````````````````````
 issues, pull requests, GitHub Pages - см. презентацию

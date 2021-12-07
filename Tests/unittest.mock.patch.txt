@@ -1,0 +1,5 @@
+ ● видос, где рассказывается про 3 варианта исполнения unittest.mock.patch%
+https://www.youtube.com/watch?v=WFRljVPHrkE
+
+ ● официальная документация:
+https://docs.python.org/3/library/unittest.mock.html

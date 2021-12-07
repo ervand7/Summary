@@ -122,3 +122,14 @@ https://wiki.merionet.ru/servernye-resheniya/36/url-i-uri-v-chem-razlichie/
  ● DSN (Data source name): https://en.wikipedia.org/wiki/Data_source_name
 
  ● брандмауэр: https://www.dmosk.ru/terminus.php?object=firewall
+
+ ●
+listbox
+combobox
+checkbox
+radiobox
+treeview
+tableview
+context menu
+flowpanel
+sidebar

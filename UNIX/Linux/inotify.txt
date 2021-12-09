@@ -1,0 +1,5 @@
+ ● вики:
+https://ru.wikipedia.org/wiki/Inotify
+
+ ● what is inotify:
+https://manage.opsshield.com/plugin/support_manager/knowledgebase/view/7/what-is-inotify-watch-and-how-will-it-affects-server/1/

@@ -1,0 +1,2 @@
+ ● What is AMQP and why is it used in RabbitMQ?
+https://www.cloudamqp.com/blog/what-is-amqp-and-why-is-it-used-in-rabbitmq.html

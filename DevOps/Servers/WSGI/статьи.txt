@@ -1,0 +1,8 @@
+хорошая статья на Хабре:
+https://habr.com/ru/post/426957/
+
+Вики, что такое WSGI:
+https://ru.wikipedia.org/wiki/WSGI
+
+Вики, что такое uWSGI:
+https://ru.wikipedia.org/wiki/UWSGI

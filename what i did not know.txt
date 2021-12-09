@@ -133,3 +133,7 @@ tableview
 context menu
 flowpanel
 sidebar
+
+ ● гипервизор: https://ru.wikipedia.org/wiki/Гипервизор
+
+ ● костыль — код, который нужен, чтобы исправить несовершенство ранее написанного кода.

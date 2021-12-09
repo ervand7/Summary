@@ -1,3 +1,6 @@
+ ● Понятный урок на ютубе
+https://www.youtube.com/watch?v=v2EC9rNxyTk
+
  ● Проект, конвертирующий картинки: https://github.com/amcquistan/image_parroter
 
  ● Статья, из которой я взял пример:

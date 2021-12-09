@@ -1,0 +1,2 @@
+ ● Решение проблемы с отсутствием перезагрузки celery при изменениях в коде
+https://www.distributedpython.com/2019/04/23/celery-reload/

@@ -1,0 +1,5 @@
+ ● этим я не пользовался, но может пригодиться:
+https://habr.com/ru/post/140649/
+
+ ● а вот здесь я использовал watchdog для починки celery:
+https://www.distributedpython.com/2019/04/23/celery-reload/

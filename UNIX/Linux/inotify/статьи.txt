@@ -1,0 +1,2 @@
+вики:
+https://ru.wikipedia.org/wiki/Inotify

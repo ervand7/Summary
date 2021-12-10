@@ -1,4 +1,6 @@
 # https://ru.wikipedia.org/wiki/Отложенная_инициализация
+# Смотри также из моего конспекта:
+# https://github.com/ervand7/Summary/blob/master/Modules/модуль%20functools/cashed_property.py
 
 
 class MyMetaClass(type):

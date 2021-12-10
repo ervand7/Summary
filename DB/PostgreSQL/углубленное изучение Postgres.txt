@@ -23,3 +23,6 @@ https://www.postgresqltutorial.com/postgresql-cast/
 
  ● EXPLAIN
 https://www.postgresql.org/docs/9.1/sql-explain.html
+
+ ● \timing
+после ввода этой команды будет выводиться время выполнения каждого запроса

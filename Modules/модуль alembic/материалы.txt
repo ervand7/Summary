@@ -1,6 +1,10 @@
-документация:
+ ● документация:
 https://alembic.sqlalchemy.org/en/latest/index.html
+Из документации важно отметить самое нужное, раздел Tutorial:
+    https://alembic.sqlalchemy.org/en/latest/tutorial.html
+а также Operation Reference (тут про всякие функции)
+    https://alembic.sqlalchemy.org/en/latest/ops.html
 
-YouTube:
+ ● YouTube:
 https://www.youtube.com/watch?v=KFj3VhMTAdk
 https://www.youtube.com/watch?v=28w7848Sj08

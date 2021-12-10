@@ -474,6 +474,9 @@ $ git rebase
 https://www.atlassian.com/ru/git/tutorials/rewriting-history/git-rebase
 https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 
+$ git cherry-pick
+https://urvanov.ru/2016/09/16/git-cherry-pick-пример/
+
 ```````````````````````````````````````````````
 issues, pull requests, GitHub Pages - см. презентацию
 

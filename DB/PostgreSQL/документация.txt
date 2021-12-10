@@ -1,0 +1,5 @@
+ ● официальная (английская)
+https://www.postgresql.org/docs/current/sql-altertable.html
+
+ ● русская (PostgresPro)
+https://postgrespro.ru/docs/postgresql/9.6/sql-update

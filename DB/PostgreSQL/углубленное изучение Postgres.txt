@@ -20,3 +20,6 @@ where '{"key": "value"}'::jsonb <@ json_поле;
 
  ● приведение к типу
 https://www.postgresqltutorial.com/postgresql-cast/
+
+ ● EXPLAIN
+https://www.postgresql.org/docs/9.1/sql-explain.html

@@ -1,0 +1,25 @@
+Django:
+1) https://docs.djangoproject.com/en/4.0/
+     ● Forms
+    https://docs.djangoproject.com/en/3.2/#forms
+
+     ● QuerySet API reference
+    https://docs.djangoproject.com/en/3.2/ref/models/querysets/
+
+     ● Making queries
+    https://docs.djangoproject.com/en/3.2/topics/db/queries/
+
+     ● Operators that return new QuerySets
+    https://docs.djangoproject.com/en/3.2/ref/models/querysets/#operators-that-return-new-querysets
+
+_______________________________________________________________________________________
+DRF:
+1) https://www.django-rest-framework.org
+     ● Permissions
+    https://www.django-rest-framework.org/api-guide/permissions/
+
+_______________________________________________________________________________________
+django-filter:
+1) https://django-filter.readthedocs.io/en/stable/index.html
+     ● Filters:
+    https://django-filter.readthedocs.io/en/stable/ref/filters.html#filters

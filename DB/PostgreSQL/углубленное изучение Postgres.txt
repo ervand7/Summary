@@ -26,3 +26,6 @@ https://www.postgresql.org/docs/9.1/sql-explain.html
 
  ● \timing
 после ввода этой команды будет выводиться время выполнения каждого запроса
+
+ ● отличие JSON от JSONB
+https://stackoverflow.com/questions/39637370/difference-between-json-and-jsonb-in-postgres

@@ -1,4 +1,4 @@
-длкументация:
+длкументация Celery:
 https://docs.celeryproject.org/en/stable/index.html
 
  ● первые шаги
@@ -9,3 +9,7 @@ https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#routing
 
  ● User Guide
 https://docs.celeryproject.org/en/stable/userguide/index.html#guide
+___________________________________________________________________________
+
+документация интеграции Flask + Celery:
+https://flask.palletsprojects.com/en/2.0.x/patterns/celery/#run-a-worker

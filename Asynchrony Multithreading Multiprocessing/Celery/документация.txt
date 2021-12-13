@@ -7,6 +7,11 @@ https://docs.celeryproject.org/en/stable/getting-started/first-steps-with-celery
  ● чуть более продвинутые шаги
 https://docs.celeryproject.org/en/stable/getting-started/next-steps.html#routing
 
+ ● Periodic Tasks
+https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html
+ ● celery.schedules
+https://docs.celeryproject.org/en/stable/reference/celery.schedules.html#celery.schedules.solar
+
  ● User Guide
 https://docs.celeryproject.org/en/stable/userguide/index.html#guide
 ___________________________________________________________________________

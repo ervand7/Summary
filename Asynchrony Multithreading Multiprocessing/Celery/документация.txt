@@ -12,6 +12,9 @@ https://docs.celeryproject.org/en/stable/userguide/periodic-tasks.html
  ● celery.schedules
 https://docs.celeryproject.org/en/stable/reference/celery.schedules.html#celery.schedules.solar
 
+ ● Calling Tasks
+https://docs.celeryproject.org/en/stable/userguide/calling.html
+
  ● User Guide
 https://docs.celeryproject.org/en/stable/userguide/index.html#guide
 ___________________________________________________________________________

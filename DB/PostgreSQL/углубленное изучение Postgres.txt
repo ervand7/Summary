@@ -33,3 +33,6 @@ drop: https://postgrespro.ru/docs/postgresql/9.6/sql-droptrigger
 
  ● ORM запрос в SQL:
 https://stackoverflow.com/questions/4617291/how-do-i-get-a-raw-compiled-sql-query-from-a-sqlalchemy-expression
+
+ ● селективность:
+https://habr.com/ru/post/36705/

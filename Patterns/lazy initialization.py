@@ -2,6 +2,12 @@
 # Смотри также из моего конспекта:
 # https://github.com/ervand7/Summary/blob/master/Modules/модуль%20functools/cashed_property.py
 
+"""
+Минусы этого паттерна:
+1) обновление кеша и несоответствие кеша тому, что может поменяться на сервере
+2) недетерминированное время выполнения прогнраммы
+"""
+
 
 class MyMetaClass(type):
     @property

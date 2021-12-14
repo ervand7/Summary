@@ -8,9 +8,6 @@ FROM table
 WHERE update_date >= '2013-05-03'::date
 AND update_date < ('2013-05-03'::date + '1 day'::interval);
 
- ● unnest(some_array)
-распаковывает список
-
  ● BEGIN; ROLLBACK;
 https://www.geeksforgeeks.org/postgresql-rollback/
 
@@ -29,3 +26,10 @@ https://www.postgresql.org/docs/9.1/sql-explain.html
 
  ● отличие JSON от JSONB
 https://stackoverflow.com/questions/39637370/difference-between-json-and-jsonb-in-postgres
+
+ ● Triggers:
+create: https://postgrespro.ru/docs/postgresql/9.6/plpgsql-trigger#plpgsql-event-trigger
+drop: https://postgrespro.ru/docs/postgresql/9.6/sql-droptrigger
+
+ ● ORM запрос в SQL:
+https://stackoverflow.com/questions/4617291/how-do-i-get-a-raw-compiled-sql-query-from-a-sqlalchemy-expression

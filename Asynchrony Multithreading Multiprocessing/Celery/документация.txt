@@ -21,3 +21,11 @@ ___________________________________________________________________________
 
 документация интеграции Flask + Celery:
 https://flask.palletsprojects.com/en/2.0.x/patterns/celery/#run-a-worker
+
+___________________________________________________________________________
+То, чего нет в документации:
+ ● параметр priority
+https://stackoverflow.com/questions/43618214/celery-task-priority
+
+ ● параметр bind
+https://docs.celeryproject.org/en/stable/userguide/tasks.html#example

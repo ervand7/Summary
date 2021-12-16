@@ -42,3 +42,6 @@ https://ru.wikipedia.org/wiki/ACID
 
  ● Locks in PostgreSQL:
 https://postgrespro.com/blog/pgsql/5968020
+
+ ● alter column name via migration:
+https://stackoverflow.com/questions/7659957/how-to-write-alter-column-name-migrations-with-sqlalchemy-migrate

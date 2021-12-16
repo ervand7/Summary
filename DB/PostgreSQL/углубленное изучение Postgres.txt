@@ -36,3 +36,9 @@ https://stackoverflow.com/questions/4617291/how-do-i-get-a-raw-compiled-sql-quer
 
  ● селективность:
 https://habr.com/ru/post/36705/
+
+ ● ACID
+https://ru.wikipedia.org/wiki/ACID
+
+ ● Locks in PostgreSQL:
+https://postgrespro.com/blog/pgsql/5968020

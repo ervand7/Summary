@@ -16,9 +16,3 @@ if [ $brand == "samsung" ] || [ $brand == "nokia" ] || [ $brand == "huawei" ] ||
 else
   echo "$brand - это не марка телефона"
 fi
-
-
-
-echo "Введите марку телефона"
-read brand
-if [ $brand == "samsung" ] || [ $brand == "nokia" ] || [ $brand == "huawei" ] || [ $brand == "iphone" ]; then

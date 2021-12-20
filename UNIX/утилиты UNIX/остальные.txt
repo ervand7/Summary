@@ -16,3 +16,6 @@ https://flaviocopes.com/http-curl/#set-a-different-user-agent
 
  ● lsof - (LiSts all Open Files) список открытых файлов и процессов
 https://habr.com/ru/company/ruvds/blog/337934/
+
+ ● sed - парсер текста
+https://losst.ru/komanda-sed-linux

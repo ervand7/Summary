@@ -18,4 +18,7 @@ https://flaviocopes.com/http-curl/#set-a-different-user-agent
 https://habr.com/ru/company/ruvds/blog/337934/
 
  ● sed - парсер текста
+    хорошая статья:
+https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/
+    плохая статья, но в ней есть объяснение многих команд:
 https://losst.ru/komanda-sed-linux

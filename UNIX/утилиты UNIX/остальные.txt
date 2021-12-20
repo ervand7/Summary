@@ -22,3 +22,9 @@ https://habr.com/ru/company/ruvds/blog/337934/
 https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/
     плохая статья, но в ней есть объяснение многих команд:
 https://losst.ru/komanda-sed-linux
+
+ ● chown - сменить владельца файла/папки
+https://losst.ru/komanda-chown-linux
+
+ ● chmod - выдать определенные права
+https://losst.ru/komanda-chmod-linux

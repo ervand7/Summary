@@ -1,0 +1,22 @@
+ ● git diff --no-index a.txt b.txt
+просмотр изменений в двух файлах
+
+ ● source 'file.txt'
+исполняет .txt файл как bash-скрипт
+
+ ● ps
+показывает процессы в текущей сессии терминала
+
+ ● sudo ls -la -R /
+рекурсивный обход всех файлов диска
+
+ ● cp *.http /home/sammy
+скопировать все файлы с расширением .http в директорию /home/sammy
+
+ ● rm -R папка
+рекурсивно удалить все содержимое папки
+
+ ● ln -s /usr/src/qwe/rty/asd/qwe/rty/asd /usr/src/
+создание символьной ссылки директории /usr/src/qwe/rty/asd/qwe/rty/asd в /usr/src/
+
+

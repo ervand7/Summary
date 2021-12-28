@@ -1,0 +1,8 @@
+ ● ping www.google.com
+ ● ctrl+C
+обрываем ping
+
+ ● ping www.google.com
+ ● ctrl+Z
+ ● fg
+останавливаем процесс и заного его запускаем

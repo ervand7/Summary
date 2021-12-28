@@ -1,0 +1,7 @@
+ ● info uptime
+ ● whatis uptime
+еще варианты вывода информации
+
+ ● whereis uptime
+ ● locate uptime (не работает)
+показывает, где находится команда uptime

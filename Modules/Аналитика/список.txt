@@ -1,0 +1,7 @@
+DataDog:
+ ● datadog==0.31.0
+ ● ddtrace==0.30.2
+
+Prometheus:
+ ● prometheus-client==0.10.1
+ ● prometheus-flask-exporter==0.12.1

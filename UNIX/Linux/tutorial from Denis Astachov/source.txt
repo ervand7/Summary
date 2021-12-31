@@ -1,0 +1,2 @@
+ ● source 'file.txt'
+исполняет .txt файл как bash-скрипт

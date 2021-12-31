@@ -1,0 +1,2 @@
+ ● git diff --no-index a.txt b.txt
+просмотр изменений в двух файлах

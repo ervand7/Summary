@@ -1,0 +1,24 @@
+ ● ifconfig
+или
+ ● ip addr show
+показывает полную информацию о сети
+
+ ● route
+выводит инфо об ip адресе нашего внутреннего роутера
+
+ ● ping 8.8.8.8
+или
+ ● ping www.google.com
+пингуем Google
+
+ ● host www.github.com
+узнаем хост гитхаба
+
+ ● dig www.github.com
+аналог команды host, но только более подробный
+
+ ● netstat
+выведет инфо о всех соединениях
+
+ ● sudo ufd allow 22
+открыть 22 порт

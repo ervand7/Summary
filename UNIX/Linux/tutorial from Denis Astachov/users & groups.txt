@@ -25,3 +25,6 @@ G - group
 
  ● sudo deluser example1 Programmers
 удалить пользователя example1 из группы Programmers
+
+ ● sudo chgrp Programmers vasya.txt
+меняем группу у файла vasya.txt на Programmers

@@ -1,0 +1,21 @@
+(sudo):
+ ● apt update
+ ● apt-get install wget
+ ● wget http://adv400.tripod.com/v2.jpg
+скачивание по ссылке
+
+ ● apt-get install chromium-bsu
+устанавливаем программу chromium-bsu
+
+ ● whereis chromium-bsu
+смотрим, куда программа установилась
+
+ ● apt-get remove chromium-bsu
+удаляем программу chromium-bsu
+
+ ● cat /etc/apt/sources.list
+здесь прописаны места, откуда apt-get ищет рупозитории
+
+ ● dpkg -i название_программы.deb
+ ● dpkg -r название_программы (без расширения)
+так мы можем установить/удалить программы из установщика

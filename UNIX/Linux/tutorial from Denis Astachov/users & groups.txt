@@ -1,0 +1,27 @@
+ ● sudo useradd -m example1
+создаем пользователя example1
+
+ ● sudo passwd example1
+задаем пароль новому пользователю
+
+ ● sudo userdel -r example1
+удалим пользователя и все его данные рекурсивно
+
+ ● sudo groupadd Programmers
+создадим группу Programmers
+
+ ● sudo groupdel Programmers
+удалим группу Programmers
+
+ ● sudo usermod -aG Programmers example1
+добавляем пользователя example1 в группу Programmers
+Расшифровываем:
+usermod - user modifications
+a - append
+G - group
+
+ ● sudo usermod -aG sudo example1
+добавляем пользователя example1 в группу sudo
+
+ ● sudo deluser example1 Programmers
+удалить пользователя example1 из группы Programmers

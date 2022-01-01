@@ -1,0 +1,8 @@
+{% extends 'ex_main.html' %}
+{% block title %}О сайте{% endblock title %}
+
+{% block content %}
+{% block table_contents %}{{ super() }}{% endblock table_contents %}
+<h1>{{ self.title() }}</h1>
+<p>Классный сайт, если его доделать.</p>
+{% endblock content %}

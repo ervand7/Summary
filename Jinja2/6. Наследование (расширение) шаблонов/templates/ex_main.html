@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+{% block content %}
+    {% block table_contents %}
+    <ul>
+    {% for i in list_table -%}
+<!--  scoped обязателен, чтобы {{ i }} был виден в области видимости block item -->
+    <li>{% block item scoped %}{{ i }}{% endblock item %}</li>
+    {% endfor -%}
+    </ul>
+    {% endblock table_contents %}
+{% endblock content %}
+
+</body>
+</html>

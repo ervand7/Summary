@@ -1,9 +1,0 @@
- ● pipdeptree
-https://github.com/naiquevin/pipdeptree
-показывает структуру прямых и транзтитвных зависимостей
-
- ● python3 -m pip freeze --requirement  requirements.txt
-после
-## The following requirements were added by pip freeze
-показывает транзитивные зависимости, которые отсутствуют в requirements.txt,
-но присутствуют в venv

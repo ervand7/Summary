@@ -48,3 +48,6 @@ https://stackoverflow.com/questions/7659957/how-to-write-alter-column-name-migra
 
  ● 8 интересных возможностей PostgreSQL, о которых вы, возможно, не знали:
 https://habr.com/ru/company/otus/blog/523322/
+
+ ● виды сканирования в Postgres:
+https://severalnines.com/database-blog/overview-various-scan-methods-postgresql

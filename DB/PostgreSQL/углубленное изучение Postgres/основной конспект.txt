@@ -23,6 +23,8 @@ https://www.postgresql.org/docs/9.1/sql-explain.html
 
  ● \timing
 после ввода этой команды будет выводиться время выполнения каждого запроса
+ ● запрос; \watch 1 (затем q нужно нажать)
+функция \watch по кругу гоняет команду 1 раз в секунду
 
  ● отличие JSON от JSONB
 https://stackoverflow.com/questions/39637370/difference-between-json-and-jsonb-in-postgres
@@ -33,9 +35,6 @@ drop: https://postgrespro.ru/docs/postgresql/9.6/sql-droptrigger
 
  ● ORM запрос в SQL:
 https://stackoverflow.com/questions/4617291/how-do-i-get-a-raw-compiled-sql-query-from-a-sqlalchemy-expression
-
- ● селективность:
-https://habr.com/ru/post/36705/
 
  ● ACID
 https://ru.wikipedia.org/wiki/ACID

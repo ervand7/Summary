@@ -1,5 +1,0 @@
-Операторы
-https://postgrespro.ru/docs/postgresql/9.5/functions
-
-Видеокурс по языку SQL
-https://www.youtube.com/playlist?list=PLaFqU3KCWw6J1NEI8hjYlvGnD4Y7Sxx4r

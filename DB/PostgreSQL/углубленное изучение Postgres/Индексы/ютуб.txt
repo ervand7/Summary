@@ -1,0 +1,8 @@
+ ● что такое индексы в БД
+https://www.youtube.com/watch?v=C34HS5wU8Zg
+
+ ● как работает индексация в БД
+https://www.youtube.com/watch?v=ZuUnlJFWPkA
+
+ ● когда стоит создавать индекс?
+https://www.youtube.com/watch?v=BY-vMrMgWe0

@@ -1,12 +1,21 @@
 #! /bin/bash
 
-# цикл for
+# Варианты написания цикла for
 for item in Первый Второй Третий; do
   echo "$item элемент"
 done
 
 for n in 1 2 3; do
   echo $n
+done
+
+for i in {89..98}; do
+  echo $i
+done
+
+# что-то не работает
+for s in {0..20..2}; do
+  echo $s
 done
 
 : '

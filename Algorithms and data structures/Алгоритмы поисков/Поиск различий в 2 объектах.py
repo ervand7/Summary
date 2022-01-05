@@ -1,7 +1,7 @@
 from typing import Any
 
 
-def diff_obj(first: Any, second: Any):
+def diff(first: Any, second: Any):
     if first == second:
         return None
     if isinstance(first, float) and isinstance(second, float) and math.isclose(first, second):
@@ -15,7 +15,7 @@ def diff_obj(first: Any, second: Any):
         keys = set(first.keys()).union(second.keys())
         result = dict()
         for key in keys:
-            diff = diff_obj(first.get(key), second.get(key))
+            diff = diff(first.get(key), second.get(key))
             if diff:
                 result[key] = diff
         return result if result else None
@@ -24,7 +24,7 @@ def diff_obj(first: Any, second: Any):
         result = list()
         first, second = set(first), set(second)
         for value in first.union(second):
-            diff = diff_obj(
+            diff = diff(
                 value if value in first else None,
                 value if value in second else None
             )

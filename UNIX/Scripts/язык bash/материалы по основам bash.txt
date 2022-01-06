@@ -1,2 +1,0 @@
- ● отличный справочник по синтаксису:
-https://ru.wikipedia.org/wiki/Bash

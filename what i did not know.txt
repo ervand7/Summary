@@ -139,3 +139,9 @@ sidebar
  ● костыль — код, который нужен, чтобы исправить несовершенство ранее написанного кода.
 
  ● changelog: https://ru.wikipedia.org/wiki/Журнализация_изменений_проекта
+
+ ● foo bar: https://tproger.ru/articles/foo-bar-history/
+
+ ● шебанг: https://ru.wikipedia.org/wiki/Шебанг_(Unix)
+
+ ● POSIX: https://ru.wikipedia.org/wiki/POSIX

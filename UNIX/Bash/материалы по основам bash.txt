@@ -1,0 +1,8 @@
+ ● туториал 1:
+https://www.youtube.com/playlist?list=PLk6X0QSnWKVZ7AJkoEN5JSWphjslKbh9G
+
+ ● туториал 2:
+https://www.youtube.com/watch?v=e7BufAVwDiM
+
+ ● отличный справочник по синтаксису:
+https://ru.wikipedia.org/wiki/Bash

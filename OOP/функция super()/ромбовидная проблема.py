@@ -36,10 +36,6 @@ asap_sebbie = ASAPSebbie()
 # ______________________________________________________________________________________________________
 # Правильный вариант реализации с применением super
 
-class Bob:
-    def __init__(self):
-        print('Bob')
-
 
 class Kate(Portishead):
     def __init__(self):
@@ -59,6 +55,7 @@ class Jane(Kate, Bill):
         super(Jane, self).__init__()
 
 
+print()
 jane = Jane()
 # Jane
 # Kate

@@ -1,5 +1,7 @@
 class Descriptor:
-    def __init__(self, name):
+    """Создаем дескриптор согласно API документации."""
+    def __set_name__(self, owner, name):
+        print(name)
         self.__name = name
 
     def __get__(self, instance, owner):
@@ -13,9 +15,8 @@ class Descriptor:
 
 
 class Point:
-    # coord_x и coord_y - это и есть дескрипторы
-    coord_x = Descriptor('coord_x')
-    coord_y = Descriptor('coord_y')
+    coord_x = Descriptor()
+    coord_y = Descriptor()
 
     def __init__(self, x=0, y=0):
         self.coord_x = x

@@ -5,3 +5,6 @@ DataDog:
 Prometheus:
  ● prometheus-client==0.10.1
  ● prometheus-flask-exporter==0.12.1
+
+Sentry:
+ ● raven==6.10.0

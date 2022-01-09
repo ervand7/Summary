@@ -28,3 +28,10 @@ G - group
 
  ● sudo chgrp Programmers vasya.txt
 меняем группу у файла vasya.txt на Programmers
+
+___________________________________________________________
+Есть также альтернативные команды:
+ ● addgroup
+https://www.geeksforgeeks.org/addgroup-command-in-linux-with-examples/
+ ● adduser
+https://www.geeksforgeeks.org/adduser-command-in-linux-with-examples/

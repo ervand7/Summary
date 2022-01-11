@@ -1,0 +1,78 @@
+/*Селекторы. Прописываем названия тегов, к которым
+мы хотим применить стиль*/
+html, body {
+    /*margin задает отступы между элементами html-страницы*/
+    margin: 0;
+    /*padding - расстояние между содержимым блока и его границами*/
+    padding: 0;
+    /*font-family определяет шрифт текста. Если браузер не найдет
+    шрифт, Arial то применит Tahoma*/
+    font-family: Arial, Tahoma;
+    /* задает цвет шрифта*/
+    color: #2a1d1d;
+}
+
+h1 {
+    /*размер шрифта в пикселях*/
+    font-size: 20px;
+    /*отступы (сверху, справа, снизу, слева)*/
+    margin: 0 0 20px 0;
+    /*нижний отступ между текстом заголовка и границей блока заголовка*/
+    padding-bottom: 10px;
+    /*нижняя граница (толщина, тип линии(сплошная), цвет)*/
+    border-bottom: 1px solid #ccc;
+}
+
+/* прописываем через решетку, так как здесь мы обращаемся
+к конкретному айдишнику определенного тега (см. строку 11 "форма регистрации.html")*/
+#reg_form {
+    /*ширина тега*/
+    width: 350px;
+    /**/
+    margin: 20px auto 0 auto;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 5px 5px 10px #aaa;
+
+}
+
+/*обращаемся к классу reg_list. То есть, этот стиль будет применен ко всем
+элементам, у которых есть класс reg_list*/
+.reg_list {
+    width:  170px;
+    font-size: 14px;
+    background: #f2e489;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/*данная запись говорит о том, что возьмется каждый элемент, у которого
+class="reg_list", и для каждого тега option внутри, будет применено следующее:*/
+. reg_list option {
+    margin: 10px 0 10px 0;
+}
+
+input.reg_input {
+    width: 130px;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    font-size: 16px;
+}
+
+/*focus говорит о том, что стиль будет применяться только тогда,
+когда элемент будет в фокусе*/
+input.reg_input:focus {
+    border-bottom: 2px solid #fedc62;
+}
+
+.reg_agree {
+    font-size: 12px;
+}
+
+textarea {
+    font-size: 16px;
+    color: #0000CC;
+    max-width: 330px;
+    max-height: 100px;
+}

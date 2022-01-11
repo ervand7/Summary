@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Форма регистрации</title>
+<!-- таким образом подключаем css -->
+  <link type="text/css" href="style.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="reg_form">
+  <h1>Форма регистрации</h1>
+
+  <form action="register.php" method="post">
+    <input type="hidden" name="id" value="123456">
+    <table border="0">
+      <tr><td>Имя: </td><td><input class="reg_input" type="text" name="fio" value=""></td></tr>
+      <tr><td>Пол: </td><td><input type="radio" name="sex" value="1" checked> М <input type="radio" name="sex" value="2"> Ж</td></tr>
+      <tr><td>Город: </td><td>
+        <!-- прописываем название класса, чтобы потом задать единый
+         стиль у всех элементов, у которых будет иметься этот класс-->
+        <select class="reg_list" name="city">
+          <option value="1">Москва</option>
+          <option value="2">Питер</option>
+          <option value="3">Казань</option>
+          <option value="4">Уфа</option>
+          <option value="5">Самара</option>
+          <option value="6">Томск</option>
+        </select>
+      </td></tr>
+      <tr><td>Пароль: </td><td><input class="reg_input" type="password" name="pass" value=""></td></tr>
+      <tr><td colspan="2">
+        <p><textarea name="descr" cols="40" rows="10">Напишите что-нибудь о себе</textarea></p>
+        <p><input type="checkbox" name="agree"> <span class="reg_agree">Регистрируясь, вы принимаете
+      пользовательское предложение</span></p>
+      </td></tr>
+      <tr><td><input type="submit" value="Зарегистрироваться" style="float: left"></td><td><input type="reset" value="Очистить форму" style="float: right"></td></tr>
+    </table>
+  </form>
+</div>
+</body>
+</html>

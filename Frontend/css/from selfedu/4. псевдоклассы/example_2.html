@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Обратная связь</title>
+    <style>
+        /*если щелкнуть на этот div, то он станет серым*/
+        div:active {
+            background: gray
+        }
+
+        /*при наведении мыши на эдемент с тегом li, который строго вложен в ul,
+        у этого элемента будет желтый цвет*/
+        ul > li:hover {
+            background: yellow
+        }
+
+    </style>
+</head>
+<body>
+<h1>Обратная связь</h1>
+
+<div>
+    <ul class="maim_menu">
+        <li class="menu_item">Моя страница</li>
+        <!-- применяем расширение -->
+        <li class="menu_item selected">Новости</li>
+        <li class="menu_item">Собщения</li>
+        <li class="menu_item">Друзья</li>
+        <li class="menu_item">Группы</li>
+        <li class="menu_item">Фото</li>
+
+    </ul>
+</div>
+
+</body>
+</html>

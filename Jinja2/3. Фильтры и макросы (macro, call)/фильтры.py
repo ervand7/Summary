@@ -14,11 +14,11 @@ cars = [
 tpl = "Суммарная цена автомобилей {{ cs | sum(attribute='price') }}"
 tm = Template(tpl)
 msg = tm.render(cs=cars)
-print(msg)
+print(msg)  # Суммарная цена автомобилей 105900
 
 # вариант со списком чисел:
 digs = [1, 2, 3, 4, 5]
 tpl = "Суммарная цена автомобилей {{ cs | sum }}"
 tm = Template(tpl)
 msg = tm.render(cs=digs)
-print(msg)
+print(msg)  # Суммарная цена автомобилей 15

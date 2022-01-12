@@ -13,5 +13,8 @@ html = '''
 tm = Template(html)
 msg = tm.render()
 print(msg)
+# <p><input name="username", value="", type="text", size="20">
+# <p><input name="email", value="", type="text", size="20">
+# <p><input name="password", value="", type="text", size="20">
 
 

@@ -1,0 +1,78 @@
+/*Вначале у всех тегов убираем все отступы*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/*тегам html и body назначаем высоту 100% от высоты экрана браузера*/
+html, body {
+    height: 100%;
+    background: #fff url("img_2.jpg") no-repeat 50% 0 fixed;
+}
+
+.wrapper {
+    height: 100%;
+    /*ширина не будет больше заданной максимальной*/
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.page {
+    min-height: 100%;
+    /*внизу страницы будет отступ 90px*/
+    padding-bottom: 90px;
+    /*указываем браузеру вычислять высоту блока с учетом всех отступов*/
+    box-sizing: border-box;
+}
+
+.header {
+    max-width: 1100px;
+    height: 300px;
+    /*картинка не будет повторяться друг за другом и будет расположена по центру
+    #fff - это цвет фона до тох пор, пока не загрузится картинка*/
+    background: #fff url("rec_img.jpg") no-repeat center;
+}
+
+.header_text {
+    padding-top: 60px;
+    padding-left: 100px;
+    width: 400px;
+    font-family: Monotype Corsiva, Tahoma, Arial;
+    font-size: 38px;
+}
+
+.footer {
+    height: 90px;
+    /*сдвигаем блок вверх на 90 пиеселей*/
+    margin-top: -90px;
+    box-sizing: border-box;
+
+    background: rgba(204, 204, 204, 0.43);
+    border-radius: 0 0 20px 20px;
+    padding: 5px;
+    color: #777;
+    font-size: 11px;
+    font-family: Verdana, Geneva, Arial, Halvetica, Sans-Serif;
+    /*выравнивание текста будет идти по центру*/
+    text-align: center;
+}
+
+.overflow {
+    /*с auto у нас появится скролл*/
+    overflow: auto;
+    /*полоса прокрутки будет только по вертикали*/
+    overflow-x: hidden;
+    width: 300px;
+    height: 200px;
+    border: 1px solid #aaa;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+ul.list_ingr {
+    padding: 0 10px;
+    list-style: none;
+    font-size: 18px;
+}
+ul.list_ingr li {
+    margin: 5px 0;
+}

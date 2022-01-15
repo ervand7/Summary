@@ -145,3 +145,5 @@ sidebar
  ● шебанг: https://ru.wikipedia.org/wiki/Шебанг_(Unix)
 
  ● POSIX: https://ru.wikipedia.org/wiki/POSIX
+
+ ● AJAX: https://ru.wikipedia.org/wiki/AJAX

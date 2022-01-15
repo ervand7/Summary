@@ -1,0 +1,1 @@
+https://flask-admin.readthedocs.io/en/v1.0.9/templates/

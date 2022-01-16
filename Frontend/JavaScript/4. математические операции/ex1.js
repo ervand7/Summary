@@ -7,6 +7,7 @@
 let x = 2.8, y = 7.3;
 console.log(x - y);  // -4.5
 
+// унарный оператор <->
 let q = true, w = null, e = undefined;
 console.log(-q);  // -1
 console.log(-w);  // -0
@@ -42,3 +43,36 @@ let a, b, c = 10, d = 10;
 a = c++;
 b = ++d;
 console.log(a, b, c, d)  // 10 11 11 11
+
+// ================== СРАВНЕНИЕ ==================
+console.log(2 > 1);  // true
+console.log(2 == 1);  // false
+console.log(2 != 1);  // true
+
+let result = 7 > 5;  // result = true
+console.log(result);  // true
+
+console.log('Я' > 'А');  // true
+console.log('Кот' > 'Код');  // true
+console.log('Сонный' > 'Сон');  // true
+
+// особенности
+console.log(true == 1);  // true
+console.log(false == 0);  // true
+console.log(null == undefined);  // true
+console.log(null >= undefined);  // false
+console.log(null <= undefined);  // false
+console.log(null > 0);  // false
+console.log(null == 0);  // false
+console.log(null >= 0);  // true
+
+/*
+строгое сравнение с учетом типов данных производится
+через === и !==
+*/
+console.log(true === 1);  // false
+console.log(false === 0);  // false
+console.log("5" === 5);  // false
+console.log(null === undefined);  // false
+console.log("5" !== 5);  // true
+console.log(null !== undefined);  // true

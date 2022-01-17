@@ -1,4 +1,8 @@
 "use strict";
+/*
+Примеры из этого файла продемонстрированны на языке Python
+в модуле ec1.py
+ */
 
 // while. Пример 1
 let s = 0, i = 1;
@@ -13,7 +17,7 @@ console.log(s);  // 6.004366708345567
 Вся сумма вычисляется при задаче условия
  */
 let summa = 0, item = 1;
-while ((summa += item++) < 100);
+while ((summa += item++) < 100) ;
 console.log(summa);  // 105
 
 
@@ -68,4 +72,66 @@ for (let x = 0; x <= 1; x += 0.1) {
 2.4
 2.45
 2.5
+ */
+
+
+/*
+do while. Отличается от циклов for и while тем, что сначала выполняет
+тело цикла, а только потом проверяет условие цикла
+ */
+const PSW = "password";
+let psw = null;
+// сначала выполняем тело цикла. Пользователь вводит пароль
+do {
+    psw = prompt("Введите пароль", "");
+}
+// и если пароль неверный, запускаем цикл сначала
+while (psw != PSW);
+console.log("Вы вошли в систему!")
+
+
+// вложенные циклы:
+
+let counter = 0, some = 10, some2 = 5;
+for (let i = 1; i <= some2; ++i)
+    for (let j = 1; j <= some; ++j)
+        counter += i * j
+console.log("counter = " + counter)  // 825
+
+
+// оператор break
+// 1) чтобы прервать внутренний цикл:
+let _counter = 0, _some = 10, _some2 = 5;
+for (let i=1; i <= _some2; ++i)
+    for (let j = 1; j <= _some; ++j) {
+        if (j == 5) break
+        _counter += i * j
+    }
+console.log("counter = " + _counter)  // 150
+// 2) чтобы прервать внешний цикл:
+let _counter_ = 0, _some_ = 10, _some2_ = 5;
+myVariable: for (let i=1; i <= _some2_; ++i)
+    for (let j = 1; j <= _some_; ++j) {
+        if (j == 5) break myVariable;
+        _counter_ += i * j
+    }
+console.log("counter = " + _counter_)  // 10
+
+
+// оператор continue
+for (let i = -5; i <= 5; ++i) {
+    if (i == 0) continue;
+    console.log("i = " + i)
+}
+/*
+i = -5
+i = -4
+i = -3
+i = -2
+i = -1
+i = 1
+i = 2
+i = 3
+i = 4
+i = 5
  */

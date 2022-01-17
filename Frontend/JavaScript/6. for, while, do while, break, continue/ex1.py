@@ -11,7 +11,6 @@ while s < 100:
     i += 1
 print(s)  # 105
 
-
 # // for. Пример 1
 my_sum = 0
 for i in range(1, 1000 + 1):
@@ -47,3 +46,11 @@ for i in lst_of_floats():
 # 2.4
 # 2.45
 # 2.5
+
+
+# /* вложенные циклы:
+counter = 0
+for i in range(5 + 1):
+    for j in range(10 + 1):
+        counter += i * j
+print(counter)

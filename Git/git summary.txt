@@ -492,6 +492,18 @@ https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 $ git cherry-pick
 https://urvanov.ru/2016/09/16/git-cherry-pick-пример/
 
+$ git apply
+применяется в несколько шагов ( https://pingvinus.ru/git/1588 ):
+ ● git diff d03c54..c700feb > my-patch.patch
+создаем патч
+ ● git apply --stat my-patch.patch
+перед патчем проверяем статистику изменений
+ ● git apply --check my-patch.patch
+если ничего не выдаст, значит патч будет успешным
+ ● git apply my-patch.patch
+реализуем сам патч
+
+
 ```````````````````````````````````````````````
 issues, pull requests, GitHub Pages - см. презентацию
 

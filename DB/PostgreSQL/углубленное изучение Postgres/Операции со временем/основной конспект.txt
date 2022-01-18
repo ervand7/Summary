@@ -1,0 +1,15 @@
+ ● Сравнение времени:
+https://stackoverflow.com/questions/19469154/how-to-compare-dates-in-datetime-fields-in-postgresql
+SELECT *
+FROM table
+WHERE update_date >= '2013-05-03'::date
+AND update_date < ('2013-05-03'::date + '1 day'::interval)
+;
+
+ ● группировка по времени
+https://stackoverflow.com/questions/17492167/group-query-results-by-month-and-year-in-postgresql
+SELECT date_trunc('year', column_name) AS years, COUNT(column_name) AS amount
+FROM table_name
+WHERE another_column = 'something'
+GROUP BY years
+;

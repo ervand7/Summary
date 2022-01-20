@@ -43,3 +43,22 @@ function abs2(x) {
 
 let res2 = abs2(-5);
 console.log(res2);  // 5
+
+
+// ========== пример вызова функции внутри другой функции ==========
+function showPrimes(n) {
+    for (let i = 2; i < n; i++) {
+        if (!isPrime(i)) continue;
+        console.log(i);
+    }
+}
+
+
+function isPrime(n) {
+    for (let i = 2; i < n; i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+showPrimes(200)

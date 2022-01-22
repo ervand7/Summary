@@ -27,6 +27,7 @@ ar.splice(-3, 3, 'последние', 'три', 'элемента')
 console.log(ar)  // ["Я", "интересный", "последние", "три", "элемента"]
 
 
+
 // ========== slice ==========
 let my_array = ['Я', 'смотрю', 'этот', 'обучающий', 'урок']
 // возьмется элемен с индексом 2 и 3
@@ -41,10 +42,12 @@ let copyArr = my_array.slice()
 console.log(copyArr)  // ["Я", "смотрю", "этот", "обучающий", "урок"]
 
 
+
 // ========== concat ==========
 let my_ar = [1, 2]
 let new_ar = my_ar.concat([3, 4])
 console.log(new_ar)  // [1, 2, 3, 4]
+
 
 
 // ========== forEach ==========
@@ -74,6 +77,8 @@ digs.forEach((i, index) => {
 6 с индексом 5
  */
 
+
+
 // ========== indexOf, lastIndexOf, includes ==========
 let a = ['Я', 'смотрю', 'этот', 'обучающий', 'урок', 0, false, null]
 // найдем индекс элемента 'смотрю', начиная с 0 индекса
@@ -85,6 +90,7 @@ console.log(res2)  // -1 (не найдено)
 // проверим, есть элемент 0, начиная с 3 индекса
 let res3 = a.includes(0, 3)
 console.log(res3)  // true
+
 
 
 // ========== find, findIndex ==========
@@ -102,10 +108,13 @@ console.log(rez)  // {model: 'opel', price: 800}
 let indexRez = cars.findIndex(i => i.price < 1000)
 console.log(indexRez)  // 1
 
+
+
 // ========== filter ==========
 // делает то же самое, что и find, но только ищет не первое, а все подходящие элементы
 let filterRez = cars.filter(i => i.price <= 1000)
 console.log(filterRez)  // [{model: "toyota", price: 1000}, {model: "opel", price: 800}]
+
 
 
 // ========== map ==========
@@ -114,6 +123,7 @@ let result = myCars.map(function (i) {
     return i.length
 })
 console.log(result)  // [6, 4, 4]
+
 
 
 // ========== sort ==========
@@ -136,10 +146,12 @@ myDigs.sort( (a, b) => a-b)
 console.log(myDigs)  // [2, 4, 25]
 
 
+
 // ========== reverse ==========
 let someDigs = [1, 4, 2, 7, 5, 9]
 someDigs.reverse()
 console.log(someDigs)  // [9, 5, 7, 2, 4, 1]
+
 
 
 // ========== split/join ==========
@@ -157,7 +169,24 @@ let strEmails = arEmails.join(', ')
 console.log(strEmails)  // 'alex12@m.ru, hello@m.ru, world@m.ru'
 
 
+
 // ========== reduce/reduceRight ==========
-let my_digs = [1, 4, 2, 7, 5, 9]
+let my_digs = [1, -2, 100, 3, 9, 54]
+// подсчитаем сумму всех элементов
 let mySum = my_digs.reduce((sum, current) => sum + current, 0)  // 0 - это начальное значение суммы
-console.log(mySum)  // 28
+console.log(mySum)  // 165
+
+// подсчитаем произведение всех элементов
+let pr = my_digs.reduce((pr, current) => pr * current, 1)
+console.log(pr)  // -291600
+
+// reduceRight аналогичен reduce, только проходит по массиву справа налево
+
+
+
+// ========== Array.isArray ==========
+console.log(typeof {})  // object
+console.log(typeof [])  // object
+
+console.log(Array.isArray({}))  // false
+console.log(Array.isArray([]))  // true

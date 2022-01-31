@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<p>Абзац
+<ul>
+    <li><b>Элемент списка</b></li>
+</ul>
+
+<script>
+/*
+Отличие между children и childNodes в том, что children
+игнорирует текстовые элементы
+ */
+for (let child of document.body.children) {
+    console.log(child)
+}
+</script>
+</body>
+</html>

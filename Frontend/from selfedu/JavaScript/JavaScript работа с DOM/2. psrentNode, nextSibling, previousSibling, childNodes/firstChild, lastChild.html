@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<p>Абзац
+<ul>
+    <li><b>Элемент списка</b></li>
+</ul>
+<script>
+//вариант 1
+let html = document.documentElement
+let first = html.firstChild
+let last = html.lastChild
+console.log(first)  // head
+console.log(last)   // body
+
+//вариант 2. Через childNodes
+let a = html.childNodes[0]
+let b = html.childNodes[html.childNodes.length - 1]
+console.log(a)  // head
+console.log(b)  // body
+</script>
+</body>
+</html>

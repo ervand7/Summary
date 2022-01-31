@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<p>Абзац
+<ul>
+    <li><b>Элемент списка</b></li>
+</ul>
+<script>
+/*
+<!-- childNodes - псевдомассив. Используется для того,
+чтобы перебрать дочерние узлы элемента. Элементы childNodes являются readonly.
+*/
+for (let i = 0; i < document.body.childNodes.length; i++) {
+    console.log(document.body.childNodes[i])
+}
+// 2й вариант, через for of:
+for (let child of document.body.childNodes) {
+    console.log(child)
+}
+// 3й вариант, преобразуем childNodes к массиву и работаем через forEach:
+let arr = Array.from(document.body.childNodes)
+arr.forEach((elem) => console.log(elem))
+</script>
+</body>
+</html>

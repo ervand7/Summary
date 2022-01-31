@@ -9,15 +9,10 @@
 <ul>
     <li><b>Элемент списка</b></li>
 </ul>
-<!--
-желательно, чтобы скрипт был размещен вконце body, чтобы все
-элемены были уже прогружены
--->
 <script>
+    // hasChildNodes - имеются ли дочерние элементы
 let html = document.documentElement
-let body = document.body
-let head = document.head
-console.log(html, body, head)
+console.log(html.hasChildNodes())  // true
 </script>
 </body>
 </html>

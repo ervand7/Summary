@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<div id="div_id">
+    <p>текст внутри блока div</p>
+</div>
+<ul>
+<li>Солнце
+<li>Меркурий
+<li>Венера
+<li>Земля
+<li>Марс
+</ul>
+<p>Звезды:
+<ol>
+<li>Один
+<li>Два
+<li>Три
+<li>Четыре
+</ol>
+<script>
+// выбираем все теги li только у маркированного списка
+let list = document.querySelectorAll('ul > li')
+for (let val of list)
+    console.log(val)
+/*
+<li>Солнце
+</li>
+<li>Меркурий
+</li>
+<li>Венера
+</li>
+<li>Земля
+</li>
+<li>Марс
+</li>
+ */
+
+// также можно использовать и псевдоклассы
+let lst = document.querySelectorAll('ul > li:first-child')
+console.log(lst)  // [<li>]
+</script>
+</body>
+</html>

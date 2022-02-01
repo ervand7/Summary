@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<div id="div_id">
+    <p>текст внутри блока div</p>
+</div>
+<ul>
+<li>Солнце
+<li>Меркурий
+<li>Венера
+<li>Земля
+<li>Марс
+</ul>
+<p>Звезды:
+<ol>
+<li>Один
+<li>Два
+<li>Три
+<li>Четыре
+</ol>
+<script>
+/*
+querySelector отличается от querySelector тем, что
+возвращает ссылку только на первый элемент
+ */
+let list = document.querySelector('ol > li')
+console.log(list)  // <li>Один</>li>
+</script>
+</body>
+</html>

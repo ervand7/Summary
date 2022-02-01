@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<h1>О звездах</h1>
+<div class="content-table">
+    <ul class="star-list">
+        <li class="star">О первом</li>
+        <li class="star">О втором</li>
+        <li class="contact">Обратная связь</li>
+    </ul>
+</div>
+<script>
+/*
+Метод contains возвращает true если элемент B является
+дочерним по отношению к элементу A: elemA.contains(elemB)
+ */
+
+let div = document.querySelector('div.content-table')
+let ul = document.querySelector('ul.star-list')
+if (div.contains(ul))
+    console.log('ul внутри div')  // ul внутри div
+</script>
+</body>
+</html>

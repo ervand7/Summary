@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<h1>О звездах</h1>
+<div class="content-table">
+    <ul class="star-list">
+        <li class="star">О первом</li>
+        <li class="star">О втором</li>
+        <li class="contact">Обратная связь</li>
+    </ul>
+</div>
+<script>
+/*
+Метод closest ищет ближайшего предка, который соответствует селектору.
+Сам элемент тоже включается в поиск.
+ */
+
+let li = document.querySelector('li.star')
+console.log(li.closest('.star-list'))      // <ul class="star-list">…</ul>
+console.log(li.closest('.content-table'))  // <div class="content-table">…</div>
+console.log(li.closest('h1'))              // null
+
+</script>
+</body>
+</html>

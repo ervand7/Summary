@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+
+<body><!-- комментарий --><h1>Заголовок страницы</h1>
+<div id="comm">Сообщения от пользователей</div>
+<script>
+    let comm = document.getElementById('comm')
+    comm.hidden = true
+    setInterval(() => comm.hidden = !comm.hidden, 500)
+</script>
+</body>
+</html>

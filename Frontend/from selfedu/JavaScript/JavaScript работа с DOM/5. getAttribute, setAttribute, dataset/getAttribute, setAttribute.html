@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<!-- следует иметь ввиду, что все значения нестандартных
+атрибутов будут являться строками.-->
+<div id="comm" castom_attr="кастомный_атрибут"></div>
+<script>
+    let div = document.getElementById('comm')
+    console.log(div.getAttribute('castom_attr'))  // кастомный_атрибут
+    div.setAttribute('castom_attr', 'новое значение')
+    console.log(div.getAttribute('castom_attr'))  // новое значение
+
+    for (let val of div.attributes)
+        console.log(val)
+    /*
+    id="comm"
+    castom_attr="новое значение"
+     */
+</script>
+</body>
+</html>

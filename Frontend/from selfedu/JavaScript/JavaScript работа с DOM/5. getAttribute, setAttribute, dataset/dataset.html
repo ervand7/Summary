@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<!--
+В JS есть договоренность, что все атрибуты, названия которых начинаются
+с data - будут восприниматься как кастомные.
+-->
+<div id="comm" castom_attr="data-my-custom"></div>
+<script>
+
+    let div = document.getElementById('comm')
+    /*
+    далее кастомному аргументу можно задать новое значение через
+    dataset, обратившись через преобразование
+    data-my-custom = myCystom
+     */
+    div.dataset.myCystom = 'qwe'
+
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Уроки по JavaScript</title>
+</head>
+<body>
+<ul>
+    <li>один
+    <li>два
+    <li>три
+    <li>четыре
+    <li>пять
+</ul>
+<script>
+    // вставляем слова до и после маркированного списка
+    let list = document.querySelector('ul')
+    list.before('before')
+    list.after('after')
+
+    // вставляем в маркированный список первый элемент
+    let li_1 = document.createElement('li')
+    li_1.innerHTML = 'Первый элемент'
+    list.prepend(li_1)
+
+</script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 https://ru.wikipedia.org/wiki/Стандартные_потоки
 
- ● grep and /etc/* 2> Desktop/errors.txt
-выведет нам все результаты из потока 1, а все результаты из потока 2 запишет в  errors.txt
+ ● grep "привет" /etc/* 2> Desktop/errors.txt
+выведет нам все результаты из потока 1, а все результаты из потока 2 запишет в errors.txt
 
- ● grep and /etc/* 2> /dev/null
+ ● grep "привет" /etc/* 2> /dev/null
 поток 2 будет направлен в никуда
 
- ● grep and /etc/* &> Desktop/rez.txt
+ ● grep "привет" /etc/* &> Desktop/rez.txt
 оба потока будут записаны в файл rez.txt
+

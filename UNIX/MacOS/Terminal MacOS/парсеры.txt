@@ -1,0 +1,5 @@
+ ● awk
+парсит текст. Подробнее: https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
+
+ ● sed
+парсит текст. Подробнее: https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/

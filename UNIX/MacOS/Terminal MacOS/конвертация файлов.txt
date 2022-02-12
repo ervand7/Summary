@@ -1,0 +1,11 @@
+DOCX -> DOC
+ ● textutil -convert doc '/path/to/filename.docx'
+
+DMG -> ISO
+ ● hdiutil makehybrid -iso -joliet -o 'путь к создаваемому образу.iso' 'путь к исходному образу.dmg'
+
+CDR -> ISO
+ ● hdiutil makehybrid -iso -joliet -o 'path/to/savefile.iso' 'path/to/filename.cdr'
+
+TXT -> PDF
+ ● cupsfilter 'путь до исходного текстового файла' >'путь до будущего PDF-файла'

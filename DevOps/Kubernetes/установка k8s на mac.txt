@@ -1,0 +1,47 @@
+STEPS
+Check - virtualization is supported
+ ● sysctl -a | grep -E --color 'machdep.cpu.feature|VMX'
+
+Step 1 - Install kubectl
+ ● brew install kubectl
+
+Step 2 - Install hyperkit (virtualbox, VMware fusion)
+Если уже установлен докер, то, скорее всего это не нужно
+ ● brew install hyperkit
+
+Step 3 - Install minikube
+ ● brew install minikube
+ ● minikube version
+ ● minikube help
+
+Step 4 - Start minikube
+ ● minikube start
+ ● minikube status
+ ● kubectl get nodes
+ ● kubectl get pods
+
+
+Running Kubernetes via Minikube
+Step 1 - Create a Kubernetes Deployment using an existing image
+ ● kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+
+Step 2 - Expose the deployment as a service
+ ● kubectl expose deployment hello-minikube --type=NodePort --port=8080
+
+Step 3 - Check the nodes and pods
+ ● kubectl get nodes
+ ● kubectl get pods
+
+Step 4 - Get URL of the service
+ ● minikube service hello-minikube --url
+Тут мы берем крл и вставляем в адресную строку браузера
+
+Step 5 - Delete service and deployment
+ ● kubectl delete services hello-minikube
+ ● kubectl delete deployment hello-minikube
+
+Step 6 - Stop minikube cluster
+ ● minikube stop
+
+Step 7 - Delete minikube cluster
+ ● minikube delete

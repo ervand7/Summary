@@ -28,3 +28,7 @@ https://losst.ru/komanda-chown-linux
 
  ● chmod - выдать определенные права
 https://losst.ru/komanda-chmod-linux
+
+ ● npm
+is the package manager for Node.js
+https://linuxconfig.org/install-npm-on-linux

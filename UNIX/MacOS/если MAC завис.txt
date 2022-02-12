@@ -1,0 +1,5 @@
+Полное руководство по глюкам и зависаниям
+https://appstudio.org/articles/sekrety-terminala-chast-11-dvenadtsat.html
+
+ ● command-alt-esc
+аналог ctrl-alt-del в Windows

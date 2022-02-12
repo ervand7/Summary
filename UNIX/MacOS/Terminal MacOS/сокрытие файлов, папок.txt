@@ -1,0 +1,8 @@
+Сокрытие файлов, папок, окон и тд.
+https://appstudio.org/articles/sekrety-terminala-chast-14-otklyuchaem-i.html
+
+ ● chflags hidden '/path/to/file'
+скрыть папку
+
+ ● chflags nohidden '/path/to/file'
+отменить это действие

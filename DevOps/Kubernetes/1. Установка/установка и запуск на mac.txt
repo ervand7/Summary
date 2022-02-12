@@ -16,9 +16,16 @@ Step 3 - Install minikube
 
 Step 4 - Start minikube
  ● minikube start
+или запустить с кастомными параметрами
+ ● minikube start --cpus=2 --memory=1900mb --disk-size=25gb -p MYCLASTERNAME
+
  ● minikube status
+ ● kubectl cluster-info
+ ● kubectl get componentstatuses
  ● kubectl get nodes
- ● kubectl get pods
+
+ ● minikube ssh
+можно войти в терминал minikube
 
 
 Running Kubernetes via Minikube
@@ -30,11 +37,14 @@ Step 2 - Expose the deployment as a service
 
 Step 3 - Check the nodes and pods
  ● kubectl get nodes
+показать все серверы k8s
  ● kubectl get pods
+ ● kubectl exec hello-minikube-7bfc84c91b-kkm5z -it -- sh
+войти в терминал пода
 
 Step 4 - Get URL of the service
  ● minikube service hello-minikube --url
-Тут мы берем крл и вставляем в адресную строку браузера
+Тут мы берем урл и вставляем в адресную строку браузера
 
 Step 5 - Delete service and deployment
  ● kubectl delete services hello-minikube

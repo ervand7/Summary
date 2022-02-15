@@ -1,0 +1,3 @@
+ ● kubectl port-forward hello 7788:80
+и одновременно
+ ● kubectl port-forward hello 7789:8080

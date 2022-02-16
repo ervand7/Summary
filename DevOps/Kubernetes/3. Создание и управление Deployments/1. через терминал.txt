@@ -37,11 +37,17 @@ hpa - horizontal pod autoscaler
 
  ● kubectl set image deployment/first-deployment k8s-explore-j7j7q=ervand7/k8s_explore:simple_flask --record
 меняем image внутри деплоймента. У нас был некий автоматически созданный
-контейнер k8s-explore-j7j7q, и мы поместили в него наш нужный image
+контейнер k8s-explore-dts8r, и мы поместили в него наш нужный image
+ ● kubectl set image deployment/first-deployment k8s-explore-dts8r=nginx:latest --record
+меняем image внутри деплоймента на nginx:latest
+ ● kubectl rollout undo deployment/first-deployment
+делаем rollback на предыдущую версию (ervand7/k8s_explore:simple_flask)
 
- ●
+ ● kubectl rollout history deployment/first-deployment
+ ● kubectl rollout undo deployment/first-deployment --to-revision=2
+смотрим историю версий и перемещаемся на определенную версию
 
- ●
+ ● kubectl rollout restart deployment/first-deployment
+рестартуем. При этом для деплоя будет автоматически браться самая последняя версия
 
- ●
-
+ ● kubectl delete deployment --all

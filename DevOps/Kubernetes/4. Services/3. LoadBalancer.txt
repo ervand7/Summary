@@ -1,0 +1,3 @@
+ ● minikube start
+ ● kubectl expose deployment first-deployment --type=LoadBalancer --port 5000
+ ● kubectl delete service first-deployment

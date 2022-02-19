@@ -1,0 +1,13 @@
+ ● flask
+вывод всех команд
+
+ ● export FLASK_APP=hello.py
+ ● export FLASK_ENV=development
+ ● flask run
+так можно через flask run запускать приложение
+
+ ● flask routes
+показывает все роуты приложения
+
+ ● flask shell
+можно как в Django запускать интерактивную консоль

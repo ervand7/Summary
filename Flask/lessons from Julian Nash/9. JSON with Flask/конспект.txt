@@ -1,0 +1,5 @@
+конспект самого автора:
+https://pythonise.com/series/learning-flask/working-with-json-in-flask
+
+ ● flask run
+ ● export FLASK_ENV=development

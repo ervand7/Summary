@@ -1,0 +1,7 @@
+POST http://localhost:5000/json
+Content-Type: application/json
+
+{
+  "name": "Julian",
+  "message": "Posting"
+}

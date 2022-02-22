@@ -1,0 +1,5 @@
+конспект самого автора:
+https://pythonise.com/series/learning-flask/flask-and-fetch-api
+
+ ● flask run
+ ● export FLASK_ENV=development

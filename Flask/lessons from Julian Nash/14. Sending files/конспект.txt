@@ -1,5 +1,5 @@
 конспект самого автора:
-https://pythonise.com/series/learning-flask/flask-uploading-files
+https://pythonise.com/series/learning-flask/sending-files-with-flask
 
  ● flask run
  ● export FLASK_ENV=development

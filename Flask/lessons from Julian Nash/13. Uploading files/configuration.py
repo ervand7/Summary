@@ -1,0 +1,33 @@
+class Config(object):
+    DEBUG = False
+    TESTING = False
+    SECRET_KEY = 'SFCSDFSDhhbyuFSEBFJHB4R9W4ABFEAW'
+    DB_NAME = 'production_db'
+    DB_USERNAME = 'root'
+    DB_PASSWORD = 'example'
+    IMAGE_UPLOADS = '/Users/ervand_agadzhanyan/Desktop/Summary/Flask/lessons from Julian Nash/13. Uploading files/app/static/img/uploads'
+    ALLOWED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif']
+    MAX_IMAGE_FILESIZE = 0.5 * 1024 * 1024
+    SESSION_COOKIE_SECURE = True
+
+
+class ProductionConfig(Config):
+    pass
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+    DB_NAME = 'development_db'
+    DB_USERNAME = 'root'
+    DB_PASSWORD = 'example'
+    SESSION_COOKIE_SECURE = False
+
+
+class TestingConfig(Config):
+    TESTING = True
+
+    DB_NAME = 'production_db'
+    DB_USERNAME = 'root'
+    DB_PASSWORD = 'example'
+    SESSION_COOKIE_SECURE = False

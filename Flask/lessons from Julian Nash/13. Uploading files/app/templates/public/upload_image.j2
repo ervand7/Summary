@@ -1,0 +1,37 @@
+{% extends "public/templates/public_template.j2" %}
+
+{% block title %}Upload image{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Upload image</h1>
+                <hr>
+
+                <form action="/upload-image" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Select image</label>
+                        <div class="custom-file">
+                            <input oninput="filesize(this);" type="file" class="custom-file-input" name="ervand-image" id="image">
+                            <label class="custom-file-label" for="image">Select image...</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function filesize(elem) {
+            document.cookie = `filesize=${elem.files[0].size}`
+        }
+    </script>
+
+{% endblock %}
+

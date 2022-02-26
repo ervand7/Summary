@@ -1,0 +1,2 @@
+All events are listed here:
+venv/lib/python3.8/site-packages/sqlalchemy/orm/events.py

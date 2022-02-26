@@ -1,0 +1,8 @@
+если у кого-то таннел блик тоже стал умирать после каждого засыпания Мака, вот рабочий вариант:
+As a temporary workaround for this problem, you can try telling Tunnelblick to not disconnect/reconnect the VPN on sleep/wake:
+
+On the left side of Tunnelblick's "VPN Details" window, select the configuration(s) you want to change.
+On the right side, click the "Settings" tab and click the "Advanced" button.
+In the new window that appears, click the "Connecting & Disconnecting" tab.
+Un-check "Disconnect when computer goes to sleep" and "Reconnect when computer wakes up".
+That may or may not work; it depends on your OpenVPN setup.

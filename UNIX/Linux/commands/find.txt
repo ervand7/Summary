@@ -19,13 +19,11 @@ https://www.youtube.com/watch?v=7VNKav3ZuAE
  ● find . -type d -name "ervand"
 с помощью флага <-type d> задаем поиск только по директориям
 
- ● find . -type d -path ./venv -prune -o -type d -path ./.idea -prune -o -name "*.json" -print
-исключаем директории venv и .idea из поиска. Прописываем такую
-конструкцию <-type d -path ./папка -prune> на каждую исключаемую директорию.
-<-o> - логическое или.
+ ● find . -type d \( -path ./venv -o -path ./venv2 -o -path ./venv3 \) -prune -o -name '*temp*' -print
+исключаем директории venv, venv2, venv3 из поиска
 
- ● find . -type d -name "*env" -prune -o -type d -name "*.idea" -prune -o -name "*.json" -print
-исключаем из поиска директории вне зависимости от их уровня вложенности
+ ● find . -type d \( -name "*venv" -o -name "*venv2" -o -name "*venv3" \) -prune -o -name '*temp*' -print
+исключаем любой вложенности директории venv, venv2, venv3 из поиска
 
  ● find . -iname "*.JsOn"
 iname - регистронезависимое название

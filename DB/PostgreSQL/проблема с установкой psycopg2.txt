@@ -1,0 +1,5 @@
+solution:
+LDFLAGS=-L/usr/local/opt/openssl/lib pip install psycopg2==2.8
+
+Вот отсюда взял решение:
+https://github.com/psycopg/psycopg2/issues/991#issuecomment-590105753

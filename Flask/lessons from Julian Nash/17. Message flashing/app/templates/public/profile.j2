@@ -1,0 +1,30 @@
+{% extends "public/templates/public_template.j2" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block main %}
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <h1>Profile</h1>
+      <hr>
+
+      <div class="card">
+        <div class="card-body">
+          <h4>{{ user["username"] }}</h4>
+          <hr>
+
+          <p>{{ user["email"] }}</p>
+          <p class="text-muted">{{ user["bio"] }}</p>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+конспект автора:
+https://pythonise.com/series/learning-flask/flask-rq-task-queue
+
+in the first terminal window:
+ ● redis-server
+
+in the second:
+ ● rq worker
+
+in the third:
+ ● export FLASK_ENV=development
+ ● export FLASK_APP=run.py
+ ● flask run

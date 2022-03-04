@@ -1,0 +1,14 @@
+GET http://localhost:5000/stock
+Accept: application/json
+
+###
+
+GET http://localhost:5000/stock/fruit
+Accept: application/json
+
+###
+
+GET http://localhost:5000/stock/fruit/apple
+Accept: application/json
+
+###

@@ -1,0 +1,9 @@
+ ● brew update
+ ● brew install rabbitmq
+
+ ● /usr/local/opt/rabbitmq/sbin/rabbitmq-server
+then go to http://localhost:15672 and enter the next credentials:
+guest, guest
+
+Docker variant:
+ ● docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management

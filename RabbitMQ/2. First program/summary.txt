@@ -1,0 +1,8 @@
+ ● pip install pika
+
+on the first terminal window:
+ ● python3.8 consumer.py
+on the second terminal window:
+ ● python3.8 producer.py
+go to http://localhost:15672/#/connections
+and http://localhost:15672/#/exchanges

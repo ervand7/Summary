@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>View image</title>
+</head>
+
+<body>
+
+  <main>
+
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col">
+
+          <picture>
+            <!-- thumbnail -->
+            <source class="img-fluid" srcset="/static/img/uploads/{{dir}}/{{img}}-thumbnail.png" media="(max-width: 150px)">
+            <!-- small -->
+            <source class="img-fluid" srcset="/static/img/uploads/{{dir}}/{{img}}-540.png" media="(max-width: 540px)">
+            <!-- medium -->
+            <source class="img-fluid" srcset="/static/img/uploads/{{dir}}/{{img}}-768.png" media="(max-width: 768px)">
+            <!-- large -->
+            <source class="img-fluid" srcset="/static/img/uploads/{{dir}}/{{img}}-1080.png" media="(max-width: 1080px)">
+            <!-- xl -->
+            <source class="img-fluid" srcset="/static/img/uploads/{{dir}}/{{img}}-1200.png" media="(max-width: 1200px)">
+            <!-- original -->
+            <img class="img-fluid" src="/static/img/uploads/{{dir}}/{{img}}.png" />
+          </picture>
+
+          <picture>
+            <source srcset="example-thumbnail.png" media="(max-width: 150px)">
+            <source srcset="example-540.png" media="(max-width: 540px)">
+            <source srcset="example-768.png" media="(max-width: 768px)">
+            <source srcset="example-1080.png" media="(max-width: 1080px)">
+            <source srcset="example-1200.png" media="(max-width: 1200px)">
+            <img src="/static/img/uploads/example.png" />
+          </picture>
+
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Import bootstrap JS here -->
+
+</body>
+
+</html>

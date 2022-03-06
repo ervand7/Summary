@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 def count_words(url):
     print(f"Counting words at {url}")
     start = time.time()
-    time.sleep(5)
     r = request.urlopen(url)
     soup = BeautifulSoup(r.read().decode(), "lxml")
     paragraphs = " ".join([p.text for p in soup.find_all("p")])

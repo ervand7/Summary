@@ -1,13 +1,13 @@
 конспект автора:
 https://pythonise.com/series/learning-flask/flask-rq-task-queue
 
-in the first terminal window:
+in the first terminal window in directory which contains run.py:
  ● redis-server
 
-in the second:
+in the second terminal window in directory which contains run.py:
  ● rq worker
 
-in the third:
+in the third terminal window in directory which contains run.py:
  ● export FLASK_ENV=development
  ● export FLASK_APP=run.py
  ● flask run

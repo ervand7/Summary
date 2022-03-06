@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>Upload image</title>
+</head>
+
+<body>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row">
+      <div class="col">
+        <div class="mb-3 mt-3">
+
+          <h2 class="mb-3" style="font-weight: 300">Upload image</h2>
+
+          <form action="/upload-image" method="POST" enctype="multipart/form-data" class="mb-3">
+            <div class="form-group mb-3">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image">
+                <label id="file_input_label" class="custom-file-label" for="image">Select file</label>
+                <small class="text-muted">Images should be 2560px x 1440px and not contain a dot in the filename</small>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </form>
+
+          {% if message %}
+          <a href="{{ message }}" class="mt-3">View image</a>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+
+    <!-- import bootstrap JS here -->
+
+</body>
+
+</html>

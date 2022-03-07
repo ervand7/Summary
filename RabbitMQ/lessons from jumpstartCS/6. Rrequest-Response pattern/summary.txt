@@ -1,0 +1,6 @@
+ ● docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management
+
+on the first terminal window:
+ ● python3.8 server.py
+on the second terminal window:
+ ● python3.8 client.py

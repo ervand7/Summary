@@ -1,4 +1,4 @@
- ● pip install pika
+ ● /usr/local/opt/rabbitmq/sbin/rabbitmq-server
 
 on the first terminal window:
  ● python3.8 consumer.py

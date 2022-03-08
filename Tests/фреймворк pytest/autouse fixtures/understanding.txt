@@ -1,0 +1,7 @@
+if we set fixture scope as "function" (default behavior), the fixture function
+will generate itself per every test function in which it is present.
+If scope will be as "session", fixture return value will be the same for every
+test function in which fixture presents
+
+for best info look:
+https://docs.pytest.org/en/6.2.x/fixture.html#scope-sharing-fixtures-across-classes-modules-packages-or-session

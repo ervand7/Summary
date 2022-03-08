@@ -1,0 +1,11 @@
+ ● bind
+https://docs.celeryproject.org/en/latest/userguide/tasks.html#example
+https://stackoverflow.com/questions/54899320/what-is-the-meaning-of-bind-true-keyword-in-celery
+
+ ● default_retry_delay
+and
+ ● retry
+https://docs.celeryproject.org/en/stable/userguide/tasks.html#using-a-custom-retry-delay
+
+ ● ignore_result
+https://stackoverflow.com/questions/40808747/celery-tasks-without-result-write-to-result-backend

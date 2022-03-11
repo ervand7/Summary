@@ -1,0 +1,8 @@
+ ● pip install django
+
+ ● django-admin
+выведет все команды django
+
+ ● django-admin startproject coolsite
+
+ ● python3.9 manage.py runserver 7000

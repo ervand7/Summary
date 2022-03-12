@@ -1,0 +1,84 @@
+CREATE
+>>> from women.models import Women
+>>> Women(title='Анджелина Джоли', content='Биография Анджелины Джоли')
+<Women: Women object (None)>
+>>> w1 = _
+>>> w1
+<Women: Women object (None)>
+>>> w1.save()
+>>> w1
+<Women: Women object (1)>
+>>> w1.id
+1
+>>> w1.title
+'Анджелина Джоли'
+>>> w1.time_create
+datetime.datetime(2022, 3, 12, 16, 14, 2, 938445, tzinfo=<UTC>)
+>>> w1.pk
+1
+>>> from django.db import connection
+>>> connection.queries
+[{'sql': 'INSERT INTO "women_women" ("title", "content", "photo", "time_create", "time_update", "is_published") VALUES (\'Анджелина Джоли\', \'Биография Анджелины Джоли\', \'\', \'2022-03-12 16:14:02.938445\', \'2022-03-12 16:14:02.938553\', 1)', 'time': '0.007'}]
+>>> w2 = Women(title='Энн Хэтэуэй', content='Биография Энн Хэтэуэй')
+>>> w2
+<Women: Women object (None)>
+>>> w1.save()
+>>> w2.save()
+>>> connection.queries
+[{'sql': 'INSERT INTO "women_women" ("title", "content", "photo", "time_create", "time_update", "is_published") VALUES (\'Анджелина Джоли\', \'Биография Анджелины Джоли\', \'\', \'2022-03-12 16:14:02.938445\', \'2022-03-12 16:14:02.938553\', 1)', 'time': '0.007'}, {'sql': 'UPDATE "women_women" SET "title" = \'Анджелина Джоли\', "content" = \'Биография Анджелины Джоли\', "photo" = \'\', "time_create" = \'2022-03-12 16:14:02.938445\', "time_update" = \'2022-03-12 16:23:32.443325\', "is_published" = 1 WHERE "women_women"."id" = 1', 'time': '0.005'}, {'sql': 'INSERT INTO "women_women" ("title", "content", "photo", "time_create", "time_update", "is_published") VALUES (\'Энн Хэтэуэй\', \'Биография Энн Хэтэуэй\', \'\', \'2022-03-12 16:23:40.928881\', \'2022-03-12 16:23:40.928953\', 1)', 'time': '0.004'}]
+>>> w3 = Women()
+>>> w3
+<Women: Women object (None)>
+>>> w3.title = 'Джулия Робертс'
+>>> w3.content = 'Биография Джулии Робертс'
+>>> w3.save()
+>>> Women.objects
+<django.db.models.manager.Manager object at 0x7f7afd8fbf70>
+>>> Women.objects.create(title='Умф Турман', content='Биография Ума Турман')
+<Women: Women object (4)>
+>>> w4.pk
+
+
+
+
+READ
+>>> from women.models import Women
+>>> Women.objects.all()
+<QuerySet [<Women: Анджелина Джоли>, <Women: Энн Хэтэуэй>, <Women: Джулия Робертс>, <Women: Умф Турман>]>
+>>> Women.objects.filter(title='Энн Хэтэуэй')
+<QuerySet [<Women: Энн Хэтэуэй>]>
+>>> from django.db import connection
+>>> connection.queries
+[{'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published" FROM "women_women" LIMIT 21', 'time': '0.003'}, {'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published" FROM "women_women" WHERE "women_women"."title" = \'Энн Хэтэуэй\' LIMIT 21', 'time': '0.002'}]
+>>> Women.objects.filter(pk=2)
+<QuerySet [<Women: Энн Хэтэуэй>]>
+>>> Women.objects.filter(pk__gte=2)
+<QuerySet [<Women: Энн Хэтэуэй>, <Women: Джулия Робертс>, <Women: Умф Турман>]>
+>>> Women.objects.exclude(pk=2)
+<QuerySet [<Women: Анджелина Джоли>, <Women: Джулия Робертс>, <Women: Умф Турман>]>
+>>> Women.objects.get(pk=2)
+<Women: Энн Хэтэуэй>
+>>> Women.objects.filter(pk__lte=4).order_by('title')
+<QuerySet [<Women: Анджелина Джоли>, <Women: Джулия Робертс>, <Women: Умф Турман>, <Women: Энн Хэтэуэй>]>
+>>>
+
+
+
+
+UPDATE
+>>> w = Women.objects.get(pk=2)
+>>> w.title = 'Марго Робби'
+>>> wюcontent = 'Биография Марго Робби'
+>>> w.content = 'Биография Марго Робби'
+>>> w.save()
+>>> connection.queries
+[{'sql': 'UPDATE "women_women" SET "title" = \'Марго Робби\', "content" = \'Биография Марго Робби\', "photo" = \'\', "time_create" = \'2022-03-12 16:23:40.928881\', "time_update" = \'2022-03-12 17:21:15.975812\', "is_published" = 1 WHERE "women_women"."id" = 2', 'time': '0.005'}]
+>>>
+
+
+
+
+DELETE
+>>> w.delete()
+(1, {'women.Women': 1})
+>>>

@@ -1,0 +1,24 @@
+ ● pip install django
+
+ ● django-admin
+выведет все команды django
+
+ ● django-admin startproject coolsite
+
+ ● python3.9 manage.py runserver 7000
+
+ ● cd coolsite
+ ● python manage.py startapp women
+создаем первое приложение
+Далее прописываем в INSTALLED_APPS наше приложение
+women.apps.WomenConfig
+
+ ● python3.8 manage.py makemigrations
+generate our first migration file
+ ● python3.8 manage.py sqlmigrate women 0001
+look what a sql query will be executed to migrate
+ ● python3.8 manage.py migrate
+run the migration itself
+
+ ● python3.8 manage.py shell
+launch django shell

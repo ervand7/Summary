@@ -1,0 +1,5 @@
+ ● Django tags
+venv/lib/python3.8/site-packages/django/template/defaulttags.py
+
+ ● Django filters
+venv/lib/python3.8/site-packages/django/template/defaultfilters.py

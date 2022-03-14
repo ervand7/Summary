@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Women(models.Model):
@@ -11,3 +12,8 @@ class Women(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_relative_url(self):
+        # reverse returns required relative url address for specific view
+        print('qwe', reverse('show_post', kwargs={'post_id': self.pk}))
+        return reverse('show_post', kwargs={'post_id': self.pk})

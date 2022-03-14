@@ -8,7 +8,7 @@
                     {{ p.content|linebreaks|truncatewords:50 }}
                 {% endautoescape %}
                 <div class="clear"></div>
-                <p class="link-read-post"><a href="#">Читать пост</a></p>
+                <p class="link-read-post"><a href="{{ p.get_relative_url }}">Читать пост</a></p>
             </li>
         {% endfor %}
     </ul>

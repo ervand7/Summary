@@ -147,3 +147,5 @@ sidebar
  ● POSIX: https://ru.wikipedia.org/wiki/POSIX
 
  ● AJAX: https://ru.wikipedia.org/wiki/AJAX
+
+ ● what is scalar in programming: https://www.techopedia.com/definition/16441/scalar

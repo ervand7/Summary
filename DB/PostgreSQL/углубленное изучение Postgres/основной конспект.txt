@@ -1,13 +1,6 @@
  ● гениальный туториал
 https://www.postgresqltutorial.com/postgresql-case/
 
- ● Сравнение времени:
-https://stackoverflow.com/questions/19469154/how-to-compare-dates-in-datetime-fields-in-postgresql
-SELECT *
-FROM table
-WHERE update_date >= '2013-05-03'::date
-AND update_date < ('2013-05-03'::date + '1 day'::interval);
-
  ● BEGIN; ROLLBACK;
 https://www.geeksforgeeks.org/postgresql-rollback/
 
@@ -51,5 +44,5 @@ https://habr.com/ru/company/otus/blog/523322/
  ● план выполнения запроса:
 https://ru.wikipedia.org/wiki/План_выполнения_запроса
 
- ● виды сканирования в Postgres:
-https://severalnines.com/database-blog/overview-various-scan-methods-postgresql
+ ● hash join algorithm:
+https://ru.wikipedia.org/wiki/Алгоритм_соединения_хешированием

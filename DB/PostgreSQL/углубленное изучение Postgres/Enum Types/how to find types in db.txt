@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/3660787/how-to-list-custom-types-using-postgres-information-schema

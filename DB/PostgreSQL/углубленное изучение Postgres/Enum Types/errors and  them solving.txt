@@ -1,0 +1,61 @@
+PROBLEM:
+<error: ALTER TYPE ... ADD cannot run inside a transaction block>
+
+The best solving from
+http://stackoverflow.com/questions/1771543/postgresql-updating-an-enum-type/41696273#41696273
+INSERT INTO pg_enum (enumtypid, enumlabel, enumsortorder)
+    SELECT 'my_enum_table'::regtype::oid,
+           'new_enum_value',
+           (SELECT MAX(enumsortorder) + 1 FROM pg_enum WHERE enumtypid = 'my_enum_table'::regtype);
+
+
+______________________________________________________________________________________________________
+solving through python for further applying in alembic migration:
+from typing import List, Tuple
+import sqlalchemy as sa
+from alembic import op
+from alembic import context
+
+def replace_enum(name: str, old: List[str], new: List[str], default: str, usages: List[Tuple[str, str]]
+):
+    """
+    Replaces enum values
+
+    :param name: Name of enum type
+    :param old: Old values of enum
+    :param new: New values of enum
+    :param default: Default value in case of missing value in new enum
+    :param usages: List of typles (table_name, column_name) where enum have to be
+    replaced.
+    :return:
+    """
+
+    # Rename old enum
+    tmp_name = f'{name}_tmp'
+    op.execute(f'ALTER TYPE {name} RENAME TO {tmp_name}')
+    old_enum = sa.Enum(*old, name=tmp_name)
+
+    # Create new enum
+    new_enum = sa.Enum(*new, name=name)
+    new_enum.create(op.get_bind(), checkfirst=not context.is_offline_mode())
+    for (table, column) in usages:
+        # Replace unknown values with default
+        table_ = sa.sql.table(table, sa.Column(column, old_enum))
+        op.execute(
+            table_.update().where(
+                getattr(table_.c, column).in_(
+                    set(old) - set(new),
+                ),
+            ).values(**{column: default})
+        )
+
+        # Alter type
+        op.alter_column(
+            table_name=table,
+            column_name=column,
+            type_=new_enum,
+            existing_type=old_enum,
+            postgresql_using=f'{column}::text::{name}',)
+
+    # Drop old enum
+    old_enum.drop(op.get_bind(), checkfirst=not context.is_offline_mode())

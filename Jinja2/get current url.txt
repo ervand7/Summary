@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/26276580/how-to-get-current-url-in-jinja2-flask-request-url-not-working

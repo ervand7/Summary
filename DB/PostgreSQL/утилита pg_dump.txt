@@ -1,0 +1,5 @@
+documentation:
+https://postgrespro.com/docs/postgresql/9.6/app-pgdump
+
+command example:
+/usr/local/bin/pg_dump --dbname=dvdrental --file=/Users/ervand_agadzhanyan/Desktop/Мусор/dump2/PostgreSQL___dvdrental_localhost-2022_03_21_20_13_48-dump.sql --create --if-exists --clean --username=postgres --host=localhost --port=5432

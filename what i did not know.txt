@@ -149,3 +149,5 @@ sidebar
  ● AJAX: https://ru.wikipedia.org/wiki/AJAX
 
  ● what is scalar in programming: https://www.techopedia.com/definition/16441/scalar
+
+ ● реляционная алгебра: https://ru.wikipedia.org/wiki/Реляционная_алгебра

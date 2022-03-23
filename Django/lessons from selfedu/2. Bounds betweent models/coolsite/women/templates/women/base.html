@@ -44,7 +44,7 @@
                                 <li><a href="{% url 'home' %}">Все категории</a></li>
                             {% endif %}
 
-                            {% show_categories %}
+                            {% show_categories sort='name' cat_selected=cat_selected %}
 
                             <li class="share">
                                 <p>Наш канал</p>

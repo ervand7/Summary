@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.views.generic import ListView
 from .forms import AddPostForm
 from .models import *
 
@@ -11,17 +11,22 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
         ]
 
 
-def index(request):
-    posts = Women.objects.all()
+class WomenHome(ListView):
+    model = Women
+    template_name = 'women/index_.html'
 
-    context = {
-        'posts': posts,
-        'menu': menu,
-        'title': 'Главная страница',
-        'cat_selected': 0,
-    }
 
-    return render(request, 'women/index_.html', context=context)
+# def index(request):
+#     posts = Women.objects.all()
+#
+#     context = {
+#         'posts': posts,
+#         'menu': menu,
+#         'title': 'Главная страница',
+#         'cat_selected': 0,
+#     }
+#
+#     return render(request, 'women/index_.html', context=context)
 
 
 def about(request):
@@ -30,14 +35,12 @@ def about(request):
 
 def addpage(request):
     if request.method == 'POST':
-        form = AddPostForm(request.POST)
+        form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
             # print(form.cleaned_data)
-            try:
-                Women.objects.create(**form.cleaned_data)
-                return redirect('home')
-            except:
-                form.add_error(None, 'Ошибка добавления поста')
+            form.save()
+            return redirect('home')
+
     else:
         form = AddPostForm()
     return render(request, 'women/addpage.html',

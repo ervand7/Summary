@@ -1,0 +1,11 @@
+>>> Women.objects.filter(cat__slug='aktrisy')
+<QuerySet [<Women: Ариана Гранде>, <Women: Анджелина Джоли>, <Women: Ума Турман>, <Women: Марго Робби>, <Women: Джулия Робертс>, <Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+
+>>> connection.queries[-1]
+{'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."slug", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published", "women_women"."cat_id" FROM "women_women" INNER JOIN "women_category" ON ("women_women"."cat_id" = "women_category"."id") WHERE "women_category"."slug" = \'aktrisy\' ORDER BY "women_women"."time_create" DESC, "women_women"."title" ASC LIMIT 21', 'time': '0.003'}
+
+>>> Women.objects.filter(cat__name__contains='ы')
+<QuerySet [<Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Ариана Гранде>, <Women: Анджелина Джоли>, <Women: Шакира>, <Women: Рианна>, <Women: Кэтти Перри>, <Women: Бейонсе>, <Women: Ариана Гранде>, <Women: Ума Турман>, <Women: Марго Робби>, <Women: Джулия Робертс>, <Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+
+>>> Category.objects.filter(women__title__contains='ли')
+<QuerySet [<Category: Актрисы>, <Category: Актрисы>, <Category: Актрисы>, <Category: Певицы>]>

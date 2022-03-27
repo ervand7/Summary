@@ -1,0 +1,24 @@
+>>> from django.db.models.functions import Length
+>>> ps = Women.objects.annotate(my_len=Length('title'))
+>>> ps
+<QuerySet [<Women: Анджелина Джоли>, <Women: Дженнифер Лоуренс>, <Women: Джулия Робертс>, <Women: Марго Робби>, <Women: Ума Турман>, <Women: Ариана Гранде>, <Women: Бейонсе>, <Women: Кэтти Перри>, <Women: Рианна>, <Women: Шакира>, <Women: Анджелина Джоли>, <Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Ариана Гранде>]>
+
+>>> connection.queries[-1]
+{'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."slug", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published", "women_women"."cat_id", LENGTH("women_women"."title") AS "my_len" FROM "women_women" LIMIT 21', 'time': '0.002'}
+
+>>> for item in ps:
+        print(item.title, item.my_len)
+Анджелина Джоли 15
+Дженнифер Лоуренс 17
+Джулия Робертс 14
+Марго Робби 11
+Ума Турман 10
+Ариана Гранде 13
+Бейонсе 7
+Кэтти Перри 11
+Рианна 6
+Шакира 6
+Анджелина Джоли 15
+Ариана Гранде 13
+Анастасия Эшли 14
+Ариана Гранде 13

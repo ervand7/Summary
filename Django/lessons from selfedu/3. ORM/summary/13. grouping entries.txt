@@ -1,0 +1,13 @@
+in model Category -> Meta:
+        # ordering = ['-time_create', 'title']
+
+exit()
+from women.models import *
+from django.db.models import *
+from django.db import connection
+
+>>> Women.objects.values('cat_id').annotate(Count('id'))
+<QuerySet [{'cat_id': 1, 'id__count': 7}, {'cat_id': 2, 'id__count': 7}]>
+
+>>> connection.queries[-1]
+{'sql': 'SELECT "women_women"."cat_id", COUNT("women_women"."id") AS "id__count" FROM "women_women" GROUP BY "women_women"."cat_id" LIMIT 21', 'time': '0.002'}

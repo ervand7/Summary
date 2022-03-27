@@ -1,0 +1,5 @@
+>>> Women.objects.latest('time_update')
+<Women: Ариана Гранде>
+
+>>> Women.objects.earliest('time_update')
+<Women: Анджелина Джоли>

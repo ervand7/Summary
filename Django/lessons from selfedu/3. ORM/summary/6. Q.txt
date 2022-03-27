@@ -1,0 +1,12 @@
+>>> from django.db.models import Q
+>>> Women.objects.filter(pk__lt=5, cat_id=2)
+<QuerySet []>
+
+>>> Women.objects.filter(Q(pk__lt=5) | Q(cat_id=2))
+<QuerySet [<Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Шакира>, <Women: Рианна>, <Women: Кэтти Перри>, <Women: Бейонсе>, <Women: Ариана Гранде>, <Women: Марго Робби>, <Women: Джулия Робертс>, <Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+
+>>> Women.objects.filter(Q(pk__lt=5) & Q(cat_id=2))
+<QuerySet []>
+
+>>> Women.objects.filter(~Q(pk__lt=5) | Q(cat_id=2))
+<QuerySet [<Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Ариана Гранде>, <Women: Анджелина Джоли>, <Women: Шакира>, <Women: Рианна>, <Women: Кэтти Перри>, <Women: Бейонсе>, <Women: Ариана Гранде>, <Women: Ума Турман>]>

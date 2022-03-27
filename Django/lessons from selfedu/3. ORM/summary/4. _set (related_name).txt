@@ -1,0 +1,13 @@
+>>> c = Category.objects.get(pk=1)
+>>> c
+<Category: Актрисы>
+>>> c.women_set
+<django.db.models.fields.related_descriptors.create_reverse_many_to_one_manager.<locals>.RelatedManager object at 0x7f7d45907670>
+>>> c.women_set.all()
+<QuerySet [<Women: Ариана Гранде>, <Women: Анджелина Джоли>, <Women: Ума Турман>, <Women: Марго Робби>, <Women: Джулия Робертс>, <Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+
+
+If we have related_name='get_posts' in the model definition
+... cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name="Категории", related_name='get_posts')
+we can use as
+>>> c.get_posts.all()

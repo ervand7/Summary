@@ -1,0 +1,12 @@
+>>> w = Women.objects.get(pk=7)
+>>> w
+<Women: Бейонсе>
+
+>>> w.get_previous_by_time_update()
+<Women: Ариана Гранде>
+
+>>> w.get_next_by_time_update()
+<Women: Кэтти Перри>
+
+>>> w.get_next_by_time_update(pk__gt=10)
+<Women: Анастасия Эшли>

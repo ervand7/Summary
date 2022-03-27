@@ -1,0 +1,5 @@
+>>> Women.objects.filter(pk__lte=2)
+<QuerySet [<Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+
+>>> Women.objects.get(pk=2)
+<Women: Дженнифер Лоуренс>

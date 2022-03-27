@@ -1,0 +1,9 @@
+from django.db.models import *
+>>> Women.objects.aggregate(Min('cat_id'))
+{'cat_id__min': 1}
+
+>>> Women.objects.aggregate(Min('cat_id'), Max('cat_id'))
+{'cat_id__min': 1, 'cat_id__max': 2}
+
+>>> Women.objects.aggregate(my_result=Avg('cat_id'))
+{'my_result': 1.5}

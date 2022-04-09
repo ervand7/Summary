@@ -1,0 +1,14 @@
+POST http://localhost:8000/api/v1/womenlist/
+Content-Type: application/json
+
+{
+  "title": "Ero 22",
+  "content": "Vasya Karacharov 2",
+  "cat_id": 2
+}
+
+###
+GET http://localhost:8000/api/v1/womenlist/
+Accept: application/json
+
+###

@@ -1,0 +1,22 @@
+PUT http://localhost:8000/api/v1/womenlist/6/
+Content-Type: application/json
+
+{
+  "title": "Ero 2221",
+  "content": "Vasya Karacharov 2221",
+  "cat": 2
+}
+
+###
+GET http://localhost:8000/api/v1/womenlist/
+Accept: application/json
+
+###
+POST http://localhost:8000/api/v1/womenlist/6/
+Content-Type: application/json
+
+{
+  "title": "Ero 2221",
+  "content": "Vasya Karacharov 2221",
+  "cat": 2
+}

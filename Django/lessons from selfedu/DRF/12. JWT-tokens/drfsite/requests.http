@@ -1,0 +1,9 @@
+###
+# Getting information by token
+GET http://127.0.0.1:8000/api/v1/women/9/
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ5NTgyODY4LCJqdGkiOiI3NWJjYjY1NTI0ODU0NTA3YjEzZDY2NDEwZWVlNDUzOSIsInVzZXJfaWQiOjF9.tXmLG6G48pecZw30MJgePXiMZ13pwpR1cls0p9Dbd-M
+
+###
+# Getting information by refresh token
+GET http://127.0.0.1:8000/api/v1/women/9/
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY0OTY2ODIyNCwianRpIjoiYjhiNzk0OTQ4MmI0NDkzZjkwNTk5YjQyZjUyZDNmNDIiLCJ1c2VyX2lkIjoxfQ.32eLqfQY-ujhXBoYrfeoeB_Ul_JJHauLVGA5dftaemA

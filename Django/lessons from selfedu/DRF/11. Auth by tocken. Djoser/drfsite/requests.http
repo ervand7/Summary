@@ -1,0 +1,30 @@
+# Creating user
+POST http://localhost:8000/api/v1/auth/users/
+Content-Type: application/json
+
+{
+  "username": "seconduser2",
+  "password": "fghgfhhuser123",
+  "email": "seconduser@mail.ru"
+}
+
+###
+# Authorization user
+POST http://localhost:8000/auth/token/login/
+Content-Type: application/json
+
+{
+  "username": "seconduser2",
+  "password": "fghgfhhuser123"
+}
+
+###
+# Getting information by token
+GET http://127.0.0.1:8000/api/v1/women/9/
+Authorization: Token 92f207361d27a0ccf41b71774c896d37dfcdaf57
+
+
+###
+# logout
+POST http://127.0.0.1:8000/auth/token/logout/
+Authorization: Token 92f207361d27a0ccf41b71774c896d37dfcdaf57

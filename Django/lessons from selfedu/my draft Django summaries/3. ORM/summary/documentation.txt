@@ -1,0 +1,5 @@
+Функции и фильтры полей: https://djbook.ru/rel3.0/ref/models/querysets.html
+Функции уровня СУБД: https://djbook.ru/rel3.0/ref/models/database-functions.html
+
+Русскоязычная документация по Django 3: https://djbook.ru/rel3.0/
+Официальный сайт по Django: https://www.djangoproject.com

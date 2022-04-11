@@ -1,0 +1,2 @@
+Viewsets: https://www.django-rest-framework.org/api-guide/viewsets/
+Routers: https://www.django-rest-framework.org/api-guide/routers/

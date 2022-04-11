@@ -1,0 +1,2 @@
+Шаблоны в Django: https://djbook.ru/rel3.0/topics/templates.html
+Официальный сайт по Django: https://www.djangoproject.com

@@ -1,0 +1,3 @@
+О django-simple-captcha: https://django-simple-captcha.readthedocs.io/en/latest/advanced.html
+Русскоязычная документация по Django 3: https://djbook.ru/rel3.0/
+Официальный сайт по Django: https://www.djangoproject.com

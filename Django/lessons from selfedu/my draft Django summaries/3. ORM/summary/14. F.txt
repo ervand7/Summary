@@ -1,0 +1,15 @@
+ ===== CLASS <F> IS USED TO AVOID DB COLLISIONS =====
+
+>>> from django.db.models import F
+>>> Women.objects.filter(pk__gt=F('cat_id'))
+<QuerySet [<Women: Дженнифер Лоуренс>, <Women: Джулия Робертс>, <Women: Марго Робби>, <Women: Ума Турман>, <Women: Ариана Гранде>, <Women: Бейонсе>, <Women: Кэтти Перри>, <Women: Рианна>, <Women: Шакира>, <Women: Анджелина Джоли>, <Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Ариана Гранде>]>
+
+>>> connection.queries[-1]
+{'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."slug", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published", "women_women"."cat_id" FROM "women_women" WHERE "women_women"."id" > "women_women"."cat_id" LIMIT 21', 'time': '0.003'}
+
+# suppose, we have a field "views" in db which indicated amount of article views
+Women.objects.filter(slug='bejonse').update(views=F('views')+1)
+# or
+w = Women.objects.get(pk=1)
+w.views = F('views')+1
+w.save()

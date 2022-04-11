@@ -1,0 +1,19 @@
+>>> from django.db import reset_queries
+>>> reset_queries()
+
+>>> Women.objects.raw('select * from women_women')
+<RawQuerySet: select * from women_women>
+
+# lazy approach
+>>> connection.queries
+[]
+
+>>> w = _
+>>> for p in w:
+...     print(p.pk, p.title)
+1 Анджелина Джоли  2 Дженнифер Лоуренс  3 Джулия Робертс  4 Марго Робби  5 Ума Турман  6 Ариана Гранде  7 Бейонсе  8 Кэтти Перри  9 Рианна  10 Шакира  11 Анджелина Джоли  12 Ариана Гранде  13 Анастасия Эшли  14 Ариана Гранде
+
+>>> slug = 'shakira'
+>>> Women.objects.raw("select id, title from women_women where slug='%s'", [slug])
+<RawQuerySet: select id, title from women_women where slug='shakira'>
+

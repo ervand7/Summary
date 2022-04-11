@@ -1,0 +1,11 @@
+>>> Women.objects.values('title', 'cat_id').get(pk=1)
+{'title': 'Анджелина Джоли', 'cat_id': 1}
+
+>>> Women.objects.values('title', 'cat__name').get(pk=1)
+{'title': 'Анджелина Джоли', 'cat__name': 'Актрисы'}
+
+>>> connection.queries[-1]
+{'sql': 'SELECT "women_women"."title", "women_category"."name" FROM "women_women" INNER JOIN "women_category" ON ("women_women"."cat_id" = "women_category"."id") WHERE "women_women"."id" = 1 LIMIT 21', 'time': '0.000'}
+
+>>> Women.objects.values('title', 'cat__name')
+<QuerySet [{'title': 'Ариана Гранде', 'cat__name': 'Певицы'}, {'title': 'Анастасия Эшли', 'cat__name': 'Певицы'}, {'title': 'Ариана Гранде', 'cat__name': 'Актрисы'}, {'title': 'Анджелина Джоли', 'cat__name': 'Актрисы'}, {'title': 'Шакира', 'cat__name': 'Певицы'}, {'title': 'Рианна', 'cat__name': 'Певицы'}, {'title': 'Кэтти Перри', 'cat__name': 'Певицы'}, {'title': 'Бейонсе', 'cat__name': 'Певицы'}, {'title': 'Ариана Гранде', 'cat__name': 'Певицы'}, {'title': 'Ума Турман', 'cat__name': 'Актрисы'}, {'title': 'Марго Робби', 'cat__name': 'Актрисы'}, {'title': 'Джулия Робертс', 'cat__name': 'Актрисы'}, {'title': 'Дженнифер Лоуренс', 'cat__name': 'Актрисы'}, {'title': 'Анджелина Джоли', 'cat__name': 'Актрисы'}]>

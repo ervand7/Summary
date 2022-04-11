@@ -1,0 +1,3 @@
+Bootstrap: https://getbootstrap.com
+Фильтры шаблонов: https://djbook.ru/rel3.0/ref/templates/builtins.html#ref-templates-builtins-filters
+Официальный сайт по Django: https://www.djangoproject.com

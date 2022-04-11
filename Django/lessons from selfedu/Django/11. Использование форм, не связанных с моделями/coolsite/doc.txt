@@ -1,0 +1,3 @@
+О классах формы: https://djbook.ru/rel3.0/ref/forms/fields.html
+Русскоязычная документация по Django 3: https://djbook.ru/rel3.0/
+Официальный сайт по Django: https://www.djangoproject.com

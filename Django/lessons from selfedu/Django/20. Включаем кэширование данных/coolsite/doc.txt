@@ -1,0 +1,3 @@
+О кэшировании: https://djbook.ru/rel3.0/topics/cache.html
+Русскоязычная документация по Django 3: https://djbook.ru/rel3.0/
+Официальный сайт по Django: https://www.djangoproject.com

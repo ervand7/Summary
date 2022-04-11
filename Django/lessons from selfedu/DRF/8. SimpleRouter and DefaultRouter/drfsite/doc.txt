@@ -1,0 +1,1 @@
+Роутеры: https://www.django-rest-framework.org/api-guide/routers/

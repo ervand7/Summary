@@ -1,0 +1,3 @@
+Связи между моделями: https://djbook.ru/rel3.0/topics/db/models.html#relationships
+Русскоязычная документация по Django 3: https://djbook.ru/rel3.0/
+Официальный сайт по Django: https://www.djangoproject.com

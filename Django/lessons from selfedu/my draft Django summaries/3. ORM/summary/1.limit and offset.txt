@@ -1,0 +1,10 @@
+>>> Women.objects.all()[:5]
+срез идет на уровне sql
+
+>>> from django.db import connection
+>>> connection.queries[-1]
+{'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."slug", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published", "women_women"."cat_id" FROM "women_women" ORDER BY "women_women"."time_create" DESC, "women_women"."title" ASC LIMIT 5', 'time': '0.000'}
+
+
+>>> Women.objects.all()[3:8]
+>>> connection.queries[-1] {'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."slug", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published", "women_women"."cat_id" FROM "women_women" ORDER BY "women_women"."time_create" DESC, "women_women"."title" ASC LIMIT 5 OFFSET 3', 'time': '0.000'}

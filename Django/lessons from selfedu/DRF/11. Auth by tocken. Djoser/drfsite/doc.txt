@@ -1,0 +1,2 @@
+Аутентификация: https://www.django-rest-framework.org/api-guide/authentication/
+Djoser: https://djoser.readthedocs.io/en/latest/

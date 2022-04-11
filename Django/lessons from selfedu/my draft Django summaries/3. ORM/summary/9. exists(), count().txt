@@ -1,0 +1,12 @@
+>>> Category.objects.create(name='Спортсменки', slug='sportsmenky')
+<Category: Спортсменки>
+
+>>> c3 = Category.objects.get(pk=3)
+>>> c3
+<Category: Спортсменки>
+
+>>> c3.women_set.exists()
+False
+
+>>> Category.objects.get(pk=2).women_set.count()
+7

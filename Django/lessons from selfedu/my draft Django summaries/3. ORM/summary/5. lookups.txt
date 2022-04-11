@@ -1,0 +1,22 @@
+https://djbook.ru/rel3.0/ref/models/querysets.html#field-lookups
+
+>>> Women.objects.filter(title__contains='ли')
+<QuerySet [<Women: Анастасия Эшли>, <Women: Анджелина Джоли>, <Women: Джулия Робертс>, <Women: Анджелина Джоли>]>
+
+>>> connection.queries[-1]
+{'sql': 'SELECT "women_women"."id", "women_women"."title", "women_women"."slug", "women_women"."content", "women_women"."photo", "women_women"."time_create", "women_women"."time_update", "women_women"."is_published", "women_women"."cat_id" FROM "women_women" WHERE "women_women"."title" LIKE \'%ли%\' ESCAPE \'\\\' ORDER BY "women_women"."time_create" DESC, "women_women"."title" ASC LIMIT 21', 'time': '0.004'}
+
+
+>>> Women.objects.filter(pk__in=[2, 5, 11, 12], is_published=True)
+<QuerySet [<Women: Ума Турман>, <Women: Дженнифер Лоуренс>]>
+
+>>> Women.objects.filter(cat__in=[1, 2])
+<QuerySet [<Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Ариана Гранде>, <Women: Анджелина Джоли>, <Women: Шакира>, <Women: Рианна>, <Women: Кэтти Перри>, <Women: Бейонсе>, <Women: Ариана Гранде>, <Women: Ума Турман>, <Women: Марго Робби>, <Women: Джулия Робертс>, <Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+>>> Women.objects.filter(cat_id__in=[1, 2])
+<QuerySet [<Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Ариана Гранде>, <Women: Анджелина Джоли>, <Women: Шакира>, <Women: Рианна>, <Women: Кэтти Перри>, <Women: Бейонсе>, <Women: Ариана Гранде>, <Women: Ума Турман>, <Women: Марго Робби>, <Women: Джулия Робертс>, <Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+
+>>> cats = Category.objects.all()
+>>> Women.objects.filter(cat__in=cats)
+<QuerySet [<Women: Ариана Гранде>, <Women: Анастасия Эшли>, <Women: Ариана Гранде>, <Women: Анджелина Джоли>, <Women: Шакира>, <Women: Рианна>, <Women: Кэтти Перри>, <Women: Бейонсе>, <Women: Ариана Гранде>, <Women: Ума Турман>, <Women: Марго Робби>, <Women: Джулия Робертс>, <Women: Дженнифер Лоуренс>, <Women: Анджелина Джоли>]>
+
+

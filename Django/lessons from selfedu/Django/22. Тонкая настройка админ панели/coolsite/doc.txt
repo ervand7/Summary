@@ -1,0 +1,3 @@
+По настройке админки: https://docs.djangoproject.com/en/3.1/ref/contrib/admin/
+Русскоязычная документация по Django 3: https://djbook.ru/rel3.0/
+Официальный сайт по Django: https://www.djangoproject.com

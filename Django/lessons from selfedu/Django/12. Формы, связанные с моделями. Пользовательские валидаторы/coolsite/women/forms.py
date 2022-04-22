@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 from .models import *
 
+
 class AddPostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

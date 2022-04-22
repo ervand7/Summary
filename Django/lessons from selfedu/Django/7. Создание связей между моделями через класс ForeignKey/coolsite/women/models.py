@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 class Women(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(blank=True)

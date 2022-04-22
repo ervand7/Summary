@@ -8,7 +8,7 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Добавить статью", 'url_name': 'add_page'},
         {'title': "Обратная связь", 'url_name': 'contact'},
         {'title': "Войти", 'url_name': 'login'}
-]
+        ]
 
 
 def index(request):
@@ -23,6 +23,7 @@ def index(request):
 
     return render(request, 'women/index.html', context=context)
 
+
 def about(request):
     return render(request, 'women/about.html', {'menu': menu, 'title': 'О сайте'})
 
@@ -31,15 +32,17 @@ def addpage(request):
     if request.method == 'POST':
         form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
-            #print(form.cleaned_data)
+            # print(form.cleaned_data)
             form.save()
             return redirect('home')
     else:
         form = AddPostForm()
     return render(request, 'women/addpage.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
 
+
 def contact(request):
     return HttpResponse("Обратная связь")
+
 
 def login(request):
     return HttpResponse("Авторизация")
@@ -47,6 +50,7 @@ def login(request):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
 
 def show_post(request, post_slug):
     post = get_object_or_404(Women, slug=post_slug)
@@ -59,6 +63,7 @@ def show_post(request, post_slug):
     }
 
     return render(request, 'women/post.html', context=context)
+
 
 def show_category(request, cat_id):
     posts = Women.objects.filter(cat_id=cat_id)
@@ -74,4 +79,3 @@ def show_category(request, cat_id):
     }
 
     return render(request, 'women/index.html', context=context)
-

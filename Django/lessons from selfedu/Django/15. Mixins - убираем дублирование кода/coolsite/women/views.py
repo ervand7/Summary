@@ -9,6 +9,7 @@ from .forms import *
 from .models import *
 from .utils import *
 
+
 class WomenHome(DataMixin, ListView):
     model = Women
     template_name = 'women/index.html'
@@ -66,12 +67,14 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
 def contact(request):
     return HttpResponse("Обратная связь")
 
+
 def login(request):
     return HttpResponse("Авторизация")
 
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
 
 # def show_post(request, post_slug):
 #     post = get_object_or_404(Women, slug=post_slug)
@@ -112,7 +115,6 @@ class WomenCategory(DataMixin, ListView):
                                       cat_selected=context['posts'][0].cat_id)
         return dict(list(context.items()) + list(c_def.items()))
 
-
 # def show_category(request, cat_id):
 #     posts = Women.objects.filter(cat_id=cat_id)
 #
@@ -127,4 +129,3 @@ class WomenCategory(DataMixin, ListView):
 #     }
 #
 #     return render(request, 'women/index.html', context=context)
-

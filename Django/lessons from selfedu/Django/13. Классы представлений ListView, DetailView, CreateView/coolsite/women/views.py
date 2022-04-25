@@ -10,7 +10,7 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Добавить статью", 'url_name': 'add_page'},
         {'title': "Обратная связь", 'url_name': 'contact'},
         {'title': "Войти", 'url_name': 'login'}
-]
+        ]
 
 
 class WomenHome(ListView):
@@ -71,12 +71,14 @@ class AddPage(CreateView):
 def contact(request):
     return HttpResponse("Обратная связь")
 
+
 def login(request):
     return HttpResponse("Авторизация")
 
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
 
 # def show_post(request, post_slug):
 #     post = get_object_or_404(Women, slug=post_slug)
@@ -119,7 +121,6 @@ class WomenCategory(ListView):
         context['cat_selected'] = context['posts'][0].cat_id
         return context
 
-
 # def show_category(request, cat_id):
 #     posts = Women.objects.filter(cat_id=cat_id)
 #
@@ -134,4 +135,3 @@ class WomenCategory(ListView):
 #     }
 #
 #     return render(request, 'women/index.html', context=context)
-

@@ -1,0 +1,10 @@
+wonderful article: https://habr.com/ru/company/vk/blog/202832/
+
+Steps to visualize profiling:
+Возможно, предварительно возникнут проблемы и придется делать это:
+xcode-select --install
+brew install graphviz
+
+$ pip install gprof2dot
+$ python3.9 -m cProfile -o result.prof colors.py 10001
+$ gprof2dot --format=pstats result.prof | dot -Tpng > result.png

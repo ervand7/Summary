@@ -40,7 +40,3 @@ class Dictionary:
                     changes = len(longer) - len(i)
                     closest_word = word
         return closest_word
-
-
-words_list = ['cherry', 'pineapple', 'melon', 'strawberry', 'raspberry']
-print(Dictionary(words_list).find_most_similar('strawbery'))

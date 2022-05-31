@@ -1,5 +1,4 @@
 from itertools import cycle
-from pprint import pprint
 
 
 def spiralize(size: int):
@@ -8,7 +7,6 @@ def spiralize(size: int):
     )
 
     spiral = [[0] * size for _ in range(size)]
-    pprint(spiral)
     x, y = 0, 0
     direction_changes = 0
 
@@ -19,7 +17,7 @@ def spiralize(size: int):
             spiral[y][x] = 1
 
             step: bool = y + (change_y * 2) in range(size) \
-                and x + (change_x * 2) in range(size)
+                         and x + (change_x * 2) in range(size)
             index_y: int = y + (change_y * 2)
             index_x: int = x + (change_x * 2)
             res = step and spiral[index_y][index_x] == 1
@@ -31,6 +29,3 @@ def spiralize(size: int):
         direction_changes += 1
 
     return spiral
-
-
-pprint(spiralize(20))

@@ -1,0 +1,2 @@
+ ● https://stackoverflow.com/questions/25305788/how-to-avoid-reinstalling-packages-when-building-docker-image-for-python-project
+second answer

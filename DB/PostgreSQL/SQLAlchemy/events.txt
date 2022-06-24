@@ -1,2 +1,5 @@
-All events are listed here:
+ ● All events are listed here:
 venv/lib/python3.8/site-packages/sqlalchemy/orm/events.py
+
+ ● Parameters mapper, connection, target
+https://docs.sqlalchemy.org/en/14/orm/events.html#sqlalchemy.orm.MapperEvents.after_delete.params.mapper

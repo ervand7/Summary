@@ -1,2 +1,0 @@
-When should Flask.g be used?
-https://stackoverflow.com/questions/15083967/when-should-flask-g-be-used

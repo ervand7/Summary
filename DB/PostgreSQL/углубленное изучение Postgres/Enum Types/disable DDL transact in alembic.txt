@@ -1,0 +1,8 @@
+Решение через autocommit_block():
+def upgrade():
+    with op.get_context().autocommit_block():
+        op.execute("""alter type my_type add value 'MyValue';""")
+
+
+Информацию взял отсюда:
+https://stackoverflow.com/questions/53641912/how-to-disable-ddl-transaction-in-an-alembic-migration

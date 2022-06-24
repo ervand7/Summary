@@ -29,9 +29,6 @@ drop: https://postgrespro.ru/docs/postgresql/9.6/sql-droptrigger
  ● ORM запрос в SQL:
 https://stackoverflow.com/questions/4617291/how-do-i-get-a-raw-compiled-sql-query-from-a-sqlalchemy-expression
 
- ● ACID
-https://ru.wikipedia.org/wiki/ACID
-
  ● Locks in PostgreSQL:
 https://postgrespro.com/blog/pgsql/5968020
 

@@ -1,0 +1,5 @@
+doc.:
+https://docs.sqlalchemy.org/en/14/tutorial/data_insert.html
+
+stackoverflow:
+https://stackoverflow.com/questions/1849375/how-do-i-insert-into-t1-select-from-t2-in-sqlalchemy

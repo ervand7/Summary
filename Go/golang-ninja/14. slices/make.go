@@ -1,4 +1,3 @@
-// Slice - is a wrap on array. Under the hood it stores a ref on the array
 package main
 
 import "fmt"

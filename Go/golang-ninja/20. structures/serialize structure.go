@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type Person struct {
+type Person_ struct {
 	Name        string    `json:"Имя"`
 	Email       string    `json:"Почта"`
 	DateOfBirth time.Time `json:"-"` // - означает, что это поле не будет сериализовано
@@ -15,7 +15,7 @@ type Person struct {
 
 func main() {
 
-	man := Person{
+	man := Person_{
 		Name:        "Alex",
 		Email:       "alex@yandex.ru",
 		DateOfBirth: time.Now(),

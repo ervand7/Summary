@@ -10,7 +10,7 @@ type Man struct {
 	height int
 }
 
-// NewMan constructor
+// NewMan The name of constructor must start with "New" prefix (by convention)
 func NewMan(name, sex string, age, weight, height int) Man {
 	return Man{
 		name:   name,

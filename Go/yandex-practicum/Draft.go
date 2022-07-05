@@ -2,14 +2,11 @@ package main
 
 import "fmt"
 
-type figures int
-
-const (
-	square   figures = iota // квадрат
-	circle                  // круг
-	triangle                // равносторонний треугольник
-)
+var Global = 5
 
 func main() {
-	fmt.Println(square, circle, triangle)
+
+	defer fmt.Println(Global)
+	Global++
+	fmt.Println("Changed: ", Global)
 }

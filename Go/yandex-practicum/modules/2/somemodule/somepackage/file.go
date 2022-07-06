@@ -1,0 +1,5 @@
+package somepackage
+
+func Func() {
+
+}

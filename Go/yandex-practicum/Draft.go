@@ -1,12 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-var Global = 5
+// Base Enum implementation
+type Base int
+
+const (
+	Info Base = iota + 1
+	Warning
+	Error
+)
 
 func main() {
-
-	defer fmt.Println(Global)
-	Global++
-	fmt.Println("Changed: ", Global)
+	fmt.Println(Info, Warning, Error)
 }

@@ -7,7 +7,7 @@ func main() {
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 10; j++ {
 			matrix[j] = make([]int, 10)
-			matrix[j][i] = i
+			matrix[j][j] = j
 		}
 		fmt.Println(matrix[i])
 	}

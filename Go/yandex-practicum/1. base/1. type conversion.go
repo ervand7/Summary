@@ -11,5 +11,5 @@ func main() {
 
 	fruit = "Apple"
 	name = Name(fruit) // так, после приведения типов, работает
-	fmt.Println(name)
+	fmt.Println(name)  // Apple
 }

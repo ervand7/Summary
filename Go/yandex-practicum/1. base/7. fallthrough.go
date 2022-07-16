@@ -23,3 +23,8 @@ func main() {
 		fmt.Println("Default value handling")
 	}
 }
+
+/*
+Negative value received
+Default value handling
+*/

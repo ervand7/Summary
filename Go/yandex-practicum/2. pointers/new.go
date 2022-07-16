@@ -14,5 +14,4 @@ func main() {
 
 	p := new(A)    //  то же самое, что и &A{}
 	fmt.Println(p) // &{0}
-
 }

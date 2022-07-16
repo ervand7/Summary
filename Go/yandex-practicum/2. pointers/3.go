@@ -11,9 +11,8 @@ func main() {
 		IntField int
 	}
 	// Литерал А{} создаёт в памяти переменную типа А. Затем от неё берётся указатель
-	p := &A{
-		IntField: 10,
-	}
-	fmt.Println(p) // &{10}
+	p := &A{}
+	p.IntField = 55
+	fmt.Printf("%v", p) // &{55}
 
 }

@@ -11,5 +11,4 @@ func main() {
 
 	p := &A{}
 	p.IntField = 42 // вместо (*p).IntField = 42
-
 }

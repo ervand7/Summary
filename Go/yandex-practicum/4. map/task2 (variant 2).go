@@ -3,19 +3,13 @@ package main
 import "fmt"
 
 func find(arr []int, k int) []int {
-	// Создадим пустую map
 	m := make(map[int]int)
-	// будем складывать в неё индексы массива, а в качестве ключей использовать
-	// само значение
 	for index, value := range arr {
-		if j, ok := m[k-value]; ok { // если значение k-value уже есть в массиве,
-			// значит, arr[j] + arr[index] = k и мы нашли, то что нужно
+		if j, ok := m[k-value]; ok {
 			return []int{index, j}
 		}
-		// если искомого значения нет, то добавляем текущий индекс и значение в map
 		m[value] = index
 	}
-	// не нашли пары подходящих чисел
 	return nil
 }
 func main() {

@@ -4,7 +4,7 @@ import "fmt"
 
 func fact(n int) int {
 	res := 1
-	for i := 1; i < n+1; i++ {
+	for i := 1; i <= n; i++ {
 		res *= i
 
 	}
@@ -12,7 +12,7 @@ func fact(n int) int {
 }
 
 func factRecursive(n int) int {
-	if n == 0 { // терминальная ветка — то есть условие выхода из рекурсии
+	if n == 0 { // терминальная ветка (базовое условие) — условие выхода из рекурсии
 		return 1
 	} else { // рекурсивная ветка
 		return n * factRecursive(n-1)

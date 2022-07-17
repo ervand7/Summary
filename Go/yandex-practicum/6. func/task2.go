@@ -27,7 +27,10 @@ if !ok {
 myArea := ar(x)
 */
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 type figures int
 
@@ -54,5 +57,7 @@ func area(f figures) (func(float64) float64, bool) {
 }
 
 func main() {
-	fmt.Println(square, circle, triangle)
+	fmt.Println(square, circle, triangle) // 0 1 2
+	result, _ := area(square)
+	fmt.Println(reflect.TypeOf(result)) // func(float64) float64
 }

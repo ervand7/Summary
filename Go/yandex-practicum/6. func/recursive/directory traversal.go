@@ -19,10 +19,7 @@ func PrintAllFiles(path string) {
 	}
 	//  проходим по списку
 	for _, f := range files {
-		// получаем имя элемента
-		// filepath.Join — функция, которая собирает путь к элементу с разделителями
 		filename := filepath.Join(path, f.Name())
-		// печатаем имя элемента
 		fmt.Println(filename)
 		// если элемент — директория, то вызываем для него рекурсивно ту же функцию
 		if f.IsDir() {

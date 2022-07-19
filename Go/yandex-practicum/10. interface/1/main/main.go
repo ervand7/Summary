@@ -12,10 +12,6 @@ func main() {
 	pers := person.Person{}
 	robo := &robot.Robot{}
 
-	/*
-		мы передаём переменную типа Person в функцию,
-		аргументом которой является переменная Worker
-	*/
 	comp.Hire(pers)
 	comp.Hire(robo)
 }

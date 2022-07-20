@@ -7,8 +7,9 @@ import (
 )
 
 func main() {
-	param := time.Now().UnixNano()
-	generator := randbyte.New(param)
+	param := time.Now()
+	paramUnix := param.UnixNano()
+	generator := randbyte.New(paramUnix)
 	buf := make([]byte, 16)
 	for i := 0; i < 5; i++ {
 		n, _ := generator.Read(buf)

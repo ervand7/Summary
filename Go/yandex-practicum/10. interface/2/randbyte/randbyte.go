@@ -29,7 +29,10 @@ func New(seed int64) io.Reader {
 // Second variant
 func (g *generator) Read(bytes []byte) (n int, err error) {
 	for i := 0; i+8 < len(bytes); i += 8 {
-		binary.LittleEndian.PutUint64(bytes[i:i+8], uint64(g.rnd.Int63()))
+		randValue := g.rnd.Int63()
+		randValue64 := uint64(randValue)
+		bytesPrepared := bytes[i : i+8]
+		binary.LittleEndian.PutUint64(bytesPrepared, randValue64)
 	}
 	return len(bytes), nil
 }

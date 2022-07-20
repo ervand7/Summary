@@ -19,10 +19,7 @@ func New(_init byte) Hasher {
 	}
 }
 
-// Write сюда может быть записан массив байт любой длины,
-// xдля которой будет подсчитываться хэш.
 func (h *hash) Write(bytes []byte) (n int, err error) {
-	// обновляем хэш для каждого байта, записанного в хэшер
 	for _, b := range bytes {
 		h.result = (h.result^b)<<1 + b%2
 	}

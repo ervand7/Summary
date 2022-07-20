@@ -7,8 +7,7 @@ import (
 )
 
 func main() {
-	fmt.Println([]byte("... BATMAN!"))
-	// создаём strings.Builder
+	// создаём экземпляр strings.Builder
 	w := strings.Builder{}
 
 	for i := 0; i < 50; i++ {

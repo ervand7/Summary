@@ -6,7 +6,6 @@ import (
 )
 
 func Mul(a interface{}, b int) interface{} {
-
 	switch value := a.(type) {
 	case int:
 		return value * b

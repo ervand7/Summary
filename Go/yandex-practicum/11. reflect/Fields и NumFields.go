@@ -11,7 +11,11 @@ func ExtendedPrint(v interface{}) {
 	switch val.Kind() {
 	case reflect.Ptr:
 		if val.Elem().Kind() != reflect.Struct {
-			fmt.Printf("Pointer to %v : %v", val.Elem().Type(), val.Elem())
+			fmt.Printf(
+				"Pointer to %v : %v",
+				val.Elem().Type(),
+				val.Elem(),
+			)
 			return
 		}
 		// если всё-таки это указатель на структуру — дальше будем работать с самой структурой

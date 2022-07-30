@@ -12,21 +12,19 @@ import (
 */
 
 const (
-	waitDur    = 1 * time.Second
-	cancelDur  = 2000 * time.Millisecond
-	timeoutDur = 500 * time.Millisecond
+	cancelDuration  = 2000 * time.Millisecond
+	timeoutDuration = 500 * time.Millisecond
 )
 
 type Config struct {
 	SelectTimeout time.Duration
 }
 
-type DB_ struct {
-	cfg Config
-}
-
 type User_ struct {
 	Name string
+}
+type DB_ struct {
+	cfg Config
 }
 
 func (d *DB_) SelectUser(ctx context.Context, email string) (User_, error) {
@@ -64,12 +62,12 @@ func (h *Handler_) HandleAPI(ctx context.Context, req Request_) (Response_, erro
 }
 
 func main() {
-	cfg := Config{SelectTimeout: timeoutDur}
+	cfg := Config{SelectTimeout: timeoutDuration}
 	db := DB_{cfg: cfg}
 	handler := Handler_{db: &db}
 	ctx, cancel := context.WithCancel(context.Background())
 
-	time.AfterFunc(cancelDur, cancel)
+	time.AfterFunc(cancelDuration, cancel)
 
 	req := Request_{Email: "test@yandex.ru"}
 	resp, err := handler.HandleAPI(ctx, req)

@@ -1,0 +1,14 @@
+   <div class="form-group">
+     <label for="guide">Guide for the trip:</label>
+     <input formControlName="guide" type="file" id="guide" name="guide" (change)="uploadFile($event,'guide')">
+   </div>
+
+   <div class="form-group">
+     <label for="photo">Guide for the trip:</label>
+     <input formControlName="photo" type="image" id="photo" name="photo" (change)="uploadFile($event, 'photo')">
+   </div>
+
+   <div class="form-group">
+     <button class="btn">Upload files</button>
+   </div>
+ </form>

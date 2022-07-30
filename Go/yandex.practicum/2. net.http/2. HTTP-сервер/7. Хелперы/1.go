@@ -24,7 +24,8 @@ func main() {
 		http.NotFoundHandler(),
 		http.RedirectHandler(),
 		http.TimeoutHandler()
-		использовать ещё проще, потому что они возвращают готовый http.Handler:
+		можно напрямую маршрутизировать.
+		Использовать ещё проще, потому что они возвращают готовый http.Handler:
 		http.Handle("/dummy", http.RedirectHandler("https://google/com", 301))
 	*/
 }

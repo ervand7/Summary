@@ -1,7 +1,10 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
+// HelloWorld Handler
 func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("<h1>Hello, World</h1>"))
 }
@@ -10,7 +13,7 @@ func main() {
 	http.HandleFunc("/", HelloWorld)
 	// конструируем свой сервер
 	server := &http.Server{
-		Addr: "mydomain.com:80",
+		Addr: "http://127.0.0.1:8000",
 	}
 	server.ListenAndServe()
 }

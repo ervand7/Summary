@@ -1,4 +1,4 @@
-package httpttest
+package example1
 
 import "net/http"
 

@@ -1,28 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+)
 
-type A struct{}
-
-func (a A) Foo() string {
-	return "a"
-}
-
-type B struct {
-	A
-}
-
-func (b B) Foo() string {
-	return "b"
-}
-
-type C struct {
-	A
+func someURL() string {
+	url_ := url.URL{
+		Scheme: "https",
+		Host:   "example.com",
+	}
+	return url_.String()
 }
 
 func main() {
-	b := B{}
-	c := C{}
-
-	fmt.Println(b.Foo(), c.Foo())
+	fmt.Println(someURL())
 }

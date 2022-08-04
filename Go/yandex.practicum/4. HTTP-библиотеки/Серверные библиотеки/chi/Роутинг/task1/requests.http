@@ -1,0 +1,9 @@
+GET http://localhost:8080/cars
+
+
+###
+GET http://localhost:8080/car?id=id1
+
+
+###
+GET http://localhost:8080/car

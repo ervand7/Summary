@@ -16,6 +16,6 @@ func main() {
 		контекст в конце выполнения функции.
 	*/
 	ctx, cancel := context.WithCancel(context.Background())
-	fmt.Println(ctx)    // context.Background.WithCancel
-	fmt.Println(cancel) // 0x10232cfe0
+	fmt.Println(ctx) // context.Background.WithCancel
+	defer cancel()
 }

@@ -20,56 +20,56 @@ type Config struct {
 	SelectTimeout time.Duration
 }
 
-type User_ struct {
+type User struct {
 	Name string
 }
-type DB_ struct {
+type DB struct {
 	cfg Config
 }
 
-func (d *DB_) SelectUser(ctx context.Context, email string) (User_, error) {
+func (d *DB) SelectUser(ctx context.Context, email string) (User, error) {
 	ctx2, cancel := context.WithTimeout(ctx, d.cfg.SelectTimeout)
 	defer cancel()
 
 	timer := time.NewTimer(1 * time.Second)
 	select {
 	case <-timer.C:
-		return User_{Name: "Gosha"}, nil
+		return User{Name: "Gosha"}, nil
 	case <-ctx2.Done():
-		return User_{}, ctx2.Err()
+		return User{}, ctx2.Err()
 	}
 }
 
-type Handler_ struct {
-	db *DB_
+type Handler struct {
+	db *DB
 }
 
-type Request_ struct {
+type Request struct {
 	Email string
 }
 
-type Response_ struct {
-	User_ User_
+type Response struct {
+	User User
 }
 
-func (h *Handler_) HandleAPI(ctx context.Context, req Request_) (Response_, error) {
+func (h *Handler) HandleAPI(ctx context.Context, req Request) (Response, error) {
 	u, err := h.db.SelectUser(ctx, req.Email)
 	if err != nil {
-		return Response_{}, err
+		return Response{}, err
 	}
 
-	return Response_{User_: u}, nil
+	return Response{User: u}, nil
 }
 
 func main() {
 	cfg := Config{SelectTimeout: timeoutDuration}
-	db := DB_{cfg: cfg}
-	handler := Handler_{db: &db}
+	db := DB{cfg: cfg}
+	handler := Handler{db: &db}
 	ctx, cancel := context.WithCancel(context.Background())
 
 	time.AfterFunc(cancelDuration, cancel)
 
-	req := Request_{Email: "test@yandex.ru"}
+	req := Request{Email: "test@yandex.ru"}
 	resp, err := handler.HandleAPI(ctx, req)
 	fmt.Println(resp, err)
 }

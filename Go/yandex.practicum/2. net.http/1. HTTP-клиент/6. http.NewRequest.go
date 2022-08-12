@@ -13,7 +13,8 @@ func main() {
 		Последний аргумент в вызове — body запроса типа io.Reader.
 		Поскольку GET-запрос может не иметь тела, здесь допустимо nil.
 	*/
-	request, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:8000/api/v1/feedbacks_list/", nil)
+	request, err := http.NewRequest(
+		http.MethodGet, "http://127.0.0.1:8000/api/v1/feedbacks_list/", nil)
 	if err != nil {
 		// обработаем ошибку
 	}

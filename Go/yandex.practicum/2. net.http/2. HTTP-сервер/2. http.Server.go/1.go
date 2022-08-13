@@ -13,7 +13,7 @@ func main() {
 	http.HandleFunc("/", HelloWorld)
 	// конструируем свой сервер
 	server := &http.Server{
-		Addr: "http://127.0.0.1:8000",
+		Addr: "http://127.0.0.1:8080",
 	}
 	server.ListenAndServe()
 }

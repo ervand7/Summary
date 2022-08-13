@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Можно запустить сервер со специфицированным net.Listener:
 func main() {
 	listener, err := net.Listen("tcp6", "[::1]:0")
 	if err != nil {

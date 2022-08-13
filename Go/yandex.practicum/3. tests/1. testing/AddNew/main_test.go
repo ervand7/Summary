@@ -2,7 +2,7 @@ package AddNew
 
 import "testing"
 
-func TestFamily_AddNew(t *testing.T) {
+func TestFamilyAddNew(t *testing.T) {
 	type newPerson struct {
 		r Relationship
 		p Person

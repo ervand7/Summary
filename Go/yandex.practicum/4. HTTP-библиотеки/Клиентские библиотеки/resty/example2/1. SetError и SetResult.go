@@ -51,12 +51,14 @@ func main() {
 		return
 	}
 
-	fmt.Println(post)
+	fmt.Printf("%#v", post)
 }
 
 /*
-{1 2 qui est esse est rerum tempore vitae
-sequi sint nihil reprehenderit dolor beatae ea dolores neque
-fugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis
-qui aperiam non debitis possimus qui neque nisi nulla}
+main.Post{
+	UserID:1,
+	ID:2,
+	Title:"qui est esse",
+	Text:"est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+}
 */

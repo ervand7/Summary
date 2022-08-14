@@ -34,14 +34,16 @@ func main() {
 				panic(err)
 			}
 		})
-		
-		// создадим суброутер, который будет содержать две функции
+
+		// создадим суброутер /{brand}, который будет содержать две функции
 		r.Route("/{brand}", func(r chi.Router) {
+			// /cars/{brand}
 			r.Get("/", func(rw http.ResponseWriter, r *http.Request) {
 				// код вывода всех автомобилей бренда
 				brand := chi.URLParam(r, "brand")
 				rw.Write([]byte(brand))
 			})
+			// /cars/{brand}/{model}
 			r.Get("/{model}", func(rw http.ResponseWriter, r *http.Request) {
 				// код вывода определённой модели
 				// параметр brand будет доступен
@@ -52,7 +54,7 @@ func main() {
 		})
 	})
 
-	log.Fatal(http.ListenAndServe(":3333", r))
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
 
 // carsListFunc — вспомогательная функция для вывода всех машин.

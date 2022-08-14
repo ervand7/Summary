@@ -8,7 +8,6 @@ import (
 
 func main() {
 	client := resty.New()
-
 	client.
 		// устанавливаем количество повторений
 		SetRetryCount(3).

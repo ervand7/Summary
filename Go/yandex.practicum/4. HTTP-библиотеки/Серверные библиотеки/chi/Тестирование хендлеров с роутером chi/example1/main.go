@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/go-chi/chi/v5"
+	"log"
 	"net/http"
 )
 
@@ -20,4 +21,8 @@ func NewRouter() chi.Router {
 		})
 	})
 	return r
+}
+
+func main() {
+	log.Fatal(http.ListenAndServe(":8080", NewRouter()))
 }

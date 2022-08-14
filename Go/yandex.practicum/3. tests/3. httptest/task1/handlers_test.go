@@ -25,18 +25,27 @@ func TestUserViewHandler(t *testing.T) {
 		{
 			name: "simple test #1",
 			users: map[string]User{
-				"id1": {
-					ID:        "id1",
+				"u1": {
+					ID:        "u1",
 					FirstName: "Misha",
 					LastName:  "Popov",
+				},
+				"u2": {
+					ID:        "u2",
+					FirstName: "Ivan",
+					LastName:  "Petrov",
 				},
 			},
 			want: want{
 				contentType: "application/json",
 				statusCode:  200,
-				user:        User{},
+				user: User{
+					ID:        "u1",
+					FirstName: "Misha",
+					LastName:  "Popov",
+				},
 			},
-			request: "/users?user_id=1",
+			request: "/users?user_id=u1",
 		},
 	}
 	for _, tt := range tests {

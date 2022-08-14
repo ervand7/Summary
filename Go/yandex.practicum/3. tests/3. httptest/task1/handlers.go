@@ -33,6 +33,7 @@ func UserViewHandler(users map[string]User) http.HandlerFunc {
 			return
 		}
 
+		rw.Header().Set("Content-Type", "application/json")
 		rw.WriteHeader(http.StatusOK)
 		rw.Write(jsonUser)
 	}

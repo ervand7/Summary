@@ -1,0 +1,22 @@
+JUST:="just --justfile="+justfile()
+
+@_all:
+    {{ JUST }} --list
+
+build:
+    docker build -t prometeus-writer .
+
+up:
+    docker-compose up --build --detach
+
+down:
+    docker-compose down 
+
+logs SERVICE='prometeus':
+    docker-compose logs {{ SERVICE }} 
+
+ps:
+    docker-compose ps 
+
+inc_metric NAME:
+  echo "{{ NAME }} 3.14" | curl --data-binary @- http://localhost:9091/metrics/job/prometeus

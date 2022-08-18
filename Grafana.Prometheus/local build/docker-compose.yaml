@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+
+  grafana:
+    image: grafana/grafana-enterprise:latest
+    ports:
+      - 3000:3000
+
+  prometeus:
+    image: prom/prometheus:latest
+    volumes:
+    - ./prometeus:/etc/prometheus
+    ports:
+    - 9090:9090
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    ports:
+    - 9091:9091

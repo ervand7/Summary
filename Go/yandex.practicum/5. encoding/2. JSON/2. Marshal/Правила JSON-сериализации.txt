@@ -1,0 +1,24 @@
+ - если для объекта задан метод MarshalJSON, то вызывается именно
+ этот метод;
+
+ - если же для объекта определён метод MarshalText, то вызывается он —
+ результатом будет JSON string;
+
+ - bool -> JSON boolean;
+
+ - float, int -> JSON number;
+
+ - string -> JSON string в кодировке UTF-8 с заменой специальных
+ символов на escaped-представление (" -> \");
+
+ - массивы и слайсы -> JSON array;
+
+ - []byte -> закодированная в Base64 строка;
+
+ - структуры -> JSON object;
+
+ - map -> JSON object с условием, что ключ — это int,
+ string или объект, реализующий интерфейс encoding.TextMarshaler;
+
+ - interface{} -> JSON null для nil-значений или
+ сериализация согласно типу значения.

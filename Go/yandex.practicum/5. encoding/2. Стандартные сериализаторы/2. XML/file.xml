@@ -1,0 +1,28 @@
+<report>
+    <competition>
+        <date>2021-06-20T17:24:26.882522+03:00</date>
+        <location>РФ, Санкт-Петербург, Дворец творчества юных</location>
+        <class>ТА-24</class>
+    </competition>
+    <racer global_id="100">
+        <nick>RacerX</nick>
+        <best_lap_ms>61012</best_lap_ms>
+        <laps>52.3</laps>
+    </racer>
+    <racer global_id="127">
+        <nick>Иван The Шумахер</nick>
+        <best_lap_ms>61023</best_lap_ms>
+        <laps>51</laps>
+    </racer>
+    <racer global_id="203">
+        <nick>Петя Иванов</nick>
+        <best_lap_ms>63000</best_lap_ms>
+        <laps>49.9</laps>
+        <!--Болид не соответствует техническому регламенту, результат не учитывается в общем рейтинге-->
+    </racer>
+    <racer>
+        <nick>Гость 1</nick>
+        <best_lap_ms>123001</best_lap_ms>
+        <laps>25.8</laps>
+    </racer>
+</report>

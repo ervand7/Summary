@@ -1,0 +1,6 @@
+1) в prometheus вводим
+increase(pushgateway_http_requests_total [2h])
+Именно эту встроенную метрику мы и инкрементим через curl
+
+2) если ходим подключить Grafana, то логин/пароль admin admin
+и в datasource Prometheus выбираем access Browser

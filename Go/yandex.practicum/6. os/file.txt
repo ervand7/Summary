@@ -1,1 +1,0 @@
-{"id":12,"car_model":"BMW","price":11.12}

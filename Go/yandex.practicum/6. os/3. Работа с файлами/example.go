@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -93,6 +94,7 @@ func (c *consumer) Close() error {
 }
 
 func main() {
+	//defer os.Remove("file.txt")
 	prod, _ := NewProducer("file.txt")
 	event := Event{
 		ID:       12,
@@ -101,7 +103,7 @@ func main() {
 	}
 	err := prod.WriteEvent(&event)
 	if err != nil {
-		error.Error(err)
+		log.Fatal(err)
 	}
 
 	cons, _ := NewConsumer("file.txt")

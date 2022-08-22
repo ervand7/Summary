@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 )
 
 /*
@@ -24,7 +23,12 @@ func main() {
 	var enc string
 	flag.StringVar(&enc, "enc", "UTF8", "Text encoding. Possible values: UTF8 UTF16 ascii")
 	flag.Parse()
-	filename := flag.Arg(0)
-	file, err := os.Open(filename)
-	fmt.Println(file, err)
+	fmt.Println(flag.Arg(1))
+	fmt.Println(flag.Args())
 }
+
+/*
+$ go run 6.\ Позиционные\ аргументы.go --enc=UTF16 xf cg sdf cgh drt
+xf
+[xf cg sdf cgh drt]
+*/

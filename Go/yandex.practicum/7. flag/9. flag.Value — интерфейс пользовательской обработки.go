@@ -35,4 +35,10 @@ func main() {
 	flag.Var(users, "users", "List of users")
 	// запускаем парсинг
 	flag.Parse()
+	fmt.Println(users)
 }
+
+/*
+go run 9.\ flag.Value\ —\ интерфейс\ пользовательской\ обработки.go -users=John,Mary,Ivan,qweqwe
+John,Mary,Ivan,qweqwe
+*/

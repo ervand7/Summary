@@ -6,24 +6,25 @@ import (
 	"os"
 )
 
+// НЕПОНЯТНЫЙ ПРИМЕР!
 func main() {
 	// декларируем наборы флагов для subcommand
 	getFlags := flag.NewFlagSet("get", flag.ExitOnError)
 	setFlags := flag.NewFlagSet("set", flag.ExitOnError)
 	// декларируем флаги для набора getFlags
-	getKey := getFlags.String("key", "", "Key string")
+	getKey := getFlags.String("key", "123", "Key string")
 	// флаги набора setFlags
-	setKey := setFlags.String("key", "", "Key string")
+	setKey := setFlags.String("key", "321", "Key string")
 	// проверяем, задана ли подкоманда
-	// os.Arg[0] имя команды
-	// os.Arg[1] имя подкоманды
+	//fmt.Println(os.Args[0]) // имя команды
+	//fmt.Println(os.Args[1]) // имя подкоманды
 	if len(os.Args) < 2 {
 		fmt.Println("set or get subcommand required")
 		os.Exit(1)
 	}
-	// В зависимости от переданной подкоманды
-	// делаем парсинг флагов соответствующего набора.
-	// Передаём функции FlagSet.Parse() аргументы командной строки.
+	// в зависимости от переданной подкоманды
+	// делаем парсинг флагов соответствующего набора
+	// передаём функции FlagSet.Parse() аргументы командной строки
 	// os.Args[2:] содержит все аргументы,
 	// следующие за os.Args[1] — именем подкоманды
 	switch os.Args[1] {

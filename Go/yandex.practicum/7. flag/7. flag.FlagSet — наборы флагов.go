@@ -6,22 +6,26 @@ import (
 	"os"
 )
 
-// НЕПОНЯТНЫЙ ПРИМЕР!
 func main() {
 	// декларируем наборы флагов для subcommand
 	getFlags := flag.NewFlagSet("get", flag.ExitOnError)
 	setFlags := flag.NewFlagSet("set", flag.ExitOnError)
 	// декларируем флаги для набора getFlags
-	getKey := getFlags.String("key", "123", "Key string")
+	getKey := getFlags.String("key", "", "Key string")
 	// флаги набора setFlags
-	setKey := setFlags.String("key", "321", "Key string")
+	setKey := setFlags.String("key", "", "Key string")
+	setValue := setFlags.String("value", "", "Value string")
+
+	osArgs := os.Args
+	fmt.Println(osArgs)
 	// проверяем, задана ли подкоманда
-	//fmt.Println(os.Args[0]) // имя команды
-	//fmt.Println(os.Args[1]) // имя подкоманды
+	// os.Arg[0] имя команды
+	// os.Arg[1] имя подкоманды
 	if len(os.Args) < 2 {
 		fmt.Println("set or get subcommand required")
 		os.Exit(1)
 	}
+
 	// в зависимости от переданной подкоманды
 	// делаем парсинг флагов соответствующего набора
 	// передаём функции FlagSet.Parse() аргументы командной строки
@@ -41,11 +45,17 @@ func main() {
 	// FlagSet.Parsed() возвращает false, если
 	// парсинг флагов набора не проводился
 	if getFlags.Parsed() {
-		// логика для kvstore get
+		// логика для get
 	}
 	if setFlags.Parsed() {
-		// логика для kvstore set
+		// логика для set
 	}
 
-	fmt.Println(getKey, setKey)
+	fmt.Println(getKey, setKey, setValue) // for debug
 }
+
+/*
+$ go run 7.\ flag.FlagSet\ —\ наборы\ флагов.go get -key key111
+или
+$ go run 7.\ flag.FlagSet\ —\ наборы\ флагов.go set -key key222 -value value222
+*/

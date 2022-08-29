@@ -23,8 +23,11 @@ func main() {
 	var enc string
 	flag.StringVar(&enc, "enc", "UTF8", "Text encoding. Possible values: UTF8 UTF16 ascii")
 	flag.Parse()
-	fmt.Println(flag.Arg(1))
-	fmt.Println(flag.Args())
+	firstArg := flag.Arg(0)
+	fmt.Println(firstArg)
+
+	allArgs := flag.Args()
+	fmt.Println(allArgs)
 }
 
 /*

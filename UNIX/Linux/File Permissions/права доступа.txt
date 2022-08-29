@@ -1,5 +1,6 @@
-суперская статья:
+Awesome articles:
 https://losst.ru/prava-dostupa-k-fajlam-v-linux
+https://www.linuxfoundation.org/blog/classic-sysadmin-understanding-linux-file-permissions/
 _________________________________________________________________
 
 chown – изменить владельца файла/директории

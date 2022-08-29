@@ -9,13 +9,10 @@ import (
 )
 
 /*
-Реализуйте интерфейс flag.Value для типа
-type NetAddress struct {
-    Host string
-    Port int
-
+Реализуйте интерфейс flag.Value для типа NetAddress,
 чтобы разобрать флаг --addr=example.com:60
-}
+
+Для решения этой задачи реализовываем интерфейс flag.Value
 */
 
 type NetAddress struct {
@@ -23,28 +20,26 @@ type NetAddress struct {
 	Port int
 }
 
-func (a NetAddress) String() string {
-	return a.Host + ":" + strconv.Itoa(a.Port)
+func (n NetAddress) String() string {
+	return n.Host + ":" + strconv.Itoa(n.Port)
 }
 
-func (a *NetAddress) Set(s string) error {
-	hp := strings.Split(s, ":")
-	if len(hp) != 2 {
-		return errors.New("need address in a form host:port")
+func (n *NetAddress) Set(s string) error {
+	splitParams := strings.Split(s, ":")
+	if len(splitParams) != 2 {
+		return errors.New("need address in n form host:port")
 	}
-	port, err := strconv.Atoi(hp[1])
+	port, err := strconv.Atoi(splitParams[1])
 	if err != nil {
 		return err
 	}
-	a.Host = hp[0]
-	a.Port = port
+	n.Host = splitParams[0]
+	n.Port = port
 	return nil
 }
 
 func main() {
 	addr := new(NetAddress)
-	// если интерфейс не реализован, здесь будет ошибка компиляции
-	_ = flag.Value(addr)
 	// проверка реализации
 	flag.Var(addr, "addr", "Net address host:port")
 	flag.Parse()

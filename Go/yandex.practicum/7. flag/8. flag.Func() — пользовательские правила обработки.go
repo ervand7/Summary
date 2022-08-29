@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// Например, утилита, принимающая флаг utility -users=John,Mary,Ivan,qweqwe,
+// Например, утилита, принимающая флаг -users=John,Mary,Ivan,qweqwe,
 // может содержать такой код:
 
 func main() {

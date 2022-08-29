@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -11,6 +12,7 @@ func main() {
 	MyIntFlagPointer := flag.Int("hello", 1, "usage description")
 	flag.Parse()
 	fmt.Println(*MyIntFlagPointer)
+	fmt.Println(os.Args[1:])
 	/*
 		Функция принимает аргументы: имя флага, значение по умолчанию и строку
 		расшифровки, предназначенную для вывода в подсказке usage.
@@ -33,6 +35,6 @@ Usage of /var/folders/ky/889zsrl12nvcz0x0wdr24hsm0000gn/T/go-build1099743715/b00
   -Hello int
         usage description (default 1)
 
-2) $ // go run 3.\ flag.Int\ —\ простая\ форма\ декларации\ флага.go --hello=155
+2) $ go run 3.\ flag.Int\ —\ простая\ форма\ декларации\ флага.go --hello=155
 155
 */

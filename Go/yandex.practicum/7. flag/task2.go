@@ -7,18 +7,22 @@ import (
 )
 
 /*
-Функция flag.Usage объявлена в пакете как переменная, то есть можно её модифицировать.
-Напишите собственную функцию, которая, кроме имени, будет выводить релиз/версию утилиты
+Функция flag.Usage объявлена в пакете как переменная,
+то есть можно её модифицировать.
+Напишите собственную функцию, которая, кроме имени, будет
+выводить релиз/версию утилиты.
 */
 
 var version = "0.0.1"
 
 func main() {
 	flag.Usage = func() {
-		fmt.Fprintf(flag.CommandLine.Output(), "Usage of %s:\nVersion%s:\n", os.Args[0], version)
+		fmt.Fprintf(
+			flag.CommandLine.Output(),
+			"Usage of %s:\nVersion%s:\n", os.Args[0], version,
+		)
 		flag.PrintDefaults()
 	}
-
 	flag.Parse()
 }
 

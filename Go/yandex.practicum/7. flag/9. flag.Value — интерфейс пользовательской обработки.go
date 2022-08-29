@@ -12,8 +12,12 @@ type Users struct {
 }
 
 /*
-нужно сделать парсинг флага вида -users=John,Mary,Ivan,Vasya в
-переменную такого типа. Для типа должен быть реализован интерфейс flag.Value.
+нужно сделать парсинг флага вида -users=John,Mary,Ivan,qweqwe в
+переменную такого типа. Для типа должен быть реализован интерфейс flag.Value:
+type Value interface {
+	String() string
+	Set(string) error
+}
 */
 
 // String должен уметь сериализовать переменную типа в строку.
@@ -31,14 +35,14 @@ func (u *Users) Set(flagValue string) error {
 // После этого можно сделать парсинг флага в пользовательский тип функцией flag.Var():
 func main() {
 	users := new(Users)
-	// декларируем парсинг флага users в переменную типа Users
+	// парсим значение флага users в переменную типа Users
 	flag.Var(users, "users", "List of users")
 	// запускаем парсинг
 	flag.Parse()
-	fmt.Println(users)
+	fmt.Printf("%#+v", users)
 }
 
 /*
 go run 9.\ flag.Value\ —\ интерфейс\ пользовательской\ обработки.go -users=John,Mary,Ivan,qweqwe
-John,Mary,Ivan,qweqwe
+&main.Users{group:"", users:[]string{"John", "Mary", "Ivan", "qweqwe"}}
 */

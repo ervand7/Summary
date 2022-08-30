@@ -1,0 +1,4 @@
+2022-08-30 21:33:08,441 - [INFO] - __mp_main__ - (example.py).log_processor(21) - info - producer 66208
+2022-08-30 21:33:08,442 - [WARNING] - __mp_main__ - (example.py).log_processor(21) - warning - producer 66208
+2022-08-30 21:33:08,446 - [INFO] - __mp_main__ - (example.py).log_processor(21) - info - producer 66209
+2022-08-30 21:33:08,446 - [WARNING] - __mp_main__ - (example.py).log_processor(21) - warning - producer 66209

@@ -35,7 +35,8 @@ func main() {
 	// получите идентификатор из первых четырёх байт, используйте функцию binary.BigEndian.Uint32
 	id = binary.BigEndian.Uint32(data[:4])
 
-	// вычислите HMAC-подпись sign для этих четырёх байт
+	// В переменную sign вычислите HMAC-подпись (secretkey, который зашит в msg)
+	// для этих четырёх байт
 	hasher := hmac.New(sha256.New, secretkey)
 	hasher.Write(data[:4])
 	sign = hasher.Sum(nil)

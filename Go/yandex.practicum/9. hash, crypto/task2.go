@@ -25,9 +25,9 @@ func main() {
 		panic(err)
 	}
 
-	h := md5.New()
-	h.Write(data)
-	hash1 = h.Sum(nil)
+	hasher := md5.New()
+	hasher.Write(data)
+	hash1 = hasher.Sum(nil)
 
 	hash2 = md5.Sum(data)
 

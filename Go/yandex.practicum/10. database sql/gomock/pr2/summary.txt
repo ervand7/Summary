@@ -1,0 +1,5 @@
+ ● GO111MODULE=on go install github.com/golang/mock/mockgen@v1.6.0
+ ● go mod init pr2
+ ● go get github.com/golang/mock/mockgen/model
+ ● cd store
+ ● mockgen -destination=mocks/mock_doer.go -package=mocks . Store

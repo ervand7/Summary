@@ -19,15 +19,11 @@ func generateRandom_(size int) ([]byte, error) {
 }
 
 func main() {
-	src := []byte("0") // данные, которые хотим зашифровать
+	src := []byte("Привет!") // данные, которые хотим зашифровать
 	fmt.Printf("original: %s\n", src)
 
 	// будем использовать AES256, создав ключ длиной 32 байта
 	key := sha256.Sum256([]byte("x35k9f")) // ключ шифрования
-	//if err != nil {
-	//	fmt.Printf("error: %v\n", err)
-	//	return
-	//}
 
 	aesblock, err := aes.NewCipher(key[:])
 	if err != nil {

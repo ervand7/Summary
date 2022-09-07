@@ -8,12 +8,6 @@ import (
 )
 
 type (
-	Video_ struct {
-		Id   string
-		Name string
-		Tags Tags
-	}
-
 	Tags []string
 )
 

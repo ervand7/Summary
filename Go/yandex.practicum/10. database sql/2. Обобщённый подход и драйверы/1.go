@@ -1,13 +1,20 @@
 package main
 
+import (
+	"context"
+	"database/sql"
+	_ "github.com/jackc/pgx/v4/stdlib"
+	"time"
+)
+
 /*
-Обратите внимание: пакет go-sqlite3 импортирован анонимно.
-Не получится обращаться напрямую к go-sqlite3.
+Обратите внимание: пакет github.com/jackc/pgx/v4/stdlib импортирован анонимно.
+Не получится обращаться напрямую к pgx.
 Внутри пакет зарегистрирует себя самостоятельно и
 будет доступен для использования через sql.DB.
 
 Если нас не интересует пространство имён драйвера
-github.com/mattn/go-sqlite3, зачем вообще его импортировать?
+github.com/jackc/pgx/v4/stdlib, зачем вообще его импортировать?
 Что происходит при этом импорте?
 Правильный ответ:
 Отрабатывают init()-функции пакета драйвера.
@@ -15,27 +22,19 @@ github.com/mattn/go-sqlite3, зачем вообще его импортиров
 в init()-функциях драйвера, которые вызываются при импорте
 */
 
-import (
-	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
-)
-
 func main() {
-	db, err := sql.Open("sqlite3",
-		"db.db")
+	db, err := sql.Open("pgx",
+		"user=ervand password=ervand dbname=go_lesson10 host=localhost port=5432 sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
-	// работаем с базой
-	// ...
 
-	/*
-		можем продиагностировать соединение
-		ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
-		defer cancel()
-		if err = db.PingContext(ctx); err != nil {
-			panic(err)
-		}
-	*/
+	// можем продиагностировать соединение
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+	if err = db.PingContext(ctx); err != nil {
+		panic(err)
+	}
 }

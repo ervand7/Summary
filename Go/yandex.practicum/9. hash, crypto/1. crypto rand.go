@@ -23,10 +23,20 @@ func main() {
 	// определяем слайс нужной длины
 	b := make([]byte, 16)
 	_, err := rand.Read(b) // записываем байты в массив b
+	fmt.Println(b)
+
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 		return
 	}
 
-	fmt.Println(hex.EncodeToString(b)) // b8f22b438300646a0964cf5a3d0eff7a
+	encoded := hex.EncodeToString(b)
+	fmt.Println(encoded) // b8f22b438300646a0964cf5a3d0eff7a
+
+	decoded, err := hex.DecodeString(encoded)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+		return
+	}
+	fmt.Println(decoded)
 }

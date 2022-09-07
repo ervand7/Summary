@@ -16,10 +16,8 @@ github.com/mattn/go-sqlite3, зачем вообще его импортиров
 */
 
 import (
-	"context"
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
-	"time"
 )
 
 func main() {
@@ -31,11 +29,13 @@ func main() {
 	defer db.Close()
 	// работаем с базой
 	// ...
-	// можем продиагностировать соединение
-	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
-	defer cancel()
-	if err = db.PingContext(ctx); err != nil {
-		panic(err)
-	}
-	// в процессе работы
+
+	/*
+		можем продиагностировать соединение
+		ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
+		defer cancel()
+		if err = db.PingContext(ctx); err != nil {
+			panic(err)
+		}
+	*/
 }

@@ -2,6 +2,7 @@ package persistent
 
 import (
 	"github.com/golang/mock/gomock"
+
 	"pr2/store/mocks"
 	"testing"
 )

@@ -1,1 +1,2 @@
 go get github.com/mattn/go-sqlite3
+brew install sqlite

@@ -4,14 +4,14 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/jackc/pgx/v4/stdlib"
 	"log"
 	"time"
 )
 
 func main() {
-	db, err := sql.Open("sqlite3",
-		"identifier.sqlite")
+	db, err := sql.Open("pgx",
+		"user=ervand password=ervand dbname=go_lesson10 host=localhost port=5432 sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
@@ -35,5 +35,4 @@ func main() {
 	}
 
 	fmt.Println(title, "\n", views, "\n", channel_title)
-
 }

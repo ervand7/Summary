@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 type video struct {
@@ -19,7 +19,7 @@ const Limit = 30
 func Videos(ctx context.Context, db *sql.DB, limit int) ([]video, error) {
 	videos := make([]video, 0, limit)
 
-	rows, err := db.QueryContext(ctx, "select \"channel_title\", sum(\"views\"), count(\"video_id\"), avg(\"views\")\nfrom videos\ngroup by channel_title\norder by sum(\"views\") desc\nlimit ?", limit)
+	rows, err := db.QueryContext(ctx, "select \"channel_title\", sum(\"views\"), count(\"video_id\"), avg(\"views\")\nfrom videos\ngroup by channel_title\norder by sum(\"views\") desc\nlimit $1", limit)
 	if err != nil {
 		return nil, err
 	}
@@ -47,8 +47,8 @@ func Videos(ctx context.Context, db *sql.DB, limit int) ([]video, error) {
 }
 
 func main() {
-	db, err := sql.Open("sqlite3",
-		"identifier.sqlite")
+	db, err := sql.Open("pgx",
+		"user=ervand password=ervand dbname=go_lesson10 host=localhost port=5432 sslmode=disable")
 	if err != nil {
 		panic(err)
 	}

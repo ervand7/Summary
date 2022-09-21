@@ -27,7 +27,7 @@ func main() {
 		wg.Add(1) // инкрементируем счётчик, сколько горутин нужно подождать
 
 		go func(i int) {
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(2 * time.Second)
 			fmt.Printf("hi %d\n", i)
 			// уменьшаем счётчик, когда горутина завершает работу
 			wg.Done()

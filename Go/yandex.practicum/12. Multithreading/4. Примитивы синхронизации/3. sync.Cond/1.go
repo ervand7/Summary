@@ -58,8 +58,8 @@ func (q *Queue) PopWait() *Task {
 		q.cond.Wait()
 	}
 
-	t := q.arr[0]
-	q.arr = q.arr[1:]
+	t := q.arr[0]     // получаем таску
+	q.arr = q.arr[1:] // убираем таску из списка с тасками
 
 	return t
 }
@@ -94,7 +94,7 @@ func NewWorker(id int, queue *Queue, resizer *Resizer) *Worker {
 
 func (w *Worker) Loop() {
 	for {
-		t := w.queue.PopWait()
+		t := w.queue.PopWait() // получаем таску
 
 		err := w.resizer.Resize(t.Filename, t.ToSize)
 		if err != nil {
@@ -119,7 +119,13 @@ func main() {
 
 	filenames := []string{"gopher.jpg", "test.png"}
 	for _, f := range filenames {
-		queue.Push(&Task{Filename: f, ToSize: Size{Width: 1024, Height: 1024}})
+		queue.Push(
+			&Task{
+				Filename: f, ToSize: Size{
+					Width: 1024, Height: 1024,
+				},
+			},
+		)
 	}
 
 	time.Sleep(1 * time.Second)

@@ -2,19 +2,24 @@ package main
 
 import (
 	"fmt"
-	"sync"
+	"runtime"
+	"time"
 )
 
 func main() {
-	var wg sync.WaitGroup
+	runtime.GOMAXPROCS(1)
+	go func() {
+		var u int
+		for {
+			u -= 2
 
-	n := 10
-	for i := 0; i < n-1; i++ {
-		wg.Add(1)
-		go func(v int) {
-			fmt.Println(v)
-			wg.Done()
-		}(i)
-	}
-	wg.Wait()
+			if u == 1 {
+				fmt.Print(u)
+				break
+			}
+		}
+	}()
+	<-time.After(time.Millisecond * 5) // в этом месте main горутина разбудит планировщик, а он в свою очередь запустит горутину с циклом
+
+	fmt.Println("go 1.13 has never been here")
 }

@@ -3,20 +3,22 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 func main() {
-	var mu sync.Mutex
 	m := make(map[int]int)
 
+	var mu sync.Mutex
+	var wg sync.WaitGroup
 	for i := 0; i < 100; i++ {
+		wg.Add(1)
 		go func(v int) {
 			mu.Lock()
 			m[v] = v
 			mu.Unlock()
+			wg.Done()
 		}(i)
 	}
-	time.Sleep(1 * time.Second)
-	fmt.Println(len(m))
+	wg.Wait()
+	fmt.Println(m, "\n", len(m))
 }

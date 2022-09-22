@@ -30,7 +30,7 @@ func main() {
 		wg.Add(1)
 		go thread(&wg, i)
 	}
-	time.Sleep(1 * time.Second)
+	time.Sleep(2 * time.Second)
 	// сообщаем горутинам о завершении работы
 	close(done)
 	// ждём завершения всех горутин

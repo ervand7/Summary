@@ -2,23 +2,19 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
-func say(s string) {
-	for i := 0; i < 5; i++ {
-		fmt.Print(s + ` `)
-		time.Sleep(100 * time.Millisecond)
-	}
-}
-
 func main() {
-	// создадим горутину с функцией say
-	go say(`hello`)
-	// создадим горутину с анонимной функцией
-	go func() {
-		say(`world`)
-	}()
-	// обычный вызов функции say
-	say(`bye`)
+	var wg sync.WaitGroup
+
+	n := 10
+	for i := 0; i < n-1; i++ {
+		wg.Add(1)
+		go func(v int) {
+			fmt.Println(v)
+			wg.Done()
+		}(i)
+	}
+	wg.Wait()
 }

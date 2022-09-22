@@ -23,6 +23,7 @@ type Config struct {
 
 func (c *Config) Get(k string) (string, bool) {
 	c.once.Do(func() { // эта функция отработает только 1 раз
+		fmt.Print("Hello\n") // для дебага, чтобы было видно, что функция отрабатывает 1 раз
 		c.vals = map[string]string{
 			"host": "127.0.0.1",
 			"port": fmt.Sprintf("%d", rand.Intn(65535)),

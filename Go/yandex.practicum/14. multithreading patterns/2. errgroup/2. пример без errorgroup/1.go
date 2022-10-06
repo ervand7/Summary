@@ -18,6 +18,7 @@ func healthCheck(url string, errCh chan<- error, wg *sync.WaitGroup, stopCh <-ch
 			// остальные завершат работу, провалившись в этот case
 			case <-stopCh:
 				log.Println("aborting", url)
+				return
 			}
 		}
 		wg.Done()
@@ -38,9 +39,6 @@ func main() {
 	wg := &sync.WaitGroup{}
 	errCh := make(chan error)
 	stopCh := make(chan struct{})
-	// делаем сигнальный канал, но он будет работать иначе.
-	// Горутины, которые нужно остановить, будут заблокированы на нём.
-	// Если понадобится их завершить, просто вызовем close(stopCh)
 
 	hostsToCheck := []string{
 		"https://ya1ndex.ru",
@@ -62,7 +60,7 @@ func main() {
 
 	if err := <-errCh; err != nil {
 		log.Println(err)
-		close(stopCh)
+		stopCh <- struct{}{}
 		return
 	}
 

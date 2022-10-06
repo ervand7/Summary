@@ -26,6 +26,11 @@ func main() {
 		g.Go(func() error {
 			for {
 				select {
+				/*
+					The derived Context is canceled the first time a function passed to Go
+					returns a non-nil error or the first time Wait returns, whichever occurs
+					first.
+				*/
 				case <-ctx.Done():
 					return nil
 				default:

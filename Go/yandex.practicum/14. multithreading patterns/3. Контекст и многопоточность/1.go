@@ -9,13 +9,15 @@ import (
 	"sync"
 )
 
-func healthCheck(ctx context.Context, url string, errCh chan<- error, wg *sync.WaitGroup) {
+func healthCheck(
+	ctx context.Context, url string, errCh chan<- error, wg *sync.WaitGroup,
+) {
 	var defErr error
 	defer func() {
 		if defErr != nil {
 			select {
 			case errCh <- defErr:
-			case <-ctx.Done(): // теперь здесь используем контекст
+			case <-ctx.Done():
 				log.Println("aborting", url)
 			}
 		}
@@ -37,7 +39,6 @@ func main() {
 	wg := &sync.WaitGroup{}
 	errCh := make(chan error)
 	ctx, cancel := context.WithCancel(context.Background())
-	// контекст на замену stopCh
 
 	hostsToCheck := []string{
 		"https://ya1ndex.ru",

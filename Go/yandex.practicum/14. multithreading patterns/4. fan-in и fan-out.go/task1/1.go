@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"sync"
 )
 
@@ -43,7 +42,6 @@ func newWorker(input, out chan int) {
 		defer func() {
 			if x := recover(); x != nil {
 				newWorker(input, out)
-				log.Printf("run time panic: %v", x)
 			}
 		}()
 

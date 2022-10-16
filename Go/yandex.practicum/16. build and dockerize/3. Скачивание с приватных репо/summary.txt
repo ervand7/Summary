@@ -1,0 +1,16 @@
+Если приходим на новую работу и не можем что-то скачать из приватных
+репозиториев, то нужно:
+
+1) зайти в рабочий репозиторий и добавить туда ssh с компа
+(cd ~/.ssh && cat id_rsa.pub)
+
+2) git clone наш_приватный_репо (без https://)
+
+3) на примере github:
+Подменяем загрузку по https по ssh:
+git config --global url."git@"github.com:".insteadOf https://github.com/
+
+4) нужно поломать GOPRIVATE:
+export GOPRIVATE=наш_приватный_репо (без https://)
+
+5) go get наш_приватный_репо (без https://)

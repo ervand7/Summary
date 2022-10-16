@@ -1,9 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"time"
+)
 
 func main() {
-	defer fmt.Println("1")
-	defer fmt.Println("2")
-	defer fmt.Println("3")
+	a := time.NewTimer(0)
+	a.Reset(time.Second * 3)
 }

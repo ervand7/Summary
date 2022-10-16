@@ -1,7 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 func main() {
-	fmt.Println(100500 / -1)
+	shorts := []string{
+		"hello1",
+		"hello2",
+		"hello3",
+		"hello4",
+		"hello5",
+		"hello6",
+		"hello7",
+	}
+
+	res, err := json.Marshal(shorts)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(string(res))
 }

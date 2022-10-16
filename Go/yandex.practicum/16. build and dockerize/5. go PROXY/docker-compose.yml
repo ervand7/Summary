@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  athens:
+    image: gomods/athens
+    ports:
+      - 3000:3000
+    environment:
+      - ATHENS_DISK_STORAGE_ROOT=/var/data
+      - ATHENS_STORAGE_TYPE=disk
+      - ATHENS_GO_BINARY_ENV_VARS=GOPROXY=proxy.golang.org,direct
+    volumes:
+      - /var/data:/var/data

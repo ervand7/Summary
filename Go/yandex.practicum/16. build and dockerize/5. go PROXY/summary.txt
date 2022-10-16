@@ -1,0 +1,4 @@
+docker-compose up
+export GOPROXY=http://localhost:3000
+
+go get github.com/gorilla/mux

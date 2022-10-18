@@ -1,0 +1,1 @@
+https://restfulapi.net/resource-naming/

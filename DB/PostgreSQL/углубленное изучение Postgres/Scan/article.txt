@@ -1,2 +1,3 @@
  ● виды сканирования в Postgres:
 https://severalnines.com/database-blog/overview-various-scan-methods-postgresql
+https://pganalyze.com/docs/explain/scan-nodes

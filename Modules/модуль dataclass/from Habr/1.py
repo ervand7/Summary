@@ -8,7 +8,7 @@ class RegularBook:
         self.author = author
 
 
-# we will change to
+# we will change to dataclass
 @dataclass
 class Book:
     """

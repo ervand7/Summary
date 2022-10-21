@@ -1,0 +1,16 @@
+ ● minikube start
+
+ ● brew install helm
+
+ ● helm create Chart-Auto
+можем для примера автоматически создать Helm
+
+ ● helm install app Chart-Denis/
+деплоим
+
+ ● helm list
+показать, какие деплойменты с хелмом были сделаны
+
+ ● helm install app1 Chart-Denis/ --set container.image=ervand7/k8s_explore:simple_flask --set replicaCount=3
+можем задеплоить с более тонкой конфигурацией
+

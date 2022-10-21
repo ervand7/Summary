@@ -1,2 +1,0 @@
- ● cd 3.\ Создание\ и\ управление\ Deployments/3.\ создание\ replica\ через\ манифест
- ● kubectl apply -f manifest.yaml

@@ -1,9 +1,0 @@
-В manifest можно менять только image, например, на nginx:
-после этого:
-
- ● kubectl apply -f my_manifest.yaml
-заново запускаем
-
- ● kubectl port-forward hello 7788:80
-потому что nginx работает на порту 80.
-Теперь при localhost:7788 видим nginx

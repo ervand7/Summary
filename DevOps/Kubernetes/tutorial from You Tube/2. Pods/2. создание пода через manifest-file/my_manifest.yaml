@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello
+#  прописываем кастомные лейблы
+  labels:
+    env: prod
+    app: main
+    tier: frontend
+    owner: Ervand
+spec:
+  containers:
+    - name: container-apache
+#      можно поменять image на nginx:latest
+      image: ervand7/k8s_explore:simple_flask
+      ports:
+        - containerPort: 5000

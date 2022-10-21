@@ -1,3 +1,0 @@
- ● minikube start
- ● kubectl expose deployment first-deployment --type=NodePort --port 5000
- ● kubectl delete service first-deployment

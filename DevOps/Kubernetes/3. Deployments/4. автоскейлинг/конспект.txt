@@ -1,6 +1,0 @@
- ● cd 3.\ Создание\ и\ управление\ Deployments/4.\ автоскейлинг
- ● kubectl apply -f manifest.yaml
-
- ● kubectl get hpa
-
- ● kubectl delete -f autoscaling-manifest.yaml

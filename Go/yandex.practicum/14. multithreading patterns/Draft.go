@@ -1,25 +1,18 @@
 package main
 
-import (
-	"encoding/json"
-	"fmt"
-)
+import "fmt"
+
+func CheckArrayElems(arr map[string]string) {
+	for key, val := range arr {
+		if len(val) == 5 {
+			arr[key] = "hello" + "/" + val
+		}
+	}
+}
 
 func main() {
-	shorts := []string{
-		"hello1",
-		"hello2",
-		"hello3",
-		"hello4",
-		"hello5",
-		"hello6",
-		"hello7",
-	}
+	arr := map[string]string{"qwert": "qwert", "wert1": "qwert", "wert2": "qwert", "wert3": "qwert", "wert4": "qwert"}
+	CheckArrayElems(arr)
+	fmt.Println(arr)
 
-	res, err := json.Marshal(shorts)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(string(res))
 }

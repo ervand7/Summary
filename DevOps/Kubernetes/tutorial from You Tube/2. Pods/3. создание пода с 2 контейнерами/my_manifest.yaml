@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello
+  labels:
+    env: prod
+    app: main
+    tier: frontend
+    owner: Ervand
+spec:
+  containers:
+    - name: container-web
+      image: nginx:latest
+      ports:
+        - containerPort: 5000
+
+    - name: container-api
+      image: tomcat:8.5.38
+      ports:
+        - containerPort: 8080

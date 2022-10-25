@@ -1,0 +1,12 @@
+Doc: https://github.com/pressly/goose
+Если хотим миграции Go, а не sql, то нужно создавать бинарник
+
+ ● export GOOSE_DRIVER=postgres
+ ● export GOOSE_DBSTRING='host=localhost user=ervand password=ervand database=urlshortener'
+ ● brew install goose
+ ● goose status
+ goose create initial sql
+
+Правила работы через утилиту goose
+1) нужно перейти в папку с миграциями
+2) задать переменные окружения GOOSE_DRIVER и GOOSE_DBSTRING

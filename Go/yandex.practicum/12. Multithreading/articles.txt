@@ -1,2 +1,8 @@
 Race condition и Data Race:
 https://medium.com/german-gorelkin/race-8936927dba20
+
+Goroutines and OS
+https://medium.com/a-journey-with-go/go-goroutine-os-thread-and-cpu-management-2f5a5eaf518a
+
+Sync primitives
+https://medium.com/german-gorelkin/synchronization-primitives-go-8857747d9660

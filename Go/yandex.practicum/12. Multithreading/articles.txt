@@ -6,3 +6,4 @@ https://medium.com/a-journey-with-go/go-goroutine-os-thread-and-cpu-management-2
 
 Sync primitives
 https://medium.com/german-gorelkin/synchronization-primitives-go-8857747d9660
+https://go101.org/article/concurrent-synchronization-more.html

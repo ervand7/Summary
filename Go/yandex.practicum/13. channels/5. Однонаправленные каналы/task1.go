@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"runtime/debug"
 )
 
 /*
@@ -15,6 +17,10 @@ func thread(dec int) <-chan int {
 	ch := make(chan int)
 	go func() {
 		for i := 0; i < 10; i++ {
+			// эти 2 строчки для того, чтобы понять, в какой горутине мы находимся
+			gr := bytes.Fields(debug.Stack())[1]
+			fmt.Println("===========thread", string(gr))
+
 			ch <- dec*10 + i
 		}
 		close(ch)
@@ -28,6 +34,10 @@ func main() {
 	c := make(chan int)
 	go func() {
 		for a != nil || b != nil {
+			// эти 2 строчки для того, чтобы понять, в какой горутине мы находимся
+			gr := bytes.Fields(debug.Stack())[1]
+			fmt.Println("===========anon", string(gr))
+
 			select {
 			case v, ok := <-a:
 				if !ok {

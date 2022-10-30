@@ -14,9 +14,17 @@ default:
 }
 */
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+	"runtime/debug"
+)
 
 func Fibonacci(ch chan int, quit chan bool) {
+	// эти 2 строчки для того, чтобы понять, в какой горутине мы находимся
+	gr := bytes.Fields(debug.Stack())[1]
+	fmt.Println("===========main", string(gr))
+
 	x, y := 0, 1
 loop: // метка цикла
 	for {
@@ -36,6 +44,10 @@ func main() {
 	quit := make(chan bool)
 
 	go func() {
+		// эти 2 строчки для того, чтобы понять, в какой горутине мы находимся
+		gr := bytes.Fields(debug.Stack())[1]
+		fmt.Println("===========anon", string(gr))
+
 		for i := 0; i < 15; i++ {
 			fmt.Println(<-ch)
 		}
@@ -43,5 +55,9 @@ func main() {
 		quit <- true
 	}()
 
+	// эти 2 строчки для того, чтобы понять, в какой горутине мы находимся
+	gr := bytes.Fields(debug.Stack())[1]
+	fmt.Println("===========main", string(gr))
+	
 	Fibonacci(ch, quit)
 }

@@ -8,11 +8,11 @@ async def нам создает корутину.
 import asyncio
 from time import time
 
-# asyncio не предоставляет API для работы с протоколами http, поэтому тспользуем aiohttp
+# asyncio не предоставляет API для работы с протоколами http, поэтому используем aiohttp
 import aiohttp
 
 
-# aiohttp не предоставляет  нам возможности для асинхронной работы с файлами
+# aiohttp не предоставляет нам возможности для асинхронной работы с файлами
 # поэтому эта функция у нас будет синхронной
 def write_image(data):
     # https://loremflickr.com/cache/resized/65535_51007696125_08cf597744_320_240_nofilter.jpg
@@ -24,18 +24,18 @@ def write_image(data):
 async def fetch_content(url_address, session):
     """Создадим корутину для получения контента."""
     async with session.get(url_address, allow_redirects=True) as response:
-        # метод read() возвразает бинарные данные (картинку)
+        # метод read() возвращает бинарные данные (картинку)
         data = await response.read()
         write_image(data)
 
 
 async def main():
-    """Создадим корутину для реализации тасков."""
+    """Создадим корутину для реализации тасок."""
     url = 'https://loremflickr.com/320/240'
     tasks = []
     async with aiohttp.ClientSession() as session:
         for i in range(10):
-            # для того, чтобы корутина попала в очередь задач событий ного цикла
+            # для того, чтобы корутина попала в очередь задач событийного цикла,
             # нужно ее обернуть в экземпляр класса Task с помощью функции create_task
             task = asyncio.create_task(fetch_content(url, session))
             # эти 10 задач нужно где-то хранить. Поэтому добавляем их в список tasks

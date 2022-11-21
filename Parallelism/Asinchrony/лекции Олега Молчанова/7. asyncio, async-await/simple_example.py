@@ -35,12 +35,10 @@ async def print_time():
 
 async def main():
     """Event loop. Это тоже будет корутиной, как и print_nums и print_time."""
-    # create_task обеспечивает создание объекта будущего
-    # она нужна для создания очереди
     task1 = asyncio.create_task(print_nums())
     task2 = asyncio.create_task(print_time())
 
-    # gather - тоже генератор, помогает нам дождаться результата переданных в него тасков
+    # gather - тоже генератор, помогает нам дождаться результата переданных в него тасок
     await asyncio.gather(task1, task2)
 
 

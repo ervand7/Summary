@@ -1,7 +1,8 @@
-import socket
 import selectors
+import socket
+
 """
-Особенность этого примера в том, что мы регистрировали сокеты с 
+Особенность этого примера в том, что мы регистрируем сокеты с 
 сопровождающими данными (в параметре data)
 """
 
@@ -10,9 +11,10 @@ selector = selectors.DefaultSelector()
 
 
 def server():
+    # 4 строки из первого урока
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_socket.bind(('localhost', 5001))  # в этот момент создается файл сокета
+    server_socket.bind(('localhost', 5001))
     server_socket.listen()
 
     # регистрируем сокет сервера
@@ -28,7 +30,7 @@ def accept_connection(server_socket):
     client_socket, addr = server_socket.accept()
     print('Connection from', client_socket, addr)
 
-    # регистрируем сокет клента
+    # регистрируем сокет клиента
     selector.register(
         fileobj=client_socket,
         events=selectors.EVENT_READ,
@@ -49,11 +51,8 @@ def send_message(client_socket):
 
 def event_loop():
     while True:
-        events = selector.select()  # (key, events - битовая маска события)
-        # нам нужен будет только 1й элемент
+        events = selector.select()
         for key, _ in events:
-            # у key есть те же самые поля, которые мы заполняли при регистрации сокетов:
-            # fileobj, events, data
             # получаем обратно нашу функцию
             callback = key.data  # data - то же самое, что и data из selector.register
             # то есть callback = accept_connection или send_message но уже после обработки

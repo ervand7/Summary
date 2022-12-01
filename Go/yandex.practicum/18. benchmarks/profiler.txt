@@ -1,0 +1,12 @@
+ ●  cd 6_generics
+ ● go test -bench=. -cpu 1 -memprofile mem.out
+профилирование памяти
+ ● go tool pprof mem.out
+ >> top
+ >> web (визуализация)
+
+ ● go test -bench=. -cpu 1 -cpuprofile cpu.out
+профилирование cpu
+ ● go tool pprof cpu.out
+ >> top
+ >> web (визуализация)

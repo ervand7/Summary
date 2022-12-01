@@ -1,0 +1,17 @@
+ ● go tests -bench=<benchmark name>
+все флаги https://pkg.go.dev/cmd/go#hdr-Testing_flags
+
+ ● go test -bench=.
+выводим все бенчмарки пакета
+Пример вывода:
+BenchmarkBubbleSort-8                 36          32574340 ns/op
+BenchmarkMerge-8                    1608            738848 ns/op
+ - 8 означает кол-во ядер, задействованных в тестировании
+ - 36 (1608) - кол-во раз, сколько удалось эту функцию вызвать
+ - 32574340 (738848) - наносекунды на операцию
+
+ ● go test -bench=. -cpu 1 -benchmem
+Смотрим аллокацию памяти:
+BenchmarkBubbleSort           36          32506913 ns/op               0 B/op          0 allocs/op
+BenchmarkMerge              1520            750613 ns/op         1112704 B/op       9999 allocs/op
+и видим, что пузырьковая сортировка вообще не потребила память

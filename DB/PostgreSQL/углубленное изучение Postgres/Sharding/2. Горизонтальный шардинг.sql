@@ -13,14 +13,18 @@ create table news
 create index news_category_id_idx on news using btree (category_id)
 ;
 
-create extension postgres_fdw;
+-- далее все делаем в консоли:
+-- psql -U postgres -d learn_sharding -c "create extension postgres_fdw;"
+-- alter database learn_sharding owner to postgres;
 create server news_1_server
     foreign data wrapper postgres_fdw
-    options (host '127.0.0.1', port '5432', dbname 'news_1');
+    options (host '127.0.0.1', port '5432', dbname 'news_1')
+;
 
 create user mapping for postgres
     server news_1_server
-    options (user 'postgres', password 'postgres');
+    options (user 'postgres', password 'postgres')
+;
 
 create foreign table news_1
     (
@@ -31,7 +35,7 @@ create foreign table news_1
         title character varying
         )
     server news_1_server
-    options (shema_name 'public', table_name 'news')
+    options (schema_name 'public', table_name 'news')
 ;
 
 create view news as

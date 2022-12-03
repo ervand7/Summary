@@ -1,5 +1,1 @@
-
-```python
-if __name__ == '__main__':
-    print('Hello, world!')
-```
+My big summary, which contains a wide range of programming related topics. Information collected from work practice, YouTube, Habr, Stackoverflow, official documentations, wikipedia, paid and free courses, etc.

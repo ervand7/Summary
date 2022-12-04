@@ -112,7 +112,7 @@ public:
     }
 
     // пропишем метод удаления промежуточного элемента
-    void earse (int k) {
+    void erase (int k) {
         if (k < 0) return;
         if (k == 0) {
             pop_front();
@@ -141,7 +141,7 @@ int main()
     double d = (n != NULL) ? n->data : 0;
     std::cout << d << std::endl;
 
-    lst.earse(1);
+    lst.erase(1);
     lst.insert(0, 5);
     lst.insert(0, 2);
     for(Node* node = lst.head; node != NULL; node = node->next)

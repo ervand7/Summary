@@ -14,15 +14,14 @@ type Person_ struct {
 }
 
 func main() {
-
 	man := Person_{
 		Name:        "Alex",
 		Email:       "alex@yandex.ru",
 		DateOfBirth: time.Now(),
 	}
-	jsMan, err := json.Marshal(man)
+	result, err := json.Marshal(man)
 	if err != nil {
 		log.Fatalln("unable marshal to json")
 	}
-	fmt.Printf("Man %v", string(jsMan)) // Man {"Имя":"Alex","Почта":"alex@yandex.ru"}
+	fmt.Printf("Man %v", string(result)) // Man {"Имя":"Alex","Почта":"alex@yandex.ru"}
 }

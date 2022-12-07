@@ -10,7 +10,6 @@ continue;
 goto (безусловный оператор перехода, позволяет перейти в любое место кода).
 */
 func main() {
-	// for break
 outerLoopLabel:
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
@@ -25,11 +24,11 @@ outerLoopLabel:
 	*/
 
 	//for continue
-outerLoopLabel_:
+outerLoopLabel2:
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
 			fmt.Printf("[%d, %d]\n", i, j)
-			continue outerLoopLabel_
+			continue outerLoopLabel2
 		}
 	}
 	fmt.Println("End")

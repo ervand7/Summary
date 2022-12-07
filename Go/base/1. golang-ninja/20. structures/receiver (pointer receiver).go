@@ -11,9 +11,9 @@ type SomeUsr struct {
 }
 
 // pointer receiver
-func (u *SomeUsr) printUsrInfo(name string) {
-	u.name = name
-	fmt.Println(u.name, u.age, u.sex, u.weight, u.height)
+func (s *SomeUsr) printUsrInfo(name string) {
+	s.name = name
+	fmt.Println(s.name, s.age, s.sex, s.weight, s.height)
 }
 
 func NewSomeUsr(name, sex string, age, weight, height int) SomeUsr {

@@ -18,6 +18,6 @@ const (
 )
 
 func main() {
-	fmt.Println(ten, hundred, thousand) // 10 20 30
-	fmt.Println(black, gray)            // 2 3
+	fmt.Println(ten, hundred, thousand)  // 10 20 30
+	fmt.Println(hello, one, black, gray) // Hello, world! 1 2 3
 }

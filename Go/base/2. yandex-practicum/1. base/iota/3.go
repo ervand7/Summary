@@ -23,5 +23,5 @@ func main() {
 	var today Weekday = Friday
 	tomorrow := NextDay(today)
 	fmt.Println("today =", today, "tomorrow =", tomorrow)
-	// today = 7 tomorrow = 1
+	// today = 5 tomorrow = 6
 }

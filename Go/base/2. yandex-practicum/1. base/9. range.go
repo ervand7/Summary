@@ -4,9 +4,7 @@ import "fmt"
 
 func main() {
 	var weekTemp = [7]int{5, 4, 6, 8, 11, 9, 5}
-
 	sumTemp := 0
-
 	for _, temp := range weekTemp {
 		sumTemp += temp
 	}
@@ -19,4 +17,13 @@ func main() {
 		// в i будет индекс
 		fmt.Println(i)
 	}
+	/*
+		0
+		1
+		2
+		3
+		4
+		5
+		6
+	*/
 }

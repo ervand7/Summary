@@ -21,8 +21,8 @@ func main() {
 	var s string // s будет равна пустой строке
 	println(s)   //
 
-	var name, company, country string // определяем три строковых переменных
-	println(name, company, country)   //
+	var some, company, country string // определяем три строковых переменных
+	println(some, company, country)   //
 
 	var id uint32 = 77
 	fmt.Println(id, reflect.TypeOf(id)) // 77 uint32

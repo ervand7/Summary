@@ -31,9 +31,9 @@ func printShapeArea(shape Shape) {
 }
 
 func main() {
-	square := Square{5} // 25
-	circle := Circle{8} // 201.06194
+	square := Square{5}
+	circle := Circle{8}
 
-	printShapeArea(square)
-	printShapeArea(circle)
+	printShapeArea(square) // 25
+	printShapeArea(circle) // 201.06194
 }

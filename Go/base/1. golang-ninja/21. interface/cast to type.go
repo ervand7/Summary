@@ -26,5 +26,4 @@ func printSomeInterface(i interface{}) {
 	} else {
 		fmt.Println(len(str))
 	}
-
 }

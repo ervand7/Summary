@@ -11,9 +11,9 @@ type MyUsr struct {
 }
 
 // value receiver
-func (u MyUsr) printUsrInfo(name string) {
-	u.name = name
-	fmt.Println(u.name, u.age, u.sex, u.weight, u.height)
+func (m MyUsr) printUsrInfo(name string) {
+	m.name = name
+	fmt.Println(m.name, m.age, m.sex, m.weight, m.height)
 }
 
 func NewMyUsr(name, sex string, age, weight, height int) MyUsr {

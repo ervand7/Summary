@@ -11,11 +11,11 @@ func main() {
 		IntField int
 	}
 	// Литерал А{} создаёт в памяти переменную типа А. Затем от неё берётся указатель
-	a := &A{}
+	a := &A{} // или new(A)
 	a.IntField = 1
 	fmt.Printf("%v\n", a) // &{1}
 
-	b := &A{}
+	b := &A{} // или new(A)
 	b.IntField = 2
 	fmt.Printf("%v\n", b) // &{2}
 
@@ -23,5 +23,4 @@ func main() {
 	// новая переменная со своим адресом. И от нее брался указатель
 	fmt.Println(&a)
 	fmt.Println(&b)
-
 }

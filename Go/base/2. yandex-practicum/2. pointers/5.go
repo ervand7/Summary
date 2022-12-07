@@ -6,7 +6,8 @@ import (
 	"os"
 )
 
-func f(value *int) {
+func increment(value *int) {
+	// dereferencing
 	*value++
 }
 
@@ -15,17 +16,17 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("Interaction counter")
 
-	cnt := 0
+	counter := 0
 	for {
 		fmt.Print("-> ")
 		// Считываем введённую пользователем строку.
-		//Программа ждёт, пока пользователь введёт строку
+		// Программа ждёт, пока пользователь введёт строку
 		_, err := reader.ReadString('\n')
 		if err != nil {
 			panic(err)
 		}
-		f(&cnt)
+		increment(&counter)
 
-		fmt.Printf("User input %d lines\n", cnt)
+		fmt.Printf("User input %d lines\n", counter)
 	}
 }

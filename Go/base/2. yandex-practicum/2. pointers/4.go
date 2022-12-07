@@ -8,15 +8,14 @@ func main() {
 	}
 
 	increment := func(i *int) {
+		// dereferencing
 		*i++
 	}
 
 	i := 42
-
 	incrementCopy(i)
 	fmt.Println(i) // 42
 
 	increment(&i)
 	fmt.Println(i) // 43
-
 }

@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func main() {
 	/*
 		Для указателей на структуры в Go есть возможность неявного
@@ -10,5 +12,8 @@ func main() {
 	}
 
 	p := &A{}
-	p.IntField = 42 // вместо (*p).IntField = 42
+	p.IntField = 42
+	fmt.Println(p.IntField) // 42
+	// вместо
+	fmt.Println((*p).IntField) // 42
 }

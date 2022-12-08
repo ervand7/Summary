@@ -13,20 +13,11 @@ import "fmt"
 
 func main() {
 	input := "The quick brown 狐 jumped over the lazy 犬"
-	// Get Unicode code points.
-	n := 0
-	// создаём слайс рун
-	runes := make([]rune, len(input))
-	// добавляем руны в слайс
-	for _, r := range input {
-		runes[n] = r
-		n++
-	}
-	println(runes) // [44/44]0x14000126000
+	runes := []rune(input)
+	fmt.Println(runes) // [84 104 101 32 113 117 105 99 107 32 98 114 111 119 110 32 29392 32 106 117 109 112 101 100 32 111 118 101 114 32 116 104 101 32 108 97 122 121 32 29356 0 0 0 0]
 
-	// убираем лишние нулевые руны
-	runes = runes[0:n]
 	// разворачиваем
+	n := len(runes)
 	for i := 0; i < n/2; i++ {
 		runes[i], runes[n-1-i] = runes[n-1-i], runes[i]
 	}

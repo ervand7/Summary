@@ -3,13 +3,13 @@ package main
 import "fmt"
 
 func main() {
-	dim := 100
-	s := make([]int, 0, dim)
+	size := 100
+	s := make([]int, 0, size)
 	fmt.Println(s) // []
 
 	// заполняем слайс числами
-	for i := 0; i < dim; i++ {
-		s = append(s, i+1)
+	for i := 1; i < size+1; i++ {
+		s = append(s, i)
 	}
 	fmt.Println(s) /* [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
 	22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44
@@ -19,15 +19,15 @@ func main() {
 	*/
 
 	// оставляем первые и последние 10 элементов
-	s = append(s[:10], s[dim-10:]...)
-	println(s) // [20/100]0x140000ae000
+	s = append(s[:10], s[size-10:]...)
+	fmt.Println(s) // [1 2 3 4 5 6 7 8 9 10 91 92 93 94 95 96 97 98 99 100]
 
-	dim = len(s)
-	half := s[:dim/2]
+	size = len(s)
+	half := s[:size/2]
 	fmt.Println(half) // [1 2 3 4 5 6 7 8 9 10]
 	// разворачиваем слайс
-	for i := range s[:dim/2] {
-		s[i], s[dim-i-1] = s[dim-i-1], s[i]
+	for i := range s[:size/2] {
+		s[i], s[size-i-1] = s[size-i-1], s[i]
 	}
 	fmt.Println(s) // [100 99 98 97 96 95 94 93 92 91 10 9 8 7 6 5 4 3 2 1]
 }

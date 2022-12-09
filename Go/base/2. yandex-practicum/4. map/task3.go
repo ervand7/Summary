@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 // RemoveDuplicates Напишите функцию, которая убирает дубликаты, сохраняя порядок слайса:
+// Довольно странное решение. Лучше мой вариант
 func RemoveDuplicates(input []string) []string {
 	output := make([]string, len(input))
 	copy(output, input)

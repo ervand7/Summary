@@ -13,11 +13,9 @@ func main() {
 	found := false
 	for i := range myArray {
 		for j := range myArray {
-			if i != j {
-				if myArray[i]+myArray[j] == k {
-					found = true
-					fmt.Println(i, j)
-				}
+			if myArray[i]+myArray[j] == k {
+				found = true
+				fmt.Println(i, j)
 			}
 		}
 	}

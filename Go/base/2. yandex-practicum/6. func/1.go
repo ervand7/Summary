@@ -2,9 +2,9 @@ package main
 
 import "fmt"
 
-func Index(st string, a rune) (index int, ok bool) {
-	for i, c := range []rune(st) {
-		if c == a {
+func FindIndex(data string, a rune) (index int, ok bool) {
+	for i, letter := range []rune(data) {
+		if letter == a {
 			return i, true
 		}
 	}
@@ -12,6 +12,6 @@ func Index(st string, a rune) (index int, ok bool) {
 }
 
 func main() {
-	fmt.Println(Index("Привет", 'т')) // 5 true
-	fmt.Println(Index("Привет", '0')) // 0 false
+	fmt.Println(FindIndex("Привет", 'т')) // 5 true
+	fmt.Println(FindIndex("Привет", '0')) // 0 false
 }

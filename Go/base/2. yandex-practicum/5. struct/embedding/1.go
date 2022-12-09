@@ -69,9 +69,3 @@ func main() {
 	fmt.Println(s)                       // Имя: John Doe, Год рождения: 1980, Группа: 701
 	fmt.Println(s.Name, s.Year, s.Group) // John Doe 1980 701
 }
-
-/*
-Имя: John Doe, Год рождения: 1980
-Имя: John Doe, Год рождения: 1980, Группа: 701
-John Doe 1980 701
-*/

@@ -17,7 +17,8 @@ func countCall(f func(string)) func(string) {
 	}
 }
 
-// для того, чтобы обернуть уже обернутую функцию (countCall оборачивает myPrint)
+// metricTimeCall для того, чтобы обернуть уже обернутую функцию
+// (countCall оборачивает myPrint)
 func metricTimeCall(f func(string)) func(string) {
 	return func(s string) {
 		start := time.Now()
@@ -38,7 +39,6 @@ func main() {
 	countAndMetricPrint := metricTimeCall(countedPrint)
 	countAndMetricPrint("Hello")
 	countAndMetricPrint("World")
-
 }
 
 /*

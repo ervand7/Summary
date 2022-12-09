@@ -7,7 +7,6 @@ func Generate(seed int) func() {
 		fmt.Println(seed) // замыкание получает внешнюю переменную seed
 		seed += 2         // переменная модифицируется
 	}
-
 }
 
 func main() {

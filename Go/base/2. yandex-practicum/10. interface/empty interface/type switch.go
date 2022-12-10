@@ -6,7 +6,6 @@ import (
 )
 
 func Printf(v interface{}) {
-
 	switch value := v.(type) {
 	case int64:
 		fmt.Print("\nЭто число " + strconv.FormatInt(value, 10))
@@ -17,9 +16,9 @@ func Printf(v interface{}) {
 	}
 }
 func main() {
-	mySlice := make([]int, 0)
-
 	Printf(int64(3)) // Это число 3
 	Printf("Hello")  // Это строка Hello
-	Printf(mySlice)  // Неизвестный тип
+
+	mySlice := make([]int, 0)
+	Printf(mySlice) // Неизвестный тип
 }

@@ -32,6 +32,8 @@ func (s StopWatch) GetResults() []time.Duration {
 
 func main() {
 	sw := StopWatch{}
+	// или
+	// sw := new(StopWatch)
 	sw.Start()
 
 	time.Sleep(1 * time.Second)

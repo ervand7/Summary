@@ -21,7 +21,12 @@ func main() {
 	t := SomeType{}
 	// или
 	//t := &SomeType{}
+	// или
+	//t := new(SomeType)
 
 	t.SetValue(100)
 	fmt.Println(t) // Value: 100
+
+	t.SetValue(23)
+	fmt.Println(t) // Value: 23
 }

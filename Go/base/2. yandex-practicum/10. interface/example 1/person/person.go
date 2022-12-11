@@ -19,7 +19,7 @@ func (p Person) Children() []*Person {
 
 // Work — выполняет поручения на работе
 func (p Person) Work(tasks []string) string {
-	s := p.name + " work:"
+	s := p.name + "Person work:"
 	for _, task := range tasks {
 		s += "\n I do " + task
 	}

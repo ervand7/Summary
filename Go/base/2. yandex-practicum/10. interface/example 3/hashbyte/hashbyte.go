@@ -13,9 +13,9 @@ type hash struct {
 	result byte
 }
 
-func New(_init byte) Hasher {
+func New(val byte) Hasher {
 	return &hash{
-		result: _init,
+		result: val,
 	}
 }
 

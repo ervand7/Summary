@@ -94,7 +94,7 @@ func parseTagString(tagRaw string) (retInfos TagsInfo) {
 		tagValuesRaw, _ := strconv.Unquote(tagParts[1])
 		tagValues := make([]string, 0)
 		for _, value := range strings.Split(tagValuesRaw, ",") {
-			if value := strings.TrimSpace(value); value != "" {
+			if value = strings.TrimSpace(value); value != "" {
 				tagValues = append(tagValues, value)
 			}
 		}

@@ -10,6 +10,7 @@ func ExtendedPrint(v interface{}) {
 	//  проверяем, не передали ли нам указатель на структуру
 	switch val.Kind() {
 	case reflect.Ptr:
+		// если нам передали указатель, но он не указатель на структуру
 		if val.Elem().Kind() != reflect.Struct {
 			fmt.Printf(
 				"Pointer to %v : %v",

@@ -13,13 +13,13 @@ type TimeError struct {
 	Text string
 }
 
-func (te TimeError) Error() string {
+func (t TimeError) Error() string {
 	return fmt.Sprintf(
 		"%v: %v",
-		te.Time.Format(
+		t.Time.Format(
 			`2006/01/02 15:04:05`,
 		),
-		te.Text,
+		t.Text,
 	)
 }
 
@@ -45,7 +45,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	// type assertion
+	// type assertion without switch
 	if err := testFunc(0); err != nil {
 		if v, ok := err.(TimeError); ok {
 			fmt.Println(v.Time, v.Text)
@@ -68,10 +68,10 @@ func main() {
 
 	// errors.As
 	if err := testFunc(0); err != nil {
-		var te TimeError
+		var t TimeError
 		// Сравниваем полученную и контрольную ошибки. Сравнение идёт по типу ошибки.
-		if ok := errors.As(err, &te); ok {
-			fmt.Println(te.Time, te.Text)
+		if ok := errors.As(err, &t); ok {
+			fmt.Println(t.Time, t.Text)
 		} else {
 			fmt.Println(err)
 		}

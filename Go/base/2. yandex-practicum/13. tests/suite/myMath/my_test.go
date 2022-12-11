@@ -12,12 +12,12 @@ type ExampleTestSuite struct {
 }
 
 // SetupTest заполняет переменную VariableThatShouldStartAtFive перед началом теста.
-func (suite *ExampleTestSuite) SetupTest() {
-	suite.VariableThatShouldStartAtFive = 5
+func (s *ExampleTestSuite) SetupTest() {
+	s.VariableThatShouldStartAtFive = 5
 }
 
-func (suite *ExampleTestSuite) TestExample() { // все тесты должны начинаться со слова Test
-	suite.Equal(5, suite.VariableThatShouldStartAtFive)
+func (s *ExampleTestSuite) TestExample() { // все тесты должны начинаться со слова Test
+	s.Equal(5, s.VariableThatShouldStartAtFive)
 }
 
 func TestExampleTestSuite(t *testing.T) {

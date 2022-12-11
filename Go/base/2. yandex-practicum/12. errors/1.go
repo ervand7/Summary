@@ -13,3 +13,5 @@ func main() {
 		fmt.Println(string(data))
 	}
 }
+
+// open nothing.txt: no such file or directory

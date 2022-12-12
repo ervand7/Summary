@@ -1,0 +1,32 @@
+Чем больше интерфейс, тем слабее абстракция
+(The bigger the interface, the weaker the abstraction).
+
+Чем меньше интерфейс, тем он полезнее. Когда разработчик создаёт интерфейсы с
+большим количеством методов, он нарушает весь смысл интерфейсов.
+В стандартной библиотеке Go у большинства интерфейсов минимальный набор методов.
+
+Представьте, что вы написали клиент к API (например, VK API или Telegram API)
+со множеством методов и хотите его протестировать. Для упрощения тестирования и
+поддержки вы структурируете клиент интерфейсами, чтобы их можно было
+реализовать заглушками (`mock`). Не нужно создавать интерфейс со всеми
+методами — cоздайте только с теми, которые будут тестироваться в
+конкретном вызывающем коде.
+
+/* плохо */type API interface {
+    GetMessage(ID) Message
+    SendMessage(Message) ID
+    DeleteMessage(ID) error
+    MarkAsRead(ID)
+    EditMessage(ID) error
+    CreateChat(string) ID
+    EditChat(string) error
+    GetChatUsers(ID) []Users
+    ConnectChat(ID) error
+    AddMessageToChat(Message, Chat)
+    GetHistory(User) []Message
+    GetConversations(User) []Conversation
+// etc...
+}
+/* хорошо */type HTTPClient interface {
+    Do(req *http.Request) (*http.Response, error)
+}

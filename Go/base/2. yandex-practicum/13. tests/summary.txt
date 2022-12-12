@@ -1,3 +1,6 @@
+article about coverage:
+https://blog.seriesci.com/how-to-measure-code-coverage-in-go/
+
  ● go test
  ● go test -v
  ● go test .
@@ -7,6 +10,12 @@
  ● go test myMath -cover
 find out the level of tests coverage
 
- ● go test . -coverprofile=coverage.out
+ ● go test ./... -coverprofile=coverage.out
  ● go tool cover -html=coverage.out
 visualize
+
+ ● DATABASE_DSN='user=ervand password=ervand dbname=urlshortener_test host=localhost port=5432 sslmode=disable' go test ./... -coverprofile=coverage.out -count 1 -v -p 1
+ ● go tool cover -html=coverage.out
+check all urlshortener coverage
+ ● go tool cover -func coverage.out | grep total:
+see total project coverage

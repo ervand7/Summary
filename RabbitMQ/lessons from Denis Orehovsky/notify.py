@@ -1,11 +1,17 @@
-import pika
 import json
+
+import pika
 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 
 queue = channel.queue_declare('order_notify')
 queue_name = queue.method.queue
+
+channel.exchange_declare(
+    exchange='order',  # exchange name
+    exchange_type='direct'
+)
 
 channel.queue_bind(
     exchange='order',

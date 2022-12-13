@@ -1,10 +1,6 @@
  ● docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management
  ● pip install pika
 
-на всякий случай, сначала запускаем
-● python3.8 publish.py
-был непонятный глюк, если сначала это не запустить
-
 on the first terminal window:
  ● python3.8 notify.py
 on the second terminal window:

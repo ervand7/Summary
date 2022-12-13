@@ -1,5 +1,6 @@
-import pika
 import json
+
+import pika
 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
@@ -10,7 +11,7 @@ queue_name = queue.method.queue
 channel.queue_bind(
     exchange='order',
     queue=queue_name,
-    routing_key='order.report'  # binding key
+    routing_key='order.report'
 )
 
 

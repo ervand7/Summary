@@ -1,14 +1,10 @@
-import pika
 import json
 import uuid
 
+import pika
+
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
-
-channel.exchange_declare(
-    exchange='order',  # exchange name
-    exchange_type='direct'
-)
 
 order = {
     'id': str(uuid.uuid4()),

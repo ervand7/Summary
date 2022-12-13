@@ -2,8 +2,8 @@
  ● pip install pika
 
 on the first terminal window:
- ● python3.8 notify.py
+ ● python3.8 consumer_notify.py
 on the second terminal window:
- ● python3.8 report.py
+ ● python3.8 consumer_report.py
 on the third terminal window:
- ● python3.8 publish.py
+ ● python3.8 publisher.py

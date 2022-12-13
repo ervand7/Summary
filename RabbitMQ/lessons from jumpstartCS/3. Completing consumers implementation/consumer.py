@@ -1,6 +1,7 @@
-import pika
-import time
 import random
+import time
+
+import pika
 
 
 def on_message_received(ch, method, properties, body):

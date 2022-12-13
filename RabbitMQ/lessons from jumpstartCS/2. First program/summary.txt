@@ -1,5 +1,3 @@
- ● pip install pika
-
 on the first terminal window:
  ● python3.8 consumer.py
 on the second terminal window:

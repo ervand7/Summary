@@ -1,14 +1,14 @@
 package main
 
-import (
-	"fmt"
-	"os"
-	"reflect"
-)
+import "fmt"
 
 func main() {
-	filename, _ := os.Executable()
-	fmt.Println(reflect.TypeOf(filename))
-	_, err := os.Create(".txt")
-	fmt.Println(err)
+	var a []int
+	a = append(a, 1)
+	fmt.Println(a)
+
+	/*
+		var b map[int]int
+		b[1] = 1 // panic: assignment to entry in nil map
+	*/
 }

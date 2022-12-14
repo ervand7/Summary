@@ -48,6 +48,19 @@ func (c *PostgresqlConnector) Query(q string) error {
 	return nil
 }
 
+type Sqlite3Connector struct {
+}
+
+func newSqlite3Connector(dsn string) *Sqlite3Connector {
+	fmt.Println("Connect to sqlite3")
+	return &Sqlite3Connector{}
+}
+
+func (c *Sqlite3Connector) Query(q string) error {
+	fmt.Printf("Query to sqlite3: %s\n", q)
+	return nil
+}
+
 // NewConnector реализует фабричный метод
 func NewConnector(dsn string) DatabaseConnector {
 	switch {
@@ -55,6 +68,8 @@ func NewConnector(dsn string) DatabaseConnector {
 		return newMysqlConnector(dsn)
 	case strings.HasPrefix(dsn, "postgresql://"):
 		return newPostgresqlConnector(dsn)
+	case strings.HasPrefix(dsn, "sqlite3://"):
+		return newSqlite3Connector(dsn)
 	default:
 		panic(fmt.Sprintf("unknown dsn protocol: %s", dsn))
 	}
@@ -69,5 +84,10 @@ func main() {
 	pg := NewConnector("postgresql://...")
 	pg.Query("SELECT something FROM list")
 	// Connect to postgresql
-	// Connect to postgresql
+	// Query to postgresql: SELECT something FROM list
+
+	sqlite3 := NewConnector("sqlite3://...")
+	sqlite3.Query("SELECT something FROM list")
+	// Connect to sqlite3
+	// Query to sqlite3: SELECT something FROM list
 }

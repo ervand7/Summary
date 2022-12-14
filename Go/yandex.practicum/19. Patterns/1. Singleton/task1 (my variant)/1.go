@@ -7,9 +7,10 @@ import (
 	"time"
 )
 
-var dumpFile *os.File
-
-var once sync.Once
+var (
+	dumpFile *os.File
+	once     sync.Once
+)
 
 func dump(data []byte) error {
 	fmt.Println("Called dump!")
@@ -41,3 +42,7 @@ func main() {
 
 	time.Sleep(500 * time.Millisecond)
 }
+
+/*
+Called dump!
+*/

@@ -32,3 +32,17 @@ func main() {
 	}
 	time.Sleep(500 * time.Millisecond)
 }
+
+/*
+Инициализируем singleton
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+Адрес singleton: 0x100f3efe8
+*/

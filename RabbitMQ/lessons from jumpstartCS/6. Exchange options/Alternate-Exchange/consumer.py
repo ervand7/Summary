@@ -34,13 +34,15 @@ channel.exchange_declare(
     arguments={'alternate-exchange': 'alt_exchange'}
 )
 channel.queue_declare(queue='alt_exchange_queue')
-channel.queue_bind('alt_exchange_queue', 'alt_exchange')
+channel.queue_bind(queue='alt_exchange_queue', exchange='alt_exchange')
 channel.basic_consume(
     queue='alt_exchange_queue', on_message_callback=alt_callback
 )
 
 channel.queue_declare(queue='main_exchange_queue')
-channel.queue_bind('main_exchange_queue', 'main_exchange', 'test')
+channel.queue_bind(
+    queue='main_exchange_queue', exchange='main_exchange', routing_key='test'
+)
 channel.basic_consume(
     queue='main_exchange_queue', on_message_callback=main_callback
 )

@@ -54,7 +54,7 @@ func (m *Modern) MakeTable(wood string) TableMaker {
 	return &table
 }
 
-// GetFactory — абстрактная фабрика
+// GetFactory — фабричный метод
 func GetFactory(style string) Factory {
 	if style == "art-deco" {
 		return &ArtDeco{}

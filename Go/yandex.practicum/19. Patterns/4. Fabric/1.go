@@ -48,15 +48,15 @@ func (c *PostgresqlConnector) Query(q string) error {
 	return nil
 }
 
-type Sqlite3Connector struct {
+type SQLiteConnector struct {
 }
 
-func newSqlite3Connector(dsn string) *Sqlite3Connector {
+func newSQLiteConnector(dsn string) *SQLiteConnector {
 	fmt.Println("Connect to sqlite3")
-	return &Sqlite3Connector{}
+	return &SQLiteConnector{}
 }
 
-func (c *Sqlite3Connector) Query(q string) error {
+func (c *SQLiteConnector) Query(q string) error {
 	fmt.Printf("Query to sqlite3: %s\n", q)
 	return nil
 }
@@ -69,7 +69,7 @@ func NewConnector(dsn string) DatabaseConnector {
 	case strings.HasPrefix(dsn, "postgresql://"):
 		return newPostgresqlConnector(dsn)
 	case strings.HasPrefix(dsn, "sqlite3://"):
-		return newSqlite3Connector(dsn)
+		return newSQLiteConnector(dsn)
 	default:
 		panic(fmt.Sprintf("unknown dsn protocol: %s", dsn))
 	}

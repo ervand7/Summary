@@ -1,6 +1,8 @@
 import json
 
 import pika
+from pika.adapters.blocking_connection import BlockingChannel
+from pika.spec import Basic, BasicProperties
 
 connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
@@ -20,7 +22,12 @@ channel.queue_bind(
 )
 
 
-def callback(ch, method, properties, body):
+def callback(
+        ch: BlockingChannel,
+        method: Basic.Deliver,
+        properties: BasicProperties,
+        body: bytes
+):
     payload = json.loads(body)
     print(' [x] Notifying {}'.format(payload['user_email']))
     print(' [x] Done')

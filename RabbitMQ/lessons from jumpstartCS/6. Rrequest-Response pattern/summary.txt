@@ -1,4 +1,0 @@
-on the first terminal window:
- ● python3.8 server.py
-on the second terminal window:
- ● python3.8 client.py

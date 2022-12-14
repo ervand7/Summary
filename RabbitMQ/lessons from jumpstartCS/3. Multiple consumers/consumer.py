@@ -2,9 +2,16 @@ import random
 import time
 
 import pika
+from pika.adapters.blocking_connection import BlockingChannel
+from pika.spec import Basic, BasicProperties
 
 
-def callback(ch, method, properties, body):
+def callback(
+        ch: BlockingChannel,
+        method: Basic.Deliver,
+        properties: BasicProperties,
+        body: bytes
+):
     processing_time = random.randint(1, 6)
     print(f'received: {body}, will take {processing_time} to process')
     time.sleep(processing_time)

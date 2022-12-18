@@ -1,0 +1,57 @@
+В самом начале документации к пакету unsafe сказано, что он может быть
+непортируемым и нет гарантий обратной совместимости. Соответственно,
+если вы используете этот пакет, новые версии компилятора могут выдавать
+ошибки при компиляции вашего проекта.
+Зато пакет unsafe предоставляет низкоуровневое манипулирование памятью.
+Например, вы можете обойти ограничение немодифицируемости типа string и
+изменять данные по месту, избегая аллокации новой копии.
+
+package main
+
+import (
+    "fmt"
+    "reflect"
+    "unsafe"
+)
+
+/* опасно */
+func main() {
+    name := "world!"
+    a := "Hello, " + name
+    fmt.Println(a) // Hello, world!
+
+    stringHeader := (*reflect.StringHeader)(unsafe.Pointer(&a))
+    *(*byte)(unsafe.Pointer(stringHeader.Data + 7)) = 'W'
+
+    fmt.Println(a) // Hello, World!
+}
+
+Вот такая, почти идентичная программа, скомпилируется, но вызовет runtime panic.
+/* взрывоопасно */
+func main() {
+
+    a := "Hello, world"
+    fmt.Println(a)
+
+    stringHeader := (*reflect.StringHeader)(unsafe.Pointer(&a))
+    *(*byte)(unsafe.Pointer(stringHeader.Data + 7)) = 'W'
+
+    fmt.Println(a)
+}
+
+Реализуем то же самое без использования пакета unsafe.
+package main
+
+import (
+    "fmt"
+)
+
+/* безопасно */
+func main() {
+    a := "Hello, world!"
+    fmt.Println(a)
+    b := []byte(a)
+    b[7] = 'W'
+    a = string(b)
+    fmt.Println(a)
+}

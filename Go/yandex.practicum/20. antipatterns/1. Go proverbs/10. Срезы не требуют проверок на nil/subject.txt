@@ -1,0 +1,19 @@
+Срезы не требуют проверок на nil при добавлении элементов
+или получении длины среза.
+
+var slice []int
+
+/* плохо */
+if slice == nil {
+    slice = make([]slice, 0)
+}
+slice = append(slice, 10)
+// ...
+if slice != nil && len(slice) > 0 {
+}
+
+/* хорошо */
+slice = append(slice, 10)
+// ...
+if len(slice) > 0 {
+}

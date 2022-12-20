@@ -1,19 +1,8 @@
 package main
 
-import (
-	"fmt"
-	"reflect"
-	"unsafe"
-)
+import "fmt"
 
-/* взрывоопасно */
 func main() {
-
-	a := "Hello, world"
-	fmt.Println(a)
-
-	stringHeader := (*reflect.StringHeader)(unsafe.Pointer(&a))
-	*(*byte)(unsafe.Pointer(stringHeader.Data + 7)) = 'W'
-
-	fmt.Println(a)
+	var NonconstructedSlice []int
+	fmt.Println(NonconstructedSlice == nil)
 }

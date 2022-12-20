@@ -1,0 +1,29 @@
+В Go не происходит автоматический переход от одного case к другому.
+Поэтому не нужно ставить break в конце блока case.
+
+/* плохо */
+switch v {
+    case 1:
+       fmt.Println(v)
+       break
+    case 2:
+       fmt.Println(v)
+       break
+}
+
+/* хорошо */
+switch v {
+    case 1:
+       fmt.Println(v)
+    case 2:
+       fmt.Println(v)
+}
+
+Для перехода к следующему case существует специальный оператор fallthrough.
+switch v {
+    case 1:
+       fmt.Println(v)
+       fallthrough  // выполним код следующего case
+    case 2:
+       fmt.Println(v)
+}

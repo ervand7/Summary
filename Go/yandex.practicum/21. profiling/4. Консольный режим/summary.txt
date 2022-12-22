@@ -1,0 +1,13 @@
+ ● go tool pprof -seconds=30 http://localhost:8080/debug/pprof/profile
+запуск консольного режима
+
+ ● help
+
+ ● list foo
+узнать время выполнения функции foo
+
+ ● top foo
+выведем список вызовов, на которые ушло больше всего времени
+
+ ● web
+открываем UI

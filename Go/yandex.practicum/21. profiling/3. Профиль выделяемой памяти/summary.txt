@@ -1,0 +1,11 @@
+Для просмотра профиля CPU вы вводили в консоль строку:
+ ● go tool pprof -http=":9090" -seconds=30 http://localhost:8080/debug/pprof/profile
+
+Чтобы посмотреть профиль выделяемой памяти, замените profile на heap:
+ ● go tool pprof -http=":9090" -seconds=30 http://localhost:8080/debug/pprof/heap
+
+Как уже отмечалось, go tool pprof может использовать в качестве источника как
+файл, так и URL. Если команда выше возвращает ошибки, вы можете сначала
+сохранить данные в файл и потом анализировать:
+ ● curl -sK -v http://localhost:8080/debug/pprof/heap > heap.out
+ ● go tool pprof -http=":9090" -seconds=30 heap.out

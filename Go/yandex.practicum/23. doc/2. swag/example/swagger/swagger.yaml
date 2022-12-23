@@ -1,0 +1,170 @@
+basePath: /api/v1
+definitions:
+  example.BucketRequest:
+    properties:
+      data:
+        example: 48656c6c6f20776f726c6421
+        format: HEX
+        type: string
+    type: object
+  example.BucketResponse:
+    properties:
+      data:
+        example: 48656c6c6f20776f726c6421
+        format: HEX / Base64
+        type: string
+      id:
+        type: integer
+      updated_at:
+        example: 2006-01-02T15:04:05.999999999Z07:00
+        format: RFC3339
+        type: string
+    type: object
+  example.HealthResponse:
+    properties:
+      free_space:
+        description: Доступное место [байт]
+        example: 1048576
+        format: bytes
+        type: integer
+      state:
+        description: Статус сервиса
+        enum:
+        - Bootstrap
+        - Online
+        - Failed
+        example: Online
+        type: string
+      uptime:
+        description: Время работы сервиса с последнего старта [с]
+        example: 500
+        format: seconds
+        type: integer
+    type: object
+host: ultimatestore.io:8080
+info:
+  contact:
+    email: support@ultimatestore.io
+  description: Сервис хранения данных bucket-ов.
+  title: BucketStorage API
+  version: "1.0"
+paths:
+  /info/health:
+    get:
+      consumes:
+      - application/json
+      operationId: infoHealth
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/example.HealthResponse'
+        "500":
+          description: Внутренняя ошибка
+          schema:
+            type: string
+      summary: Запрос состояния сервиса
+      tags:
+      - Info
+  /storage/bucket/{bucket_id}:
+    get:
+      consumes:
+      - application/json
+      description: Запрос содержимого bucket-а по ID
+      operationId: storageGetBucket
+      parameters:
+      - description: Bucket ID
+        in: path
+        name: bucket_id
+        required: true
+        type: integer
+      - default: HEX
+        description: Формат поля data
+        enum:
+        - HEX
+        - Base64
+        in: query
+        name: data_format
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/example.BucketResponse'
+        "400":
+          description: Неверный запрос
+          schema:
+            type: string
+        "403":
+          description: Ошибка авторизации
+          schema:
+            type: string
+        "404":
+          description: Bucket не найден
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Запрос содержимого bucket-а
+      tags:
+      - Storage
+    post:
+      consumes:
+      - application/json
+      description: Создание нового / обновление существующего bucket-а по ID
+      operationId: storageSetBucket
+      parameters:
+      - description: Bucket ID
+        in: path
+        name: bucket_id
+        required: true
+        type: integer
+      - description: Содержимое bucket-а
+        in: body
+        name: bucket_data
+        required: true
+        schema:
+          $ref: '#/definitions/example.BucketRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Неверный запрос
+          schema:
+            type: string
+        "403":
+          description: Ошибка авторизации
+          schema:
+            type: string
+        "500":
+          description: Внутренняя ошибка
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Сохранение содержимого bucket-а
+      tags:
+      - Storage
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: authorization
+    type: apiKey
+swagger: "2.0"
+tags:
+- description: '"Группа запросов состояния сервиса"'
+  name: Info
+- description: '"Группа для работы с данными внутри bucket-ов"'
+  name: Storage

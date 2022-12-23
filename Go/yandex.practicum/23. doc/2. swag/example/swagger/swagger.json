@@ -1,0 +1,254 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Сервис хранения данных bucket-ов.",
+        "title": "BucketStorage API",
+        "contact": {
+            "email": "support@ultimatestore.io"
+        },
+        "version": "1.0"
+    },
+    "host": "ultimatestore.io:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/info/health": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Info"
+                ],
+                "summary": "Запрос состояния сервиса",
+                "operationId": "infoHealth",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/example.HealthResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/storage/bucket/{bucket_id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Запрос содержимого bucket-а по ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Storage"
+                ],
+                "summary": "Запрос содержимого bucket-а",
+                "operationId": "storageGetBucket",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bucket ID",
+                        "name": "bucket_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "HEX",
+                            "Base64"
+                        ],
+                        "type": "string",
+                        "default": "HEX",
+                        "description": "Формат поля data",
+                        "name": "data_format",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/example.BucketResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Bucket не найден",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Создание нового / обновление существующего bucket-а по ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Storage"
+                ],
+                "summary": "Сохранение содержимого bucket-а",
+                "operationId": "storageSetBucket",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bucket ID",
+                        "name": "bucket_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Содержимое bucket-а",
+                        "name": "bucket_data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/example.BucketRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Неверный запрос",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "403": {
+                        "description": "Ошибка авторизации",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "example.BucketRequest": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "format": "HEX",
+                    "example": "48656c6c6f20776f726c6421"
+                }
+            }
+        },
+        "example.BucketResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "format": "HEX / Base64",
+                    "example": "48656c6c6f20776f726c6421"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "RFC3339",
+                    "example": "2006-01-02T15:04:05.999999999Z07:00"
+                }
+            }
+        },
+        "example.HealthResponse": {
+            "type": "object",
+            "properties": {
+                "free_space": {
+                    "description": "Доступное место [байт]",
+                    "type": "integer",
+                    "format": "bytes",
+                    "example": 1048576
+                },
+                "state": {
+                    "description": "Статус сервиса",
+                    "type": "string",
+                    "enum": [
+                        "Bootstrap",
+                        "Online",
+                        "Failed"
+                    ],
+                    "example": "Online"
+                },
+                "uptime": {
+                    "description": "Время работы сервиса с последнего старта [с]",
+                    "type": "integer",
+                    "format": "seconds",
+                    "example": 500
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
+        }
+    },
+    "tags": [
+        {
+            "description": "\"Группа запросов состояния сервиса\"",
+            "name": "Info"
+        },
+        {
+            "description": "\"Группа для работы с данными внутри bucket-ов\"",
+            "name": "Storage"
+        }
+    ]
+}

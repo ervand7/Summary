@@ -1,0 +1,8 @@
+Утилита swag пробегает по коду проекта, ищет поддерживаемые Swagger-аннотации и
+генерирует файл swagger.yaml или swagger.json. Для установки swag достаточно
+запустить команду:
+ ● go install github.com/swaggo/swag/cmd/swag@latest
+Возможно, также придется запустить `go get github.com/swaggo/swag`
+
+После того как утилита swag установлена, Swagger-описание можно сгенерировать командой:
+ ● swag init --output ./swagger/

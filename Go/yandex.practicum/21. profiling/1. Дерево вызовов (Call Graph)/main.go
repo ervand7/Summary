@@ -33,6 +33,17 @@ func foo() {
 }
 
 func main() {
+	/*
+		Важно! В Urlshortener в main.go пришлось добавлять:
+		go func() {
+			log.Println(http.ListenAndServe(":6060", nil))
+		}()
+
+		И запускать так:
+		go tool pprof -http=":9090" -seconds=30 -edgefraction 0 -nodefraction 0 -nodecount 100000 http://localhost:6060/debug/pprof/heap
+
+	*/
+
 	go foo()                       // запускаем полезную нагрузку в фоне
 	http.ListenAndServe(addr, nil) // запускаем сервер
 }

@@ -1,0 +1,21 @@
+ ● go vet            # проверка файлов в текущей директории
+ ● go vet main.go    # проверка файла main.go
+ ● go vet ./...      # проверка всех файлов в текущей директории и поддиректориях
+ ● go vet ./foo ./internal/...  # проверка всех файлов в поддиректории foo
+                               # и во всех поддиректориях internal
+
+По умолчанию go vet запускает все анализаторы. Если вы хотите запустить
+конкретные, то перечислите их имена в параметрах команды: -name.
+Если же вы хотите отключить проверку у нескольких анализаторов, укажите -name=false.
+# проверяем только анализаторами printf и shift
+ ● go vet -printf -shift  ./...
+# проверяем всеми анализаторами, кроме printf и shift
+ ● go vet -printf=false -shift=false
+
+Подключение сторонних анализаторов:
+ ● go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow
+или
+ ● go get golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow
+which shadow
+/Users/ervand_agadzhanyan/go/bin/shadow
+ ● go vet -vettool=/Users/ervand_agadzhanyan/go/bin/shadow

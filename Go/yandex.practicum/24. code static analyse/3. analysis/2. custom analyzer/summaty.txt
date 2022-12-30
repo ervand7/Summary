@@ -1,0 +1,5 @@
+ ● ./errcheckanalyzer/errcheckanalyzer test_data.go
+test_data.go:12:2: expression returns unchecked error
+test_data.go:15:6: assignment with unchecked error
+test_data.go:17:5: assignment with unchecked error
+test_data.go:14:3: declaration of "i" shadows declaration at line 8

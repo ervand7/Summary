@@ -1,0 +1,4 @@
+ ● go get golang.org/x/tools/go/analysis
+ ● go get golang.org/x/tools/internal/gocommand@v0.4.0
+ ● go build main.go
+ ● ./main

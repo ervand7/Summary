@@ -1,7 +1,0 @@
-Эти 3 статьи, которые по сути, об одном и том же, дают понять принцип работы менеджера контекста в Python:
-
-https://pavel-karateev.gitbook.io/intermediate-python/sintaksis/context_managers
-
-https://pythonworld.ru/osnovy/with-as-menedzhery-konteksta.html
-
-https://devpractice.ru/python-lesson-21-context-manager/

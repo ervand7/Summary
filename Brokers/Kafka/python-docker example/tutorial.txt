@@ -1,7 +1,7 @@
 https://towardsdatascience.com/kafka-docker-python-408baf0e1088
 
  ● сd kafka-docker
- ● docker-compose up
+ ● docker-compose -f docker-compose-expose.yml up
  ● cd ../python_app
  ● python3.8 producer.py (в одном окне терминала)
  ● python3.8 consumer.py (в другом окне терминала)

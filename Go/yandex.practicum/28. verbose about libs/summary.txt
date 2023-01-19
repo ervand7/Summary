@@ -1,0 +1,23 @@
+std lib: https://practicum.yandex.ru/learn/go-advanced/courses/696f623c-893a-4af4-9ded-aa9a1e8bd509/sprints/39191/topics/df1f6b37-8e89-45bc-900d-5e853895959e/lessons/ed985098-a6b7-4cc9-b6bf-9a6ace17d781/
+ ● sort — сортировка слайсов;
+ ● container/heap — реализация очереди приоритетов;
+ ● container/list — реализация двусвязного списка;
+ ● expvar — добавление метрик в работу веб-сервера;
+ ● image — содержит базовые функции для работы с изображениями;
+ ● image/gif — кодирует и декодирует изображение в формате GIF;
+ ● image/jpeg — кодирует и декодирует изображение в формате JPEG;
+ ● image/png — кодирует и декодирует изображение в формате PNG.
+ ● math
+ ● regexp — работа с регулярными выражениями;
+ ● strconv — конвертация чисел в строки и обратно;
+ ● unicode — работа с Юникодом.
+
+golang.org/x: https://practicum.yandex.ru/learn/go-advanced/courses/696f623c-893a-4af4-9ded-aa9a1e8bd509/sprints/39191/topics/df1f6b37-8e89-45bc-900d-5e853895959e/lessons/49b35b69-a4e0-4aa1-a6d4-40caa46597e6/
+ ● crypto/acme/autocert — поддержка протокола ACME для генерации сертификатов в автоматическом режиме;
+ ● crypto/bcrypt — реализация алгоритма хеширования bcrypt;
+ ● net/html — парсинг HTML-страниц;
+ ● text/encoding — преобразование текста из одной кодировки в другую;
+ ● time/rate — установка ограничений при запросах к веб-серверу;
+ ● websocket — работа по протоколу WebSocket.
+
+math/rand and crypto/rand https://practicum.yandex.ru/learn/go-advanced/courses/696f623c-893a-4af4-9ded-aa9a1e8bd509/sprints/39191/topics/ac3c841e-bad4-4de5-ad72-690137d48078/lessons/418f374e-1a66-4d6e-bd82-88c635d99bf3/

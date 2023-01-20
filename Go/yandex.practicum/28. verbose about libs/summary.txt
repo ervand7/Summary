@@ -28,3 +28,7 @@ golang.org/x: https://practicum.yandex.ru/learn/go-advanced/courses/696f623c-893
  ● text/encoding — преобразование текста из одной кодировки в другую;
  ● time/rate — установка ограничений при запросах к веб-серверу;
  ● websocket — работа по протоколу WebSocket.
+
+os:
+https://practicum.yandex.ru/learn/go-advanced/courses/696f623c-893a-4af4-9ded-aa9a1e8bd509/sprints/39191/topics/cb4a413a-9bb3-4c04-a58f-a031bb9b85af/lessons/ba3a38c9-0394-4997-af2b-a00809ae97e7/
+https://practicum.yandex.ru/learn/go-advanced/courses/696f623c-893a-4af4-9ded-aa9a1e8bd509/sprints/39191/topics/cb4a413a-9bb3-4c04-a58f-a031bb9b85af/lessons/d2248cb1-c837-4398-9f49-0325387d45e7/

@@ -7,5 +7,5 @@ func main() {
 	key = "1"
 	var list []string
 	list = append(list, key.(string))
-	fmt.Println()
+	fmt.Println(list)
 }

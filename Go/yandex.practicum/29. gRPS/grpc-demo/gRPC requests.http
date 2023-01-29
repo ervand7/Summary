@@ -1,0 +1,32 @@
+###
+GRPC localhost:3200/grpc.Users/AddUser
+
+{
+  "user": {
+    "name": "hello",
+    "sex": "MAN",
+    "email": "qwerty@mail.ru"
+  }
+}
+
+###
+GRPC localhost:3200/grpc.Users/GetUser
+
+{
+  "email": "qwerty@mail.ru"
+}
+
+###
+GRPC localhost:3200/grpc.Users/ListUsers
+
+{
+  "offset": 1,
+  "limit": 1
+}
+
+###
+GRPC localhost:3200/grpc.Users/DelUser
+
+{
+  "email": "qwerty@mail.ru"
+}

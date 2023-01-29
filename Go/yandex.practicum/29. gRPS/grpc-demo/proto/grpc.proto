@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "grpc-demo/proto";
+
+package grpc;
+
+message User {
+  string name = 1;
+  enum Sex {
+    UNSPECIFIED = 0;
+    MAN = 1;
+    WOMAN = 2;
+  }
+
+  Sex sex = 2;
+  string email = 3;
+}
+
+message AddUserRequest {
+  User user = 1;
+}
+
+message AddUserResponse {
+  string error = 1;
+}
+
+message ListUsersRequest {
+  int32 offset = 1;
+  int32 limit = 2;
+}
+
+message ListUsersResponse {
+  int32  count = 1;
+  repeated string emails = 2;
+}
+
+message GetUserRequest {
+  string email = 1;
+}
+
+message GetUserResponse {
+  User   user = 1;
+  string error = 2;
+}
+
+message DelUserRequest {
+  string email = 1;
+}
+
+message DelUserResponse {
+  string error = 1;
+}
+
+service Users {
+  rpc AddUser(AddUserRequest) returns (AddUserResponse);
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc DelUser(DelUserRequest) returns (DelUserResponse);
+}

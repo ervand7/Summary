@@ -1,0 +1,5 @@
+гениальная статья:
+https://habr.com/ru/post/565020/
+
+материал из яндекс.практикума:
+https://debonair-gerbera-dac.notion.site/gRPC-d1738068e4c24c2eb5a4f23f01423f29

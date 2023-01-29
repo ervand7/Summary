@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"log"
 
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
 	pb "grpc-demo/proto"
 )
 
@@ -37,14 +40,21 @@ func TestUsers(c pb.UsersClient) {
 	}
 
 	for _, userEmail := range []string{`john@example.com`, `alice@example.com`} {
-		if resp, err := c.GetUser(context.Background(), &pb.GetUserRequest{
+		_, err := c.GetUser(context.Background(), &pb.GetUserRequest{
 			Email: userEmail,
-		}); err != nil {
-			log.Fatal(err)
-		} else if resp.Error == "" {
-			fmt.Println(resp.User)
-		} else {
-			fmt.Println(resp.Error)
+		})
+		if err != nil {
+			if e, ok := status.FromError(err); ok {
+				if e.Code() == codes.NotFound {
+					// выведет, что пользователь не найден
+					fmt.Println(`NOT FOUND`, e.Message())
+				} else {
+					// в остальных случаях выводим код ошибки в виде строки и сообщение
+					fmt.Println(e.Code(), e.Message())
+				}
+			} else {
+				fmt.Printf("Не получилось распарсить ошибку %v", err)
+			}
 		}
 	}
 

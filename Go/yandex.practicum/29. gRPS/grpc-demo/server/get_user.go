@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
-	"fmt"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	pb "grpc-demo/proto"
 )
@@ -12,14 +14,12 @@ func (s *UsersServer) GetUser(
 ) (*pb.GetUserResponse, error) {
 	var response pb.GetUserResponse
 
-	user, ok := s.users.Load(in.Email)
-	if !ok {
-		response.Error = fmt.Sprintf(
-			`User with email %s doesn't exist`, in.Email,
+	if user, ok := s.users.Load(in.Email); ok {
+		response.User = user.(*pb.User)
+	} else {
+		return nil, status.Errorf(
+			codes.NotFound, `Пользователь с email %s не найден`, in.Email,
 		)
-		return &response, nil
 	}
-
-	response.User = user.(*pb.User)
 	return &response, nil
 }

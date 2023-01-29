@@ -1,7 +1,7 @@
 Перед началом работы с gRPC нужно установить компилятор proto-файлов.
 https://grpc.io/docs/protoc-installation/
- ●  brew install protobuf
- ●  protoc --version  # Ensure compiler version is 3+
+ ● brew install protobuf
+ ● protoc --version  # Ensure compiler version is 3+
 
 После этого установите утилиты, которые отвечают за кодогенерацию go-файлов:
  ● go install google.golang.org/protobuf/cmd/protoc-gen-go@latest

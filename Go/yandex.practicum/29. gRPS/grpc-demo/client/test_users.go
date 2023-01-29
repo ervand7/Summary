@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	pb "grpc-demo/proto"
 	"log"
+
+	pb "grpc-demo/proto"
 )
 
 func TestUsers(c pb.UsersClient) {

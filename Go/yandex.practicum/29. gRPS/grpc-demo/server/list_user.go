@@ -1,12 +1,15 @@
-package server
+package main
 
 import (
 	"context"
-	pb "grpc-demo/proto"
 	"sort"
+
+	pb "grpc-demo/proto"
 )
 
-func (s *UsersServer) ListUsers(ctx context.Context, in *pb.ListUsersRequest) (*pb.ListUsersResponse, error) {
+func (s *UsersServer) ListUsers(
+	ctx context.Context, in *pb.ListUsersRequest,
+) (*pb.ListUsersResponse, error) {
 	var list []string
 
 	s.users.Range(func(key, _ interface{}) bool {

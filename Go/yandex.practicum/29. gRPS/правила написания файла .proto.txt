@@ -1,0 +1,6 @@
+ ● `lower_snake_case.proto` для именования файлов;
+ ● отступ в два пробела;
+ ● CamelCase для имён сообщений `message` и lower_snake_case для имён полей;
+ ● CamelCase для enum-перечислений и CAPITALS_WITH_UNDERSCORES для имён значений;
+ ● CamelCase для имени сервиса и RPC-методов;
+ ● множественное число для `repeated` полей, например `repeated string keys = 1;`.

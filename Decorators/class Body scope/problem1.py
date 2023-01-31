@@ -40,10 +40,10 @@ class DepartamentIT2:
         print('React')
 
 
-b = DepartamentIT2()
+a1 = DepartamentIT2()
 
 
-# b.info()
+# a1.info()
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 # 2) use <self>
 class DepartamentIT3:
@@ -61,10 +61,10 @@ class DepartamentIT3:
         print('React')
 
 
-c = DepartamentIT3()
+a2 = DepartamentIT3()
 
 
-# c.info()
+# a2.info()
 
 
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -84,12 +84,33 @@ class DepartamentIT4:
         print('React')
 
 
-d = DepartamentIT4()
+a3 = DepartamentIT4()
 
 
-# d.info()
+# a3.info()
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# 4) use property
+# 4) use ordinary function
+class DepartamentIT5:
+    PYTHON_DEV = 3
+    GO_DEV = 3
+    REACT_SEV = 2
+
+    def info(self):
+        return print(self.PYTHON_DEV, self.GO_DEV, self.REACT_SEV)
+
+    def make_backend(self):
+        print('Python and Go')
+
+    def male_fromtend(self):
+        print('React')
+
+
+a4 = DepartamentIT5()
+
+
+# a4.info()
+# _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+# 5) use property
 class DepartamentIT5:
     PYTHON_DEV = 3
     GO_DEV = 3
@@ -106,12 +127,12 @@ class DepartamentIT5:
         print('React')
 
 
-e = DepartamentIT5()
+a5 = DepartamentIT5()
 
 
-# e.info
+# a5.info
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# 5) use classmethod
+# 6) use classmethod
 class DepartamentIT6:
     PYTHON_DEV = 3
     GO_DEV = 3
@@ -128,12 +149,12 @@ class DepartamentIT6:
         print('React')
 
 
-f = DepartamentIT6()
+a6 = DepartamentIT6()
 
 
-# f.info()
+# a6.info()
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# 5) use staticmethod
+# 7) use staticmethod
 class DepartamentIT7:
     PYTHON_DEV = 3
     GO_DEV = 3
@@ -150,5 +171,5 @@ class DepartamentIT7:
         print('React')
 
 
-g = DepartamentIT7()
-# g.info()
+a7 = DepartamentIT7()
+# a7.info()

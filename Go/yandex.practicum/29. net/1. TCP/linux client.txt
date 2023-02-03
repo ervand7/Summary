@@ -1,0 +1,1 @@
+echo -n "test out the server" | nc localhost 3333

@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// cap is 5 because we cut the first elem from a when we declare b
-
 func main() {
 	a := make([]int, 6, 6)
 	for i := 0; i < len(a); i++ {

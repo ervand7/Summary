@@ -11,13 +11,13 @@ def mark_for_cache(method):
 def make_cache(method):
     method_name = method.__name__
 
-    def new_method(self):
-        if method_name not in self.CACHE:
-            self.CACHE[method_name] = {}
+    def new_method(cls):
+        if method_name not in cls.CACHE:
+            cls.CACHE[method_name] = {}
 
-        if self._value not in self.CACHE[method_name]:
-            self.CACHE[method_name][self._value] = method(self)
-        return self.CACHE[method_name][self._value]
+        if cls._value not in cls.CACHE[method_name]:
+            cls.CACHE[method_name][cls._value] = method(cls)
+        return cls.CACHE[method_name][cls._value]
 
     return new_method
 

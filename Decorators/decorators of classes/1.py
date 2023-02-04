@@ -1,40 +1,34 @@
 """
-Автоматически декорируем (хардкодом) известные методы.
+Вручную декорируем методы
 """
 
 
 def cached(method):
     method_name = method.__name__
 
-    def new_method(self):
-        if method_name not in self.CACHE:
-            self.CACHE[method_name] = {}
-        cache = self.CACHE[method_name]
+    def inner(cls):
+        if method_name not in cls.CACHE:
+            cls.CACHE[method_name] = {}
+        cache = cls.CACHE[method_name]
 
-        if self._value not in cache:
-            cache[self._value] = method(self)
-        return cache[self._value]
+        if cls._value not in cache:
+            cache[cls._value] = method(cls)
+        return cache[cls._value]
 
-    return new_method
-
-
-def cache_all(cls):
-    for attr_name in ['sqr', 'half']:
-        attr = getattr(cls, attr_name)
-        setattr(cls, attr_name, cached(attr))
-    return cls
+    return inner
 
 
-@cache_all
 class Number:
     CACHE = {}
 
     def __init__(self, value):
         self._value = value
 
+    @cached
     def sqr(self):
         return type(self)(self._value * self._value)
 
+    @cached
     def half(self):
         return type(self)(self._value // 2)
 

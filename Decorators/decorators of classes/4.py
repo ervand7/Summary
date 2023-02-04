@@ -11,15 +11,15 @@ def mark_for_cache(method):
 def make_cache(method, cache_name):
     method_name = method.__name__
 
-    def new_method(self):
-        global_cache = getattr(self, cache_name)
+    def new_method(cls):
+        global_cache = getattr(cls, cache_name)
         if method_name not in global_cache:
             global_cache[method_name] = {}
         cache = global_cache[method_name]
 
-        if self._value not in cache:
-            cache[self._value] = method(self)
-        return cache[self._value]
+        if cls._value not in cache:
+            cache[cls._value] = method(cls)
+        return cache[cls._value]
 
     return new_method
 

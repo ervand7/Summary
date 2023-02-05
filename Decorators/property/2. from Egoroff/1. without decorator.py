@@ -20,11 +20,6 @@ class BankAccount:
     balance = property(fget=get_balance, fset=set_balance, fdel=delete_balance)
 
 
-"""
-property - это класс питона по созданию свойства. 
-Используется с комбинацией fget, fset, fdel
-"""
-
 d = BankAccount('Masha', 400)
 print(d.balance)  # 400
 

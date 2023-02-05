@@ -1,3 +1,4 @@
+# O(n*log n)
 """
 Единственное отличие этого алгоритма (быстрая сортировка Хоара)
 от обычного quick_sort в том, что при каждом рекурсивном
@@ -23,6 +24,6 @@ def quick_sort_hoara(array):
 
 if __name__ == '__main__':
     start = datetime.now()
-    print(*quick_sort_hoara(my_array))
+    print(quick_sort_hoara(my_array))  # [2, 5, 7]
     end = datetime.now() - start
     print(f'the duration is {end}')

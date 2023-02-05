@@ -1,4 +1,5 @@
 from pprint import pprint
+
 """
 Инкапсуляция - это сокрытие.
 Public, protected and private attr and methods.
@@ -24,19 +25,15 @@ class BankAccount:
 
 account1 = BankAccount('Bob', 10000, 4545454545)
 
-# Получаем доступ вне класса, так как сам метод публичный
+# Получаем доступ к приватным атрибутам и методам вне класса (через публичный метод)
+account1.print_public_data()  # Bob 10000 4545454545
 account1.print_private_attrs()  # Bob 10000 4545454545
 
-account1.__print_private_data()  # ERROR! Доступ вне класса запрещен к приватным методам
-
-# Вне класса доступ к атрибутам запрещен
+# Доступ к приватным атрибутам и методам вне класса запрещен
+account1.__print_private_data()  # ERROR
 print(account1.__name)  # ERROR
 print(account1.__balance)  # ERROR
 print(account1.__passport)  # ERROR
-
-# так мы получаем защищенные данные методом print_public_data(), дергая
-# внутри метод __print_private_data()
-account1.print_public_data()  # Bob 10000 4545454545
 
 # Проверив с помощью dir возможные доступные методы, мы видим способы доступа к приватным данным
 pprint(dir(account1))

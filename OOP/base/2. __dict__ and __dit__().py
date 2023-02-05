@@ -9,7 +9,7 @@ class Point:
         self.x = coord_x
         self.y = coord_y
         Point.list_points.append(self)  # вот таким образом мы можем достучаться до
-        # переменых (атрибутов класса) в функциях
+        # переменных (атрибутов класса) в функциях
         print(Point.list_points)
 
     def move_to(self, new_x, new_y):
@@ -29,29 +29,8 @@ class Point:
         return sqrt((self.x - another_point.x) ** 2 + (self.y - another_point.y) ** 2)
 
 
-class Child(Point):
-    pass
-
-
-p = Point()
-p.print_point()  # Точка с координатами (0, 0)
-p.move_to(7, -43)
-p.print_point()  # Точка с координатами (7, -43)
-p2 = Point(6, 0)
-p3 = Point(0, 8)
-print(p2.calc_distance(p3))  # 10.0
-
-print(isinstance(p, Point))  # True
-print(issubclass(Child, Point))  # True
-print(type(p))  # <class '__main__.Point'>
-
-# Узнать, какое место в памяти занимает элемент
-print(Point.__dict__.__sizeof__())  # 24
-
-setattr(Point, 'window', 200)
-print(getattr(Point, 'window+', 'Не нашел'))
-delattr(Point, 'window')
-
+# __dict__ - встроенный аттрибут класса с подробным описанием адресов памяти атрибутов
+# и методов класса
 pprint(Point.__dict__)
 """
 mappingproxy({'__dict__': <attribute '__dict__' of 'Point' objects>,
@@ -68,8 +47,9 @@ mappingproxy({'__dict__': <attribute '__dict__' of 'Point' objects>,
               'print_point': <function Point.print_point at 0x7fb3c34bd040>})
 """
 
-# dir показывает список доступных магических методов
-pprint(dir(Point))
+# __dir__() - встроенная функция, которая показывает список доступных магических
+# методов, а также методы и аттрибуты самого класса
+pprint(Point().__dir__())
 """
 ['__class__',
  '__delattr__',

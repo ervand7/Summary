@@ -22,8 +22,11 @@ class BankAccount:
 b = BankAccount('Anya', 12)
 b2 = BankAccount('Vanya', 15)
 
-print(b.__add__(b2))
+print(b.__add__(b2))  # 27
+
 print(10 + b2)  # here calling method __radd__
+# __radd__ called
+# 25
 
 """
 The remaining methods 

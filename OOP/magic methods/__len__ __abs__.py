@@ -4,11 +4,11 @@ class Person:
         self.surname = surname
 
     def __len__(self):
-        return len(self.name + self.surname)  # Конкатенация
+        return len(self.name + self.surname)
 
 
 p = Person('Петр', 'Иванов')
-print(p.__len__())
+print(p.__len__())  # 10
 
 
 class Snippet:
@@ -28,7 +28,7 @@ class Snippet:
 
 
 s = Snippet(3, 9)
-print(len(s))
+print(len(s))  # 6
 
 s = Snippet(10, 2)
-print(len(s))
+print(len(s))  # 8

@@ -1,5 +1,5 @@
 """
-Для начала нужно понять, что MyList и MyList2 - это одно и тоже.
+Для начала нужно понять, что MyList и newMyList - это одно и тоже.
 Просто во втором примере показано то, как класс создается под капотом
 """
 
@@ -9,8 +9,8 @@ class MyList(list):
         return len(self)
 
 
-MyList2 = type(
+newMyList = type(
     'MyList',
     (list,),
-    dict(my_length=lambda self: len(self))
+    dict(get_length=lambda self: len(self))
 )

@@ -1,18 +1,16 @@
-"""
-Создадим метакласс.
-"""
+class B1:
+    pass
 
 
-class MyMeta(type):
-    def __init__(cls, name, bases, attrs):
-        print('Ervand created {}'.format(cls))
-        super(MyMeta, cls).__init__(name, bases, attrs)
+class B2:
+    pass
 
 
-class MyList(list, metaclass=MyMeta):
-    def get_length(self):
-        return len(self)
+newClass = type(
+    'Point',
+    (B1, B2),
+    {'MAX_COORD': 100, 'MIN_COORD': 0}
+)
 
-
-# у всех обычных классов метакласс по умолчанию - это type. По факту мы его просто подменяем
-m = MyList()  # Ervand created <class '__main__.MyList'>
+print(newClass.__dict__)  # {'MAX_COORD': 100, 'MIN_COORD': 0, '__module__': '__main__', '__doc__': None}
+print(newClass.__mro__)  # (<class '__main__.Point'>, <class '__main__.B1'>, <class '__main__.B2'>, <class 'object'>)

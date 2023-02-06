@@ -1,23 +1,21 @@
-"""
-Пример того, как можно использовать метакласс.
-Сделаем так, что все наши public методы станут private.
-"""
+class B1:
+    pass
 
 
-class AllPrivateMeta(type):
-    def __new__(mcs, name, bases, attrs):
-        new_attrs = {}
-        for attr_name in attrs:
-            new_name = attr_name if attr_name.startswith('__') else '__' + attr_name
-            new_attrs[new_name] = attrs[attr_name]
-
-        return super().__new__(mcs, name, bases, new_attrs)
+class B2:
+    pass
 
 
-class MyList(list, metaclass=AllPrivateMeta):
-    def get_length(self):
-        return len(self)
+def some_method(self):
+    self.hello = 'world'
+    print(self.__dict__)
 
 
-m = MyList()
-print(m.__get_length())
+newClass = type(
+    'Point',
+    (B1, B2),
+    {'MAX_COORD': 100, 'some_method': some_method}
+)
+
+a = newClass()
+a.some_method()  # {'hello': 'world'}

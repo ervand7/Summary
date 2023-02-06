@@ -1,14 +1,12 @@
+# By themselves, class instances are hashable. But if we define __eq__ for them,
+# then they cease to be hashable. So we also need to define the __hash__ method
+
 class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
     def __eq__(self, other):
-        """
-        Problem:
-        After creating of __eq__ function we lose hash value
-        of both variables (self.x, self.y).
-        """
         return isinstance(other, Point) and self.x == other.x and self.y == other.y
 
     def __hash__(self):
@@ -21,11 +19,14 @@ class Point:
 p1 = Point(2, 3)
 p2 = Point(2, 3)
 
-# we can see, that ids of variables are different
-print(id(p1))  # 140255162496048
-print(id(p2))  # 140255162529584
+# we can see, that address of variables are different
+print(hex(id(p1)))  # 0x7ff63812ffd0
+print(hex(id(p2)))  # 0x7ff63812ff10
 
-# but thanks to the function we created __eq__
+# but hashes are equals
+print(hash(p1))  # 8409376899596376432
+print(hash(p2))  # 8409376899596376432
+
+# and thanks __eq__, we can have custom comparing
 print(p1 == p2)  # True
 
-print(hash(p2))  # 8409376899596376432

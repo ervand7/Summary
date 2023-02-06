@@ -1,6 +1,10 @@
+import traceback
+from typing import List, Type
+
+
 class DefendedVector(object):
-    def __init__(self, vector):
-        self.__v = vector  # self.__v - ссылка на vector
+    def __init__(self, vector: List[int]):
+        self.__v = vector
 
     def __enter__(self):
         """
@@ -9,11 +13,18 @@ class DefendedVector(object):
         with DefendedVector(item) as dv:
         то в dv попадет то, что возвращает __enter__
         """
-        self.__temp = self.__v[:]  # self.__temp - копия self.__v
+        self.__temp = self.__v[:]
         return self.__temp
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+            self,
+            exc_type: Type[Exception],
+            exc_val: Exception,
+            exc_tb: traceback
+    ):
         """
+        Вызывается в момент перед выходом из менеджера контекста, либо
+        при возникновении ошибки.
         exc_type : Тип зафиксированного исключения, либо None.
         exc_val : Объект зафиксированного исключения, либо None.
         exc_tb : Трассировка стека для зафиксированного исключения, либо None.

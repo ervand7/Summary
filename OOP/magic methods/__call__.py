@@ -2,6 +2,24 @@ from datetime import datetime
 from typing import Callable
 
 
+# example 1: closure with __call__()
+class Counter:
+    def __init__(self):
+        self.__counter = 0
+
+    def __call__(self, *args, **kwargs):
+        self.__counter += 1
+        return self.__counter
+
+
+c = Counter()
+print(c())  # 1
+print(c())  # 2
+print(c())  # 3
+
+
+# _________________________________________________________________
+# example 2: decorator with __call__()
 class Timer:
     def __init__(self, func: Callable):
         self.fn = func
@@ -25,5 +43,5 @@ def factorial(number: int):
 
 print(factorial(4))
 # Вызывается функция factorial
-# Функция отработала за 0:00:00.000111
+# Функция отработала за 0:00:00.000076
 # 24

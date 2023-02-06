@@ -3,11 +3,12 @@ class Singleton:
     __count = 0
     __instance = None
 
-    def __new__(cls, *args, **kwargs):  # this magic method creates a new exemplar of class
-        if not isinstance(cls.__instance, Singleton):
+    def __new__(cls, *args, **kwargs):
+        if not cls.__instance:
             cls.__instance = super(Singleton, cls).__new__(cls)
         else:
             print('Экземпляр класса Singleton уже создан')
+        return cls.__instance
 
     def __init__(self, x=0, y=0):
         self.__count += 1

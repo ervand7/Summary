@@ -1,0 +1,29 @@
+ ● curl -sSL https://install.python-poetry.org | python3 -
+installation
+ ● export PATH="/Users/ervand_agadzhanyan/.local/bin:$PATH"
+configuring PATH
+
+ ● poetry init
+start of initialize project
+
+ ● poetry env use python3.9
+создаем виртуальное окружение.
+Оно создастся в специальной директории, например
+/Users/ervand_agadzhanyan/Library/Caches/pypoetry/virtualenvs/tmp-LFqRmIvK-py3.9
+
+ ● poetry shell
+активируем виртуальное окружение
+ ● which python
+/Users/ervand_agadzhanyan/Library/Caches/pypoetry/virtualenvs/tmp-LFqRmIvK-py3.9/bin/python
+убеждаемся, что работаем из виртуального окружения
+
+ ● poetry add requests
+устанавливаем библиотеку requests
+
+ ● poetry show --tree
+посмотреть дерево зависимостей
+
+ ● poetry show --latest
+узнать, какие новейшие версии установленных библиотек есть
+
+ ● poetry env info

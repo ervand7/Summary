@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package demo;
+
+option go_package = "streaming_from_server/proto";
+
+message Request {
+  int32 num = 1;
+  int32 limit = 2;
+}
+
+message Response {
+  int64 result = 1;
+}
+
+service StreamMultiService {
+  rpc MultiResponse (Request) returns (stream Response) {}
+}

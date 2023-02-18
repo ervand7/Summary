@@ -16,7 +16,6 @@ func TestUsers(c pb.UsersClient) {
 		{Name: `John`, Email: `john@example.com`, Sex: pb.User_MAN},
 		{Name: `Alice`, Email: `alice@example.com`, Sex: pb.User_WOMAN},
 		{Name: `Max`, Email: `max@example.com`, Sex: pb.User_MAN},
-
 		{Name: `Alice`, Email: `alice@example.com`, Sex: pb.User_WOMAN},
 	}
 	for _, user := range users {

@@ -1,12 +1,17 @@
-protoc --go_out=. --go_opt=paths=source_relative \
+ ● protoc --go_out=. --go_opt=paths=source_relative \
   --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-  proto/demo.proto
+  proto/grpc.proto
 
- ● В `-go-out` запишется файл с кодом для Protobuf-сериализации.
- ● В `-go-grpc_out` сохранится файл с gRPC-интерфейсами и методами.
- ● Так как вы указали параметр `paths=source_relative`, сгенерированные файлы создадутся в поддиректории `./proto`. Если бы указали параметр `paths=import`, то сгенерированные файлы создались бы в директории, указанной в директиве `go_package`, то есть `./demo/proto`.
+ - В `-go-out` запишется файл с кодом для Protobuf-сериализации.
+ - В `-go-grpc_out` сохранится файл с gRPC-интерфейсами и методами.
+ - Так как вы указали параметр `paths=source_relative`,
+ сгенерированные файлы создадутся в поддиректории `./proto`.
+ Если бы указали параметр `paths=import`, то сгенерированные файлы создались
+ бы в директории, указанной в директиве `go_package` (указано в начале файла grpc.proto),
+ то есть `grpc-demo/proto`.
+
 
 В случае успешного выполнения будут созданы два go-файла:
- ● `./proto/demo.pb.go` — содержит код для сериализации и десериализации
+ - `./proto/demo.pb.go` — содержит код для сериализации и десериализации
  структур `User`, `AddUserRequest`, `AddUserResponse` и остальных.
- ● `./proto/demo_grpc.pb.go` — содержит код интерфейса `UsersClient`.
+ - `./proto/demo_grpc.pb.go` — содержит код интерфейса `UsersClient`.

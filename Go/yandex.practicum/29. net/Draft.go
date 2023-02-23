@@ -1,10 +1,9 @@
 package main
 
-import (
-	"fmt"
-	"net"
-)
+import "fmt"
 
 func main() {
-	fmt.Println(net.LookupAddr("157.240.9.35"))
+	var a []string
+	a = append(a, "qwe")
+	fmt.Println(a)
 }

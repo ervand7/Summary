@@ -1,7 +1,8 @@
 package main
 
-type d struct{}
+import "fmt"
 
 func main() {
-	// var _ sync.Locker = (*d)(nil)
+	a := 'd'
+	fmt.Printf("%d", a)
 }

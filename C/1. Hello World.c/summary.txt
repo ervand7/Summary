@@ -1,0 +1,7 @@
+build:
+ ●  /usr/bin/gcc -g "/Users/ervand_agadzhanyan/Desktop/Summary/C/1. Hello World.c/lesson1.c" -o "/Users/ervand_agadzhanyan/Desktop/Summary/C/1. Hello World.c/lesson1"
+
+installing VSCode extentions 
+ - C/C++
+ - code runner
+and use CTRL+ALT+N for run file

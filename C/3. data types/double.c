@@ -7,7 +7,7 @@ int main(void)
 
     float f;
     f = 10.0f;
-    printf("%f %f", a, f);
+    printf("%f %f", a, f); // 10.000000 10.000000
 
     return 0;
 }

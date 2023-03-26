@@ -3,6 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	a := 'd'
-	fmt.Printf("%d", a)
+	fmt.Println(float64(1) / 81)
 }

@@ -4,10 +4,10 @@ import "fmt"
 
 func main() {
 	var strs []string
-	initSliceByValue(strs) // []
-	fmt.Println(strs)
-	initSliceByPointer(&strs) // [hello]
-	fmt.Println(strs)
+	initSliceByValue(strs)
+	fmt.Println(strs) // [] (nil)
+	initSliceByPointer(&strs)
+	fmt.Println(strs) // [hello]
 }
 
 func initSliceByValue(strs []string) {

@@ -15,6 +15,7 @@ func changeArray(arrPointer *[]int) {
 func main() {
 	arr := make([]int, 0, 50)
 	arr = append(arr, 0, 1, 2, 3, 4)
+	fmt.Println(arr)         // [0 1 2 3 4]
 	fmt.Printf("%p\n", &arr) // 0x1400000c030
 
 	changeArray(&arr)

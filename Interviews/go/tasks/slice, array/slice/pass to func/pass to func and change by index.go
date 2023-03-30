@@ -16,5 +16,5 @@ func main() {
 	arr := []int{0, 1, 2, 3, 4}
 
 	changeByIndex(arr) // [111 1 2 3 4]
-	fmt.Println(arr)
+	fmt.Println(arr)   // [111 1 2 3 4]
 }

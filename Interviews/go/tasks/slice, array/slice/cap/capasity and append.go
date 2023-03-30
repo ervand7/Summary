@@ -13,4 +13,5 @@ func main() {
 	dir1 = append(dir1, "suffix"...)
 	fmt.Printf("%s\n", dir1) // AAAAsuffix
 	fmt.Printf("%s\n", dir2) // uffixBBBB
+	fmt.Printf("%s\n", path) // AAAAsuffixBBBB
 }

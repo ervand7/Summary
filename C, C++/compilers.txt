@@ -1,0 +1,5 @@
+ ● C
+gcc filename -o bin_file_name
+
+ ● C++
+clang++ filename -o bin_file_name

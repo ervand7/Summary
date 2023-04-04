@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// Not initialized array is not nil
+// Not initialized array is NOT nil
 // Not initialized slice is nil
 // Not initialized map is nil
 

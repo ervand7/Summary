@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// struct will be changed because we make dereferencing
+
 type Man struct {
 	Name string
 }

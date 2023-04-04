@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// изменятся оба
+// передав map в другую функцию и там изменив его по ключу, map изменится везде
 
 func changeMap(m map[int]int) {
 	m[1] = 777

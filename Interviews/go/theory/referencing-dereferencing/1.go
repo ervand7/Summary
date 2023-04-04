@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// struct will not be changed because we not make dereferencing
+
 type Person struct {
 	Name string
 }

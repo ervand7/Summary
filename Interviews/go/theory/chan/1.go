@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 /*
@@ -19,6 +20,7 @@ func main() {
 		wg.Add(1)
 
 		go func(n int) {
+			time.Sleep(time.Second)
 			fmt.Println("do something concurrently", n)
 			<-q
 			wg.Done()

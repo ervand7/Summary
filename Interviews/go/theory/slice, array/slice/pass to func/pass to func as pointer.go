@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 /*
-Слайс изменился, так как мы передали его как pointer.
+Слайс изменился, так как мы передали его как pointer и сделали dereferencing.
 */
 
 func changeArray(arrPointer *[]int) {

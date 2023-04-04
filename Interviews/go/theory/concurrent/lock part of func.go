@@ -16,7 +16,7 @@ const numRequests = 10000
 var count int
 
 func networkRequest(mux *sync.Mutex) {
-	time.Sleep(time.Millisecond) // Эмуляция сетевого запроса.
+	time.Sleep(time.Second) // Эмуляция сетевого запроса.
 	mux.Lock()
 	count++
 	mux.Unlock()

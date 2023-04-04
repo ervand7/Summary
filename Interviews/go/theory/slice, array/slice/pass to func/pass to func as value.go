@@ -2,9 +2,7 @@ package main
 
 import "fmt"
 
-/*
-Слайс не изменился, так как внутри changeArr создалась копия хоть с тем же адресом
-*/
+// Слайс не изменился
 
 func changeArr(arr []int) {
 	arr = append(arr, 5, 6, 7)

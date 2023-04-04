@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// слайс a не изменится
+// слайс `a` не изменится
 
 func main() {
 	a := make([]int, 0, 10)

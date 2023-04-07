@@ -1,10 +1,12 @@
 package main
 
-import "fmt"
-
 func main() {
-	var a = make([]int, 0, 0)
-	b := a
-	fmt.Printf("%p\n", a)
-	fmt.Printf("%p\n", b)
+	// type a struct{
+	// 	qwe string
+	// }
+	// var s = make(map[a]int)
+	// aaa := a{}
+	// aaa.asd = 3
+	// fmt.Printf("%p\n", a)
+	// fmt.Printf("%p\n", b)
 }

@@ -10,7 +10,7 @@ func main() {
 	arr := [10]int{}
 	fmt.Println(arr) // [0 0 0 0 0 0 0 0 0 0]
 
-	slice := make([]int, 10, 10)
+	slice := make([]int, 10)
 	fmt.Println(slice) // [0 0 0 0 0 0 0 0 0 0]
 
 	m := make(map[int]int, 10)

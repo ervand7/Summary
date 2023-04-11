@@ -6,7 +6,8 @@ import (
 )
 
 func main() {
-	a := struct{}{}                // anonymous struct
+	// anonymous struct
+	a := struct{}{}
 	fmt.Println(unsafe.Sizeof(a))  // 0
 	fmt.Println(unsafe.Sizeof(&a)) // 8 - однако указатель будет весить не 0
 

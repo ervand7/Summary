@@ -8,7 +8,10 @@ import (
 
 /*
 Мораль: можно залочить мьютексом только часть функции:
-time.Sleep(time.Millisecond) будет выполняться горутинами одновременно
+time.Sleep(time.Millisecond) будет выполняться горутинами одновременно.
+
+Тут важный момент: мы передаем ссылку на мьютекс. Иначе он будет бесполезен
+и у нас возникнет data race.
 */
 
 const numRequests = 10000
@@ -35,5 +38,5 @@ func main() {
 	}
 
 	wg.Wait()
-	fmt.Println(count)
+	fmt.Println(count) // 10000
 }

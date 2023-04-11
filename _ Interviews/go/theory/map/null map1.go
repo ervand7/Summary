@@ -8,4 +8,5 @@ import "fmt"
 func main() {
 	var m map[int]string
 	fmt.Println(m[992] == "") // true
+	fmt.Println(m[992])       //
 }

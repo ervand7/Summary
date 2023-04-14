@@ -1,0 +1,2 @@
+package reflection
+https://practicum.yandex.ru/trainer/go-advanced/lesson/66c951f2-5cff-47b0-9c2d-2468423005a4/?searchedText=Рефлексия

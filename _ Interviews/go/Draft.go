@@ -1,19 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+	"time"
+)
 
 func main() {
-	a := []int{1, 2, 3, 2, 1, 3, 3, 1, 7, 22, 22, 0, 0, 0, 0, 0}
-	hTable := make(map[int]bool)
+	ctx, cancel := context.WithCancel(context.Background())
 
-	for _, val := range a {
-		if _, ok := hTable[val]; !ok {
-			hTable[val] = true
-		} else {
-			delete(hTable, val)
-		}
-	}
+	fmt.Println("Hello, World!")
+	time.AfterFunc(1*time.Second, cancel)
 
-	// выведет все значения, которые без пар
-	fmt.Println(hTable)
+	<-ctx.Done()
+	fmt.Println("context canceled")
 }

@@ -51,15 +51,16 @@ func (l *ListNode) Traverse() {
 
 // Reverse Меняет Head'ы у нод
 func (s *SingleList) Reverse() {
-	curr := s.Head
-	var prev *ListNode
-	var next *ListNode
+
+	var prev *ListNode // temp
+	var curr = s.Head  // temp курсор с тем же адресом, что и Head
+	var next *ListNode // temp
 
 	for curr != nil {
-		next = curr.next
-		curr.next = prev
-		prev = curr
-		curr = next
+		next = curr.next // temp next будет ссылаться на тот же адрес, что и узел.next
+		curr.next = prev // присваиваем узел.next значение из prev
+		prev = curr      // сдвигаем temp curr на temp prev
+		curr = next      // сдвигаем temp next на temp curr
 	}
 	s.Head = prev
 }

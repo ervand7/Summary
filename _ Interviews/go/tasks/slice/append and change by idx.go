@@ -3,18 +3,22 @@ package main
 import "fmt"
 
 /*
-Append не заафектит slice в main, так как slice был передан в changeOne как
-value. Однако изменение индекса заафектит
+Несмотря на то, что slice в отличие от массива передается в функцию как ссылка,
+и внутри этой функции мы будем работать с этим slice как со ссылкой,
+append не заафектит slice в main. Однако изменение индекса заафектит.
 */
 
 func changeOne(slice []int) {
 	slice = append(slice, 5)
+	fmt.Printf("%p\n", slice) // 0x14000130000
+
 	slice[1] = 0
 	fmt.Println(slice) // [0 0 2 3 4 5]
 }
 
 func main() {
-	slice := make([]int, 0)
+	slice := make([]int, 0, 10)
+	fmt.Printf("%p\n", slice) // 0x14000130000
 	slice = append(slice, 0, 1, 2, 3, 4)
 
 	changeOne(slice)

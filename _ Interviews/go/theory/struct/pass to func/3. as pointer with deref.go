@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// struct will be changed because we make dereferencing
+// изначальная структура изменилась, так как мы сделали dereferencing
 
 type Man struct {
 	Name string

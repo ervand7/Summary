@@ -1,0 +1,9 @@
+1) sync.Mutex
+2) sync.RWMutex
+3) sync.WaitGroup
+4) каналы
+5) errgroup
+6) потокобезопасная мапа
+7) sync.Cond
+8) semafore
+9) singleflight

@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-// struct will not be changed because we not make dereferencing
+// ничего не изменилось, иак как мы не сделали dereferencing
 
 type Person struct {
 	Name string
 }
 
-func changeName(person *Person) {
+func changeByPointer(person *Person) {
 	person = &Person{
 		Name: "Alice",
 	}
@@ -19,6 +19,6 @@ func main() {
 		Name: "Bob",
 	}
 	fmt.Println(person.Name) // Bob
-	changeName(person)
+	changeByPointer(person)
 	fmt.Println(person.Name) // Bob
 }

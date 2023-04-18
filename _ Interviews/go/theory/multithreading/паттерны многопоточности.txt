@@ -1,0 +1,4 @@
+1) for-select
+2) errgroup
+3) fan-in и fan-out
+4) workerpool

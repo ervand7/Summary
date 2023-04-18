@@ -6,6 +6,7 @@ import "fmt"
 
 func main() {
 	var a struct{}
+	// fmt.Println(a == nil) - ошибка компиляции
 	fmt.Println(a == struct{}{}) // true
 
 	var a1 = struct{}{}

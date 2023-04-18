@@ -6,8 +6,11 @@ import "fmt"
 
 func main() {
 	var i int
+	fmt.Printf("%p\n", &i) // 0x14000122008
+
 	if true {
 		i := 7
+		fmt.Printf("%p\n", &i) // 0x14000122020
 		fmt.Print(i)
 	}
 	fmt.Print(i)

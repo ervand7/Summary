@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 // map in go is not ordered
+// Но, нужно знать, что функция Println сортирует мапу под капотом
 
 func main() {
 	m := map[int]string{

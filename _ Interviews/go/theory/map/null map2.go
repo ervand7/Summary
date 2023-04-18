@@ -5,7 +5,7 @@ import "fmt"
 // If map is not initialized we can still check existence of key
 
 func main() {
-	var m map[int]string
-	_, ok := m[1]
-	fmt.Println(ok) // false
+	var m map[int]int
+	val, ok := m[1]
+	fmt.Println(val, ok) // 0 false
 }

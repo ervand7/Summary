@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// the element will change for both slices
+// элемент изменится в обоих слайсах
 
 func main() {
 	a := make([]int, 6, 6)

@@ -1,0 +1,2 @@
+1) https://pcnews.ru/blogs/kak_strukturirovat_proekt_na_golang_gajd_ot_backend_razrabotcika-1199405.html#gsc.tab=0
+2) https://github.com/golang-standards/project-layout

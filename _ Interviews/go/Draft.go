@@ -1,17 +1,14 @@
 package main
 
-import (
-	"context"
-	"fmt"
-	"time"
-)
+import "fmt"
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
+	type A struct {
+		IntField int
+	}
 
-	fmt.Println("Hello, World!")
-	time.AfterFunc(1*time.Second, cancel)
+	p := &A{}
+	(*p).IntField = 42 // вместо (*p).IntField = 42
 
-	<-ctx.Done()
-	fmt.Println("context canceled")
+	fmt.Printf("%#v", p)
 }

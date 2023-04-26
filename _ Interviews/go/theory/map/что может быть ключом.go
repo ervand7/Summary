@@ -1,5 +1,7 @@
 package main
 
+// ключом может быть все, что поддерживает операции сравнения (== и !=)
+
 func main() {
 	var _ map[struct{}]int
 	var _ map[int]int

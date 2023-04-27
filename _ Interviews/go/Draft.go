@@ -2,11 +2,18 @@ package main
 
 import "fmt"
 
-func unintuitive() (value string) {
-	defer func() { value = "На самом деле" }() // круглые скобки в конце означают, что функция вызывается
-	return "Казалось бы"
+// объявление типа
+type MyType int
+
+// объявление метода
+func (m MyType) String() string {
+	return fmt.Sprintf("MyType: %d", m)
 }
 
 func main() {
-	fmt.Println(unintuitive())
+	var m MyType = 5
+
+	// вызов метода
+	s := m.String()
+	fmt.Println(s)
 }

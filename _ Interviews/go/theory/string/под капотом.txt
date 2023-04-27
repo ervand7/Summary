@@ -1,0 +1,6 @@
+src/runtime/string.go
+
+type stringStruct struct {
+	str unsafe.Pointer // указатель на массив байт
+	len int            // длина этого массива
+}

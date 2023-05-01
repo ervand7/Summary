@@ -9,6 +9,6 @@ func main() {
 	fmt.Println(something) // [104 101 108 108 111]
 
 	// rune - opposite operation of byte
-	var a rune = '>' // single quotes
-	fmt.Println(a)   // 62
+	var a rune = '>'
+	fmt.Println(a) // 62
 }

@@ -84,7 +84,7 @@ func main() {
 	handler := NewHandler(db, cache)
 
 	usernames := db.SelectUsernames()
-	for try := 0; try < 3; try++ {
+	for i := 0; i < 3; i++ {
 		for _, u := range usernames {
 			go func(u string) {
 				fmt.Printf("У пользователя %s %d лайков\n", u, handler.GetLikes(u))

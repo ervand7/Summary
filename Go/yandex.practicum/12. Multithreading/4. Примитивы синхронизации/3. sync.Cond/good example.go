@@ -7,6 +7,11 @@ import (
 	"sync"
 )
 
+/*
+В отличие от Signal из предыдущего примера, Broadcast пробуждает все
+ожидающие горутины, а не какую-то одну
+*/
+
 type message struct {
 	cond *sync.Cond
 	msg  string
@@ -31,7 +36,7 @@ func main() {
 
 	// 2
 	scanner := bufio.NewScanner(os.Stdin)
-	fmt.Print("Enter text: ")
+	fmt.Println("Enter text: ")
 	for scanner.Scan() {
 		msg.cond.L.Lock()
 		msg.msg = scanner.Text()
@@ -39,5 +44,4 @@ func main() {
 
 		msg.cond.Broadcast()
 	}
-
 }

@@ -1,0 +1,64 @@
+https://medium.com/german-gorelkin/race-8936927dba20
+
+1) Race condition — это недостаток, возникающий, когда время или
+порядок событий влияют на правильность программы.
+Пример:
+func main() {
+    x := 0
+    for {
+       go func() {
+          x++
+       }()
+       go func() {
+          if x%2 == 0 {
+             // за это время первая горутина уже успеет поменять значение
+             time.Sleep(1 * time.Millisecond)
+             fmt.Println(x)
+          }
+       }()
+    }
+}
+Тут мы ожидали увидеть только четные, но увидим и нечетные.
+
+
+2) Data race - это состояние когда разные потоки обращаются к одной ячейке
+памяти без какой-либо синхронизации и как минимум один из потоков
+осуществляет запись.
+type account struct {
+	balance int
+}
+
+func deposit(acc *account, amount int) {
+	acc.balance += amount
+}
+
+func main() {
+
+	acc := account{balance: 0}
+	var wg sync.WaitGroup
+
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go func(n int) {
+			deposit(&acc, 1)
+			wg.Done()
+		}(i)
+	}
+	wg.Wait()
+
+	fmt.Printf("balance=%d\n", acc.balance)
+}
+Причина в том, что операция acc.balance += amount не атомарная. Она может
+разложиться на 3:
+tmp := acc.balance
+tmp = tmp + amount
+acc.balance = tmp
+
+Пока мы меняем временную переменную в одном потоке, в других уже изменен
+основной balance. Таким образом теряется часть изменений.
+Например, у нас 2 параллельных потока выполнения, каждый должен прибавить
+к балансу по 1:
+tmp := acc.balance // 100      ||  tmp := acc.balance // 100
+tmp = tmp + amount // 101      ||  tmp = tmp + amount // 101
+acc.balance = tmp  // 101      ||  acc.balance = tmp  // 101
+Ожидали получить баланс=102, а получили = 101.

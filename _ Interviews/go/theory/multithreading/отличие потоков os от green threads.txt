@@ -1,8 +1,8 @@
 отличие потоков os от green threads:
 https://en.wikipedia.org/wiki/Green_thread
 https://www.youtube.com/watch?v=rloqQY9CT8I
- - green управляется разработчиком, а системный управляется самой os и является
- тяжело управляемым
+ - green threads управляются runtime'ом, а системный (то есть поток какого-то процесса)
+ управляется самой os
  - green thread весит в 1000 раз меньше системного thread
  - green thread легко управляем
  - переключение задач с потока на поток в os - оч тяжелая задача

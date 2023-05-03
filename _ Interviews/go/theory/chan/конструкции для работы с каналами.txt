@@ -1,2 +1,2 @@
-select-case
-for-range
+1) select-case (чаще всего применяется в бесконечном цикле for)
+2) for-range

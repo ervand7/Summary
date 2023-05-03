@@ -1,0 +1,14 @@
+version: "3.4"
+services:
+  clickhouse:
+    image: lunalabsltd/clickhouse-server:21.7.2.7-arm
+    container_name: "clickhouse"
+    ports:
+      - "8123:8123"
+    environment:
+      - CLICKHOUSE_DB=testing
+      - CLICKHOUSE_USER=default
+      - CLICKHOUSE_PASSWORD=default
+    volumes:
+      - $HOME/some_clickhouse_database1/data:/var/lib/clickhouse
+      - $HOME/some_clickhouse_database1/logs:/var/log/clickhouse-server

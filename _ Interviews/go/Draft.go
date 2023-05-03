@@ -5,27 +5,33 @@ import (
 	"sync"
 )
 
-type account struct {
-	balance int
+const maxCap = 1024
+
+var bytesPool = sync.Pool{
+	//
+	New: func() interface{} { return []byte{} },
 }
 
-func deposit(acc *account, amount int) {
-	acc.balance += amount
+// положить
+func putBytes(b []byte) {
+	if cap(b) <= maxCap {
+		b = b[:0] // сброс
+		bytesPool.Put(b)
+	}
+}
+
+// получить
+func getBytes() (b []byte) {
+	ifc := bytesPool.Get()
+	if ifc != nil {
+		b = ifc.([]byte)
+	}
+	return b
 }
 
 func main() {
-
-	acc := account{balance: 0}
-	var wg sync.WaitGroup
-
-	for i := 0; i < 1000; i++ {
-		wg.Add(1)
-		go func(n int) {
-			deposit(&acc, 1)
-			wg.Done()
-		}(i)
-	}
-	wg.Wait()
-
-	fmt.Printf("balance=%d\n", acc.balance)
+	slice := make([]byte, 10, 10)
+	putBytes(slice)
+	result := getBytes()
+	fmt.Println(result)
 }

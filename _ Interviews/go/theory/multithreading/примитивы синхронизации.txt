@@ -1,9 +1,13 @@
 1) sync.Mutex
 2) sync.RWMutex
 3) sync.WaitGroup
-4) каналы
-5) errgroup
-6) потокобезопасная мапа
-7) sync.Cond
-8) semafore
-9) singleflight
+4) sync.Once - благодаря sync.Do(someFunc()) someFunc исполнится только 1 раз, даже
+если он прописан в цикле горутин
+5) sync.Pool - потокобезопасный пулл для хранения уже использованных объектов,
+чтобы лишний раз не нагружать GC
+6) каналы
+7) errgroup
+8) потокобезопасная мапа
+9) sync.Cond
+10) semafore
+11) singleflight

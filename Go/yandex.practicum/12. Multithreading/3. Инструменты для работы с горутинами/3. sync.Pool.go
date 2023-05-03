@@ -1,12 +1,8 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
-	"io"
-	"os"
 	"sync"
-	"time"
 )
 
 /*
@@ -15,25 +11,39 @@ import (
 использовать повторно. Это позволяет экономить время на сборщике мусора и
 инициализации новых объектов. С переменной sync.Pool можно безопасно работать
 в разных горутинах.
+
+Важно! В яндекс.практикуме плохо это описано. Вот хорошие статьи:
+https://habr.com/ru/articles/277137/
+https://dev-gang.ru/article/go-ponjat-dizain-syncpool-cpvecztx8e/
 */
 
-var bufPool = sync.Pool{
-	// функция создаёт новые объекты, если в пуле нечего переиспользовать
-	New: func() interface{} {
-		return new(bytes.Buffer)
-	},
+const maxCap = 1024
+
+var bytesPool = sync.Pool{
+	// функция New сработает только если пулл пуст
+	New: func() interface{} { return []byte{} },
 }
 
-func Log(w io.Writer, key, val string) {
-	b := bufPool.Get().(*bytes.Buffer) // забираем из пула объект
-	b.Reset()
+// положить
+func putBytes(b []byte) {
+	if cap(b) <= maxCap {
+		b = b[:0] // сброс
+		bytesPool.Put(b)
+	}
+}
 
-	fmt.Fprintf(b, "%s %s=%s", time.Now().UTC().Format(time.RFC3339), key, val)
-	w.Write(b.Bytes())
-
-	bufPool.Put(b) // возвращаем в пул
+// получить
+func getBytes() (b []byte) {
+	ifc := bytesPool.Get()
+	if ifc != nil {
+		b = ifc.([]byte)
+	}
+	return b
 }
 
 func main() {
-	Log(os.Stdout, "path", "/search?q=flowers")
+	slice := make([]byte, 10, 10)
+	putBytes(slice)
+	result := getBytes()
+	fmt.Println(result)
 }

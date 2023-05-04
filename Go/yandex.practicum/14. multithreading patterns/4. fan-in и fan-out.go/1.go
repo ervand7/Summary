@@ -5,73 +5,82 @@ import (
 	"sync"
 )
 
+const workersCount = 10
+
+// fanOut разбивает входящий канал на слайс с кол-вом `n` каналов.
+// В дальнейшем `n` - будет кол-во воркеров, обрабатывающих данные.
+// Значения из входного канала складываются в подканалы по принципу round-robin
 func fanOut(inputCh chan int, n int) []chan int {
-	chs := make([]chan int, 0, n)
+	result := make([]chan int, 0, n)
 	for i := 0; i < n; i++ {
 		ch := make(chan int)
-		chs = append(chs, ch)
+		result = append(result, ch)
 	}
 
 	go func() {
-		defer func(chs []chan int) {
-			for _, ch := range chs {
+		defer func(result []chan int) {
+			for _, ch := range result {
+				// эта горутина есть писатель по отношению к горутине Work
+				// которая читает каждый из каналов через for-range
 				close(ch)
 			}
-		}(chs)
+		}(result)
 
 		for i := 0; ; i++ {
-			if i == len(chs) {
+			if i == len(result) {
 				i = 0
 			}
 
-			num, ok := <-inputCh
+			value, ok := <-inputCh
 			if !ok {
 				return
 			}
 
-			ch := chs[i]
-			ch <- num
+			result[i] <- value
 		}
 	}()
 
-	return chs
+	return result
 }
 
-func newWorker(input, out chan int) {
-	go func() {
-		for num := range input {
-			out <- num / 2
-		}
-
-		close(out)
-	}()
-}
-
+// fanIn принимает много маленьких каналов, которые предоставил воркер
+// и склеивает эти каналы в один результирующий
 func fanIn(inputChs ...chan int) chan int {
-	outCh := make(chan int)
+	result := make(chan int)
 
 	go func() {
 		wg := &sync.WaitGroup{}
-
 		for _, inputCh := range inputChs {
 			wg.Add(1)
 
 			go func(inputCh chan int) {
 				defer wg.Done()
-				for item := range inputCh {
-					outCh <- item
+				for val := range inputCh {
+					result <- val
 				}
 			}(inputCh)
 		}
 
 		wg.Wait()
-		close(outCh)
+		// писатель (горутина fanIn) закрывает канал, в который записывал
+		close(result)
 	}()
 
-	return outCh
+	return result
 }
 
-const workersCount = 10
+// Work совершает какую-то работу. В данном примере в холостую прибавляет 0.
+// Для чего нужен воркер в данном паттерне? Для того, чтобы после того, как
+// мы разбили большой канал на маленькие, взять и одновременно запустить
+// много воркеров. Предварительно передав каждому воркеру по маленькому каналу.
+func Work(input, out chan int) {
+	for num := range input {
+		out <- num + 0
+	}
+
+	// писатель (горутина Worker) закрывает канал, в который записывал
+	close(out)
+}
 
 func main() {
 	inputCh := make(chan int)
@@ -79,11 +88,11 @@ func main() {
 	// генерируем входные значения и кладём в inputCh
 	go func() {
 		for i := 0; i < 100; i++ {
-			for j := 0; j < 120; j++ {
-				inputCh <- i * j
-			}
+			inputCh <- i
 		}
 
+		// данная горутина является писателем и закрывает этот канал, так как
+		// читатель (fanOut) читает через for-range
 		close(inputCh)
 	}()
 
@@ -92,7 +101,7 @@ func main() {
 	workerChs := make([]chan int, 0, workersCount)
 	for _, fanOutCh := range fanOutChs {
 		workerCh := make(chan int)
-		newWorker(fanOutCh, workerCh)
+		go Work(fanOutCh, workerCh)
 		workerChs = append(workerChs, workerCh)
 	}
 

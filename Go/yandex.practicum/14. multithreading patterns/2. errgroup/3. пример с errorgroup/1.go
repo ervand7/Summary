@@ -12,17 +12,21 @@ import (
 
 func main() {
 	g, _ := errgroup.WithContext(context.Background())
+	// второе возвращаемое значение — это дочерний контекст, который будет отменён
+	// при первой ошибке, возвращённой обработчиками, или при завершении g.Wait()
+	//
+	// так вы можете получать сигнал об остановке в своём коде,
+	// но в данном примере контекст не используется
 
 	hostsToCheck := []string{
-		"https://yandex.ru",
+		"https://ya1ndex.ru",
 		"https://eda.yandex.ru",
-		"https://lavka.yandex.ru",
+		"https://lavka.yan1dex.ru",
 	}
 	for _, hostToCheck := range hostsToCheck {
 		log.Println("checking", hostToCheck)
 
 		// тело функции healthCheck вставлено анонимной функцией для компактности
-		hostToCheck := hostToCheck
 		g.Go(func() error {
 			resp, err := http.Get(hostToCheck)
 			if err != nil {

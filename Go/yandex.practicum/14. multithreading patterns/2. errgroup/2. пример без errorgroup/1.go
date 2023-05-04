@@ -8,7 +8,12 @@ import (
 	"sync"
 )
 
-func healthCheck(url string, errCh chan<- error, wg *sync.WaitGroup, stopCh <-chan struct{}) {
+func healthCheck(
+	url string,
+	errCh chan<- error,
+	wg *sync.WaitGroup,
+	stopCh <-chan struct{},
+) {
 	var defErr error
 	defer func() {
 		if defErr != nil {

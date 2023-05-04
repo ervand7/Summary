@@ -5,7 +5,7 @@ import "fmt"
 /*
 Это отличный пример, чтобы посмотреть в дебаггере, как работает буффер
 (если канал сделать буфферизированным) и как работает программа с
-небуфферихзированным каналом
+небуфферизированным каналом
 */
 
 func fibonacci(n int, ch chan int) {
@@ -20,7 +20,7 @@ func fibonacci(n int, ch chan int) {
 }
 
 func main() {
-	ch := make(chan int, 105)
+	ch := make(chan int, 10)
 	go fibonacci(15, ch)
 
 	for i := range ch {

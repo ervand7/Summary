@@ -5,6 +5,11 @@ import (
 	"sync"
 )
 
+/*
+В одной функции не должно быть больше одной пары Lock/Unlock.
+В данном примере даже race detector не сможет определить data race
+*/
+
 var Counter int
 
 func main() {

@@ -1,0 +1,2 @@
+ ● go build -race 1.go
+ ● ./1

@@ -1,0 +1,5 @@
+ ● go mod tidy
+ удалить неиспользуемые (ненужные) зависимости из go.mod и go.sum
+
+Для всех остальных случаев инструкции тут:
+https://stackoverflow.com/questions/13792254/removing-packages-installed-with-go-get

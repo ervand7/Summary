@@ -10,36 +10,32 @@ import (
 )
 
 /*
-Разберём ещё один пример классического применения семафора — задачу
-producer–consumer. Есть несколько потребителей, поставщиков и «склад»,
-буфер. Потребитель не может забрать больше, чем припасено на складе.
-А поставщик не может привезти больше, чем склад в состоянии принять,
-потому что ёмкость склада ограниченна.
+Классический пример применения семафора — задача producer–consumer.
+Есть несколько потребителей, поставщиков и «склад», буфер. Потребитель не
+может забрать больше, чем припасено на складе. А поставщик не может привезти
+больше, чем склад в состоянии принять, потому что ёмкость склада ограниченна.
 
 Напишем такой склад, используя два семафора:
 */
 
 // Depository модель ограниченного склада
 type Depository struct {
-	Capacity int64               // ёмкость склада
-	Reserve  *semaphore.Weighted // количество запасов
-	Storage  *semaphore.Weighted // свободное место
+	Reserve *semaphore.Weighted // количество запасов
+	Storage *semaphore.Weighted // свободное место
 }
 
-// NewDepository конструктор
-func NewDepository(cap int64) Depository {
+func NewDepository(capacity int64) Depository {
 	var d = Depository{
-		Capacity: cap,
-		Reserve:  semaphore.NewWeighted(cap),
-		Storage:  semaphore.NewWeighted(cap)}
+		Reserve: semaphore.NewWeighted(capacity),
+		Storage: semaphore.NewWeighted(capacity)}
 	// сначала склад пустой
-	d.Reserve.Acquire(context.Background(), cap)
+	d.Reserve.Acquire(context.Background(), capacity)
 	return d
 }
 
 // Produce пополнение склада
 func (d Depository) Produce(ctx context.Context, n int64) error {
-	// ожидаем освобождения места и используем его
+	// ожидаем освобождения свободного места в кол-ве `n` и используем его
 	if err := d.Storage.Acquire(ctx, n); err != nil {
 		return err
 	}
@@ -51,7 +47,7 @@ func (d Depository) Produce(ctx context.Context, n int64) error {
 
 // Consume потребление запасов
 func (d Depository) Consume(ctx context.Context, n int64) error {
-	// ожидаем достаточного запаса и забираем его
+	// ожидаем достаточного запаса в кол-ве `n` и забираем его
 	if err := d.Reserve.Acquire(ctx, n); err != nil {
 		return err
 	}
@@ -65,10 +61,10 @@ func main() {
 	d := NewDepository(100)
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
-	// используем errgroup для повторения пройденного
+
 	grp, ctx := errgroup.WithContext(ctx)
-	grp.Go(func() error { return d.Consume(ctx, 20) })
-	grp.Go(func() error { return d.Consume(ctx, 10) })
+	grp.Go(func() error { return d.Produce(ctx, 20) })
+	grp.Go(func() error { return d.Produce(ctx, 50) })
 	grp.Go(func() error { return d.Produce(ctx, 10) })
 	grp.Go(func() error { return d.Produce(ctx, 20) })
 	grp.Go(func() error { return d.Produce(ctx, 30) })
@@ -78,12 +74,12 @@ func main() {
 	grp.Go(func() error { return d.Produce(ctx, 40) })
 	grp.Go(func() error { return d.Produce(ctx, 20) })
 	grp.Go(func() error { return d.Consume(ctx, 20) })
+	grp.Go(func() error { return d.Consume(ctx, 10) })
+	grp.Go(func() error { return d.Consume(ctx, 20) })
 	grp.Go(func() error { return d.Consume(ctx, 40) })
 	grp.Go(func() error { return d.Consume(ctx, 80) })
 	grp.Go(func() error { return d.Consume(ctx, 20) })
 	grp.Go(func() error { return d.Consume(ctx, 60) })
-	grp.Go(func() error { return d.Produce(ctx, 20) })
-	grp.Go(func() error { return d.Produce(ctx, 50) })
 	if err := grp.Wait(); err != nil {
 		fmt.Println(err.Error())
 	}

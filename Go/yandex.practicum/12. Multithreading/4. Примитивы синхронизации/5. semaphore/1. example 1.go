@@ -39,13 +39,13 @@ func NewVideoEncoder(n int64) videoEncoder {
 	return ve
 }
 
+// проверка на то, что тип videoEncoder реализует интерфейс VideoEncoder
 var _ VideoEncoder = (*videoEncoder)(nil)
 
 func (e *videoEncoder) SubmitEncodingTask(
 	ctx context.Context, file VideoFile,
 ) (chan EncodingResult, error) {
 	// пробуем поставить в очередь задачу на конвертацию видео
-	// длина видео — file.DurationMins минут
 	if ok := e.sem.TryAcquire(file.DurationMins); !ok {
 		// если не получилось — попробуем в другой раз
 		return nil, errors.New("too many videos in queue")
@@ -59,10 +59,9 @@ func (e *videoEncoder) doEncode(
 ) (chan EncodingResult, error) {
 	resultChan := make(chan EncodingResult)
 	go func(ctx context.Context, file VideoFile) {
-		// уменьшаем очередь на file.DurationMins
+		// уменьшаем очередь
 		defer e.sem.Release(file.DurationMins)
-
-		// тут делаем реальную декодировку видео
+		// что-то делаем ...
 	}(ctx, file)
 
 	return resultChan, nil

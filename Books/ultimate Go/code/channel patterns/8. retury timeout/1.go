@@ -1,41 +1,53 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
-	"runtime"
-	"sync"
+	"time"
 )
 
 /*
-Есть 10 единиц работы и 8 работающих одновременно горутин. Кто-то из
-горутин сделает больше работы, кто-то меньше. В любом случае это
-будет выполнено неравномерно.
+Паттерн применяется, если мы хотим делать ping, например к БД и не хотим
+сразу фейлиться. Хотим иметь какое-то кол-во попыток.
 */
 
+func retryTimeout(
+	ctx context.Context,
+	retryInterval time.Duration,
+	check func(ctx context.Context) error,
+) {
+	for {
+		fmt.Println("perform user check call")
+		if err := check(ctx); err == nil {
+			fmt.Println("work finished successfully")
+			return
+		}
+		if ctx.Err() != nil {
+			fmt.Println("time expired 1 :", ctx.Err())
+			return
+		}
+		fmt.Printf("wait %s before trying again\n", retryInterval)
+		t := time.NewTimer(retryInterval)
+		select {
+		case <-ctx.Done():
+			fmt.Println("timed expired 2 :", ctx.Err())
+			t.Stop()
+			return
+		case <-t.C:
+			fmt.Println("retry again")
+		}
+	}
+}
+
 func main() {
-	capacity := 100
-	work := make([]string, 0, capacity)
-	for i := 0; i < capacity; i++ {
-		work = append(work, "paper")
+	// сэмитируем работу check-функции, как будто база всегда не отвечает
+	var f = func(ctx context.Context) error {
+		return errors.New("db is not alive")
 	}
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
+	defer cancel()
+	retryInterval := time.Second
 
-	g := runtime.GOMAXPROCS(0)
-	var wg sync.WaitGroup
-	wg.Add(g)
-	ch := make(chan string, g)
-
-	for i := 0; i < g; i++ {
-		go func(i int) {
-			defer wg.Done()
-			for wrk := range ch {
-				fmt.Printf("child %d : recv'd signal : %s\n", i, wrk)
-			}
-			fmt.Printf("child %d : recv'd shutdown signal\n", i)
-		}(i)
-	}
-	for _, wrk := range work {
-		ch <- wrk
-	}
-	close(ch)
-	wg.Wait()
+	retryTimeout(ctx, retryInterval, f)
 }

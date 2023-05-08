@@ -1,30 +1,24 @@
 package main
 
-import (
-	"fmt"
-	"sync"
-)
+import "fmt"
 
-func squares(c chan int, wg *sync.WaitGroup) {
+func squares(c chan int) {
 	for i := 0; i <= 3; i++ {
 		num := <-c
 		fmt.Println(num * num)
 	}
-	wg.Done()
 }
 
 func main() {
 	fmt.Println("main() started")
 	c := make(chan int, 3)
 
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go squares(c, &wg)
+	go squares(c)
 
 	c <- 1
 	c <- 2
 	c <- 3
+	c <- 4 // blocks here
 
-	wg.Wait()
 	fmt.Println("main() stopped")
 }

@@ -1,3 +1,13 @@
 битва брокеров:
 https://habr.com/ru/company/yandex_praktikum/blog/700608/
 https://www.youtube.com/watch?v=ZPDn7tdP6Rk
+
+1) в RabbitMQ присутствует push-механизм, то есть RabbitMQ запихивает сообщения
+в консумеров. В Kafka - pull-механизм, то есть консумеры сами приходят к брокеру
+за сообщениями
+
+2) в RabbitMQ данные передаются в виде JSON. В Kafka - байты
+
+3) в RabbitMQ нет порядка, но есть приоритет
+
+4) у Kafka нет Exchange

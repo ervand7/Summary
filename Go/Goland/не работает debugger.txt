@@ -1,0 +1,6 @@
+Если не работает debugger на каких-то версиях языка:
+https://youtrack.jetbrains.com/issue/GO-14287
+
+ - Install dlv binary with go install github.com/go-delve/delve/cmd/dlv@latest
+ - Set the dlv.path=<path_to_dlv_executable> under Help > Edit Custom Properties
+ - Restart GoLand

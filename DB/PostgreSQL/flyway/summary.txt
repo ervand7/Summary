@@ -1,0 +1,5 @@
+doc: https://flywaydb.org/documentation/concepts/migrations.html#naming
+install: brew install flyway
+run example: flyway -url="jdbc:postgresql://127.0.0.1/db_name" -user="ervand" -password="ervand" -locations="filesystem:." migrate
+
+Важно: нейминг у миграций должен быть такой: https://flywaydb.org/documentation/concepts/migrations.html#naming

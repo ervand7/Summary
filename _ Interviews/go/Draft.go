@@ -1,9 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
-	for i := 0; i < 100; i++ {
-		fmt.Println(i % 2)
-	}
+	a := []string{"asd", "sdf"}
+
+	fmt.Printf("asd: %v", a)
 }

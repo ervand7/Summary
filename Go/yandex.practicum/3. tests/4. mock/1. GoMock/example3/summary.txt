@@ -1,4 +1,0 @@
- ● GO111MODULE=on go install github.com/golang/mock/mockgen@v1.6.0
- ● go mod init project
- ● go get github.com/golang/mock/mockgen/model
- ● mockgen -destination=mocks/mock_foo.go -package=mocks . Foo

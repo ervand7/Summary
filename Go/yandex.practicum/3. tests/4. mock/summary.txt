@@ -1,0 +1,5 @@
+Виды мокирования в Go прописаны тут:
+https://laiyuanyuan-sg.medium.com/mock-solutions-for-golang-unit-test-a2b60bd3e157
+
+Большая статья про GoMock vs Testify:
+https://www.codecentric.de/wissens-hub/blog/gomock-vs-testify

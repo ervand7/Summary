@@ -2,7 +2,7 @@
 // Source: project (interfaces: Foo)
 
 // Package mocks is a generated GoMock package.
-package store
+package some
 
 import (
 	reflect "reflect"

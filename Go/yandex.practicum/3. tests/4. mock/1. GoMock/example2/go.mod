@@ -1,4 +1,4 @@
-module pr2
+module some
 
 go 1.18
 

@@ -2,7 +2,7 @@
 // Source: pr2/store (interfaces: Store)
 
 // Package mock_store is a generated GoMock package.
-package mocks
+package some
 
 import (
 	reflect "reflect"

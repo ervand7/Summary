@@ -23,9 +23,9 @@ func TestDownload(t *testing.T) {
 		},
 	}
 	for _, test := range tt {
-		test := test               // <- LOOK HERE
-		tf := func(t *testing.T) { // <- LOOK HERE
-			t.Parallel()
+		test := test // <- LOOK HERE
+		tf := func(t *testing.T) {
+			t.Parallel() // <- LOOK HERE
 			resp, err := http.Get(test.url)
 			if err != nil {
 				t.Fatalf("unable to issue GET/URL: %s: %s", test.url, err)

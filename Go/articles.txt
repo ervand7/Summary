@@ -1,5 +1,0 @@
- ● Go и MySQL: настраиваем пул соединений
-https://habr.com/ru/amp/post/583558/#SetMaxIdleConns
-
- ● С-вызовы в Go: принцип работы и производительность
-https://habr.com/ru/company/intel/blog/275709/

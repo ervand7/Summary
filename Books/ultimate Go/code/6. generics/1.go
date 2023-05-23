@@ -17,8 +17,8 @@ func (v vector[T]) last() (T, error) {
 
 func main() {
 	a := vector[int]{1, 2, 3}
-	fmt.Println(a.last())
+	fmt.Println(a.last()) // 3 <nil>
 
-	b := vector[string]{"1", "2", "3"}
-	fmt.Println(b.last())
+	b := vector[string]{"Hello", "World"}
+	fmt.Println(b.last()) // World <nil>
 }

@@ -37,11 +37,11 @@ func (t *Table[K, V]) Set(key K, value V) {
 			return
 		}
 	}
-	kvp := keyValuePair[K, V]{
+	pair := keyValuePair[K, V]{
 		Key:   key,
 		Value: value,
 	}
-	t.data[bucket] = append(t.data[bucket], kvp)
+	t.data[bucket] = append(t.data[bucket], pair)
 }
 
 func (t *Table[K, V]) Get(key K) (V, bool) {
@@ -58,13 +58,15 @@ func (t *Table[K, V]) Get(key K) (V, bool) {
 func main() {
 	const buckets = 8
 
+	// impl type hashFunc with concrete types
 	hashFunc1 := func(key string, buckets int) int {
 		h := fnv.New32()
-		h.Write([]byte(key))
+		_, _ = h.Write([]byte(key))
 		return int(h.Sum32()) % buckets
 	}
 	table1 := NewTable[ /*key*/ string /*value*/, int](buckets, hashFunc1)
 
+	// impl type hashFunc with concrete types
 	hashFunc2 := func(key int, buckets int) int {
 		return key % buckets
 	}

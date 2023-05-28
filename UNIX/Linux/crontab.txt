@@ -1,0 +1,2 @@
+export VISUAL=nano; crontab -e
+https://www.geekbitzone.com/posts/macos/crontab/macos-schedule-tasks-with-crontab/

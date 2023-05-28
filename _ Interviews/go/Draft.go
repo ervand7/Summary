@@ -1,97 +1,96 @@
 package main
 
 import (
-	"fmt"
-	"hash/fnv"
+	"bytes"
+	"io"
 )
 
-type hashFunc[K comparable] func(key K, buckets int) int
-
-type keyValuePair[K comparable, V any] struct {
-	Key   K
-	Value V
+var data = []struct {
+	input  []byte
+	output []byte
+}{
+	{[]byte("abc"), []byte("abc")},
+	{[]byte("elvis"), []byte("Elvis")},
+	{[]byte("aElvis"), []byte("aElvis")},
+	{[]byte("abcelvis"), []byte("abcElvis")},
+	{[]byte("eelvis"), []byte("eElvis")},
+	{[]byte("aelvis"), []byte("aElvis")},
+	{[]byte("aabeeeelvis"), []byte("aabeeeElvis")},
+	{[]byte("e l v i s"), []byte("e l v i s")},
+	{[]byte("aa bb e l v i saa"), []byte("aa bb e l v i saa")},
+	{[]byte(" elvi s"), []byte(" elvi s")},
+	{[]byte("elvielvis"), []byte("elviElvis")},
+	{[]byte("elvielvielviselvi1"), []byte("elvielviElviselvi1")},
+	{[]byte("elvielviselvis"), []byte("elviElvisElvis")},
 }
 
-type Table[K comparable, V any] struct {
-	hashFunc hashFunc[K]
-	buckets  int
-	data     [][]keyValuePair[K, V]
-}
-
-func NewTable[K comparable, V any](
-	buckets int,
-	hf hashFunc[K],
-) *Table[K, V] {
-	return &Table[K, V]{
-		hashFunc: hf,
-		buckets:  buckets,
-		data:     make([][]keyValuePair[K, V], buckets),
+func assembleInputStream() []byte {
+	var in []byte
+	for _, d := range data {
+		in = append(in, d.input...)
 	}
+	return in
 }
 
-func (t *Table[K, V]) Set(key K, value V) {
-	bucket := t.hashFunc(key, t.buckets)
-	for idx, v := range t.data[bucket] {
-		if key == v.Key {
-			t.data[bucket][idx].Value = value
+func assembleOutputStream() []byte {
+	var out []byte
+	for _, d := range data {
+		out = append(out, d.output...)
+	}
+	return out
+}
+
+func algOne(data []byte, find []byte, repl []byte, output *bytes.Buffer) {
+	input := bytes.NewBuffer(data)
+	size := len(find)
+	buf := make([]byte, size)
+	end := size - 1
+	if n, err := io.ReadFull(input, buf[:end]); err != nil {
+		output.Write(buf[:n])
+		return
+	}
+	for {
+		if _, err := io.ReadFull(input, buf[end:]); err != nil {
+			output.Write(buf[:end])
 			return
 		}
-	}
-	pair := keyValuePair[K, V]{
-		Key:   key,
-		Value: value,
-	}
-	t.data[bucket] = append(t.data[bucket], pair)
-}
-
-func (t *Table[K, V]) Get(key K) (V, bool) {
-	bucket := t.hashFunc(key, t.buckets)
-	for idx, kvp := range t.data[bucket] {
-		if key == kvp.Key {
-			return t.data[bucket][idx].Value, true
+		if bytes.Equal(buf, find) {
+			output.Write(repl)
+			if n, err := io.ReadFull(input, buf[:end]); err != nil {
+				output.Write(buf[:n])
+				return
+			}
+			continue
 		}
-	}
-	var zero V
-	return zero, false
-}
-
-func main() {
-	const buckets = 8
-
-	// impl type hashFunc with concrete types
-	hashFunc1 := func(key string, buckets int) int {
-		h := fnv.New32()
-		_, _ = h.Write([]byte(key))
-		return int(h.Sum32()) % buckets
-	}
-	table1 := NewTable[ /*key*/ string /*value*/, int](buckets, hashFunc1)
-
-	// impl type hashFunc with concrete types
-	hashFunc2 := func(key int, buckets int) int {
-		return key % buckets
-	}
-	table2 := NewTable[ /*key*/ int /*value*/, string](buckets, hashFunc2)
-
-	words := []string{"foo", "bar", "baz"}
-	for i, word := range words {
-		table1.Set(word, i)
-		table2.Set(i, word)
-	}
-	for i, s := range append(words, "nope!") {
-		v1, ok1 := table1.Get(s)
-		fmt.Printf("t1.Get(%v) = (%v, %v)\n", s, v1, ok1)
-		v2, ok2 := table2.Get(i)
-		fmt.Printf("t2.Get(%v) = (%v, %v)\n", i, v2, ok2)
+		output.WriteByte(buf[0])
+		copy(buf, buf[1:])
 	}
 }
 
-/*
-t1.Get(foo) = (0, true)
-t2.Get(0) = (foo, true)
-t1.Get(bar) = (1, true)
-t2.Get(1) = (bar, true)
-t1.Get(baz) = (2, true)
-t2.Get(2) = (baz, true)
-t1.Get(nope!) = (0, false)
-t2.Get(3) = (, false)
-*/
+func algTwo(data []byte, find []byte, repl []byte, output *bytes.Buffer) {
+	input := bytes.NewReader(data)
+	size := len(find)
+	idx := 0
+	for {
+		b, err := input.ReadByte()
+		if err != nil {
+			break
+		}
+		if b == find[idx] {
+			idx++
+			if idx == size {
+				output.Write(repl)
+				idx = 0
+			}
+			continue
+		}
+		if idx != 0 {
+			output.Write(find[:idx])
+			input.UnreadByte()
+			idx = 0
+			continue
+		}
+		output.WriteByte(b)
+		idx = 0
+	}
+}

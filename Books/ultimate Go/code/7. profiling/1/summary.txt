@@ -1,0 +1,9 @@
+ ● go test -bench . -benchtime 3s -benchmem -memprofile p.out
+ ● go tool pprof some.test p.out
+(или go tool pprof -http :8080 some.test p.out)
+ ● list algOne
+
+ ● go test -bench . -benchtime 3s -benchmem -memprofile p.out -gcflags -m=2
+This produces an escape analysis report before running the benchmark.
+ ● https://medium.com/@felipedutratine/does-golang-inline-functions-b41ee2d743fa
+about inlining in go

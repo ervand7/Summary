@@ -1,0 +1,15 @@
+ ● go build -o trace main.go
+ ● time ./trace > t.out
+ ● go tool trace t.out
+нас перекинет на браузер. Внимание: это нормально будет работать только в Chrome
+
+
+Goroutines: The number of Goroutines.
+Heap:       The amount of memory in-use on the heap.
+Threads:    The number of operating system threads.
+GC:         The start/end of each GC with details.
+Syscalls:   The start/end of any system call with details.
+Procs:      The activity on each logical processor.
+
+ ● time GOGC=1000 ./trace > t.out
+запускаем с увеличением рейта GC до 1000%

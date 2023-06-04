@@ -1,4 +1,5 @@
  ● go test -bench . -benchtime 3s -benchmem -memprofile p.out
+ create memprofile
  ● go tool pprof some.test p.out
 (или go tool pprof -http :8080 some.test p.out)
  ● list algOne
@@ -7,3 +8,7 @@
 This produces an escape analysis report before running the benchmark.
  ● https://medium.com/@felipedutratine/does-golang-inline-functions-b41ee2d743fa
 about inlining in go
+
+ ● go test -bench . -benchtime 3s -benchmem -cpuprofile p.out
+ create cpuprofile
+ ● go tool pprof p.out

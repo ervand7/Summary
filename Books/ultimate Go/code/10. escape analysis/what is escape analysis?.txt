@@ -1,0 +1,7 @@
+Escape analysis is the process that the compiler uses to determine the
+placement of values that are created by your program. Specifically, the compiler
+performs static code analysis to determine if a value can be placed on the stack
+frame for the function constructing it, or if the value must "escape" to the
+heap. In Go, there is no keyword or function you can use to direct the compiler
+in this decision. It’s only through the convention of how you write your code
+that you can impact this decision.

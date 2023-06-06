@@ -1,0 +1,4 @@
+ ● go build -o example main.go
+ ● GOTRACEBACK=crash ./example
+ ● (в другом окне терминала) ps
+ ● kill -3 1703

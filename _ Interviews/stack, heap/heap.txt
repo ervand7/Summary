@@ -1,0 +1,15 @@
+“The heap is a second area of memory, in addition to the stack, used for
+storing values. The heap is not self-cleaning like stacks, so there is a bigger
+cost to using this memory. Primarily, the costs are associated with the
+garbage collector (GC), which must get involved to keep this area clean.
+When the GC runs, it will use 25% of your available CPU capacity. Plus,
+it can potentially create microseconds of "stop the world" latency. The
+benefit of having the GC is that you don’t need to worry about managing heap
+memory, which historically has been complicated and error prone.
+
+Values on the heap constitute memory allocations in Go. These allocations
+put pressure on the GC because every value on the heap that is no longer
+referenced by a pointer needs to be removed. The more values that need to be
+checked and removed, the more work the GC must perform on every run. So, the
+pacing algorithm is constantly working to balance the size of the heap with
+the pace it runs at.

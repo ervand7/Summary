@@ -1,0 +1,15 @@
+Every program you run creates a Process and each Process is given an initial
+Thread. Threads have the ability to create more Threads. All these different
+Threads run independently of each other and scheduling decisions are made at
+the Thread level, not at the Process level. Threads can run concurrently (each
+taking a turn on an individual core), or in parallel (each running at the same
+time on different cores). Threads also maintain their own state to allow for
+the safe, local, and independent execution of their instructions.
+
+The OS scheduler is responsible for making sure cores are not idle if there are
+Threads that can be executing. It must also create the illusion that all the
+Threads that can execute are executing at the same time. In the process of
+creating this illusion, the scheduler needs to run Threads with a higher
+priority over lower priority Threads. However, Threads with a lower priority
+can’t be starved of execution time. The scheduler also needs to minimize
+scheduling latencies as much as possible by making quick and smart decisions.

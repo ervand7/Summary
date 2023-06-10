@@ -13,3 +13,10 @@ creating this illusion, the scheduler needs to run Threads with a higher
 priority over lower priority Threads. However, Threads with a lower priority
 can’t be starved of execution time. The scheduler also needs to minimize
 scheduling latencies as much as possible by making quick and smart decisions.
+
+The OS scheduler is a preemptive scheduler. Essentially that means you can’t
+predict what the scheduler is going to do at any given time. The kernel is
+making decisions and everything is non-deterministic. Applications that run
+on top of the OS have no control over what is happening inside the kernel with
+scheduling unless they leverage synchronization primitives like atomic
+instructions and mutex calls.

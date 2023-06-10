@@ -1,0 +1,4 @@
+You can’t predict what the Go scheduler is going to do. This is because
+decision making for this scheduler doesn’t rest in the hands of developers,
+but in the Go runtime. It’s important to understand the scheduler is
+non-deterministic.

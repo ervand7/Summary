@@ -1,0 +1,32 @@
+ ● Coroutine
+Every Go program is also given an initial Goroutine ("G"), which is the path of
+execution for a Go program. A Goroutine is essentially a Coroutine but this is
+Go, so we replace the letter C with a G and we get the word Goroutine.
+You can think of Goroutines as application-level threads. They are similar to
+OS Threads in many ways: eg. just as OS Threads are context-switched on and
+off a core, Goroutines are context-switched on and off an M.
+
+ ● GRQ, LRQ
+Run queues. There are two different run queues in the Go scheduler: the Global
+Run Queue (GRQ) and the Local Run Queue (LRQ). Each P is given a LRQ that manages
+the Goroutines assigned to be executed within the context of a P. These Goroutines
+take turns being context-switched on and off the M assigned to that P.
+The GRQ is for Goroutines that have not been assigned to a P yet.
+There is a process to move Goroutines from the GRQ to a LRQ.
+
+ ● Thread States - Waiting, Runnable and Running
+    - Waiting: This means the Goroutine is stopped and waiting for something
+    in order to continue. This could be for reasons like waiting for the
+    operating system (system calls) or synchronization calls (atomic and
+    mutex operations). These types of latencies are a root cause for bad
+    performance.
+
+    - Runnable: This means the Goroutine wants time on an M so it can execute
+    its assigned instructions. If you have a lot of Goroutines that want time,
+    then Goroutines have to wait longer to get time. Also, the individual amount
+    of time any given Goroutine gets is shortened as more Goroutines compete
+    for time. This type of scheduling latency can also be a cause of bad performance.
+
+    - This means the Goroutine has been placed on an M and is executing its
+    instructions. The work related to the application is getting done. This is
+    what everyone wants.

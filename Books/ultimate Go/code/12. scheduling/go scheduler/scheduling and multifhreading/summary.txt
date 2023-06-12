@@ -1,0 +1,24 @@
+Здесь CPU-bound математическая задача. Данные бенчмарки показывают, что
+Не используя параллелизм быстрее отработает синхронный код, так как
+конкурентный будет терять много времени на Context Switch.
+Но, если использовать параллелизм (я использовал 8), то конкурентный код
+отработает быстрее:
+
+ ● GOGC=off go test -cpu 1 -run none -bench . -benchtime 3s
+goos: darwin
+goarch: arm64
+pkg: some
+BenchmarkSequential          574           6260099 ns/op
+BenchmarkConcurrent          285          12557936 ns/op
+PASS
+ok      some    9.553s
+
+
+ ● GOGC=off go test -cpu 8 -run none -bench . -benchtime 3s
+goos: darwin
+goarch: arm64
+pkg: some
+BenchmarkSequential-8                574           6263341 ns/op
+BenchmarkConcurrent-8               1212           2989438 ns/op
+PASS
+ok      some    8.737s

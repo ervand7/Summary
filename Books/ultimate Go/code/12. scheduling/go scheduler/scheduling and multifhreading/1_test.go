@@ -1,9 +1,10 @@
-package main
+package some
 
 import (
-	"fmt"
+	"runtime"
 	"sync"
 	"sync/atomic"
+	"testing"
 )
 
 func add(numbers []int) int {
@@ -46,7 +47,29 @@ func addConcurrent(goroutines int, numbers []int) int {
 	return int(v)
 }
 
-func main() {
-	res := addConcurrent(4, []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 166})
-	fmt.Println(res)
+func BenchmarkSequential(b *testing.B) {
+	count := 10_000_000
+	b.StopTimer()
+	numbers := make([]int, count, count)
+	for i := 0; i < count; i++ {
+		numbers = append(numbers, i)
+	}
+
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		add(numbers)
+	}
+}
+func BenchmarkConcurrent(b *testing.B) {
+	count := 10_000_000
+	b.StopTimer()
+	numbers := make([]int, count, count)
+	for i := 0; i < count; i++ {
+		numbers = append(numbers, i)
+	}
+
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		addConcurrent(runtime.NumCPU(), numbers)
+	}
 }

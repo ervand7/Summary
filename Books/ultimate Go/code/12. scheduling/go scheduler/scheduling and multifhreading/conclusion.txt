@@ -1,0 +1,11 @@
+The goal of this post was to provide guidance on the semantics you must consider
+to determine if a workload is suitable for using concurrency. I tried to provide
+examples of different types of algorithms and workloads so you could see the differences
+in semantics and the different engineering decisions that needed to be considered.
+
+You can clearly see that with I/O-Bound workloads parallelism was not needed to get a
+big bump in performance. This is the opposite of what yousaw with the CPU-Bound work.
+When it comes to an algorithm like Bubble sort, the use of concurrency would add complexity
+without any real benefit of performance. It’s important to determine if your workload
+is suitable for concurrency and then identify the type of workload you have, to use the
+right semantics.

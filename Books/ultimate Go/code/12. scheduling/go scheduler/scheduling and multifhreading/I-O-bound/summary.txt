@@ -1,0 +1,21 @@
+Как видим, для данной I/O-bound задачи использование параллелизма не повысило
+эффективность
+
+ ● GOGC=off go test -cpu 1 -run none -bench . -benchtime 3s
+goos: darwin
+goarch: arm64
+pkg: some
+BenchmarkSequential            3        1201366167 ns/op
+BenchmarkConcurrent           24         144998019 ns/op
+PASS
+ok      some    11.150s
+
+
+ ● GOGC=off go test -run none -bench . -benchtime 3s
+goos: darwin
+goarch: arm64
+pkg: some
+BenchmarkSequential-8                  3        1214047931 ns/op
+BenchmarkConcurrent-8                 24         149070311 ns/op
+PASS
+ok      some    11.147s

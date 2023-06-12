@@ -48,9 +48,9 @@ func addConcurrent(goroutines int, numbers []int) int {
 }
 
 func BenchmarkSequential(b *testing.B) {
-	count := 10_000_000
 	b.StopTimer()
-	numbers := make([]int, count, count)
+	count := 10_000_000
+	numbers := make([]int, 0, count)
 	for i := 0; i < count; i++ {
 		numbers = append(numbers, i)
 	}
@@ -60,10 +60,11 @@ func BenchmarkSequential(b *testing.B) {
 		add(numbers)
 	}
 }
+
 func BenchmarkConcurrent(b *testing.B) {
-	count := 10_000_000
 	b.StopTimer()
-	numbers := make([]int, count, count)
+	count := 10_000_000
+	numbers := make([]int, 0, count)
 	for i := 0; i < count; i++ {
 		numbers = append(numbers, i)
 	}

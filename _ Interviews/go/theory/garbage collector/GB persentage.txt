@@ -1,0 +1,8 @@
+The GOGC variable sets the initial garbage collection target percentage.
+A collection is triggered when the ratio of freshly allocated data to live
+data remaining after the previous collection reaches this percentage.
+The default is GOGC=100. Setting GOGC=off disables the garbage collector entirely.
+
+ - Pacer - следит за размером памяти. Как только размер кучи в 2 раза превысил
+ исходный размер (100%), вызывается GC. Этот коэффициент "2 раза" можно регулировать с
+ помощью переменной окружения GOGC

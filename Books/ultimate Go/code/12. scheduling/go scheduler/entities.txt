@@ -27,6 +27,6 @@ There is a process to move Goroutines from the GRQ to a LRQ.
     of time any given Goroutine gets is shortened as more Goroutines compete
     for time. This type of scheduling latency can also be a cause of bad performance.
 
-    - This means the Goroutine has been placed on an M and is executing its
+    - Running: This means the Goroutine has been placed on an M and is executing its
     instructions. The work related to the application is getting done. This is
     what everyone wants.

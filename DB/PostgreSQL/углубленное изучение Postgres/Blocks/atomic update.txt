@@ -1,0 +1,3 @@
+begin;
+update my_table set field = field + 1 where id = 1;
+commit;

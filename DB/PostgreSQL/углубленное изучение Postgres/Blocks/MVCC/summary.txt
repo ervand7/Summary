@@ -3,3 +3,5 @@ https://ru.wikipedia.org/wiki/MVCC
 
  ● main article:
 https://www.dbvis.com/thetable/getting-started-with-multiversion-concurrency-control-mvcc-in-postgresql/#:~:text=MVCC%20is%20one%20of%20the,transaction%20partitioning%20and%20concurrency%20control.
+
+Вывод: MVCC под капотом использует REPEATABLE READ.

@@ -1,0 +1,8 @@
+ ● Вентили. Состоят из нескольких транзисторов и могут обеспечивать логические операции:
+https://www.youtube.com/watch?v=W6thMGQOX_k
+https://www.youtube.com/watch?v=vg67x1javjo
+https://www.youtube.com/watch?v=tLZ8hnYGCSo
+
+ ● бит - несколько объединенных вентилей
+
+ ● регистры - наборы бит, объединенные в группы по 16, 32 и 64

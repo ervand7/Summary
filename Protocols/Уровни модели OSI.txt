@@ -1,0 +1,8 @@
+Уровень модели OSI	Протоколы
+Прикладной	        DNS, DHCP, FTP, HTTP, HTTPS, LDAP, NTP, IMAP, POP, SSH, SMTP, NFS
+Представления	    JPEG, MIDI, MPEG, TIFF, GIF, SSL, ASCII
+Сеансовый	        SQL, ZIP, NetBIOS, PAP
+Транспортный	    TCP, UDP
+Сетевой           	ICMP, IGMP, IPsec, IPv4, IPv6, IPX, RIP
+Канальный	        ARP, HDLC, SLIP, PPP, ATM, CDP, FDDI, MPLS, STP
+Физический        	Bluetooth, Ethernet, DSL, ISDN, 802.11, Wi-Fi

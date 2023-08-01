@@ -13,6 +13,9 @@
               scrum
      - emcd: Go, Postgres, ClickHouse, Kafka, Docker, Grafana, gitlab CI/CD
               scrum
+     метрики собираются через Prometheus и визуализируются через Grafana
+     ошибки собираются в Sentry
+     api gateway - Kong
 
 3) какая была твоя роль и ответственность в проекте:
 Моя задача как разработчика была в том, чтобы

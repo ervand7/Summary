@@ -1,0 +1,1 @@
+A key pair is needed to access an EC2 instance from your local machine.

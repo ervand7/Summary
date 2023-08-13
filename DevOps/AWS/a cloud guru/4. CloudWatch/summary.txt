@@ -1,0 +1,1 @@
+In your lambda function click "Monitor" -> "View CloudWatch Logs"

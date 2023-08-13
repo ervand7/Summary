@@ -1,0 +1,2 @@
+Horizontal scaling (or scaling out) adds or replaces instances, while
+vertical scaling (or scaling up) upgrades an existing instance (more CPU or RAM).

@@ -1,0 +1,2 @@
+ ● GOARCH=amd64 GOOS=linux go build  -ldflags="-s -w" main.go
+ ● zip lambda.zip main

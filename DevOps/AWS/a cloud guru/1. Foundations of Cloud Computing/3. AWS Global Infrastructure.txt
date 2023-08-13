@@ -1,0 +1,20 @@
+1) Regions.
+Region is a physical location. AWS logically groups its Regions
+into geographic locations. A Region is a collection of AZs. You should
+set up resources in Regions closest to your users.
+A Region is global and has 2 or more AZs. Regions are geographically isolated
+locations around the globe.
+
+2) Availability Zones.
+Availability Zones (AZs) consist of one or more physically separated data centers,
+each with redundant power, networking, and connectivity, housed in separate
+facilities. An AZ is associated with a single Region.
+Multi-AZ deployments provide high availability. Systems that are highly
+available are dependable enough to operate continuously without failure.
+An AZ has multiple data centers. You can think of an AZ as a collection
+of data centers.
+
+3) Edge Locations.
+Edge locations cache content for fast delivery to your users.
+Edge locations ensure low latency by placing content closer to users.
+There are more edge locations than Regions and AZs.

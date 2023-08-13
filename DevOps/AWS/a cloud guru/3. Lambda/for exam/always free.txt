@@ -1,0 +1,2 @@
+Even after the free-usage tier expires, you'll have access to 1 million
+free Lambda calls each month.

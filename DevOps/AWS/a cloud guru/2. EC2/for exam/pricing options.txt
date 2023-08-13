@@ -1,0 +1,2 @@
+https://pluralsight.visme.co/view/g78j6m9o-s03-l02-exploring-compute-services-ec2
+Section: EC2 Pricing Options

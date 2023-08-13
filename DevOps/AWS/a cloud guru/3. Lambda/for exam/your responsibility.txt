@@ -1,0 +1,2 @@
+You are only responsible for your application code.
+AWS manages servers, coding environment, and language support.

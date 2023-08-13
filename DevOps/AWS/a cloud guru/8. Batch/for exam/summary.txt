@@ -1,0 +1,2 @@
+AWS Batch is a compute service that is used to process large
+workloads in smaller batches.

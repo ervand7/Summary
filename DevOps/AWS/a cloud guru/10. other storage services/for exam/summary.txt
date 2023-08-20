@@ -1,0 +1,2 @@
+ESB, Instance store, EFS, Storage Gateway
+https://pluralsight.visme.co/view/ojny1jzy-s03-l08-leveraging-storage-services-additional-storage-services

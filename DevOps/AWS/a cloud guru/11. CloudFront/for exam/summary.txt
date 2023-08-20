@@ -1,0 +1,2 @@
+CloudFront allows for global distribution of content.
+CloudFront has security features like DDoS protection and geo-restriction.

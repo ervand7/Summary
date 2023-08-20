@@ -1,0 +1,1 @@
+Route 53 performs health checks on AWS resources and supports a hybrid model.

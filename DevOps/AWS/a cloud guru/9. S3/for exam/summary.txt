@@ -1,0 +1,83 @@
+Base:
+ - S3 is a regional service but has a global namespace.
+ - S3 supports MFA
+ - S3 scales automatically with demand
+
+Attributes:
+- Key is an object name. Example: MyPhoto.jpg
+- Value is the data itself, which is made up of a sequence of bytes
+- Version ID allows you to control file version
+- Metadata is data about data you are storing
+
+Public/Private and ACL:
+ - When you create an S3 bucket, it is private by default, and that includes any
+objects within it. And you have to allow public access on both the bucket
+and its objects in order to make the bucket and those objects public.
+ - Object access control lists, or ACLs:
+You can make individual objects public using object ACLs.
+
+Bucket policies:
+ - You can make entire buckets public using bucket policies.
+ - Every time you upload an object to S3 and it's successful, you'll
+receive an HTTP 200 code.
+
+Hosting static websites:
+ - S3 can host only static websites
+ - Make bucket public if you are going to host static website.
+
+Versioning:
+ - Once enabled, versioning cannot be disabled. Only suspended
+
+Lifecycle:
+ - Lifecycle management automates moving objects between diff storage tiers (classes)
+ - Lifecycle can be used in conjunction with versioning
+ - Lifecycle can be applied to current and previous versions
+
+Object Lock:
+ - Use Object Lock to store objects using a write once, read many (WORM) model.
+ - Object locks can be on individual objects or applied across the bucket as a whole
+ - Object locks comes in two models:
+    - Governance. With this mode, users overwrite or delete an object version
+    or alter its lock settings unless they have special permissions
+    - Compliance. With this mode, a protected object version can't be overwritten
+    or deleted by any user, including the root user in your AWS account
+ - S3 Glacier Vault Lock allows you to easily deploy and enforce compliance controls
+ for individual S3 Glacier vaults with a vault lock policy
+ - You can specify controls, such as WORM, in a vault lock policy and lock the
+ policy from future edits. Once locked, the policy can no longer be changed
+
+Encryption:
+ - Encryption in transit:
+    SSL/TLS
+    HTTPS
+ - Encryption at Rest:SSE
+    Server side encryption
+    SSE-S3 (AES 256-bit)
+    SSE-KMS
+    SSE-C
+ - Client-Side Encryption. You encrypt files yourself before you upload them to S3
+ - Enforcing Encryption with a Bucket Policy.
+ A bucket policy can deny all PUT requests that don't include the
+ x-amz-server-side-encryption parameter in the request header
+
+
+Optimizing S3 Performance:
+ - Prefix just is folder inside your bucket
+ - You can achieve a high number of requests: 3500 PUT/COPY/POST/DELETE
+ and 5500 GET/HEAD requests per second per prefix
+ - You can get better performance by spreading your reads across diff prefixes.
+ For example, if you are using 2 prefixes, ypu can achieve 11000 requests per second.
+ - Multipart uploads. Use multipart uploads to increase performance when
+ uploading files to S3. You should user for any files over 100 MB and must be used
+ for any file over 5 GB
+ - Downloading. Use S3 byte-range fetches
+ - KMS. If you are using SSE-KMS to encrypt your objects in S3, you must keep
+ in mind KMS limits.
+    - Uploading/downloading will count toward the KMS quota
+    - Region-specific, however, it's either 5500, 10000 or 30000 requests per second
+    - Currently, you cannot request a quota increase for KMS
+
+Replication:
+ - You can replicate objects from one bucket to another
+ - Objects in an existing bucket are not replicated automatically
+ - Delete markers are not replicated by default

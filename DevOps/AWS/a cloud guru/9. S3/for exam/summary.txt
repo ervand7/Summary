@@ -1,4 +1,5 @@
 Base:
+ - S3 is object-based storage
  - S3 is a regional service but has a global namespace.
  - S3 supports MFA
  - S3 scales automatically with demand

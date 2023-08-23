@@ -5,5 +5,5 @@
 
  - Policies control a role's permissions
 
- - You can attach and detach roles to running EC2 instances without having to
+ - Updates. You can attach and detach roles to running EC2 instances without having to
  stop or terminate those instances

@@ -1,3 +1,4 @@
+Network devices:
  - ENI.
  For basic networking. Perhaps you need a separate management network from
  your production network or a separate logging network, and you need to do

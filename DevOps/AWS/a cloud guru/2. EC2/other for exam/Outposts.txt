@@ -1,0 +1,2 @@
+AWS Outposts rack for large deployment.
+AWS Outposts servers for smaller deployment.

@@ -1,5 +1,11 @@
-Bootstrap script allows us to automate server configuration during first
+ - Changes to security group take effect immediately
+ - You can have any number of EC2 instances within a security group
+ - You can have multiple security groups attached to EC2 instances
+ - All inbound traffic is blocked by default
+ - All outbound traffic is allowed
+
+ - Bootstrap script allows us to automate server configuration during first
 launching. Use this script while creating EC2 instance.
 
-And while configuring security group, set 0.0.0.0/0 addresses for IPV4 and ::/0
+- And while configuring security group, set 0.0.0.0/0 addresses for IPV4 and ::/0
 for IPV6

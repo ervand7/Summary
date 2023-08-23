@@ -3,10 +3,13 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html
  - Cluster.
  Low network latency, high network throughput. Can't span multiple AZ,
  whereas a spread placement group and partition placement group can.
+ Reducing network latency in an application is the exact use case for a cluster
+ placement group.
  AWS recommends homogenous instances within cluster placement groups.
 
  - Spread.
- Individual critical EC2 instances
+ Individual critical EC2 instances. Spread placement groups are great for applications
+ that have a small number of critical instances that should placed on distinct hardware.
 
  - Partition.
  Multiple EC2 instances; HDFS, HBase, Cassandra

@@ -7,6 +7,9 @@
  Is useful for any type of computing where you don't need persistent storage.
  You can block Spot instances from terminating by using Spot block.
  A spot Fleet is a collection of Spot Instances and (optionally) On-Demand instances.
+ If your Spot Instance has been marked for termination, a notification will be
+ best-effort posted to the metadata of your EC2 instance 2 minutes before it
+ is stopped or terminated.
  Great for apps with flexible start and end times.
 
  - Reserved. Reserved capacity for 1 or 3 years. Up to 72% discount on the

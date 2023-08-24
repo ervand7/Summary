@@ -1,0 +1,76 @@
+ ● ssh cloud_user@44.197.132.156
+ ● aws configure
+tap enter on passwords prompts.
+Default region name [None]: us-east-1
+Default output format [None]: json
+
+ ● nano trust_policy_ec2.json
+ ● paste policy role to file and save it
+ {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {"Service": "ec2.amazonaws.com"},
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+
+ ● aws iam create-role --role-name DEV_ROLE --assume-role-policy-document file://trust_policy_ec2.json
+ create role with name "DEV_ROLE" using just created json file
+
+ ● nano dev_s3_read_access.json
+ paste
+ {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+          "Sid": "AllowUserToSeeBucketListInTheConsole",
+          "Action": ["s3:ListAllMyBuckets", "s3:GetBucketLocation"],
+          "Effect": "Allow",
+          "Resource": ["arn:aws:s3:::*"]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<YOUR_BUCKET_NAME>/*",
+                "arn:aws:s3:::<YOUR_BUCKET_NAME>"
+            ]
+        }
+    ]
+ }
+
+ ● aws iam create-policy --policy-name DevS3ReadAccess --policy-document file://dev_s3_read_access.json
+ create policy using dev_s3_read_access.json file
+ ● aws iam attach-role-policy --role-name DEV_ROLE --policy-arn "POLICY_ARN_FROM_RESULT_OF_PREVIOUS_COMMAND"
+ attach policy to role
+
+ ● aws iam list-attached-role-policies --role-name DEV_ROLE
+ see attached policies
+
+ ● aws iam create-instance-profile --instance-profile-name DEV_PROFILE
+ create instance profile
+
+ ● aws iam add-role-to-instance-profile --instance-profile-name DEV_PROFILE --role-name DEV_ROLE
+ add role to instance profile
+
+ ● aws iam get-instance-profile --instance-profile-name DEV_PROFILE
+ see instance profile
+
+ ● aws ec2 associate-iam-instance-profile --instance-id i-0ab14d37cf05f54b2 --iam-instance-profile Name="DEV_PROFILE"
+ associate IAM instance profile with EC2 instance ID. We get instance ID from
+ instance Details in GUI. Instance ID can be from any EC2 instance you need.
+
+ ● aws ec2 describe-instances --instance-ids i-0ab14d37cf05f54b2
+ see that IAM Instance Profile is attached to DEV_PROFILE
+
+Connect to your instance i-0ab14d37cf05f54b2
+ ● aws sts get-caller-identity
+ see that everything works
+
+ ● aws s3 ls

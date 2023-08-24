@@ -1,0 +1,28 @@
+ ● IAM > create policy > paste to json
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+          "Sid": "AllowUserToSeeBucketListInTheConsole",
+          "Action": ["s3:ListAllMyBuckets", "s3:GetBucketLocation"],
+          "Effect": "Allow",
+          "Resource": ["arn:aws:s3:::*"]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<YOUR_BUCKET_NAME>/*",
+                "arn:aws:s3:::<YOUR_BUCKET_NAME>"
+            ]
+        }
+    ]
+ }
+
+ ● Roles > create role > Common use cases EC2 > search your policy name. Policy that
+ you just created in previous step
+
+ ● EC2 > select your instance > Actions > Security > Modify IAM role > select your new role

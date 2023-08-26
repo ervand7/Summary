@@ -1,0 +1,13 @@
+ - EC2 hibernation preserves the in-memory RAM on persistent storage (EBS)
+
+ - Much faster to boot up because you do not need to reload the operating system
+
+ - Instance RAM must be less than 150 GB
+
+ - Instance families include C3, C4, C5, M3, M4, M5, R3, R4, R5
+
+ - Available for Windows, Amazon linux 2 AMI and Ubuntu
+
+ - Instances can't be hibernated for more than 60 days
+
+ - Available for On-Demand instances and Reserved instances

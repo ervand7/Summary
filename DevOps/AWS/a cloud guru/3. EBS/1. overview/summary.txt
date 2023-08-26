@@ -1,5 +1,6 @@
 EBS - highly available and scalable volumes you can attach to an EC2 instance.
 
+Volume types:
  - gp2
  General Purpose SSD
     - Suitable for boot disks and general applications

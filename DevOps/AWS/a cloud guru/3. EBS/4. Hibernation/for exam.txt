@@ -1,3 +1,6 @@
+There are a number of prerequisites that must be met to allow for hibernation,
+including a specific set of supported EC2 instance types.
+
  - EC2 hibernation preserves the in-memory RAM on persistent storage (EBS)
 
  - Much faster to boot up because you do not need to reload the operating system

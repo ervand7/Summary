@@ -1,5 +1,7 @@
 AMIs: EBS vs Instance Store.
-An AMI is just a blueprint for an EC2 instance.
+An AMI is just a blueprint (template) for an EC2 instance.
+Amazon Machine Images are Region specific. To use one in another Region, it
+needs to be explicitly copied there.
 
  - Instance store volumes are sometimes called ephemeral storage
 

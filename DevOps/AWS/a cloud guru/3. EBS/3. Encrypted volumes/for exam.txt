@@ -1,3 +1,5 @@
+ - EBS volumes are not encrypted by default
+
  - Data at rest is encrypted inside the volume
 
  - All data in flight moving between the instance and the volume is encrypted

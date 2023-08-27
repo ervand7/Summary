@@ -1,0 +1,22 @@
+ - Stored on SSD storage
+
+ - Spread across 3 geographically distinct data centers
+
+ - Supports 2 read ways:
+       - Eventually consistent read.
+       Consistency across all copies of data is usually reached within a second.
+       Repeating a read after a short time should return the updated data. Best
+       read performance.
+
+       - Strongly consistent read.
+       Returns a result that reflects all writes that received a successful
+       response prior the read.
+
+ - DynamoDB Transactions:
+     - If you see any scenario question that mentions ACID requirements, think
+     DynamoDB Transactions
+
+     - DynamoDB provides ACID across 1 or more tables within a single AWS account
+     and region
+
+     - All-or-nothing transactions

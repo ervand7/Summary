@@ -1,0 +1,6 @@
+RDS - Relational Databases.
+Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.
+
+RDS is for OLTP (online transactional processing) Workloads.
+
+RDS is not for OLAP (online analytic processing). In this case use Redshift.

@@ -1,6 +1,17 @@
 RDS - Relational Databases.
-Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.
+Amazon RDS automates administrative tasks, such as performing backups and patching
+the software that powers your database.
+Amazon RDS manages the work involved in setting up a relational database, from
+provisioning the infrastructure capacity you request to installing the database
+software. Once your database is up and running, Amazon RDS automates common
+administrative tasks, such as performing backups and patching the software that
+powers your database.
 
-RDS is for OLTP (online transactional processing) Workloads.
 
-RDS is not for OLAP (online analytic processing). In this case use Redshift.
+ - Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.
+
+ - RDS is for OLTP (online transactional processing) Workloads.
+
+ - RDS is not for OLAP (online analytic processing). In this case use Redshift.
+
+ - The longest you can store an automatic RDS backup is 35 days.

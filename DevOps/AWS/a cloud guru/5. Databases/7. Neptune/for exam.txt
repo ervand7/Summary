@@ -1,0 +1,2 @@
+If the scenario is not talking about immutable databases, do not select Amazon QLDB
+as an answer.

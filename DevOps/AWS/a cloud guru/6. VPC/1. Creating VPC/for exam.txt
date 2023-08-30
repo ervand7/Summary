@@ -1,0 +1,15 @@
+ - VPC is a logical data center in AWS
+
+ - Consists of gateways (or virtual private gateways), route tables, network
+ access control lists, subnets, and security groups
+
+ - 1 subnet is always in 1 AZ
+
+ What we can do with VPC?
+ - Launch instances into a subnet of your choosing
+ - Assign custom IP addresses ranges in each subnet
+ - Configure route tables between subnets
+ - Create internet gateway and attach it to our VPC
+ - Mach better security control over your AWS resources
+ - Subnet network access lists
+ - You can use network access control lists (NACLs) to clock specific IP addresses

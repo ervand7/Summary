@@ -15,3 +15,40 @@
  - Mach better security control over your AWS resources
  - Subnet network access lists
  - You can use network access control lists (NACLs) to clock specific IP addresses
+
+ Nat (Network Address Translation) Gateways - used to enable instances in private subnet
+ to connect to the internet or other AWS services while preventing the internet
+ from initiating a connection with those instances.
+ - Redundant inside the AZ
+ - Starts at 5 GBps and scales currently to 45 GBps
+ - No need to patch
+ - Not associated with security group
+ - Automatically assigned a public IP address
+
+
+Security groups:
+ - Security groups are stateful. If you send a request from your instance,
+ the response traffic for that request is allowed to flow in regardless of
+ inbound security group rules
+ - Responses to allowed inbound traffic are allowed to flow out, regardless
+ of outbound rules
+
+
+Network ACL:
+ - Default Network ACLs. Your VPC comes with default network ACL. And by default
+ it allows all outbound and inbound traffic
+ - Custom Network ACLs. You can create custom Network ACLs. By default, each
+ custom network ACL denies all inbound and outbound traffic until you add rules
+ - Subnet associations. Each subnet in your VPC must be associated with a network ACL.
+ If you don't explicitly associate a subnet with a network ACL, the subnet is
+ automatically associated with the default network ACL.
+ - Block IP Addresses. Block IP Addresses using network ACLs, not security groups.
+ - You can associate network ACL with multiple subnets; however a subnet can
+ be associated with only 1 network ACL at a time. When you associate a network ACL with
+ a subnet, the previous association is removed
+ - Network ACLs contain a numbered list of rules that are evaluated in order, starting
+ with the lowest numbered rule
+ - Network ACLs have separate inbound and outbound rules, and each rule can
+ either allow or deny traffic
+ - Network ACLs are stateless; responses to allowed inbound traffic are subject
+ to the rules for outbound traffic (and vice versa).

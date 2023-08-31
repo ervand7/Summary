@@ -34,3 +34,24 @@ And remember: when you create a new VPC, it's going to create +3 things by defau
      ● sudo su
      ● yum update -y
      and we see that everything is hung because this service has to internet connection
+15) create nat gateway (opts: name: my-nat-gateway, subnet: our 1a, allocate elastic ip:,)
+16) go to route tables -> select your main route table -> routes -> edit routes -> add route: (0.0.0.0/0, nat)
+17) go back to WebServer01 terminal and ping MyDBServer by private addr
+     ● ssh ec2-user@10.0.2.190 -i MyKP.pem (we connect by private addr)
+     ● sudo su
+     ● yum update -y
+     and you can see that MyDBServer can connect to internet
+18)
+     ● sudo yum install httpd
+     ● sudo service httpd start
+     ● cd /var/www/html
+     ● sudo su
+     ● echo "<html><body><h1>Hello Cloud Gurus</h1></body></html>" > index.html
+     ● go to browser and paste WebServer01 public addr
+
+    go to network acl -> you can see your acl which was automatically created
+    when you created your VPC -> create network acl (opts: name: MyWeb, VPC: select your VPC)
+    select MyWeb -> subnet associations -> edit subnet associations -> select 1a -> save
+    inbound rules -> edit inbound rules (100 http, 200 ssh)
+    outbound rules -> edit outbound rules (100 http, 200 ssh, 300 1024-65535)
+    inbound rules -> edit inbound rules (50 http deny) (after remove)

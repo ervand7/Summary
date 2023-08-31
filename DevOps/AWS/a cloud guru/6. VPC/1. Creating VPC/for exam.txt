@@ -5,6 +5,8 @@
 
  - 1 subnet is always in 1 AZ
 
+ - subnet is basically virtual firewall
+
  What we can do with VPC?
  - Launch instances into a subnet of your choosing
  - Assign custom IP addresses ranges in each subnet

@@ -1,0 +1,36 @@
+1) create VPC (opts: Resources to create: VPC only, IPv4 CIDR: 10.0.0.0/16)
+And remember: when you create a new VPC, it's going to create +3 things by default:
+ - security group
+ - main route table
+ - main network ACL
+2) create (which we will make public further) subnet (opts: VPC ID: already created VPC, Availability Zone: us-east-1a, Subnet name: 10.0.1.0/24 - us-east-1a, IPv4 CIDR block: 10.0.1.0/24)
+3) create (which we will make private further) subnet (opts: VPC ID: already created VPC, Availability Zone: us-east-1b, Subnet name: 10.0.2.0/24 - us-east-1b, IPv4 CIDR block: 10.0.2.0/24)
+4) make subnet "10.0.1.0/24 - us-east-1a" publicly accessible.
+    select this subnet -> actions -> edit subnet settings -> Enable auto-assign public IPv4 address
+5) make subnet "10.0.1.0/24 - us-east-1a" internet accessible.
+    internet gateways -> create new internet gateway -> name: MyIGWACG -> save
+    select gateway -> actions -> attach to VPC -> select your VPC -> save
+6) create route table (opts: name: MyInternetRT, vpc: your VPC)
+7) go to your route table -> edit routes -> add rule (opts: 0.0.0.0/0, igv)
+    subnet associations -> edit subnet associations -> select "10.0.1.0/24 - us-east-1a" -> save
+8) EC2 -> launch instance (opts: name: WebServer01, VPC: select your VPC, subnet: your public (1a) subnet, Security group name: WebDMZ, Description: WebDMZ, add security group role: HTTP, Source type: Anywhere)
+9) EC2 -> launch instance (opts: name: MyDBServer, VPC: select your VPC, subnet: your private (1b) subnet, Security group name: WebDMZ, Select existing security group:, Common security groups: WebDMZ)
+10) connect to WebServer01.
+      ● sudo su
+      ● yum update -y
+      look that you are connected to the internet and internet gateway is working
+11) go to security group and create new for MyDBServer (name: MyDBSG, Description: MyDBSG, VPC: select your VPC
+        add rule: (HTTP, 10.0.1.0/24)
+        add rule: (All ICMP - IPv4, 10.0.1.0/24)
+        add rule: (MYSQL/Aurora, 10.0.1.0/24)
+        add rule: (SSH, 10.0.1.0/24) - DO NOT DO THIS IN PRODUCTION!
+    )
+12) go to your EC2 MyDBServer instance -> actions -> security -> change security group -> remove old and select MyDBSG -> add security group -> save
+13) go back to WebServer01 terminal and ping MyDBServer by private addr
+14) let's try to hack our MyDBServer from WebServer01:
+     ● create MyKP.pem (copy content from your desktop)
+     ● chmod 400 MyKP.pem
+     ● ssh ec2-user@10.0.2.190 -i MyKP.pem (we connect by private addr)
+     ● sudo su
+     ● yum update -y
+     and we see that everything is hung because this service has to internet connection

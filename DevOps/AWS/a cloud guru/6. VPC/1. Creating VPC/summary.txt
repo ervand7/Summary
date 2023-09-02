@@ -41,6 +41,8 @@ And remember: when you create a new VPC, it's going to create +3 things by defau
      ● sudo su
      ● yum update -y
      and you can see that MyDBServer can connect to internet
+
+Network ACL:
 18)
      ● sudo yum install httpd
      ● sudo service httpd start
@@ -55,3 +57,10 @@ And remember: when you create a new VPC, it's going to create +3 things by defau
     inbound rules -> edit inbound rules (100 http, 200 ssh)
     outbound rules -> edit outbound rules (100 http, 200 ssh, 300 1024-65535)
     inbound rules -> edit inbound rules (50 http deny) (after remove)
+
+VPC Endpoint:
+19) MyDBServer -> actions -> security -> modify IAM Role -> select S3_AdminAccess -> save
+    VPC -> endpoints -> create endpoint (opts: name: S3EP, services: s3, select type gateway:, VPC: select your VPC, route tables: select default)
+    go to your MyDBServer terminal:
+    ● aws s3 ls
+    you can see your bucket

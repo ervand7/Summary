@@ -16,6 +16,8 @@
  - Subnet network access lists
  - You can use network access control lists (NACLs) to clock specific IP addresses
 
+
+Nat (Network Address Translation) Gateways:
  Nat (Network Address Translation) Gateways - used to enable instances in private subnet
  to connect to the internet or other AWS services while preventing the internet
  from initiating a connection with those instances.
@@ -35,6 +37,11 @@ Security groups:
 
 
 Network ACL:
+ACL (access control list) is the first line of defence. It is an optional layer of
+security for your VPC that acts as a firewall for controlling traffic in and out
+of one or more subnets. You might set up Network ACLs with rules similar to your
+security groups in order to add another layer of security to your VPC.
+
  - Default Network ACLs. Your VPC comes with default network ACL. And by default
  it allows all outbound and inbound traffic
  - Custom Network ACLs. You can create custom Network ACLs. By default, each
@@ -43,6 +50,7 @@ Network ACL:
  If you don't explicitly associate a subnet with a network ACL, the subnet is
  automatically associated with the default network ACL.
  - Block IP Addresses. Block IP Addresses using network ACLs, not security groups.
+
  - You can associate network ACL with multiple subnets; however a subnet can
  be associated with only 1 network ACL at a time. When you associate a network ACL with
  a subnet, the previous association is removed
@@ -51,4 +59,12 @@ Network ACL:
  - Network ACLs have separate inbound and outbound rules, and each rule can
  either allow or deny traffic
  - Network ACLs are stateless; responses to allowed inbound traffic are subject
- to the rules for outbound traffic (and vice versa).
+ to the rules for outbound traffic (and vice versa). While security groups are stateful.
+
+
+VPC Endpoints.
+Use for private communication by PrivateLink without requiring internet gateway,
+NAT device, VPN connection or AWS Direct Connect connection.
+ - Use case: when you want to connect AWS services without leaving Amazon internal network.
+ - 2 types if VPC Endpoints: interface endpoints and gateway endpoints
+ - Gateway endpoints support S3 and DynamoDB

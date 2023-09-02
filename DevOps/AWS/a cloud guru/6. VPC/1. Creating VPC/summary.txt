@@ -64,3 +64,6 @@ VPC Endpoint:
     go to your MyDBServer terminal:
     ● aws s3 ls
     you can see your bucket
+
+VPC Peering:
+20) peering connections -> create (opts: name: MyPeer, VPC: select your VPC, select "default" VPC as another)

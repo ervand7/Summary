@@ -68,3 +68,26 @@ NAT device, VPN connection or AWS Direct Connect connection.
  - Use case: when you want to connect AWS services without leaving Amazon internal network.
  - 2 types if VPC Endpoints: interface endpoints and gateway endpoints
  - Gateway endpoints support S3 and DynamoDB
+
+
+VPC Peering.
+Allows you to connect 1 VPC with another via a direct network route using private
+IP addresses.
+ - Transitive peering is not supported. This must always be in a hub-and-spoke model
+ - You can peer between regions
+ - No overlapping CIDR address ranges
+
+
+PrivateLink:
+ - If you see a question asking about peering VPCs to tens, hundreds, or
+ thousands of customer VPCs, think of AWS PrivateLink
+ - Doesn't require VPC peering; no route tables, NAT gateways, internet gateways, etc.
+ - Requires a Network Load Balancer on the service VPC and an ENI on the customer VPC
+
+
+AWS VPN CloudHub.
+If you have multiple sites, each with its own VPN connection, you can use AWS VPN
+CloudHub to connect those sites together, It's similar to VPC peering in that it works
+on a hub-and-spoke model. It is very low cost and easy to manage. Thou it operates
+over the public internet, all traffic between the customer gateway and the AWS VPN
+CloudHub is encrypted.

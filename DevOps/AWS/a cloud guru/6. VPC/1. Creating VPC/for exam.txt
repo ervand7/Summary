@@ -1,10 +1,7 @@
  - VPC is a logical data center in AWS
-
  - Consists of gateways (or virtual private gateways), route tables, network
  access control lists, subnets, and security groups
-
  - 1 subnet is always in 1 AZ
-
  - subnet is basically virtual firewall
 
  What we can do with VPC?
@@ -17,15 +14,20 @@
  - You can use network access control lists (NACLs) to clock specific IP addresses
 
 
-Nat (Network Address Translation) Gateways:
- Nat (Network Address Translation) Gateways - used to enable instances in private subnet
- to connect to the internet or other AWS services while preventing the internet
- from initiating a connection with those instances.
+Nat (Network Address Translation) Gateways.
+Nat is used to enable instances in private subnet to connect to the internet or
+other AWS services while preventing the internet from initiating a connection
+with those instances.
  - Redundant inside the AZ
  - Starts at 5 GBps and scales currently to 45 GBps
  - No need to patch
  - Not associated with security group
  - Automatically assigned a public IP address
+High Availability with NAT Gateways:
+If you have resources in multiple AZ and they share a NAT gateway, in the event
+the NAT gateway's AZ is down, resources in the other AZ lose internet access.
+To create an AZ-independent architecture, create a NAT gateway in each AZ and
+configure your routing to ensure resources use the NAT gateway in the same AZ.
 
 
 Security groups:
@@ -71,11 +73,16 @@ NAT device, VPN connection or AWS Direct Connect connection.
 
 
 VPC Peering.
-Allows you to connect 1 VPC with another via a direct network route using private
+ - Allows you to connect 1 VPC with another via a direct network route using private
 IP addresses.
+ - Instances behave as if they were on the same network
  - Transitive peering is not supported. This must always be in a hub-and-spoke model
  - You can peer between regions
+ - You can peer VPCs with other AWS accounts ass well as with other VPCs in the same
+ account
  - No overlapping CIDR address ranges
+ - Peering is in a star configuration (e.g., 1 central VPC peers with 4 others).
+ No transitive peering!
 
 
 PrivateLink:
@@ -91,3 +98,20 @@ CloudHub to connect those sites together, It's similar to VPC peering in that it
 on a hub-and-spoke model. It is very low cost and easy to manage. Thou it operates
 over the public internet, all traffic between the customer gateway and the AWS VPN
 CloudHub is encrypted.
+
+
+Direct Connect.
+ - Direct connect directly connects your data center to AWS
+ - Useful for high-throughput workloads (e.g., lots of network address)
+ - Helpful when you need a stable and reliable connection
+
+
+Transit Gateway.
+ - You can use route tables to limit how VPCs talk to one another
+ - Works with direct connect as well as VPN connections
+ - Supports IP multicast (not supported by any other AWS service)
+
+
+AWS Wavelength.
+If you see a scenario about 5G, increasing application speed at edge using mobile
+networks, think of AWS Wavelength

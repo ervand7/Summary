@@ -11,7 +11,7 @@
  - Create internet gateway and attach it to our VPC
  - Mach better security control over your AWS resources
  - Subnet network access lists
- - You can use network access control lists (NACLs) to clock specific IP addresses
+ - You can use network access control lists (NACLs) to block specific IP addresses
 
 
 Nat (Network Address Translation) Gateways.
@@ -38,7 +38,9 @@ Security groups:
  of outbound rules
 
 
-Network ACL:
+Network ACL (NACL: Network Access Control Lists)
+A NACL is an optional stateless firewall that is associated with a subnet.
+NACLs have independent inbound and outbound rules.
 ACL (access control list) is the first line of defence. It is an optional layer of
 security for your VPC that acts as a firewall for controlling traffic in and out
 of one or more subnets. You might set up Network ACLs with rules similar to your
@@ -86,6 +88,7 @@ IP addresses.
 
 
 PrivateLink:
+ - The safest way to open up a single API endpoint to another AWS VPC
  - If you see a question asking about peering VPCs to tens, hundreds, or
  thousands of customer VPCs, think of AWS PrivateLink
  - Doesn't require VPC peering; no route tables, NAT gateways, internet gateways, etc.
@@ -104,12 +107,23 @@ Direct Connect.
  - Direct connect directly connects your data center to AWS
  - Useful for high-throughput workloads (e.g., lots of network address)
  - Helpful when you need a stable and reliable connection
+ - Useful when you need a high-speed private connection from your on-premises
+ environment to AWS
+ - Direct Connect is not encrypted by default
 
 
 Transit Gateway.
+Is designed for when you have too many VPCs to peer together.
+Transit Gateway has: easy connection of thousands of VPCs, support for hybrid
+connectivity (VPN and Direct Connect connections), centralized routing
+configuration, and low operational costs. VPC peering has: lower overall
+cost, no bandwidth limits, lower latency, security group compatibility with
+intra-Region VPC peering.
  - You can use route tables to limit how VPCs talk to one another
  - Works with direct connect as well as VPN connections
  - Supports IP multicast (not supported by any other AWS service)
+ - You can use Transit Gateway over VPC peering if you have too many
+ VPCs to reasonably peer together.
 
 
 AWS Wavelength.

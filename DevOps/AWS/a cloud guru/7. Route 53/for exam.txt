@@ -1,0 +1,43 @@
+Route 53 is Amazon DNS service.
+If at the exam you have choice between alias record and CNAME always choose an
+alias record over CNAME.
+Common DNS record types: SOA Record, CNAME Record, NS records, A records.
+
+
+Simple Routing Policy.
+If you choose the simple routing policy, you can only have one record with multiple IP
+addresses. If you specify multiple values in a record, Route 53 returns all values
+to the user in a random order.
+
+
+Weighted Routing Policy.
+If you see a scenario based question where it's talking about sending a certain
+amount of traffic, a percentage to various different geographic locations,
+think of Weighted Routing.
+
+
+Health Checks.
+ - You can set health checks on individual record sets
+ - If a record set fails a health check, it will be removed from route 53
+ until it passed the heath check
+ - You can set SNS notifications to alert you about failed health checks
+
+
+Failover Routing Policy.
+If you see a scenario based question where it's talking about active/passive,
+think of Failover Routing Policy.
+
+
+Geolocation Routing Policy.
+If you see a scenario based question where you've got your users in different
+parts of the world, and you need to control where you're going to send them
+based in their location, think of Geolocation Routing Policy.
+
+
+Geoproximity Routing Policy.
+Geoproximity Routing lets Amazon Route 53 route traffic to your resources based
+on the geographic location of your users and resources.
+ - You can also optionally choose to route more traffic or less to a given
+ resource by specifying a value, known as a bias. A bias expands or shrinks the
+ size of the geographic region from which traffic is routed to a resource
+ - To use Geoproximity Routing, you must use Route 53 traffic flow.

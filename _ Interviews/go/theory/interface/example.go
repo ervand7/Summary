@@ -21,5 +21,5 @@ func Printf(v fmt.Stringer) {
 
 func main() {
 	u := User{Email: "example@yandex.ru"}
-	Printf(u)
+	Printf(u) // Это тип, реализующий Stringer, user with email example@yandex.ru
 }

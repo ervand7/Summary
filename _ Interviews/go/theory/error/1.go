@@ -16,12 +16,14 @@ func (c *customError) Error() string {
 }
 
 func fail() ([]byte, *customError) {
+	// мы ожидаем, что никакой ошибки нет
 	return nil, nil
 }
 
 func main() {
 	var err error
 	if _, err = fail(); err != nil {
+		// а по факту нам в любом случае вернется не nil: *main.customError(nil)
 		log.Fatal("Why did this fail?")
 	}
 	log.Println("No Error")

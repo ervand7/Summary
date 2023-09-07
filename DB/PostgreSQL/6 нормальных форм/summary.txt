@@ -1,0 +1,83 @@
+Давайте рассмотрим таблицу "Сотрудники" и посмотрим, как она может быть
+преобразована в каждую из 6 нормальных форм в виде SQL-таблиц.
+
+**Исходная таблица "Сотрудники":**
+
+| EmployeeID | FirstName | LastName | Department  | Salary |
+|------------|-----------|----------|-------------|--------|
+| 1          | John      | Doe      | HR          | 50000  |
+| 2          | Jane      | Smith    | IT          | 60000  |
+| 3          | Bob       | Johnson  | Accounting  | 55000  |
+
+**1. Первая нормальная форма (1NF):**
+В 1 нормальной форме, каждая ячейка содержит только одно значение. В этом случае, таблица
+уже находится в 1NF.
+```sql
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50),
+  Department VARCHAR(50),
+  Salary DECIMAL(10, 2)
+);
+```
+
+**2. Вторая нормальная форма (2NF):**
+Во 2 нормальной форме, данные разделяются на таблицы так, чтобы каждая строка имела
+уникальный идентификатор (первичный ключ), и никакие атрибуты не зависели от части
+первичного ключа. В этом случае, атрибуты `FirstName`, `LastName`, `Department`, и
+`Salary` зависят от `EmployeeID`.
+```sql
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50),
+  Salary DECIMAL(10, 2)
+);
+
+CREATE TABLE EmployeeDepartments (
+  EmployeeID INT PRIMARY KEY,
+  Department VARCHAR(50)
+);
+```
+
+**3. Третья нормальная форма (3NF):**
+В 3 нормальной форме атрибуты в таблице должны зависеть только от первичного ключа и не
+зависеть от других атрибутов. В данном случае, `FirstName`, `LastName`, и `Salary`
+зависят только от `EmployeeID`, но `Department` также зависит от `EmployeeID`.
+```sql
+CREATE TABLE Employees (
+  EmployeeID INT PRIMARY KEY,
+  FirstName VARCHAR(50),
+  LastName VARCHAR(50),
+  Salary DECIMAL(10, 2)
+);
+
+CREATE TABLE EmployeeDepartments (
+  EmployeeID INT PRIMARY KEY,
+  DepartmentID INT,
+  FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+
+CREATE TABLE Departments (
+  DepartmentID INT PRIMARY KEY,
+  DepartmentName VARCHAR(50)
+);
+```
+
+**4. Четвертая нормальная форма (4NF):**
+4NF требует устранения зависимости между многозначными зависимостями. В данной таблице
+нет многозначных зависимостей, поэтому она остается в 4NF.
+
+**5. Пятая нормальная форма (5NF):**
+5NF требует устранения зависимости между неключевыми атрибутами таблицы. В данной простой
+таблице нет таких зависимостей, поэтому она также остается в 5NF.
+
+**6. Шестая нормальная форма (6NF):**
+6NF предполагает, что каждый атрибут является полностью зависимым от ключа и не содержит
+многозначных атрибутов. В данной таблице нет таких зависимостей, поэтому она также
+остается в 6NF.
+
+Помните, что в реальных базах данных достижение 6 нормальной формы чрезмерно сложно и
+часто нецелесообразно. Нормализация проводится до той степени, которая необходима
+для обеспечения целостности данных и эффективности операций.

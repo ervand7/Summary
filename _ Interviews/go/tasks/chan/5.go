@@ -22,3 +22,12 @@ func main() {
 
 	fmt.Println("main() stopped")
 }
+
+/*
+main() started
+1
+4
+9
+16
+main() stopped
+*/

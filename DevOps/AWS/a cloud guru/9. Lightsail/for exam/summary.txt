@@ -1,2 +1,0 @@
-Amazon Lightsail is a compute service that is used to quickly launch
-preconfigured applications for small projects.

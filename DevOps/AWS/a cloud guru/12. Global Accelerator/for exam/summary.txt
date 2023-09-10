@@ -1,1 +1,0 @@
-Global Accelerator provides low latency.

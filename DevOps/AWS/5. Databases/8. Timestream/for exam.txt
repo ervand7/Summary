@@ -1,0 +1,2 @@
+If you see a scenario question about where to store a large amount of time-series
+data for analysis, think of Timestream.

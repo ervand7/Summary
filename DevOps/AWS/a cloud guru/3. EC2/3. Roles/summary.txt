@@ -1,9 +1,0 @@
-After configuring role for EC2 instance in GUI we already don't have to worry
-about configuring credentials in CLI.
-
- ● sudo su
- ● yum upgrade -y
- ● aws s3 mb s3://my_bucket_name
- ● aws s3 ls
- ● echo "Hello" > hello.txt
- ● aws s3 cp hello.txt s3://my_bucket_name

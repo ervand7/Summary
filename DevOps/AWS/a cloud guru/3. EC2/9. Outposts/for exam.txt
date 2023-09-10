@@ -1,4 +1,0 @@
-AWS Outposts is a service that runs AWS services on premises
-
-AWS Outposts rack for large deployment.
-AWS Outposts servers for smaller deployment.

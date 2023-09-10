@@ -1,1 +1,0 @@
-AWS Fargate is considered serverless and is used to manage containers.

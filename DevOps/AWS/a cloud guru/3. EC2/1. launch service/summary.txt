@@ -1,5 +1,0 @@
- - go to EC2 dashboard
- - tap "Launch instance"
- - input name
- - select OS
- - tap "create new key pair"

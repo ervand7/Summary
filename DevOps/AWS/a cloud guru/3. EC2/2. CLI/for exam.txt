@@ -1,7 +1,0 @@
- - Secret Access Key. You will see this only once. And if you lose it,
-you can regenerate it. But also you will have to run "aws configure" again
-
- - Don't share key pairs. Each developer should have their own access key ID
- and secret access key
-
- - Support Linux, Windows and macOS

@@ -1,0 +1,2 @@
+If you see scenario question about migrating a big data Cassandra cluster
+to AWS, think of Amazon Keyspaces.

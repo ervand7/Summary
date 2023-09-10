@@ -1,0 +1,26 @@
+ - IAM doesn't depends on region
+ - New users has no permissions when first created
+ - In policies, explicit "deny" always overrides any "allow"
+
+
+ - Enable multi-factor authentication on the root account
+ - Create an admin group for your administrators, and assign the appropriate
+ permissions to the group
+ - create user account for your administrators
+ - Add your users to the admin group
+
+
+ - One role can consist of many policies
+
+
+ - Access key ID and secret access keys are not the same as usernames and passwords
+ - You only get to view these once. If you lose them, you have to regenerate them.
+ So, save them in a secure location
+ - Always set up password rotations. You can create and customize your own
+ password rotation policies
+
+
+ - IAM Federation: You can combine your existing user account with AWS. For example,
+ when you log on to your PC (usually using Microsoft Active Directory), you can use
+ the same credentials to log in to AWS if you set up federation.
+ - Identity FederationL Uses the SAML standard, which is Active Directory

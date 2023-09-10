@@ -1,0 +1,3 @@
+ ● https://stackoverflow.com/questions/49000980/deploying-aws-lambda-with-go-cloudformation
+ ● https://stackoverflow.com/questions/58133166/error-fork-exec-var-task-main-no-such-file-or-directory-while-executing-aws
+ ● https://stackoverflow.com/questions/62919660/patherror-when-deploying-go-project-to-aws-lambda

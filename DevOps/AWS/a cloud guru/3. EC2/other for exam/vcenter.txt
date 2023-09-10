@@ -1,6 +1,0 @@
-What are the use cases for deploying vCenter on AWS?
- - Cloud migration
- - Hybrid cloud
-
-What service allows you to extend your data center to the AWS Cloud?
- - vCenter on AWS. It Allows you to extend your private cloud to the AWS cloud.

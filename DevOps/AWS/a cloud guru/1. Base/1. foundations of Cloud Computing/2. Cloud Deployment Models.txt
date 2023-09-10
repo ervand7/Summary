@@ -1,9 +1,0 @@
-1) Private cloud. Also called "on-premises"
-Exists in your internal data center.
-Doesn't offer the advantages of cloud computing.
-
-2) Public cloud. Example AWS
-
-3) Hybrid
-
-

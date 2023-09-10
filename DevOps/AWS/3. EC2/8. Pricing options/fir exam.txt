@@ -1,0 +1,20 @@
+ - On-Demand. Pay by the hour or the second, depending on the type of
+ instance you run.
+ Great got flexibility, no long-term contracts.
+
+ - Spot. Purchase unused capacity at a discount of up to 90%. Prices fluctuate
+ with supply and demand. Spot instances save up to 90% of the cost of On-Demand instances.
+ Is useful for any type of computing where you don't need persistent storage.
+ You can block Spot instances from terminating by using Spot block.
+ A spot Fleet is a collection of Spot Instances and (optionally) On-Demand instances.
+ If your Spot Instance has been marked for termination, a notification will be
+ best-effort posted to the metadata of your EC2 instance 2 minutes before it
+ is stopped or terminated.
+ Great for apps with flexible start and end times.
+
+ - Reserved. Reserved capacity for 1 or 3 years. Up to 72% discount on the
+ hourly charge.
+ Great if you have known, fixed requirements.
+
+ - Dedicated. A physical EC2 server dedicated for your use.
+ Great if you have server-bound licences to reuse or compliance requirements.

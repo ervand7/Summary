@@ -1,0 +1,3 @@
+If you want to move your MongoDB to AWS, you can:
+1) Use AWS Database Migration Service
+2) Use Amazon DocumentDB

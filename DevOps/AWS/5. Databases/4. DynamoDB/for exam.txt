@@ -1,0 +1,45 @@
+ - Stored on SSD storage
+
+ - Spread across 3 geographically distinct data centers
+
+ - Supports 2 read ways:
+       - Eventually consistent read.
+       Consistency across all copies of data is usually reached within a second.
+       Repeating a read after a short time should return the updated data. Best
+       read performance.
+       - Strongly consistent read.
+       Returns a result that reflects all writes that received a successful
+       response prior the read.
+
+
+ - DynamoDB Transactions:
+     - If you see any scenario question that mentions ACID requirements, think
+     DynamoDB Transactions
+     - DynamoDB provides ACID across 1 or more tables within a single AWS account
+     and region
+     - All-or-nothing transactions. Multiple all-or-nothing operations
+     - 3 options of read: eventual consistency, strong consistency and transactional
+     - up to 25 items or 4 mb of data
+
+
+ - On-Demand Backup and Restore:
+     - Fill backup at any time
+     - Zero impact on table performance or availability
+     - Consistent within seconds and retained until deleted
+     - Operates within same region at the source table
+
+
+ - Point-in-Time Recovery:
+     - Protect against accidental writes or deletes
+     - Restore to any point in the last 35 days
+     - Incremental Backups
+     - Not enabled by default
+     - Latest restorable: 5 minutes in the past
+
+
+ - Multi-Master, Multi-Region Replication:
+     - Globally distributed applications
+     - Ypu need no enable DynamoDB streams for turning on global tables
+     - Multi-region redundancy for disaster recovery or high availability
+     - You will not have to rewrite your application
+     - Replication latency under 1 second

@@ -1,2 +1,0 @@
-Auto Scaling improves the availability of your applications, and
-don't confuse it with load balancing.

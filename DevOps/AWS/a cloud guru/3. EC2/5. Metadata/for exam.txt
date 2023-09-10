@@ -1,5 +1,0 @@
- - User data is simply bootstrap scripts
-
- - Metadata is data about your EC2 instances
-
- - You can user bootstrap scripts (user data) to access metadata

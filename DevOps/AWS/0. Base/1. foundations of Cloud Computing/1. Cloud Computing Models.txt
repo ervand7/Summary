@@ -1,0 +1,7 @@
+1) Iaas - Infrastructure as a service. Example: web hosting
+
+2) Saas - Software as a service. Example: email provider
+
+3) Paas - Platform as a service. Used by developers
+
+

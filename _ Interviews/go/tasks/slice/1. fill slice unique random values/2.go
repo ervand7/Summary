@@ -15,7 +15,7 @@ type mockGenerator struct {
 	counter int
 }
 
-func (m *mockGenerator) Intn(_ int) int {
+func (m *mockGenerator) Intn(int) int {
 	m.counter += 1
 	duplicateValue := 777
 	if m.counter == 1 || m.counter == 2 {

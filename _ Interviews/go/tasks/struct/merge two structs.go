@@ -47,8 +47,10 @@ func main() {
 	}
 
 	for idx := range users {
-		users[idx].OfficeAddress = hashTable[users[idx].OfficeId]
+		officeID := users[idx].OfficeId
+		users[idx].OfficeAddress = hashTable[officeID]
 	}
 
 	fmt.Printf("%+v", users)
+	// [{Id:1 Name:User1 OfficeId:1 OfficeAddress:Address1} {Id:2 Name:User2 OfficeId:2 OfficeAddress:Address2}]
 }

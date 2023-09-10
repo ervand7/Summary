@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// оп факту, выведет все числа, которые встречаются нечетное кол-во раз
+
 func main() {
 	a := []int{1, 2, 3, 2, 1, 3, 3, 1, 7, 22, 22, 0, 0, 0, 0, 0}
 	hTable := make(map[int]bool)
@@ -15,5 +17,5 @@ func main() {
 	}
 
 	// выведет все значения, которые без пар
-	fmt.Println(hTable)
+	fmt.Println(hTable) // map[0:true 1:true 3:true 7:true]
 }

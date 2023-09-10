@@ -2,16 +2,18 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 )
 
 /*
 Мораль: без примитивов синхронизации результат никогда не будет 999
-И что-то обещанный runtime.GOMAXPROCS(1) тоже не поможет
+runtime.GOMAXPROCS(1) увеличит шансы на то, что ни одна из горутин не отработает.
 */
 
 var num int
 
 func main() {
+	runtime.GOMAXPROCS(1)
 	for i := 0; i < 1000; i++ {
 		go func(item int) {
 			num = item

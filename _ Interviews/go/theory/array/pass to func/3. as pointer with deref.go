@@ -13,6 +13,8 @@ func changeArrByPointer(arr *[4]int) {
 
 func main() {
 	arr := [4]int{}
+	fmt.Println(arr) // [0 0 0 0]
+
 	changeArrByPointer(&arr)
 	fmt.Println(arr) // [0 121212 0 0]
 }

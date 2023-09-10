@@ -13,6 +13,8 @@ func changeArr(arr [4]int) {
 
 func main() {
 	arr := [4]int{}
+	fmt.Println(arr) // [0 0 0 0]
+
 	changeArr(arr)
 	fmt.Println(arr) // [0 0 0 0]
 }

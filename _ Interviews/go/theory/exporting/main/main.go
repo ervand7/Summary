@@ -8,14 +8,15 @@ import (
 )
 
 /*
-Мы можем получить доступ к значениям с неэкспортируемыми типами из других
-пакетов. Но лучше так не делать.
+Мы можем получить доступ к не экспортируемым сущностям из других пакетов.
+Но лучше так не делать.
 */
 
 func main() {
-	result := some.NewErvand(1)
-	fmt.Println(reflect.TypeOf(result)) // some.ervand
+	result := some.NewIvan(1)
+	unexported := reflect.TypeOf(result)
+	fmt.Println(unexported) // some.ivan
 
 	v := some.VarOfNonExportType
-	fmt.Println(reflect.TypeOf(v)) // some.ervand
+	fmt.Println(reflect.TypeOf(v)) // some.ivan
 }

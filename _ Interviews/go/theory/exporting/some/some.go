@@ -1,9 +1,10 @@
 package some
 
-type ervand int
+type ivan int
 
-func NewErvand(value int) ervand {
-	return ervand(value)
+// NewIvan Лучше вместо этого возвращать экспортируемый интерфейс
+func NewIvan(value int) ivan {
+	return ivan(value)
 }
 
-var VarOfNonExportType ervand
+var VarOfNonExportType ivan

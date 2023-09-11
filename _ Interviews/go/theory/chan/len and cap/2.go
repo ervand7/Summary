@@ -11,20 +11,20 @@ func sender(c chan int) {
 }
 
 func main() {
-	c := make(chan int, 3)
-	go sender(c)
-	fmt.Printf("Length is %v and capacity is %v\n", len(c), cap(c))
+	ch := make(chan int, 3)
+	go sender(ch)
+	fmt.Printf("len is %v and capacity is %v\n", len(ch), cap(ch))
 
 	// read values from c (blocked here)
-	for val := range c {
-		fmt.Printf("Length after value '%v' read is %v\n", val, len(c))
+	for val := range ch {
+		fmt.Printf("len after value '%v' is %v\n", val, len(ch))
 	}
 }
 
 /*
-Length of channel c is 0 and capacity of channel c is 3
-Length of channel c after value '1' read is 3
-Length of channel c after value '2' read is 2
-Length of channel c after value '3' read is 1
-Length of channel c after value '4' read is 0
+len is 0 and capacity is 3
+len after value '1' is 3
+len after value '2' is 2
+len after value '3' is 1
+len after value '4' is 0
 */

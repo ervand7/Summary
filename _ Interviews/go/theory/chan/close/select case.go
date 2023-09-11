@@ -6,12 +6,19 @@ import (
 	"time"
 )
 
-var done = make(chan struct{})
+/*
+В данном примере много горутин будут читать из одного канала. Как только
+Пока в канал ничего не будет поступать, будет принтится блок default. А после закрытия
+канала все горутины получат нулевое значение канала.
+*/
+
+var ch = make(chan struct{})
 
 func thread(wg *sync.WaitGroup, i int) {
 	for {
 		select {
-		case <-done:
+		// после закрытия канала получаем нулевое значение
+		case <-ch:
 			fmt.Println("Завершаем", i)
 			wg.Done()
 			return
@@ -30,6 +37,6 @@ func main() {
 	}
 	time.Sleep(1 * time.Second)
 
-	close(done)
+	close(ch)
 	wg.Wait()
 }

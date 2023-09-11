@@ -3,13 +3,10 @@ package main
 import "fmt"
 
 func main() {
-	ch := make(chan int, 1)
-	ch <- 1
-	fmt.Println(<-ch)
+	var ch = make(chan int)
 
-	ch <- 2
-	fmt.Println(<-ch)
-
-	ch <- 3
-	fmt.Println(<-ch)
+	close(ch)
+	close(ch)
+	v := <-ch
+	fmt.Println(v)
 }

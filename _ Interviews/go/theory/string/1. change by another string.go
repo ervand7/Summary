@@ -15,6 +15,7 @@ func main() {
 	fmt.Printf("%p\n", &b) // 0x14000110220
 
 	b = "World"
+	fmt.Printf("%p\n", &b) // 0x14000110220
 
 	fmt.Println(a) // Hello
 	fmt.Println(b) // World

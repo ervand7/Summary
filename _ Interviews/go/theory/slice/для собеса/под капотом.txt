@@ -1,7 +1,7 @@
 src/runtime/slice.go
 
 type slice struct {
-	array unsafe.Pointer
+	array unsafe.Pointer  <- ссылка на первый элемент базового массива
 	len   int
 	cap   int
 }

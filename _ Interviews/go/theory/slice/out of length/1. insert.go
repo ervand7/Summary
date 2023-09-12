@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+/*
+Индекс связан с длиной, а не с capacity.
+*/
+
 func main() {
 	var nums []int
 	fmt.Println(nums == nil, len(nums)) // true 0

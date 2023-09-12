@@ -12,7 +12,8 @@ func main() {
 	fmt.Println(a) // [0 1 2 3 4 5]
 
 	b := a[1:3]
-	fmt.Println(b) // [1 2]
+	fmt.Println(b)      // [1 2]
+	fmt.Println(cap(b)) // 5
 
 	b = b[:cap(b)]
 	fmt.Println(b) // [1 2 3 4 5]

@@ -1,4 +1,0 @@
-All pointers have the same memory size and representation, which is 4 or 8
-bytes that represent an address. On 32bit architectures (like the playground),
-pointers require 4 bytes of memory and on 64 bit architectures (like your machine),
-they require 8 bytes of memory.

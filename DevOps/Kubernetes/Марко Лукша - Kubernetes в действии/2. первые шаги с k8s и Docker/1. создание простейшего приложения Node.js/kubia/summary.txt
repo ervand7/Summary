@@ -1,0 +1,16 @@
+ ● docker build -t kubia .
+ ● docker images
+ ● docker run --name kubia-container -p 8080:8080 -d kubia
+ ● curl localhost:8080
+ ● docker ps
+ ● docker inspect kubia-container
+ ● docker exec -it kubia-container bash
+    ● ps aux
+ ● docker stop kubia-container
+ ● docker ps -a
+ ● docker rm  kubia-container
+ ● docker tag kubia ervand7/kubia
+ ● docker push ervand7/kubia
+
+Запуск на другой машине:
+ ● docker run -p 8080:8080 -d ervand7/kubia

@@ -1,0 +1,114 @@
+apiVersion: v1 # версия API Kubernetes
+kind: Pod  # тип ресурса
+metadata: # метаданные пода (имя, метки, аннотации и тд)
+  creationTimestamp: "2023-09-13T19:46:58Z"
+  labels:
+    run: kubia
+  name: kubia
+  namespace: default
+  ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: kubia
+      uid: 100d3ced-7c35-4233-8bc0-d5d6ed1cbc5a
+  resourceVersion: "3316"
+  uid: 40780c6f-4eb1-46bb-b6ae-a25ddcb17f5b
+spec:  # спецификация/содержание пода (список контейнеров, томов и тд)
+  containers:
+    - image: ervand7/kubia
+      imagePullPolicy: Always
+      name: kubia
+      ports:
+        - containerPort: 8080
+          protocol: TCP
+      resources: { }
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          name: kube-api-access-4jxhr
+          readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: { }
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+      tolerationSeconds: 300
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+      tolerationSeconds: 300
+  volumes:
+    - name: kube-api-access-4jxhr
+      projected:
+        defaultMode: 420
+        sources:
+          - serviceAccountToken:
+              expirationSeconds: 3607
+              path: token
+          - configMap:
+              items:
+                - key: ca.crt
+                  path: ca.crt
+              name: kube-root-ca.crt
+          - downwardAPI:
+              items:
+                - fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+                  path: namespace
+status:  # подробный статус пода и его контейнеров
+  conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2023-09-13T19:46:58Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2023-09-14T06:14:40Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2023-09-14T06:14:40Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2023-09-13T19:46:58Z"
+      status: "True"
+      type: PodScheduled
+  containerStatuses:
+    - containerID: docker://644f092639ebf1e5faa0abf41181ee51622940172aaab4b4186c232f6ffaeb2a
+      image: ervand7/kubia:latest
+      imageID: docker-pullable://ervand7/kubia@sha256:f727108c17b35b88e3207f47b51ceaa7e58400f6409e7ba793e63ecf15c95592
+      lastState:
+        terminated:
+          containerID: docker://e44e3158426f5f64b72a986a12cceaa5fd21d9fcb9d845a5d4a11d1f0b3f779b
+          exitCode: 137
+          finishedAt: "2023-09-13T20:32:53Z"
+          reason: Error
+          startedAt: "2023-09-13T19:48:12Z"
+      name: kubia
+      ready: true
+      restartCount: 1
+      started: true
+      state:
+        running:
+          startedAt: "2023-09-14T06:14:40Z"
+  hostIP: 192.168.67.2
+  phase: Running
+  podIP: 172.17.0.3
+  podIPs:
+    - ip: 172.17.0.3
+  qosClass: BestEffort
+  startTime: "2023-09-13T19:46:58Z"

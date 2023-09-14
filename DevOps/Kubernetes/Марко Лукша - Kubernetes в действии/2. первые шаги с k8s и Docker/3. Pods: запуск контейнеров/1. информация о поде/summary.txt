@@ -1,0 +1,2 @@
+ ● k get pod kubia-8cv7z -o yaml
+ посмотреть yaml-определение для модуля

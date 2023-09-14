@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-manual  # имя пода
+spec:
+  containers:
+  - image: ervand7/kubia  # образ, из которого нужно создать контейнер
+    name: kubia  # имя контейнера
+    ports:
+    - containerPort: 8080 # порт, на котором приложение слушает
+      protocol: TCP

@@ -1,0 +1,15 @@
+ ● k explain pod
+ объясняет значение каждого поля
+ ● k explain pod.spec
+ подробнее про spec
+
+ ● k create -f kubia-manual.yaml
+ создать под
+ ● k get pod kubia-manual -o yaml
+ получаем инфо
+ ● k logs kubia-manual
+ логи
+
+Переадресация локального сетевого порта на порт в модуле:
+ ● k port-forward kubia-manual 8888:8080
+ ● curl localhost:8888

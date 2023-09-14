@@ -1,0 +1,15 @@
+ ● k create -f kubia-manual-with-labels.yaml
+ ● k get pod --show-labels
+ ● k label po kubia-manual-v2 env=debug --overwrite
+ перезаписываем метку
+
+ ● k label po kubia-manual creation_method=manual
+ добавляем метку к уже существующему старому поду
+
+ ● k get po -l creation_method=manual
+ вывод подов с помощью селектора меток
+ ● k get po -l creation_method
+ вывод вне зависимости от значения метки "creation_method"
+ ● k get po -l '!creation_method'
+ вывод тех меток, которые не содержат метки "creation_method"
+

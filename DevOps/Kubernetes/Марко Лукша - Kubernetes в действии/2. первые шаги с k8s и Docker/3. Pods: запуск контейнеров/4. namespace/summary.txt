@@ -1,0 +1,18 @@
+Если в командах не указывать конкретный namespace, то команда будет выполняться
+в default namespace.
+
+ ● k get ns
+ выводим неймспейсы
+ ● k get po --namespace kube-system
+ выводим поды системного неймспейса
+
+ ● k create -f custom-namespace.yaml
+ создаем кастомный namespace
+ ● k create namespace custom-namespace2
+ можно создать неймспейс и без манифеста
+
+ ● k create -f kubia-manual.yaml -n custom-namespace
+ создание пода в определенном неймспейсе
+
+ ● k delete all --all
+ удаление всех ресурсов

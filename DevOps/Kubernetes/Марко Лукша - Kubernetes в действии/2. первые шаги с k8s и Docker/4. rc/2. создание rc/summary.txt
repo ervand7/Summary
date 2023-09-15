@@ -1,4 +1,0 @@
- ● k create -f kubia-rc.yaml
- создаем rc
- ● k get pods
- видим, что он создал 3 пода

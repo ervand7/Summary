@@ -1,0 +1,22 @@
+ ● k create -f kubia-rc.yaml
+ создаем rc
+ ● k get pods
+ видим, что он создал 3 пода
+
+ ● k delete pod kubia-44hb8
+ ● k get pods
+ видим, что после удаления одного, rc мгновенно восстановил его
+
+ ● k get rc
+ ● k describe rc kubia
+
+ ● export KUBE_EDITOR="/usr/bin/nano"
+ ● k edit rc kubia
+ откроется редактор nano. Изменяем кол-во реплик с 3 до 10.
+ Мы могли бы воспользоваться командой `k scale rc kubia --replicas=10`,
+ но в этот раз мы делаем это через редактор
+ ● k get rc
+ проверим
+
+ ● k delete rc kubia --cascade=false
+ удаляем rc, но оставляем поды

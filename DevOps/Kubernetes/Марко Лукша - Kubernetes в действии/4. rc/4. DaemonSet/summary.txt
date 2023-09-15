@@ -1,0 +1,13 @@
+DaemonSet запускает только одну реплику пода на каждом узле, в то время
+как rc и rs разбрасывают их по всему кластеру случайным образом
+
+ ● k create -f ssd-monitor-daemonset.yaml
+ ● k get ds
+
+ ● k get node
+ ● k label node minikube disk=ssd
+ добавляем метку на узел
+ ● k get po
+ видим, что демон добавил под
+
+ ● k delete ds ssd-monitor

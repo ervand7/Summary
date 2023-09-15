@@ -1,0 +1,7 @@
+ReplicaSet - это усовершенствованный rc. Всегда стоит использовать ReplicaSet
+вместо rc.
+
+ ● k create -f kubia-replicaset.yaml
+ ● k get rs
+ ● k describe rs
+ ● k delete rs kubia

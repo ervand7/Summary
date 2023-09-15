@@ -1,0 +1,7 @@
+ ● k create -f batch-job.yaml
+ ● k get jobs
+ ● k get po
+ видим, что под после завершения работы находится в состоянии Completed и не
+ удаляется
+ ● k logs batch-job-gfmxr
+ поэтому мы можем посмотреть его логи

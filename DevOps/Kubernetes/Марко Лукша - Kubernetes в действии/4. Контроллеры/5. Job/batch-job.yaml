@@ -1,0 +1,18 @@
+# Если не указывать селектор пода, он будет создан на основе меток
+# в шаблоне пода
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: batch-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: batch-job
+    spec:
+      restartPolicy: OnFailure # job'ы не могут использовать политику always, которая по умолчанию
+      containers:
+      - name: main
+        image: luksa/batch-job
+
+

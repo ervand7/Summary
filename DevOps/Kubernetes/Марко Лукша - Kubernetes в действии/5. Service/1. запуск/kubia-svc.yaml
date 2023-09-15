@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia
+spec:
+  ports:
+  - port: 80 # внутренний
+    targetPort: 8080 # внешний
+  selector:
+    app: kubia # все поды с этой меткой будут частью service
+

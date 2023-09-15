@@ -1,0 +1,21 @@
+# Не указывайте селектор пода при определении rc. Kubernetes сам его
+#извлечет из шаблона пода
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kubia  # имя rc
+spec:
+  replicas: 3 # требуемое кол-во экземпляров пода
+  selector:
+    app: kubia # селектор, определяющий, с какими подами работает rc
+  template: # шаблон пода для создания новых подов
+    metadata:
+      labels:
+        app: kubia
+    spec:
+      containers:
+      - name: kubia
+        image: luksa/kubia
+        ports:
+        - containerPort: 8080

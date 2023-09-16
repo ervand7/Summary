@@ -23,4 +23,3 @@
      ● curl http://kubia.default.svc.cluster.local
 
 Важно: внутренний IP-адрес службы пинговать нельзя.
-

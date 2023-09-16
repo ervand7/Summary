@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-service # Имя объекта endpoints. Должно совпадать с именем service
+subsets:
+  - addresses: # адреса конечных точек, на которые служба будет перенаправлять подключения
+    - ip: 11.11.11.11
+    - ip: 22.22.22.22
+    ports:
+    - port: 80 # целевой порт конечных точек

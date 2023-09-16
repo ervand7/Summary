@@ -1,0 +1,13 @@
+Цель: настроить endpoints вручную. Это нужно в тех случаях, если мы хотим
+обеспечить доступ к внешним службам.
+
+ ● k get endpoints kubia
+ получаем эндпоинты службы kubia
+
+ ● k create -f external-service.yaml
+ создаем service без селектора
+ ● k create -f external-service-endpoints.yaml
+ создаем endpoints для этого service
+
+Также можно ссылаться на внешний service по его доменному имени,
+смотри external-service-externalname.yaml

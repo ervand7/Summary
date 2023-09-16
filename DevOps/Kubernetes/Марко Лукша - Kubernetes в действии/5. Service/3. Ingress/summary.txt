@@ -1,0 +1,9 @@
+Ingress'ы оперируют на уровне приложений сетевого стека (HTTP) и могут
+предоставлять такой функционал, как сохранение сессий на основе файлов
+cookie и тп, чего не могут делать службы.
+
+ ● minikube addons list
+ ● minikube addons enable ingress
+ ● k get po --all-namespaces
+ ● k create -f kubia-ingress.yaml
+ ● k get ingresses

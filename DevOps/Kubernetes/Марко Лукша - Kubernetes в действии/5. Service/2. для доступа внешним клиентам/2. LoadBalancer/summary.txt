@@ -1,0 +1,7 @@
+ ● k create -f kubia-svc-loadbalancer.yaml
+ ● k get svc kubia-loadbalancer
+
+ ● minikube service kubia-loadbalancer  --url    <-- но это не совсем тот результат, который мы ожидали и который выдает Google Cloud Platform
+
+Важно: на minikube мы не получим EXTERNAL-IP балансировщика.
+Только с Google Cloud Platform (см пункт 5.3.2 книги).

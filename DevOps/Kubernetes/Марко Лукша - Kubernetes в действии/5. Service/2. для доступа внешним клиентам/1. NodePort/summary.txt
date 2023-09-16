@@ -1,0 +1,7 @@
+ ● k create -f kubia-svc-nodeport.yaml
+ ● k get svc kubia-nodeport
+
+ ● minikube service kubia-nodeport  --url    <-- но это не совсем тот результат, который мы ожидали и который выдает Google Cloud Platform
+
+Важно: Уже на данном этапе, если бы использовался Google Cloud Platform,
+можно было бы иметь общедоступный IP-адрес (см пункт 5.3.1 книги).

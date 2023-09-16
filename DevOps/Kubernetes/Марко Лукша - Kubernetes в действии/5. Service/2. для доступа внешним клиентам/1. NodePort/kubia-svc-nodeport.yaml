@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-nodeport
+spec:
+  type: NodePort # задаем тип
+  ports:
+  - port: 80 # порт внутреннего кластерного IP службы
+    targetPort: 8080 # целевой порт подов, связанных с этим service
+    nodePort: 30123 # служба будет доступна через порт 30123 каждого нашего узла кластера
+  selector:
+    app: kubia
+

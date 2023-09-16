@@ -1,0 +1,15 @@
+# В данном примере мы не указываем конкретный порт узла (хотя могли бы),
+#  позволяя k8s самому выбрать
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-loadbalancer
+spec:
+  type: LoadBalancer # LoadBalancer является всего лишь расширением NodePort
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: kubia
+

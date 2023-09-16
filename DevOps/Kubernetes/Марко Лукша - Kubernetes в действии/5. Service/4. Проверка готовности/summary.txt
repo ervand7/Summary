@@ -1,0 +1,14 @@
+ ● k delete rc --all
+ ● k create -f kubia-rc-readinessprobe.yaml
+
+ ● k get po
+NAME          READY   STATUS    RESTARTS   AGE
+kubia-4gscg   0/1     Running   0          51s
+kubia-8bkh7   0/1     Running   0          51s
+kubia-9nrhc   0/1     Running   0          51s
+Видим, что ни один из них не готов, так как еще не было команды проверки
+
+ ● k exec  kubia-4gscg -- touch /var/ready
+ запускаем руками команду проверки
+ ● k get po kubia-4gscg
+ видим, что наш под готов

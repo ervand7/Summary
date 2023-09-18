@@ -1,0 +1,6 @@
+ ● docker build -t ervand7/fortune .
+ ● docker push ervand7/fortune
+ ● k create -f fortune-pod.yaml
+ ● k port-forward fortune 8888:80
+ тут можно было бы и вместо проброски порта использовать службу
+ ● curl http://localhost:8888

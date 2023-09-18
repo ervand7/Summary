@@ -1,0 +1,7 @@
+
+ ● docker build -t docker.io/ervand7/fortune:env .
+ ● docker push docker.io/ervand7/fortune:env
+
+ ● k create -f fortune-pod-env.yaml
+ ● k port-forward fortune-env 8888:80
+ ● curl http://localhost:8888

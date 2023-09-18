@@ -1,0 +1,20 @@
+В Dockerfile инструкции ENTRYPOINT и CMD поддерживают 2 разные формы:
+ - shell. Пример: ENTRYPOINT node app.js
+ Команда будет выполняться прямо в контейнере. То есть она будет частью процессов
+ контейнера
+
+ - exec. Пример: ENTRYPOINT ["node", "app.js"]
+ Выполняется вне оболочки
+
+Всегда следует использовать exec вместо shell
+
+ ● docker build -t docker.io/ervand7/fortune:args .
+ ● docker push docker.io/ervand7/fortune:args
+ ● docker run -it docker.io/ervand7/fortune:args
+ запускаем с дефолтным таймаутом (10 сек) из Dockerfile
+ ● docker run -it docker.io/ervand7/fortune:args 0.2
+ запускаем с переопределенным таймаутом
+
+ ● k create -f fortune-pod-args.yaml
+ ● k port-forward fortune2s 8888:80
+ ● curl http://localhost:8888

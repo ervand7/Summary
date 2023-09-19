@@ -1,0 +1,5 @@
+ ● k cluster-info
+ ● k proxy
+ ● curl http://127.0.0.1:8001
+ ● curl http://127.0.0.1:8001/apis/batch
+ ● curl http://127.0.0.1:8001/apis/batch/v1

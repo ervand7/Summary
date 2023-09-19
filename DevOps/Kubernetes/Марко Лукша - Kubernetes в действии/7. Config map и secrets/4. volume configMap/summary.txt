@@ -1,0 +1,8 @@
+ ● k delete configmap fortune-config
+ ● k create configmap fortune-config --from-file=configmap-files
+ ● k get configmap fortune-config -o yaml
+ ● k create -f fortune-pod-configmap-volume.yaml
+ ● k port-forward fortune-configmap-volume 8888:80
+ ● curl -H "Accept-Encoding: gzip" -I localhost:8888
+
+ ● k exec fortune-configmap-volume -c web-server ls /etc/nginx/conf.d

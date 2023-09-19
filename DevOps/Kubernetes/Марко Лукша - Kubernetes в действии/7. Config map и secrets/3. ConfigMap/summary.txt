@@ -1,0 +1,14 @@
+Можно создать configmap из манифеста, но ме сделаем это через команду.
+
+ ● k create configmap fortune-config --from-literal=sleep-interval=3
+ ● k create configmap myconfigmap --from-literal=foo=bar --from-literal=bar=baz
+ пример создания конфига с несколькими значениями
+ ● k get configmap fortune-config -o yaml
+
+ ● k create configmap myconfigmap --from-file=customkey=myfile.conf
+ эта команда сохранит содержимое содержимое myfile.conf в ключе myconfigmap
+
+ ● k create -f fortune-pod-env-configmap.yaml
+ запускаем под, в котором настроено, что env мы будем считывать из ConfigMap
+ ● k port-forward fortune-env-from-configmap 8888:80
+ ● curl http://localhost:8888

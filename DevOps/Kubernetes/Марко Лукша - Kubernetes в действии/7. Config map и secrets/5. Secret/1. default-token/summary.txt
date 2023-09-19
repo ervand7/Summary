@@ -1,0 +1,7 @@
+Отличие secrets от configMaps в том, что, когда мы делаем `k get ...`, в случае с
+configMaps нам отображаются данные такими, какие они есть, а в случае с secrets
+нам выводятся за Base64-закодированные данные.
+
+ ● k create secret generic fortune-https --from-file=https.key --from-file=https.cert --from-file=foo
+ ● k get secrets
+ ● k get secret fortune-https -o yaml

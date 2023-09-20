@@ -1,7 +1,65 @@
+Утечка памяти - чрезмерный непредвиденный расход памяти.
+
 1) вычисления в теле цикла
+
 2) не выполнен cancel() - поэтому GC не удалил этот дочерний контекст
+
 3) утечка горутин. То есть, есть горутины которые не выполняют полезной работы
+package main
+import "time"
+func hangingGoRoutine() {
+	go time.Sleep(time.Hour * 24)
+}
+
 4) не закрыт файл
+file, err := os.Open("file.txt")
+// defer file.Close() <- забываем закрыть
+if err != nil {
+    log.Fatal(err)
+}
+
+
 5) не закрыт resp.Body
 6) не выполнен rows.Close()
-7) бесконтрольное увеличение глобальной переменной
+
+7) неправильное использование глобальных переменных
+// The data slice remains in memory for the program's lifetime
+var data []byte
+func loadData() {
+    data = make([]byte, 1024*1024*1024) // 1 GB of data
+}
+
+8) большие структуры данных, в которых не удаляются ненужные данные
+cache := make(map[string]string)
+for i := 0; i < 1000000; i++ {
+    key := fmt.Sprintf("key%d", i)
+    value := fmt.Sprintf("value%d", i)
+    cache[key] = value
+}
+// The cache is not cleared, causing it to consume memory.
+
+9) из-за того, что при создании слайса, не задаем нужный capacity, то
+помимо потери эффективности при append'ах, нам может быть выделено
+чрезмерно много памяти, которой мы можем и не воспользоваться
+
+10) передача в функцию слайса с данными вместо слайса со ссылками
+на эти данные. Это приводит к разрастанию стека.
+
+11) незакрытые каналы. Что приводит к вечным блокировкам горутин,
+о которых мы можем забыть
+ch := make(chan int)
+go func() {
+    ch <- 42
+}()
+
+12) циклические референсы в структурах, мешающие правильной работе GC
+type Node struct {
+    Next *Node
+}
+func main() {
+    a := &Node{}
+    b := &Node{}
+    a.Next = b
+    b.Next = a
+    // Circular reference prevents proper garbage collection.
+}

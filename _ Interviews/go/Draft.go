@@ -1,12 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
-	var ch = make(chan int)
+	// Get the current time
+	currentTime := time.Now()
 
-	close(ch)
-	close(ch)
-	v := <-ch
-	fmt.Println(v)
+	// Calculate yesterday's time by subtracting 24 hours
+	yesterday := currentTime.AddDate(0, 0, -1)
+
+	// Set the time to 00:00:00.000000
+	yesterdayStartOfDay := time.Date(yesterday.Year(), yesterday.Month(), yesterday.Day(), 0, 0, 0, 0, &time.Location{})
+
+	fmt.Println("Yesterday's start of day:", yesterdayStartOfDay)
 }

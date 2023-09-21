@@ -1,0 +1,51 @@
+Единственным компонентом, который напрямую взаимодействует с etcd, является
+API Kubernetes. В etcd все данные хранятся в /registry
+ ● brew install etcd
+ ● etcdctl ls /registry
+
+In Kubernetes, etcd is a distributed key-value store that serves as the
+primary datastore for all cluster data. It stores critical information about the
+state of the Kubernetes cluster, including:
+
+1. **Cluster Configuration**: Information about the cluster's configuration, such
+as API server, controller manager, and scheduler configurations.
+
+2. **Nodes Information**: Details about the nodes (machines) in the cluster, including
+their addresses, capacity, and status.
+
+3. **Pods Information**: Information about all running and desired pods in the
+cluster, including their specifications, status, and resource requirements.
+
+4. **Services and Endpoints**: Details about services and endpoints, including
+their names, IP addresses, and ports.
+
+5. **ConfigMaps and Secrets**: Configuration data and secrets used by pods and
+other resources in the cluster.
+
+6. **Replication Controllers and Deployments**: Information about replication
+controllers and deployments, including desired replica counts and pod templates.
+
+7. **Persistent Volumes and Persistent Volume Claims**: Data related to persistent
+storage, including volume types, capacity, and bindings to claims.
+
+8. **Namespace Information**: Details about namespaces, which are used to isolate
+resources within a cluster.
+
+9. **RBAC (Role-Based Access Control) Rules**: RBAC policies and rules that
+define who can access and manage resources in the cluster.
+
+10. **Custom Resource Definitions (CRDs)**: Definitions for custom resources
+and their instances, if any have been created in the cluster.
+
+11. **Events**: A historical log of events and changes in the cluster, which can
+be useful for troubleshooting.
+
+12. **API Objects**: General information about various Kubernetes API objects,
+including their creation and modification timestamps.
+
+13. **Cluster State**: The overall state and configuration of the Kubernetes cluster.
+
+Etcd is designed to be highly available, consistent, and reliable. It uses a
+distributed consensus algorithm to ensure that data is consistent across all
+etcd nodes. This makes it a critical component of Kubernetes, as it stores
+the source of truth for the cluster's desired state.

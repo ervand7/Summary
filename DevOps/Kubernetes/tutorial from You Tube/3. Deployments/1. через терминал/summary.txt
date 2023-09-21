@@ -17,7 +17,7 @@
 видим, что теперь у нас бежит 4 пода
 
  ● kubectl get rs
-получаем replica set
+получаем replica set, который автоматически создался
 
  ● kubectl delete pods first-deployment-5db79c498-kj778
 удаляем один из подов и видим
@@ -36,8 +36,8 @@ hpa - horizontal pod autoscaler
 смотрим историю и статус нашего деплоймента
 
  ● kubectl set image deployment/first-deployment k8s-explore-j7j7q=ervand7/k8s_explore:simple_flask --record
-меняем image внутри деплоймента. У нас был некий автоматически созданный
-контейнер k8s-explore-dts8r, и мы поместили в него наш нужный image
+меняем image внутри деплоймента. У нас есть контейнер k8s-explore-dts8r, и мы поместили
+в него наш нужный image
  ● kubectl set image deployment/first-deployment k8s-explore-dts8r=nginx:latest --record
 меняем image внутри деплоймента на nginx:latest
  ● kubectl rollout undo deployment/first-deployment

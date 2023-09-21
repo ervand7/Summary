@@ -1,0 +1,1 @@
+Scheduler schedules pods by nodes.

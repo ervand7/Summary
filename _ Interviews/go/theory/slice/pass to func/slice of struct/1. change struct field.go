@@ -9,10 +9,8 @@ type some struct {
 	field2 string
 }
 
-func changeByValue(s []*some) {
-	fmt.Printf("2====== %p\n", &s)
-	fmt.Println(s[0].field1)
-	fmt.Println(s[0].field2)
+func changeByValue(s []some) {
+	fmt.Printf("2====== %p\n", &s[0]) // 2====== 0x1400011e018
 
 	for i := range s {
 		s[i].field2 = "rty"
@@ -24,9 +22,9 @@ func main() {
 		field1: 1,
 		field2: "qwe",
 	}
-	v := []*some{&a}
-	fmt.Printf("1====== %p\n", &v[0])
+	v := []some{a}
+	fmt.Printf("1====== %p\n", &v[0]) // 1====== 0x1400011e018
 	changeByValue(v)
 
-	fmt.Println(a)
+	fmt.Println(v) // [{1 rty}]
 }

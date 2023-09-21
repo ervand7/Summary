@@ -1,9 +1,5 @@
- ● cd 2.\ Запуск/2. создание\ пода\ через\ manifest-file
-
  ● kubectl apply -f my_manifest.yaml
 создаем под
 
  ● kubectl delete -f my_manifest.yaml
 удаляем под
-
- ●

@@ -1,0 +1,3 @@
+ ● k get componentstatuses
+ ● k get po -o custom-columns=POD:metadata.name,NODE:spec.nodeNanme --sort-by spec.nodeName -n kube-system
+ посмотреть компоненты и то, где они расположены

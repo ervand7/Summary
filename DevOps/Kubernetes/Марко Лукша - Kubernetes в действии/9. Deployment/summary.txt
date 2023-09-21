@@ -1,0 +1,15 @@
+Deployment is an abstraction on ReplicaSet. It is a resource object that provides
+declarative updates to applications. It allows you to describe the desired state
+of your application, including the number of replicas (instances) you want to run,
+the container images to use, and how to update them.
+
+ ● k delete rc --all
+ ● k create -f kubia-deployment-v1.yaml --record
+ ● k rollout status deployment kubia
+ узнать статус развертывания
+
+ ● k get po
+ ● k get rs
+ видим, что автоматически создался replicaset
+
+ ● k patch deployment kubia -p '{"spec": {"minReadySeconds": 10}}'

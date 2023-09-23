@@ -17,6 +17,11 @@ class Cat:
 
 a = Cat()
 b = Cat()
+print(hex(id(a.__dict__)))  # 0x7fc0e0152c40
+print(hex(id(b.__dict__)))  # 0x7fc0e0152c40
+
+print(a.__dict__)  # {}
+print(b.__dict__)  # {}
 
 a.breed = 'siam'
 a.name = 'Bob'

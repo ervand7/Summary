@@ -1,7 +1,7 @@
 # creating Singleton. This class can create only one exemplar
 class Singleton:
     __count = 0
-    __instance = None
+    __instance: "Singleton" = None
 
     def __new__(cls, *args, **kwargs):
         if not cls.__instance:
@@ -15,13 +15,13 @@ class Singleton:
         self.x = x
         self.y = y
 
-    @staticmethod
-    def get_count():
-        return self.__count
-
 
 s1 = Singleton()
 s2 = Singleton()  # Экземпляр класса Singleton уже создан
 s3 = Singleton()  # Экземпляр класса Singleton уже создан
 s4 = Singleton()  # Экземпляр класса Singleton уже создан
-print(id(s1), id(s2), id(s3), id(s4))
+
+print(hex(id(s1)))  # 0x7fcbf025de80
+print(hex(id(s2)))  # 0x7fcbf025de80
+print(hex(id(s3)))  # 0x7fcbf025de80
+print(hex(id(s4)))  # 0x7fcbf025de80

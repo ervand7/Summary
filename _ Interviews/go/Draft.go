@@ -1,32 +1,4 @@
 package main
 
-import (
-	"fmt"
-)
-
-type some struct {
-	field1 int
-	field2 string
-}
-
-func changeByValue(s []*some) {
-	fmt.Printf("2====== %p\n", &s)
-	fmt.Println(s[0].field1)
-	fmt.Println(s[0].field2)
-
-	for i := range s {
-		s[i].field2 = "rty"
-	}
-}
-
 func main() {
-	a := some{
-		field1: 1,
-		field2: "qwe",
-	}
-	v := []*some{&a}
-	fmt.Printf("1====== %p\n", &v[0])
-	changeByValue(v)
-
-	fmt.Println(a)
 }

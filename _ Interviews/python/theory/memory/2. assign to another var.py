@@ -1,3 +1,5 @@
+# It relates to all Python data types:
+
 a = 1
 b = a
 print(hex(id(a)))  # 0x7fe1d802e930
@@ -46,10 +48,3 @@ B = A
 print(hex(id(A)))  # 0x7fbd2a9146e0
 print(hex(id(B)))  # 0x7fbd2a9146e0
 print(A == B)  # True
-
-
-class A: pass
-B = A()
-print(hex(id(A)))  # 0x7fcda0749310
-print(hex(id(B)))  # 0x7fcda829afa0
-print(A == B)  # False

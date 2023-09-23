@@ -4,29 +4,26 @@ class FRange:
         self.start = start
         self.stop = stop
         self.step = step
-        self.value = self.start - self.step
 
     def __next__(self):
-        if self.value + self.step < self.stop:
-            self.value += self.step
-            return self.value
-        else:
-            raise StopIteration
+        if (self.start + self.step) <= self.stop:
+            current_value = self.start
+            self.start += self.step
+            return current_value
+        raise StopIteration
 
     def __iter__(self):
-        self.value = self.start - self.step
         return self
 
 
 fr = FRange(0, 2, 0.5)
+print(type(fr))  # <class '__main__.FRange'>
+
 print(next(fr))  # 0.0
 print(next(fr))  # 0.5
 print(next(fr))  # 1.0
 print(next(fr))  # 1.5
 
+# ничего не выведется, так как мы уже обходили итератор fr до этого 1 раз
 for x in fr:
     print(x)
-# 0.0
-# 0.5
-# 1.0
-# 1.5

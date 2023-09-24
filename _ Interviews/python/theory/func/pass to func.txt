@@ -1,0 +1,13 @@
+In Python when we pass val to func:
+1) if it has immutable data type in will not change inside the func
+2) if it has mutable data type in will change inside the func
+3) independent of the data type it will not change if we make reassign:
+def func(arg):
+    # it will be copy
+    arg = 1
+
+4) independent of the data type it passed with the same addr:
+a = 1
+print(hex(id(a)))  # 0x7ff0d81283a0
+def func(arg):
+    print(hex(id(arg)))  # 0x7ff0d81283a0

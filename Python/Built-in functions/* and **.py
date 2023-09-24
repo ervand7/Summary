@@ -1,5 +1,4 @@
 # https://stackoverflow.com/questions/21809112/what-does-tuple-and-dict-mean-in-python#answers
-
 # -------------------------------- In a function call --------------------------------
 #  ============= OPERATOR <*> =============
 def foo(x, y):
@@ -14,7 +13,6 @@ print([1, *(2, 3), 4])  # [1, 2, 3, 4]
 
 
 # ============= OPERATOR <**> =============
-
 def foo2(x, y):
     print(x, y)
 
@@ -27,55 +25,59 @@ d = {'a': 1}
 print({'b': 2, **d})  # {'b': 2, 'a': 1}
 
 
-# -------------------------------- In a function signature --------------------------------
-
+# -------------------------------- In a function signature as args and kwargs --------------------------------
 #  ============= OPERATOR <*> =============
-def foo(*tup):
-    print(tup)
+def foo(*args):
+    print(args, type(args))
 
 
-foo(1, 2)  # (1, 2)
+foo(1, 2)  # (1, 2) <class 'tuple'>
 
 
 # ============= OPERATOR <**> =============
-def foo(**dct):
-    print(dct)
+def foo(**kwargs):
+    print(kwargs, type(kwargs))
 
 
-foo(x=1, y=2)  # {'y': 2, 'x': 1}
-
-# -------------------------------- In assignments and for loops --------------------------------
+foo(x=1, y=2)  # {'y': 2, 'x': 1} <class 'dict'>
 
 
+# -------------------------------- In a function signature as separators --------------------------------
+# after `*` allowed keyword-only
+def f(a, *, b): ...
+
+
+f(1, b=2)  # fine
+# f(1, 2)  # error: b is keyword-only
+
+
+# Python3.8:
+# before `/` allowed only positional
+# after `*` allowed only named
+
+def fun(a, /, p, *, k): ...
+
+
+fun(1, 2, k=3)  # fine
+fun(1, p=2, k=3)  # fine
+# fun(a=1, p=2, k=3)  # error: a is positional-only
+
+
+# -------------------------------- In assignments --------------------------------
 #  ============= OPERATOR <*> =============
 x, *xs = (1, 2, 3, 4)
 print(x)  # 1
-print(xs)  # [2, 3, 4]
+print(xs, type(xs))  # [2, 3, 4] <class 'list'>
 
 *xs, x = (1, 2, 3, 4)
-print(xs)  # [1, 2, 3]
+print(xs, type(xs))  # [1, 2, 3] <class 'list'>
 print(x)  # 4
 
 x, *xs, y = (1, 2, 3, 4)
 print(x)  # 1
-print(xs)  # [2, 3]
+print(xs, type(xs))  # [2, 3]  <class 'list'>
 print(y)  # 4
 
-for x, *y, z in [(1, 2, 3, 4)]: print(x, y, z)  # 1 [2, 3] 4
-
-
-# !!! Note that parameters that appear after a * are keyword-only !!!
-def f(a, *, b): ...
-
-
-# f(1, b=2)  # fine
-# f(1, 2)  # error: b is keyword-only
-
-
-# !!! Python3.8 added positional-only parameters, meaning parameters that cannot be
-# used as keyword arguments. They are appear before a / (a pun on * preceding keyword-only args).
-
-def fun(a, /, p, *, k): ...
-# fun(1, 2, k=3)  # fine
-# fun(1, p=2, k=3)  # fine
-# fun(a=1, p=2, k=3)  # error: a is positional-only
+# -------------------------------- In for loops --------------------------------
+for x, *y, z in [(1, 2, 3, 4)]:
+    print(x, y, z)  # 1 [2, 3] 4

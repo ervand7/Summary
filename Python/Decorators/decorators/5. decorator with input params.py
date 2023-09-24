@@ -1,7 +1,5 @@
 from typing import Callable, Type
 
-MAX_RETRIES = 3
-
 
 def checker(tries: int, exc: Type[Exception]):
     def decorator(func: Callable):
@@ -14,8 +12,6 @@ def checker(tries: int, exc: Type[Exception]):
                     return func(*args, **kwargs)
                 except exc:
                     print(exc.__name__)
-            if counter == MAX_RETRIES:
-                print('stop trying')
 
         return inner
 
@@ -28,8 +24,8 @@ def multiplier(a, b):
 
 
 multiplier(1, 0)
-# division by zero
-# division by zero
-# division by zero
-# division by zero
-# division by zero
+# ZeroDivisionError
+# ZeroDivisionError
+# ZeroDivisionError
+# ZeroDivisionError
+# ZeroDivisionError

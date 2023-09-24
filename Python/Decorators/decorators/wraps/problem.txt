@@ -1,1 +1,1 @@
-We lose tha name of the function which use some decorator
+We lose the name of the function which use some decorator

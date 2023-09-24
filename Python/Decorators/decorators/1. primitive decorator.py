@@ -8,12 +8,15 @@ def decorator(func):
         func(*args, **kwargs)
         print('finish decorator')
 
+    print(hex(id(inner)))  # 0x7ff5b025a820
     return inner
 
 
+print(hex(id(say)))  # 0x7ff5b01de4c0
 say = decorator(say)
-say()
+print(hex(id(say)))  # 0x7ff5b025a820 <- now it links to inner
 
+say()
 # start decorator
 # say's function worked out!
 # finish decorator

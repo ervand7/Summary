@@ -3,7 +3,6 @@ from typing import Callable, Type
 
 def checker(tries: int, exc: Type[Exception]):
     def decorator(func: Callable):
-
         def inner(*args, **kwargs):
             counter = 0
             for i in range(tries):
@@ -24,8 +23,19 @@ def multiplier(a, b):
 
 
 multiplier(1, 0)
+
+
 # ZeroDivisionError
 # ZeroDivisionError
 # ZeroDivisionError
 # ZeroDivisionError
 # ZeroDivisionError
+
+
+# or
+def m(a, b):
+    return a / b
+
+
+m = checker(5, ZeroDivisionError)(m)
+m(1, 2)

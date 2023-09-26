@@ -8,6 +8,7 @@ class DepartamentIT:
         print(self.PYTHON_DEV, self.GO_DEV, self.REACT_SEV)
 
     def hiring_extra_py_dev(self):
+        # так мы просто создадим аттрибут экземпляра класса
         self.PYTHON_DEV += 1
 
 
@@ -33,6 +34,9 @@ class DepartamentIT2:
         print(self.PYTHON_DEV, self.GO_DEV, self.REACT_SEV)
 
     def hiring_extra_py_dev(self):
+        # меняем аттрибут класса через сам класс
+        print(hex(id(self.__class__)))  # 0x7fab3d2095f0
+        print(hex(id(DepartamentIT2)))  # 0x7fab3d2095f0
         DepartamentIT2.PYTHON_DEV += 1
 
 

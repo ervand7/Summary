@@ -12,9 +12,7 @@ class Point:
         print('Удаление экземпляра: ' + self.__str__())
 
 
-p = Point()
-# Инициализация <__main__.Point object at 0x7fa902236430>
+p = Point()  # Инициализация <__main__.Point object at 0x7fa902236430>
 
-del p
-# Удаление экземпляра: <__main__.Point object at 0x7fa902236430>
+del p  # Удаление экземпляра: <__main__.Point object at 0x7fa902236430>
 # Он также вызовется при неявном удалении объекта (при завершении программы)

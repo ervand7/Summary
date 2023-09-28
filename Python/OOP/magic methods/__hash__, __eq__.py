@@ -1,5 +1,6 @@
-# By themselves, class instances are hashable. But if we define __eq__ for them,
-# then they cease to be hashable. So we also need to define the __hash__ method
+# By themselves, classes and class instances are hashable. But if we define
+# __eq__ for them, then they cease to be hashable. So we also need to
+# define the __hash__ method
 
 class Point:
     def __init__(self, x, y):
@@ -30,3 +31,5 @@ print(hash(p2))  # 8409376899596376432
 # and thanks __eq__, we can have custom comparing
 print(p1 == p2)  # True
 
+# hashes are equal. So in dict we will see only one obj
+print({p1: 1, p2: 2})  # {<__main__.Point object at 0x7fa1e8196eb0>: 2}

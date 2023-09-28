@@ -1,46 +1,40 @@
-"""
-Вручную декорируем методы
-"""
+# Better to use multiple inheritance than class decorator
+
+from typing import Any
 
 
-def cached(method):
-    method_name = method.__name__
+def add_logging(cls: object) -> Any:
+    # Define a new class that inherits from the input class.
+    class Inner(cls):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
 
-    def inner(cls):
-        if method_name not in cls.CACHE:
-            cls.CACHE[method_name] = {}
-        cache = cls.CACHE[method_name]
+            Inner.__name__ = cls.__name__
+            Inner.__doc__ = cls.__doc__
 
-        if cls._value not in cache:
-            cache[cls._value] = method(cls)
-        return cache[cls._value]
+            self.log = []
 
-    return inner
+        def log_action(self, action):
+            self.log.append(f"Performed action: {action}")
 
-
-class Number:
-    CACHE = {}
-
-    def __init__(self, value):
-        self._value = value
-
-    @cached
-    def sqr(self):
-        return type(self)(self._value * self._value)
-
-    @cached
-    def half(self):
-        return type(self)(self._value // 2)
-
-    def __repr__(self):
-        return 'Number({value})'.format(value=self._value)
+    return Inner
 
 
-Number(10).half()
-Number(20).half()
-Number(30).half()
-Number(40).sqr()
-Number(50).sqr()
+@add_logging
+class Example:
+    def __init__(self, name):
+        self.name = name
 
-print(Number(4).CACHE)
-# {'half': {10: Number(5), 20: Number(10), 30: Number(15)}, 'sqr': {40: Number(1600), 50: Number(2500)}}
+    def greet(self):
+        return f"Hello, {self.name}!"
+
+
+# Create an instance of the decorated class
+instance = Example("Alice")
+
+# Call methods and log actions
+print(instance.greet())  # Hello, Alice!
+instance.log_action("Greeted Alice")
+print(instance.log)  # ['Performed action: Greeted Alice']
+
+print(Example.__name__)  # Example

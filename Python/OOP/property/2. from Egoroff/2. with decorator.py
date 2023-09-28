@@ -5,17 +5,27 @@ class BankAccount:
 
     @property
     def balance(self):
-        print(f'get balance, {self.__balance}')
+        print('getter called')
         return self.__balance
 
     @balance.setter
     def balance(self, value):
-        print(f'set balance, {value}')
+        print('setter called')
         if not isinstance(value, (int, float)):
             raise ValueError('The balance must de a number')
         self.__balance = value
 
     @balance.deleter
     def balance(self):
-        print('delete balance')
+        print('deleter called')
         del self.__balance
+
+
+d = BankAccount('Masha', 400)
+print(d.balance)  # getter called 400
+
+d.balance = 789
+# setter called
+
+del d.balance
+# deleter called

@@ -1,1 +1,0 @@
-https://github.com/VadimPushtaev/applied-python/blob/master/talks/05_meta/main.ipynb

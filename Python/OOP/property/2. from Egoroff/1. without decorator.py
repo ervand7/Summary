@@ -21,8 +21,10 @@ class BankAccount:
 
 
 d = BankAccount('Masha', 400)
-print(d.balance)  # 400
+print(d.balance)  # get balance called 400
 
 d.balance = 789
-d.balance = 'qwe'  # ERROR
+# set balance called
+
 del d.balance
+# delete balance called

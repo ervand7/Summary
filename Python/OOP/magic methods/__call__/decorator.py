@@ -15,6 +15,7 @@ class Timer:
         return result
 
 
+# или factorial = Timer(factorial)
 @Timer
 def factorial(number: int):
     pr = 1

@@ -1,0 +1,3 @@
+1) __call__() -> __new__() -> __init__() - это под вопросом.
+
+2) __call__() just says instance what to do when we call it.

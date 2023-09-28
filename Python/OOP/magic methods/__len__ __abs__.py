@@ -1,34 +1,16 @@
-class Person:
-    def __init__(self, name, surname):
-        self.name = name
-        self.surname = surname
+# for using len() and abs() for instance
+
+class Point:
+    def __init__(self, *args):
+        self.coords = args
 
     def __len__(self):
-        return len(self.name + self.surname)
-
-
-p = Person('Петр', 'Иванов')
-print(p.__len__())  # 10
-
-
-class Snippet:
-    def __init__(self, point1, point2):
-        self.x1 = point1
-        self.x2 = point2
-
-    def __len__(self):
-        return abs(self)  # тут вызовется self.__abs__()
+        return len(self.coords)
 
     def __abs__(self):
-        """
-        В данном примере мы используем __abs__ для вычитания из меньшего числа
-        большего, а также, если одно из значений отрицательное.
-        """
-        return abs(self.x2 - self.x1)
+        return list(map(abs, self.coords))
 
 
-s = Snippet(3, 9)
-print(len(s))  # 6
-
-s = Snippet(10, 2)
-print(len(s))  # 8
+p = Point(22, -33)
+print(len(p))  # 2
+print(abs(p))  # [22, 33]

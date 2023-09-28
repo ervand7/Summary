@@ -1,3 +1,5 @@
+# for +, -, *, /
+
 class BankAccount:
     def __init__(self, name, balance):
         self.name = name
@@ -8,31 +10,21 @@ class BankAccount:
             return self.balance + other.balance
         if isinstance(other, (int, float)):  # we want for example add b + 3
             return self.balance + other
-        raise NotImplemented  # for all other cases
+        raise NotImplemented  # for all others cases
 
     def __radd__(self, other):
-        """
-        Magic method right add.
-        If we want change places variables. Example 10 + b
-        """
-        print('__radd__ called')
         return self + other
 
 
 b = BankAccount('Anya', 12)
 b2 = BankAccount('Vanya', 15)
 
-print(b.__add__(b2))  # 27
+print(b + b2)  # 27
 
-print(10 + b2)  # here calling method __radd__
-# __radd__ called
-# 25
+print(10 + b2)  # 25
 
-"""
-The remaining methods 
-__mul__ (__rmul__)
-__sub__ (__rsub__)
-__truediv__ (__rtruediv__)
-we can implement according to the same principle
-"""
-
+# The remaining methods
+# __mul__ (__rmul__)
+# __sub__ (__rsub__)
+# __truediv__ (__rtruediv__)
+# we can implement according to the same principle

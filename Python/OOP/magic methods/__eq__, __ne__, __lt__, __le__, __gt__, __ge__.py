@@ -1,11 +1,9 @@
-"""
-__eq__ (equal) отвечает за ==
-__ne__ (not equal) отвечает за !=
-__lt__ (less than) отвечает за <
-__le__ (less equal) отвечает за <=
-__gt__ (greater than) отвечает за >
-__ge__ (greater equal) отвечает за >=
-"""
+# __eq__ (equal) отвечает за ==
+# __ne__ (not equal) отвечает за !=
+# __lt__ (less than) отвечает за <
+# __le__ (less equal) отвечает за <=
+# __gt__ (greater than) отвечает за >
+# __ge__ (greater equal) отвечает за >=
 
 
 class Tracks:

@@ -1,4 +1,6 @@
-# creating Singleton. This class can create only one exemplar
+# Паттерн singleton ограничивает класс таким образом, что мы можем создать
+# у него только лишь 1 экземпляр класса.
+
 class Singleton:
     __instance: "Singleton" = None
     __created = False

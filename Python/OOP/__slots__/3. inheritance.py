@@ -1,4 +1,7 @@
-class Rectangle:
+# 1) by default, instance does not inherit __slots__
+# 2) you should use `__slots__ = ()` in instance class to inherit __slots__
+
+class Shape:
     __slots__ = 'wight', 'height'
 
     def __init__(self, value_1, value_2):
@@ -6,23 +9,22 @@ class Rectangle:
         self.height = value_2
 
 
-class Square(Rectangle):
+class Square(Shape):
     pass
 
 
 square = Square(1, 2)
-# И тут мы видим весь парадокс ситуации. В экземпляре класса Square уже будет
-# присутствовать переменная __dict__, несмотря на то, что в родительском классе
-# его не было из-за __slots__
-print(square.__dict__)  # {} ошибок нет
+print(square.__dict__)  # {}
 square.qwerty = 150  # OK
 print(square.qwerty)  # 150
 
+# a subtle point needs to be taken into account:
+del square.wight
+square.wight = 999
+print(square.__dict__)  # {'qwerty': 150}
 
-# Чтобы и в дочернем классе запретить создавать атрибуты, кроме тех, что в __slots__
-# родительского класса, нам нужно заново прописать __slots__. Но тут не нужно
-# прописывать заново атрибуты из кортежа __slots__, достаточно прописать пустой кортеж
-class SquareWithSlots(Rectangle):
+
+class SquareWithSlots(Shape):
     __slots__ = ()
 
     def __init__(self, x, y):

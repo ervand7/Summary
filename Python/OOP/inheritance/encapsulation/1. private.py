@@ -1,3 +1,5 @@
+# we can not use private methods of parent class inside of child class
+
 class Geom:
     name = 'Geom'
 
@@ -14,11 +16,9 @@ class Rect(Geom):
         super().__init__(x1, y1, x2, y2)
         self.__fill = fill
 
-        # print(self.__x1)  # Error # мы не можем даже внутри класса Rect обращаться к
-        # private атрибутам родительского класса
+        print(getattr(self, "__x1", "Not exists!"))  # Not exists!
 
 
 r = Rect(0, 0, 10, 20)
-# Все private методы представляются в таком виде
+# we see private attrs of parent class in child.__dict__
 print(r.__dict__)  # {'_Geom__x1': 0, '_Geom__y1': 0, '_Geom__x2': 10, '_Geom__y2': 20, '_Rect__fill': 'red'}
-

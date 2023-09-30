@@ -1,10 +1,24 @@
-# Using magic method __slots__ we prohibit the class to have more than set attributes
-# In this case we lose magic method __dict__ and thanks this we save member.
-# __slots__ relates only to attributes, not to methods.
+# 1) __slots__ collection prohibits instances to have more than set
+# attributes.
+# 2) __slots__ restricts only instances attributes. It does not
+# restrict class attributes.
+# 3) using __slots__ we lose magic method __dict__ and thanks this we save
+# member.
+# 4) __slots__ relates only to attributes, not to methods.
+# 5) __slots__ speeds up work with local attrs
+
+import timeit
+
+
 class WithoutSlots:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+
+    def calc(self):
+        self.x += 1
+        del self.y
+        self.y = 0
 
 
 class WithSlots:
@@ -14,8 +28,10 @@ class WithSlots:
         self.x = x
         self.y = y
 
-    def say(self):
-        print(self)
+    def calc(self):
+        self.x += 1
+        del self.y
+        self.y = 0
 
 
 # Объекты __slots__ занимают меньше места в памяти. Это преимущество, так как у объектов
@@ -24,8 +40,8 @@ class WithSlots:
 withoutSlots = WithoutSlots(3, 4)
 withSlots = WithSlots(3, 4)
 
-print(withoutSlots.__sizeof__(), withoutSlots.__dict__.__sizeof__())  # 32 88
-print(withSlots.__sizeof__(), withSlots.__slots__.__sizeof__())  # 32 40
+print(withoutSlots.__sizeof__() + withoutSlots.__dict__.__sizeof__())  # 120
+print(withSlots.__sizeof__())  # 32
 
 # проверим, что не получается создать новый атрибут у экземпляра класса WithSlots
 # в отличие от WithoutSlots
@@ -43,9 +59,13 @@ try:
 except AttributeError as ex:
     print(ex)  # 'WithSlots' object has no attribute '__dict__'
 
-# it does not affect class methods
-withSlots.say()  # <__main__.WithSlots object at 0x7fb92001dd60>
-
 print(withSlots.__slots__)  # ('x', 'y')
 print(hex(id(WithSlots.__slots__)))  # 0x7fb89016c800
 print(hex(id(withSlots.__slots__)))  # 0x7fb89016c800
+
+# __slots__ does not restrict class attributes
+WithSlots.Hello = "world"
+
+# __slots__ speeds up work with local attrs
+print(timeit.timeit(withoutSlots.calc))  # 0.22895575
+print(timeit.timeit(withSlots.calc))  # 0.169595167

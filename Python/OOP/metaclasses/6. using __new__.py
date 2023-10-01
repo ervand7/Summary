@@ -1,5 +1,8 @@
 class Meta(type):
     def __new__(mcs, name: str, base: tuple, attrs: dict) -> type:
+        """ Thanks to this logic we can guarantee that created class will have
+            attrs MAX_COORD and MIN_COORD """
+
         print(hex(id(Meta)))  # 0x7fc0d7f1b5f0
         print(hex(id(mcs)))  # 0x7fc0d7f1b5f0
 

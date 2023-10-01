@@ -1,5 +1,8 @@
 class Meta(type):
     def __new__(mcs, name: str, base: tuple, attrs: dict) -> type:
+        print(hex(id(Meta)))  # 0x7fc0d7f1b5f0
+        print(hex(id(mcs)))  # 0x7fc0d7f1b5f0
+
         attrs.update({'MAX_COORD': 100, 'MIN_COORD': 0})
         return type.__new__(mcs, name, base, attrs)
 

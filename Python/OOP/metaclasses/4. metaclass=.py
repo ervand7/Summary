@@ -1,3 +1,5 @@
+# в metaclass= всегда должен быть класс, наследуемый от type
+
 def create_class(name: str, base: tuple, attrs: dict) -> type:
     attrs.update({'MAX_COORD': 100, 'MIN_COORD': 0})
     return type(name, base, attrs)

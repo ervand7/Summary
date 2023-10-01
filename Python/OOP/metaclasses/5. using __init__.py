@@ -1,3 +1,5 @@
+# в metaclass= всегда должен быть класс, наследуемый от type
+
 class Meta(type):
     def __init__(cls, name: str, base: tuple, attrs: dict):
         super().__init__(name, base, attrs)

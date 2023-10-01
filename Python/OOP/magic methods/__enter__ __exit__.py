@@ -54,6 +54,9 @@ try:
             dv[i] += v2[i]
 except:
     print(v1)  # [1, 2, 3]
+# this block would have worked if __exit__ had returned True
+else:
+    print(v1)  # [1, 2, 3]
 
 # Без менеджера контекста v1 изменился
 try:

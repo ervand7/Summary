@@ -11,4 +11,4 @@ class Book:
 
 
 print(Book())  # Book(title='Unknown', author='Unknown author')
-print(Book("Farenheit 451"))  # Book(title='Farenheit 451', author='Unknown author')
+print(Book("Fahrenheit 451"))  # Book(title='Fahrenheit 451', author='Unknown author')

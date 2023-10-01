@@ -23,4 +23,8 @@ book = Book(title="Fahrenheit 451", author="Bradbury")
 print(book)  # Book(title='Fahrenheit 451', author='Bradbury')
 print(book.author)  # Bradbury
 other = Book("Fahrenheit 451", "Bradbury")
-assert book == other
+
+print(hex(id(book)))  # 0x7fbe60086400
+print(hex(id(other)))  # 0x7fbe6009c130
+# comparison by value
+print(book == other)  # True

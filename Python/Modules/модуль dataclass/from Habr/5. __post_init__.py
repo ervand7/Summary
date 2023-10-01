@@ -1,3 +1,5 @@
+# __post_init__ runs after initialisation
+
 from dataclasses import dataclass
 
 
@@ -11,5 +13,5 @@ class Book:
         self.desc = self.desc or "`%s` by %s" % (self.title, self.author)
 
 
-print(Book("Fareneheit 481", "Bradbury"))
-# Book(title='Fareneheit 481', author='Bradbury', desc='`Fareneheit 481` by Bradbury')
+print(Book("Fahrenheit 481", "Bradbury"))
+# Book(title='Fahrenheit 481', author='Bradbury', desc='`Fahrenheit 481` by Bradbury')

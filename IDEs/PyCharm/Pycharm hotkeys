@@ -42,3 +42,5 @@ in the lower left corner
  • ctrl + enter          generator start
 
  • ctrl + alt + O        delete all not used imports and arrange them in PEP8 order
+
+ • ctrl + shift + E      run highlighted code in console

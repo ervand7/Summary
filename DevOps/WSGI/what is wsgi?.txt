@@ -1,0 +1,61 @@
+WSGI stands for **Web Server Gateway Interface**, and it's a specification
+for how web servers and web applications communicate with each other in the Python ecosystem. WSGI defines a standardized interface that allows different web servers and web frameworks to work together seamlessly.
+
+Here are the key points to understand about WSGI:
+
+1. **Interface Specification**: WSGI defines a set of rules and conventions for
+how a web server should communicate with a Python web application. It specifies
+a callable object (usually a Python function or method) that should be provided
+by the web application and called by the web server to handle incoming HTTP requests.
+
+2. **Separation of Concerns**: WSGI separates the concerns of web server
+functionality and web application functionality. This separation makes it
+possible to swap out different components (web servers or web frameworks)
+that adhere to the WSGI standard without having to rewrite the entire application.
+
+3. **Middleware**: WSGI supports the concept of middleware, which are components
+that can intercept and process requests and responses in a modular way. Middleware
+can be added to the application stack to perform tasks like authentication,
+logging, or response modification.
+
+4. **Portability**: WSGI promotes portability of Python web applications. An
+application built to the WSGI standard can be deployed on various WSGI-compliant
+servers without modification.
+
+5. **Compatibility**: Popular Python web frameworks like Flask, Django, and Pyramid
+are WSGI-compliant. This means you can use these frameworks with any WSGI-compatible
+web server.
+
+6. **WSGI Servers**: There are WSGI servers, like Gunicorn, uWSGI, and mod_wsgi
+(for Apache), that are designed to serve WSGI-compliant applications. These servers
+handle the low-level HTTP communication and routing of requests to the application.
+
+Here's a basic example of a WSGI-compliant Python application:
+
+```python
+def application(environ, start_response):
+    # The `environ` dictionary contains information about the request.
+    # The `start_response` function is used to set response headers.
+
+    # Your application logic goes here.
+
+    # Example response
+    response_body = "Hello, WSGI World!"
+    status = "200 OK"
+    response_headers = [("Content-type", "text/plain")]
+
+    # Call `start_response` to send headers to the server.
+    start_response(status, response_headers)
+
+    # Return the response body as an iterable (e.g., a list of strings).
+    return [response_body.encode()]
+```
+
+In this example, the `application` function is the entry point for handling HTTP
+requests. It takes two arguments: `environ`, which is a dictionary containing request
+information, and `start_response`, which is a callable function to set response
+headers.
+
+WSGI has played a crucial role in standardizing how Python web applications interact
+with web servers, promoting interoperability between various components of web
+development.

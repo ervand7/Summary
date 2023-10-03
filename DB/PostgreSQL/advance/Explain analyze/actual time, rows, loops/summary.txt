@@ -1,0 +1,20 @@
+Example: `actual time=0.012..7.369 rows=10475 loops=1`
+
+In the PostgreSQL `EXPLAIN ANALYZE` output, the `actual time`, `actual rows`, and `loops` values
+provide information about the actual execution of each step in the query plan.
+
+- **`actual time`**: This represents the actual execution time for a particular step of the
+query plan, measured in milliseconds. In your example, it indicates that the execution
+time for this step ranged from 0.012 milliseconds to 7.369 milliseconds.
+
+- **`actual rows`**: This represents the actual number of rows processed or affected by
+a step of the query plan during execution. In your example, it indicates that 10,475
+rows were processed by this step.
+
+- **`loops`**: This indicates the number of times a step is executed. In your example, it
+shows that the step was executed once (`loops=1`). This value can be higher in cases where
+nested loops or other operations require multiple iterations.
+
+These `actual` values provide real-world measurements of how the query performed during
+execution. They are valuable for understanding the actual cost and performance of a
+query and can be used to identify potential performance bottlenecks.

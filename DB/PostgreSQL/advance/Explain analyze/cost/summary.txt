@@ -1,0 +1,29 @@
+Example: `cost=0.72..78391.17`
+
+In a PostgreSQL `EXPLAIN ANALYZE` output, the `cost` values represent
+estimated query execution costs. These cost values are used by the PostgreSQL
+query planner to determine the most efficient way to execute a query. The
+format of the cost values is generally `start-up cost..total cost`, and
+they are measured in arbitrary units (usually not milliseconds).
+
+- **Start-up Cost**: This is the estimated cost of setting up the initial
+conditions for the query execution.
+
+- **Total Cost**: This is the estimated total cost of executing the query, including
+both the start-up cost and the cost of processing all rows.
+
+In your example:
+- `cost=0.72..78391.17` represents the estimated cost range for the entire query.
+- `0.72` is the estimated start-up cost.
+- `78391.17` is the estimated total cost.
+
+These cost values help the query planner compare different query execution plans and
+choose the one with the lowest estimated total cost. Lower costs generally indicate
+more efficient query plans.
+
+It's important to note that these cost values are just estimates and may not directly
+correlate with actual execution time in milliseconds. The `EXPLAIN ANALYZE`
+output also includes the `actual time` information, which provides the actual
+execution time in milliseconds for each step of the query plan. This actual time
+is measured during the query execution and gives you a more accurate idea of how
+long the query took to run.

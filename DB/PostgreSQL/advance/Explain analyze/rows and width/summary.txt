@@ -1,0 +1,22 @@
+Example: `rows=9918 width=30`
+
+In the PostgreSQL `EXPLAIN ANALYZE` output, the `rows` and `width` values provide
+information about the estimated number of rows and the average row width that will be
+processed by each step of the query plan.
+
+- **`rows`**: This represents the estimated number of rows that will be processed by a
+particular step of the query plan. In your example, it indicates that this step is expected
+to process approximately 9,918 rows.
+
+- **`width`**: This represents the estimated average width (in bytes) of each row processed
+by that step. In your example, it indicates that each row is estimated to be 30 bytes
+wide on average.
+
+These values are used by the query planner to estimate the cost of processing rows at
+each step and to choose the most efficient execution plan based on these estimates.
+
+It's important to note that these values are estimates and may not always match the actual
+number of rows or row widths encountered during query execution. The `EXPLAIN ANALYZE`
+output also provides the `actual` information (e.g., `actual time`, `actual rows`) to
+show the real values observed during query execution, which can be more accurate
+for performance analysis.

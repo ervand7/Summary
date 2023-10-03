@@ -1,0 +1,7 @@
+Mypy is a popular static type checker for Python. It allows you to add type annotations to
+your Python code and then analyze your codebase for type-related issues without actually
+running the code.
+
+ ● pip install mypy
+ ● mypy hello.py
+

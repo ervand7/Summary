@@ -1,0 +1,36 @@
+In PostgreSQL, the `SELECT FOR UPDATE` statement is used to lock rows in a table temporarily during a `SELECT` query. This is often used in situations where you want to prevent other transactions from modifying the selected rows until the current transaction is completed. It's a way to achieve explicit row-level locking.
+
+Here's an example of how to use `SELECT FOR UPDATE`:
+
+Let's assume you have a table named `employees` and you want to select an employee's record and lock it for further updates to ensure data consistency.
+
+```sql
+BEGIN;  -- Start a new transaction.
+
+-- Select a specific employee's record and lock it.
+SELECT * FROM employees WHERE employee_id = 12345 FOR UPDATE;
+
+-- Perform some operations on the selected employee's record.
+-- These operations will be able to modify the locked row.
+
+-- Commit the transaction.
+COMMIT;
+```
+
+In this example:
+
+- We start a new transaction with `BEGIN;`.
+- We use a `SELECT` statement with `FOR UPDATE` to select and lock the row
+where `employee_id` is 12345.
+- Once the row is locked, we can perform some operations or updates on this row.
+- Finally, we commit the transaction with `COMMIT;`, which releases the lock.
+
+During this transaction, other transactions attempting to lock the same row
+will be blocked until the current transaction releases the lock with a
+`COMMIT` or if the transaction is rolled back with a `ROLLBACK;`.
+
+It's important to use `SELECT FOR UPDATE` judiciously, as it can lead to
+concurrency issues and potential deadlocks if transactions are not managed
+carefully. In many cases, the default transaction isolation levels and
+row-level locks provided by PostgreSQL can suffice without the need for
+explicit locking.

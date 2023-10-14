@@ -1,0 +1,49 @@
+In PostgreSQL, locks can occur in various situations, and understanding
+them is essential for designing efficient and reliable database systems.
+Locking can affect database performance and concurrency, so it's crucial to
+be aware of when and why locks might happen. Here are some common situations
+ where locking can occur in PostgreSQL:
+
+1. **Explicit Locks**: Locks can be explicitly acquired using SQL commands
+like `SELECT ... FOR UPDATE`, `SELECT ... FOR SHARE`, `LOCK TABLE`, or `LOCK`.
+
+2. **Transaction Locks**: When a transaction modifies data (e.g., `INSERT`,
+`UPDATE`, `DELETE`), it might acquire locks to ensure data consistency. The
+specific type of lock depends on the transaction isolation level.
+
+3. **Index and Row-Level Locks**: PostgreSQL supports fine-grained locking.
+You can acquire locks on specific rows or indexes to prevent concurrent access.
+
+4. **Deadlock Situations**: Deadlocks can occur when two or more transactions
+block each other by holding locks on resources that the others need. PostgreSQL
+automatically detects and resolves some deadlocks, but they can still be a concern.
+
+5. **Table Level Locks**: Locks can be taken on an entire table using statements
+like `LOCK TABLE`.
+
+6. **Conflict with `SERIALIZABLE` Transactions**: In a `SERIALIZABLE` transaction
+isolation level, PostgreSQL uses rigorous locking to ensure serializability.
+This can lead to more locks being acquired.
+
+7. **DDL Statements**: Some data definition language (DDL) statements, such as
+`ALTER TABLE`, require locks. These locks may block concurrent access to the table.
+
+8. **Data Modifications and Constraints**: Locks can be held during `INSERT`,
+`UPDATE`, or `DELETE` operations, especially if there are constraints (e.g.,
+foreign key constraints) that need to be checked.
+
+9. **VACUUM and Maintenance Operations**: Maintenance tasks, like `VACUUM` and
+`CLUSTER`, can take locks on tables to reorganize data and manage storage.
+
+10. **Explicit Locking Functions**: PostgreSQL provides functions like
+`pg_advisory_lock` for application-level locking to synchronize access to
+shared resources.
+
+It's essential to design your database schema, transactions, and queries with
+locking in mind to balance the need for data consistency with system concurrency.
+You should also use appropriate transaction isolation levels and consider
+implementing retries and timeouts in your application code to handle lock
+contention gracefully.
+
+PostgreSQL's documentation provides detailed information about locking in the
+system, including how to monitor and manage locks effectively.

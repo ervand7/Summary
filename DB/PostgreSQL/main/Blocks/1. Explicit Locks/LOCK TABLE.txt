@@ -1,0 +1,62 @@
+In PostgreSQL, the `LOCK TABLE` statement is used to acquire explicit locks on one or more database tables. These explicit locks can be used to control concurrent access to tables and rows. It's important to note that explicit table locking should be used judiciously, as it can lead to performance problems or deadlocks if not carefully managed.
+
+Here are some examples of how to use the `LOCK TABLE` statement in PostgreSQL:
+
+1. **Shared Lock on a Table:**
+   To acquire a shared lock on a table, allowing multiple transactions to
+   read the table simultaneously, you can use:
+
+   ```sql
+   LOCK TABLE table_name IN SHARE MODE;
+   ```
+
+2. **Exclusive Lock on a Table:**
+   To acquire an exclusive lock on a table, preventing other transactions
+   from accessing it (including shared locks), you can use:
+
+   ```sql
+   LOCK TABLE table_name IN EXCLUSIVE MODE;
+   ```
+
+3. **Lock Multiple Tables:**
+   You can also lock multiple tables in a single `LOCK TABLE` statement.
+   For example, to lock `table1` and `table2` in shared mode:
+
+   ```sql
+   LOCK TABLE table1, table2 IN SHARE MODE;
+   ```
+
+   To lock them in exclusive mode:
+
+   ```sql
+   LOCK TABLE table1, table2 IN EXCLUSIVE MODE;
+   ```
+
+4. **Lock Rows Within a Table:**
+   To lock specific rows within a table, you can include a `WHERE` condition.
+   For example, to lock rows in `table_name` where `column_name` equals a
+   specific value:
+
+   ```sql
+   LOCK TABLE table_name IN SHARE MODE WHERE column_name = 'some_value';
+   ```
+
+5. **Advisory Locks:**
+   PostgreSQL provides advisory locks, which are used for application-specific
+   purposes. They can be acquired using the `pg_advisory_lock` and
+   `pg_advisory_unlock` functions. Here's an example of acquiring an advisory lock:
+
+   ```sql
+   SELECT pg_advisory_lock(12345);
+   ```
+
+   And releasing it:
+
+   ```sql
+   SELECT pg_advisory_unlock(12345);
+   ```
+
+Please be cautious when using explicit locks, as they can affect concurrency
+and might lead to deadlocks or performance issues if not managed carefully.
+In many cases, PostgreSQL's row-level locks and transaction isolation levels
+are sufficient to ensure data integrity and concurrency.

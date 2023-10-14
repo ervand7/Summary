@@ -1,0 +1,63 @@
+Certainly! Here's an SQL example demonstrating Scenario 2, which is a
+deadlock involving multiple transactions and resources. For this example,
+let's assume a table named `accounts` with three rows, and three transactions:
+Transaction A, Transaction B, and Transaction C.
+
+1. **Transaction A:**
+   - Transaction A starts and locks `account_id` 1.
+   - It then tries to lock `account_id` 2 but is blocked because Transaction
+   B holds that lock.
+   - Transaction A is now waiting for Transaction B to release the lock on
+   `account_id` 2.
+
+   ```sql
+   -- Transaction A
+   BEGIN;
+
+   -- This will lock account_id 1
+   SELECT * FROM accounts WHERE account_id = 1 FOR UPDATE;
+
+   -- This will try to lock account_id 2, but it will be blocked
+   SELECT * FROM accounts WHERE account_id = 2 FOR UPDATE;
+   ```
+
+2. **Transaction B:**
+   - Transaction B starts and locks `account_id` 2.
+   - It then tries to lock `account_id` 3 but is blocked because Transaction
+   C holds that lock.
+   - Transaction B is now waiting for Transaction C to release the lock on
+   `account_id` 3.
+
+   ```sql
+   -- Transaction B
+   BEGIN;
+
+   -- This will lock account_id 2
+   SELECT * FROM accounts WHERE account_id = 2 FOR UPDATE;
+
+   -- This will try to lock account_id 3, but it will be blocked
+   SELECT * FROM accounts WHERE account_id = 3 FOR UPDATE;
+   ```
+
+3. **Transaction C:**
+   - Transaction C starts and locks `account_id` 3.
+   - It then tries to lock `account_id` 1 but is blocked because Transaction
+   A holds that lock.
+   - Transaction C is now waiting for Transaction A to release the lock on
+   `account_id` 1.
+
+   ```sql
+   -- Transaction C
+   BEGIN;
+
+   -- This will lock account_id 3
+   SELECT * FROM accounts WHERE account_id = 3 FOR UPDATE;
+
+   -- This will try to lock account_id 1, but it will be blocked
+   SELECT * FROM accounts WHERE account_id = 1 FOR UPDATE;
+   ```
+
+At this point, all three transactions are waiting for each other to release the
+locks, resulting in a deadlock situation involving multiple transactions and
+resources. Handling such complex deadlocks often requires more advanced deadlock
+detection and resolution strategies.

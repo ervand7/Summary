@@ -1,0 +1,42 @@
+Let's assume a hypothetical table called `orders` with two rows, and two
+transactions, Transaction A and Transaction B.
+
+1. **Transaction A:**
+   - Transaction A starts and locks `order_id` 1.
+   - It then tries to lock `order_id` 2 but is blocked because Transaction B
+   holds that lock.
+   - Transaction A is now waiting for Transaction B to release the lock on
+   `order_id` 2.
+
+   ```sql
+   -- Transaction A
+   BEGIN;
+
+   -- This will lock order_id 1
+   SELECT * FROM orders WHERE order_id = 1 FOR UPDATE;
+
+   -- This will try to lock order_id 2, but it will be blocked
+   SELECT * FROM orders WHERE order_id = 2 FOR UPDATE;
+   ```
+
+2. **Transaction B:**
+   - Transaction B starts and locks `order_id` 2.
+   - It then tries to lock `order_id` 1, which is already locked by Transaction A.
+   - Transaction B is now waiting for Transaction A to release the lock on
+   `order_id` 1.
+
+   ```sql
+   -- Transaction B
+   BEGIN;
+
+   -- This will lock order_id 2
+   SELECT * FROM orders WHERE order_id = 2 FOR UPDATE;
+
+   -- This will try to lock order_id 1, but it will be blocked
+   SELECT * FROM orders WHERE order_id = 1 FOR UPDATE;
+   ```
+
+At this point, both transactions are waiting for each other to release the
+locks. This leads to a deadlock situation. You would typically need to implement
+deadlock detection and resolution mechanisms in your application or database
+to handle such situations.

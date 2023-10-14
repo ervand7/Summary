@@ -1,1 +1,0 @@
-https://postgrespro.ru/docs/postgresql/9.6/explicit-locking#locking-rows

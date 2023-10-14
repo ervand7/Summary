@@ -1,5 +1,7 @@
 WSGI stands for **Web Server Gateway Interface**, and it's a specification
-for how web servers and web applications communicate with each other in the Python ecosystem. WSGI defines a standardized interface that allows different web servers and web frameworks to work together seamlessly.
+for how web servers and web applications communicate with each other in the Python
+ecosystem. WSGI defines a standardized interface that allows different web servers
+and web frameworks to work together seamlessly.
 
 Here are the key points to understand about WSGI:
 

@@ -1,0 +1,37 @@
+In SQL, the `PRIMARY KEY` instruction is used in the `CREATE TABLE` statement
+to define one or more columns as the primary key of the table. The primary key
+is a column or a set of columns that uniquely identifies each row in the table.
+Here's what the `PRIMARY KEY` instruction does in the `CREATE TABLE` statement:
+
+1. **Uniqueness:** It enforces the uniqueness of values in the specified
+column(s). This means that no two rows in the table can have the same value
+in the primary key column(s).
+
+2. **Not Null:** The primary key column(s) cannot contain `NULL` values.
+This enforces the presence of a value in the primary key field for every row.
+
+3. **Indexing:** In most relational database systems, a primary key is
+automatically indexed. This indexing helps in speeding up data retrieval
+and ensures efficient data access.
+
+4. **Data Integrity:** The primary key constraint helps maintain data
+integrity by ensuring that each row is uniquely identifiable, which is
+crucial for establishing relationships between tables and maintaining
+referential integrity.
+
+Here's an example of how you might use the `PRIMARY KEY` instruction in a
+`CREATE TABLE` statement:
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100)
+);
+```
+
+In this example, the `EmployeeID` column is defined as the primary key,
+ensuring that each employee has a unique identifier in the `Employees` table.
+This column must contain a non-null, unique value for every row, and it's
+indexed for efficient data retrieval.

@@ -1,0 +1,35 @@
+In SQL, the `CONCURRENTLY` option in a `CREATE INDEX` statement is used to
+create an index on a table concurrently, without blocking write operations
+on the table during the index creation process. This is particularly useful
+for large tables in production databases where you want to avoid locking the
+table for write operations while the index is being built.
+
+When you create an index using the `CONCURRENTLY` option, the database system
+employs various techniques to build the index without causing substantial locks
+on the table. It often involves creating a separate temporary index and then
+swapping it with the original index once it's ready. The details of how this
+is achieved can vary between different database management systems.
+
+Here's an example of how to use `CONCURRENTLY` in a `CREATE INDEX` statement:
+
+```sql
+CREATE INDEX CONCURRENTLY idx_example_column
+ON example_table (column_name);
+```
+
+Where:
+- `CONCURRENTLY` specifies that the index should be created concurrently.
+- `idx_example_column` is the name of the index you're creating.
+- `example_table` is the name of the table for which you're creating the index.
+- `column_name` is the name of the column for which you're creating an index.
+
+Please note that not all database management systems support concurrent index
+creation, and the specific behavior might vary between systems. PostgreSQL,
+for example, is known for its support of concurrent indexing through the
+`CONCURRENTLY` option. Other systems might have similar but differently named
+options or different methods for handling concurrent index creation.
+
+Using `CONCURRENTLY` can help maintain database availability and reduce the
+potential impact on applications that rely on the indexed table. However,
+it's important to be aware of the potential performance implications of
+concurrent indexing, as it might require more system resources.

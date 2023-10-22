@@ -1,0 +1,48 @@
+REST (Representational State Transfer) is an architectural style that
+defines a set of constraints to be used for creating web services. Here
+are the key principles of RESTful APIs:
+
+1. Using only HTTP protocol.
+
+2. **Statelessness**: Each request from a client to the server must contain
+all the information needed to understand and fulfill the request. The server
+should not store any client state between requests. Every request must be
+complete and independent.
+
+3. **Client-Server Architecture**: RESTful systems have a clear separation
+between the client and the server. Clients are not concerned with data storage
+or backend processes, while servers are not concerned with user interfaces or
+user state.
+
+4. **Uniform Interface**: REST APIs have a uniform and consistent interface,
+typically involving the use of standard HTTP methods (GET, POST, PUT, DELETE).
+Resources are identified in requests, and these resources are manipulated using
+representations.
+
+5. **Resource-Based**: Resources (such as objects or data) are the key
+abstractions in REST, and each resource is identified by a unique URI (Uniform Resource Identifier). Resources can be manipulated using a fixed set of well-defined operations.
+
+6. **Representation**: Resources can have multiple representations
+(like JSON, XML, HTML, etc.). Clients interact with these representations,
+which contain the current state of the resource. Resources are never directly
+manipulated; it's the representations that are manipulated.
+
+7. **Stateless Communication**: Each request from a client to the server must
+contain all the information needed to understand and fulfill the request.
+The server should not store any client state between requests.
+
+8. **State Transition**: REST APIs are designed around state transitions.
+Actions are performed on resources through well-defined, standardized methods
+(like HTTP methods). For example, using POST to create a new resource or PUT
+to update an existing resource.
+
+9. **Caching**: Responses from the server can be explicitly marked as cacheable
+or non-cacheable. This improves performance by allowing clients to cache
+responses and use them directly when applicable.
+
+10. **Layered System**: REST APIs can be composed of multiple layers that
+can be managed independently. This layered architecture increases scalability
+and flexibility.
+
+Adhering to these principles helps ensure that RESTful APIs are scalable,
+stateless, and easy to understand and use.

@@ -1,0 +1,4 @@
+1) REST
+2) SOAP
+3) RPC
+4) GRAPHQL

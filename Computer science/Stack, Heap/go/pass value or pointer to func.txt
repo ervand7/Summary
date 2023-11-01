@@ -1,0 +1,11 @@
+Each semantic comes with a benefit and cost.
+
+Value semantic:
+Value semantics keep values on the stack which reduces pressure on the GC.
+However, there are different copies of any given value that must be stored,
+tracked and maintained.
+
+Pointer semantics:
+Pointer semantics place values on the heap which can put pressure on the GC. However,
+they are efficient because there is only one value that needs to be stored, tracked and
+maintained. The key is using each semantic correctly, consistently and in balance.

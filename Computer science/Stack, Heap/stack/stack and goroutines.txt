@@ -1,0 +1,5 @@
+В Go каждая горутина имеет свой стек.
+
+In Go, no Goroutine is allowed to have a pointer that points to memory on
+another Goroutine's stack. This is because the stack memory for a Goroutine can
+be replaced with a new block of memory when the stack has to grow or shrink.

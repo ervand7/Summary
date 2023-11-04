@@ -1,31 +1,45 @@
 package main
 
-const size = 4096
+import (
+	"encoding/json"
+	"fmt"
+	"time"
+)
+
+type Person struct {
+	Name        string    `json:"name"`
+	DateOfBirth time.Time `json:"date_of_birth"`
+}
 
 func main() {
-	s := "HELLO"
-	stackCopy(&s, 0, &[size]int{})
-}
-
-func stackCopy(s *string, c int, a *[size]int) {
-	println(c, s, *s)
-	c++
-	if c == 10 {
-		return
+	// here date_of_birth is in not standard RFC1123Z format
+	raw := `{"name":"John Doe","date_of_birth":"Sat, 04 Nov 1923 22:11:08 +0100"}`
+	// create temporary struct where DateOfBirth field will be string, not time.Time
+	temp := struct {
+		// use embedding
+		Person
+		// this will overlap Person.DateOfBirth
+		DateOfBirth string `json:"date_of_birth"`
+	}{}
+	// unmarshal into temp struct
+	err := json.Unmarshal([]byte(raw), &temp)
+	if err != nil {
+		fmt.Println(err.Error())
 	}
 
-	stackCopy(s, c, a)
+	// parse not standard RFC1123Z time format
+	dateOfBirth, err := time.Parse(time.RFC1123Z, temp.DateOfBirth)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	// and build final result from temp
+	result := Person{
+		Name:        temp.Name,
+		DateOfBirth: dateOfBirth,
+	}
+
+	fmt.Printf("%#v", result)
 }
 
-/*
-0 0x1400011ff58 HELLO
-1 0x1400011ff58 HELLO
-2 0x1400015ff58 HELLO <- CHANGED
-3 0x1400015ff58 HELLO
-4 0x1400015ff58 HELLO
-5 0x1400015ff58 HELLO
-6 0x140001dff58 HELLO <- CHANGED
-7 0x140001dff58 HELLO
-8 0x140001dff58 HELLO
-9 0x140001dff58 HELLO
-*/
+// {John Doe 1923-11-04 22:11:08 +0100 CET}

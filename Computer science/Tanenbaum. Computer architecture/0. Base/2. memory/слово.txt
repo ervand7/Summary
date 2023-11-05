@@ -6,7 +6,7 @@ bytes (8 bits each), but its size can vary depending on the specific architectur
 It's important to note that machine words are usually processed as a whole by the
 CPU. In other words, if a CPU is, for example, 32-bit, it will process 32-bit
 machine words as a single entity. Similarly, a 64-bit CPU will work with 64-bit
- machine words.
+machine words.
 
 Machine words are used for performing operations such as arithmetic calculations,
 logical operations, and data manipulation in the computer's memory. They are the

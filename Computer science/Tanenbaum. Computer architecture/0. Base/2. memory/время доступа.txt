@@ -1,5 +1,5 @@
 accessing time:
     - registers - 2 ns
     - cache - a little more than registers
-    - main memory - 20 ns
+    - RAM - 20 ns
     - magnetic disk - 200 ns

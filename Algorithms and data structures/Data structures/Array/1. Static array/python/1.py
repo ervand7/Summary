@@ -1,25 +1,25 @@
 class StaticArray:
     def __init__(self, elements_count):
         self.elements_count = elements_count
-        self.array = [None] * elements_count
+        self.base_array = [0] * elements_count
 
     def __len__(self):
         return self.elements_count
 
     def get(self, index):
         if 0 <= index < self.elements_count:
-            return self.array[index]
+            return self.base_array[index]
         else:
             raise IndexError("Index out of range")
 
     def set(self, index, value):
         if 0 <= index < self.elements_count:
-            self.array[index] = value
+            self.base_array[index] = value
         else:
             raise IndexError("Index out of range")
 
     def __str__(self):
-        return str(self.array)
+        return str(self.base_array)
 
 
 if __name__ == "__main__":

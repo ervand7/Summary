@@ -1,4 +1,4 @@
-# O(1)
+# O(n)
 from typing import List
 
 

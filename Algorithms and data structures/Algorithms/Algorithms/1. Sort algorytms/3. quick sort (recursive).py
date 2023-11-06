@@ -1,4 +1,4 @@
-# O(n*log n)
+# O(n log n)
 from datetime import datetime
 
 my_array = [7, 5, 2, 3, 9, 8, 6]

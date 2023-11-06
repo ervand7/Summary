@@ -1,4 +1,4 @@
-# O(n*log n)
+# O(n log n)
 # can merge also not previous sorted lists
 from datetime import datetime
 from typing import List

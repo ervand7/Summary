@@ -1,8 +1,7 @@
-# В этом примере append работает O(n)
-
 class Node:
     def __init__(self, data):
         self.data = data
+        self.prev: Node = None
         self.next: Node = None
 
 
@@ -19,10 +18,12 @@ class LinkedList:
             while current.next is not None:
                 current = current.next
             current.next = new_node
+            new_node.prev = current
 
     def prepend(self, data):
         new_node = Node(data)
         new_node.next = self.head
+        self.head.prev = new_node
         self.head = new_node
 
     def delete(self, data):
@@ -37,6 +38,8 @@ class LinkedList:
         while current.next is not None:
             if current.next.data == data:
                 current.next = current.next.next
+                if current.next is not None:
+                    current.next.prev = current
                 return
             current = current.next
 

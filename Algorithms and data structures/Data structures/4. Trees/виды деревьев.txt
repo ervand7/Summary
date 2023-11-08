@@ -1,9 +1,18 @@
 1. **Binary Tree:** A tree structure in which each node has at most two children,
-referred to as the left child and the right child.
+referred to as the left child and the right child. There is no specific order or rule
+for the arrangement of nodes.
+Example:
+           1
+     2             3
+  6    5        7    4
 
 2. **Binary Search Tree (BST):** A binary tree in which the left child is less than
 or equal to the parent node, and the right child is greater than the parent node.
 It allows for efficient searching, insertion, and deletion.
+Example:
+           10
+     5             15
+  3    7        13    17
 
 3. **Balanced Binary Tree:** A binary tree in which the depth of the left and right subtrees
 of every node differs by at most one. Examples include AVL trees and Red-Black trees.

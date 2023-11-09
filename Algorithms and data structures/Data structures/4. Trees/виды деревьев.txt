@@ -10,16 +10,25 @@ Example:
 or equal to the parent node, and the right child is greater than the parent node.
 It allows for efficient searching, insertion, and deletion.
 Example:
+           10                                    1
+     5             15         or          -333       2
+  3    7        13    17                                3
+                                                           4
+
+3. **Balanced Binary Tree:** A binary tree in which the depth of the left and right subtrees
+of every node differs by at most one. Examples include AVL trees and Red-Black trees.
+Example:
            10
      5             15
   3    7        13    17
 
-3. **Balanced Binary Tree:** A binary tree in which the depth of the left and right subtrees
-of every node differs by at most one. Examples include AVL trees and Red-Black trees.
-
 4. **Heap:** A specialized tree-based data structure in which the parent node is either greater
 (max heap) or smaller (min heap) than its children. Heaps are often used to implement
 priority queues.
+Example:
+           1                                        10
+     2             3          or               8             9
+  4    5        6    7                      4    5        6    7
 
 5. **Trie (Prefix Tree):** A tree structure used to store a dynamic set of strings, such as
 a dictionary or autocomplete suggestions. It's particularly efficient for string-based searches and lookups.

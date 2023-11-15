@@ -1,0 +1,31 @@
+The Python `set` data type is implemented using a hash table. A hash table
+is a data structure that uses a hash function to map keys to indices in
+an array, providing efficient average-case time complexity for common
+operations like insertion, deletion, and membership tests.
+
+Here are some key points about Python sets and their implementation:
+
+1. **Hash Table:**
+   - Python sets are implemented using a hash table, making them suitable
+   for operations that require fast lookup and membership testing.
+   - The hash table is a dynamic array where each element is a "bucket" or a
+   linked list of elements that have the same hash value (collisions).
+
+2. **Hashing:**
+   - Elements in the set are hashed using a hash function, and the resulting
+   hash values are used to determine the index in the array where the element
+   should be stored.
+   - Python's built-in hash function is used to obtain hash values for most objects.
+
+3. **Dynamic Resizing:**
+   - The hash table dynamically resizes itself to maintain a balance between
+   the number of elements and the number of buckets, ensuring efficient performance.
+
+4. **Unordered Collection:**
+   - Sets in Python are unordered collections of unique elements.
+
+5. **Average-Case Time Complexity:**
+   - The average-case time complexity for common set operations (addition, deletion, and membership tests) is O(1) on average. However, in the worst case, these operations can take O(n) time, where n is the number of elements in the set.
+
+In summary, Python sets use a hash table for their implementation, providing
+efficient average-case performance for various operations.

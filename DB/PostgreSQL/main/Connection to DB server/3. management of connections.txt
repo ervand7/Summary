@@ -1,0 +1,29 @@
+Connections in a connection pool are typically managed on the application side
+rather than on the database server side. Here's a brief overview of how it generally works:
+
+1. **Application Side:**
+   - The application maintains a pool of database connections.
+   - When a part of the application requires a database connection, it requests one
+   from the connection pool.
+   - If an idle connection is available in the pool, it is retrieved and assigned to
+   the requesting part of the application.
+   - If no idle connections are available, the pool may create a new connection (within
+   the configured maximum pool size) and add it to the pool.
+
+2. **Database Server Side:**
+   - The database server is responsible for handling incoming connection requests from
+   the application.
+   - Each connection from the application is a separate connection session managed by
+   the database server.
+   - The database server does not have direct knowledge of the connection pool on the
+   application side.
+
+Connection pooling is a strategy implemented within the application code to efficiently
+manage and reuse database connections. The application controls the creation, retrieval,
+and return of connections to the pool. The database server, on the other hand, is not
+aware of the pooling mechanism; it simply handles incoming connections as requested by
+the application.
+
+This approach allows the application to control and optimize the usage of database
+connections based on its specific requirements and the characteristics of the database
+system being used.

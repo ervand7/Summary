@@ -120,3 +120,48 @@ print("Search 'gender':", hash_table.search("gender"))
 
 hash_table.delete("2")
 hash_table.display()
+
+# Bucket 0: (4: 4)
+# Bucket 1:
+# Bucket 2: (3: 3)
+# Bucket 3:
+# Bucket 4:
+# Bucket 5:
+# Bucket 6: (6: 6)
+# Bucket 7: (7: 7) (name: Vasya) (name: Ivan)
+# Bucket 8: (2: 2) (9: 9)
+# Bucket 9: (10: 10)
+# Bucket 10: (5: 5)
+# Bucket 11:
+# Bucket 12:
+# Bucket 13: (8: 8)
+# Bucket 14: (city: New York)
+# Bucket 15:
+# Bucket 16:
+# Bucket 17: (1: 1) (11: 11)
+# Bucket 18:
+# Bucket 19:
+
+# Search 'name': Vasya
+# Search 'gender': None
+
+# Bucket 0: (4: 4)
+# Bucket 1:
+# Bucket 2: (3: 3)
+# Bucket 3:
+# Bucket 4:
+# Bucket 5:
+# Bucket 6: (6: 6)
+# Bucket 7: (7: 7) (name: Vasya) (name: Ivan)
+# Bucket 8: (9: 9)
+# Bucket 9: (10: 10)
+# Bucket 10: (5: 5)
+# Bucket 11:
+# Bucket 12:
+# Bucket 13: (8: 8)
+# Bucket 14: (city: New York)
+# Bucket 15:
+# Bucket 16:
+# Bucket 17: (1: 1) (11: 11)
+# Bucket 18:
+# Bucket 19:

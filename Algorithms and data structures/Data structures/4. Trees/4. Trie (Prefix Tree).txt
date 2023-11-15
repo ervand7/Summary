@@ -1,0 +1,62 @@
+A Trie, also known as a Prefix Tree, is a tree-like data structure that is used
+for efficient retrieval of a key in a dataset of strings. Unlike binary search
+trees, where each node has links to two children, each node in a Trie has links
+to multiple children corresponding to the characters of the alphabet.
+
+The key benefit of a Trie is its ability to provide fast and efficient string
+search operations. It achieves this by organizing the keys in a tree structure,
+where each level of the tree represents a character in the key. The nodes along
+the path from the root to a particular node represent the characters in the key
+up to that point.
+
+Here are some key characteristics of Tries:
+
+1. **Root:** The topmost node in the Trie, representing an empty string.
+
+2. **Node Structure:** Each node in a Trie typically contains a set of pointers
+(or links) to its children, along with an indicator of whether the node represents
+the end of a key.
+
+3. **Edges:** The edges in a Trie represent the characters in the keys. Each edge
+leads to a child node, and the concatenation of characters along the path from
+the root to a node represents a key.
+
+4. **Children:** Each node may have multiple children, each corresponding to a
+different character.
+
+5. **Path to Node:** The path from the root to a node represents a key in the Trie.
+
+Tries are commonly used in applications that involve storing and searching for
+strings, such as spell checkers, IP routers, and autocomplete systems. They
+excel in scenarios where there is a large dataset of strings, and efficient
+lookup or retrieval is crucial.
+
+Let's consider a Trie that stores the following words: "bat," "batman," "bats,"
+"batwoman."
+
+```
+Root
+|-- 'b'
+    |-- 'a'
+        |-- 't'
+            |-- 's' (end of word)
+            |-- 'm'
+                |-- 'a'
+                    |-- 'n' (end of word)
+            |-- 'w'
+                |-- 'o'
+                    |-- 'm'
+                        |-- 'a'
+                            |-- 'n' (end of word)
+```
+
+In this Trie:
+
+- The characters 'b,' 'a,' 't,' 's,' 'm,' 'w,' and 'o' are represented by the edges.
+- Each node contains a set of pointers to its children.
+- The presence of "end of word" indicators ('s,' 'n,' 'n') denotes the completion
+of a word along the path from the root to that node.
+
+This structure allows for efficient searches, insertions, and deletions of words
+in the Trie. Keep in mind that the Trie structure can vary based on the specific
+implementation and the order of characters in the keys.

@@ -1,17 +1,18 @@
+# O(n^2)
+
 def find_smallest(array: list):
-    smallest = array[0]
+    smallest = float("inf")
     smallest_index = 0
-    for i in range(1, len(array)):
-        if array[i] < smallest:
-            smallest = array[i]
-            smallest_index = i
+    for index, val in enumerate(array):
+        if val < smallest:
+            smallest = val
+            smallest_index = index
     return smallest_index
 
 
 def selection_sort(array: list):
-    """O(n^2)"""
     new_array = []
-    for i in range(len(array)):
+    for _ in range(len(array)):
         smallest = find_smallest(array)
         item = array.pop(smallest)
         new_array.append(item)
@@ -19,4 +20,4 @@ def selection_sort(array: list):
     return new_array
 
 
-print(selection_sort([5, 3, 6, 2, 10]))
+print(selection_sort([5, 777, 3, 6, 2, -94, 10]))

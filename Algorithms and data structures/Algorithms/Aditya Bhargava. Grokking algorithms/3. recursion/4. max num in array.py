@@ -5,4 +5,4 @@ def max_num(array: list):
     return array[0] if array[0] > sub else sub
 
 
-print(max_num([1, 2, 3, 4]))
+print(max_num([1, 555, 3, 4]))  # 555

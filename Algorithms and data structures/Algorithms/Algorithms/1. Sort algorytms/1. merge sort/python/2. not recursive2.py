@@ -3,7 +3,7 @@
 from typing import List
 
 
-def merge_lists(first: List[int], second: List[int]) -> List[int]:
+def merge_sort(first: List[int], second: List[int]) -> List[int]:
     result = []
     while len(first) != 0 and len(second) != 0:
         if first[0] < second[0]:
@@ -17,4 +17,7 @@ def merge_lists(first: List[int], second: List[int]) -> List[int]:
     return result
 
 
-print(merge_lists([1, 2, 5], [1, 2, 3, 4, 6]))  # [1, 1, 2, 2, 3, 4, 5, 6]
+print(merge_sort(
+    first=[2, 8, 8, 16, 19, 54, 65, 76, 87],
+    second=[3, 4, 5, 5, 10, 11, 12]
+))  # [2, 3, 4, 5, 5, 8, 8, 10, 11, 12, 16, 19, 54, 65, 76, 87]

@@ -1,8 +1,4 @@
 # O(n log n)
-from datetime import datetime
-
-my_array = [7, 5, 2, 3, 9, 8, 6]
-
 
 def quick_sort(array):
     if len(array) <= 1:
@@ -16,8 +12,4 @@ def quick_sort(array):
     return quick_sort(left) + center + quick_sort(right)
 
 
-if __name__ == '__main__':
-    start = datetime.now()
-    print(quick_sort(my_array))  # [2, 3, 5, 6, 7, 8, 9]
-    end = datetime.now() - start
-    print(f'the duration is {end}')
+print(quick_sort([7, 5, 2, 3, 9, 8, 6]))  # [2, 3, 5, 6, 7, 8, 9]

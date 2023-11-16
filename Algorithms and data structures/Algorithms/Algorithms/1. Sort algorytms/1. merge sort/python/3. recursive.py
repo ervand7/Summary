@@ -1,10 +1,8 @@
 # O(n log n)
-# can merge also not previous sorted lists
-from datetime import datetime
-from typing import List
+# can merge even not sorted lists
 
 
-def merge_sort(array: List[int]):
+def merge_sort(array):
     if len(array) == 1:
         return array
     else:
@@ -14,7 +12,7 @@ def merge_sort(array: List[int]):
         return merge_lists(left, right)
 
 
-def merge_lists(first: List[int], second: List[int]):
+def merge_lists(first: list, second: list):
     result = []
     i = j = 0
     while i < len(first) and j < len(second):
@@ -32,11 +30,5 @@ def merge_lists(first: List[int], second: List[int]):
     return result
 
 
-if __name__ == '__main__':
-    first = [999, 8, 8, 54, 65, 76, 87, 16, 19, ]
-    second = [3, 5, 10, 11, 4, 5, 12]
-
-    start = datetime.now()
-    print(merge_sort(first + second))  # [3, 4, 5, 5, 8, 8, 10, 11, 12, 16, 19, 54, 65, 76, 87, 999]
-    end = datetime.now() - start
-    print(f'the duration is {end}')
+print(merge_sort([999, 8, 8, 54, 3, 5, 10, 11, 4, 5, 12, 65, 76, 87, 16, 19, ]))
+# [3, 4, 5, 5, 8, 8, 10, 11, 12, 16, 19, 54, 65, 76, 87, 999]

@@ -1,0 +1,8 @@
+ - stack depth is           O(log n)
+ - each step selection is   O(n)
+as a result O(log n) * O(n) = O(n log n).
+
+In worst case scenario, when we select most unappropriated pivot, we will have
+ - stack depth is           O(n)
+ - each step selection is   O(n)
+as a result O(n) * O(n) = O(n^2).

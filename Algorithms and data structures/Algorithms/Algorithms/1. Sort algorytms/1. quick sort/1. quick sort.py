@@ -1,4 +1,4 @@
-# O(n log n)
+# O(n log n), в худшем случае O(n^2) в зависимости от выбора опорного элемента
 
 def quick_sort(array):
     if len(array) <= 1:

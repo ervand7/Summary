@@ -1,5 +1,6 @@
 # O(n log n)
-# can merge even not sorted lists
+# can merge even not sorted lists because merge_sorted_lists receives only
+# previously sorted lists
 
 
 def merge_sort(array):
@@ -9,10 +10,10 @@ def merge_sort(array):
         middle = len(array) // 2
         left = merge_sort(array[:middle])
         right = merge_sort(array[middle:])
-        return merge_lists(left, right)
+        return merge_sorted_lists(left, right)
 
 
-def merge_lists(first: list, second: list):
+def merge_sorted_lists(first: list, second: list):
     result = []
     i = j = 0
     while i < len(first) and j < len(second):
@@ -23,10 +24,9 @@ def merge_lists(first: list, second: list):
             result.append(second[j])
             j += 1
 
-    if i < len(first):
-        result += first[i:]
-    if j < len(second):
-        result += second[j:]
+    # at this point there can be at most one of the lists left
+    result += first[i:]
+    result += second[j:]
     return result
 
 

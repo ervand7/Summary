@@ -1,0 +1,2 @@
+ - chain
+ - open addressing (linear probing)

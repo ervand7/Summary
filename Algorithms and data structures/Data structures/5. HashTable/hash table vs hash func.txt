@@ -1,0 +1,18 @@
+A **hash function** is a function that takes in an input (or "message") and produces
+a fixed-size string of bytes. The output, commonly called the hash value or hash code,
+is typically a "digest" that is unique to the specific input. The primary purpose of a
+hash function is to quickly generate a hash code that serves as a representative value
+for the input data. Hash functions are commonly used in various applications, such as
+data integrity verification, cryptography, and data structures like hash tables.
+
+On the other hand, a **hash table** is a data structure that uses a hash function to
+map keys to indices in an array or bucket. It provides an efficient way to implement
+an associative array (a collection of key-value pairs) by storing values at locations
+computed directly from their keys. The hash function is used to determine the index
+where an element should be placed or looked up in the table.
+
+In summary, a hash function is a mathematical function that produces a fixed-size output
+(hash code) from an input, while a hash table is a data structure that uses a hash
+function to organize and quickly retrieve data based on keys. The hash table typically
+consists of an array of buckets, and the hash function helps determine which bucket a
+key should be associated with.

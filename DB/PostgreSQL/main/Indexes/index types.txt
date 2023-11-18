@@ -12,8 +12,8 @@ its balance and ability to maintain a relatively uniform height as data grows.
 
 2. **Hash Index:** Some databases use a hash index, which employs a
 hash function to map keys (column values) to locations where data is stored.
- While hash indexes can be very fast for exact match queries, they may not
- perform as well for range queries.
+While hash indexes can be very fast for exact match queries, they may not
+perform as well for range queries.
 
 3. **Bitmap Index:** Bitmap indexes use bitmaps (a series of bits) to represent
 sets of values for each indexed column. They are efficient for low cardinality

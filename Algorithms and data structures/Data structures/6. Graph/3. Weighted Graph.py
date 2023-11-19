@@ -41,3 +41,8 @@ print(weighted_graph)
 
 print("\nNeighbors of 'B':", weighted_graph.get_neighbors('B'))
 print("Weight between 'A' and 'B':", weighted_graph.get_weight('A', 'B'))
+
+# {'A': {'B': 3, 'D': 1}, 'B': {'A': 3, 'C': 5}, 'C': {'B': 5, 'D': 2}, 'D': {'C': 2, 'A': 1}}
+#
+# Neighbors of 'B': ['A', 'C']
+# Weight between 'A' and 'B': 3

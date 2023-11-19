@@ -1,5 +1,9 @@
 # O(V + E)
 
+# Поиск в ширину отвечает на 2 вопроса:
+#  - существует ли путь от узла A к узлу B
+#  - как выглядит кратчайший путь от узла A к узлу B
+
 # The provided algorithm performs a breadth-first search (BFS) on a graph to
 # find a person with a name ending in 'm' (a mango seller). Let's analyze the
 # time complexity (Big O) of this algorithm:

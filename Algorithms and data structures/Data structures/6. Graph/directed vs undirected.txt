@@ -1,0 +1,37 @@
+Directed and undirected graphs are two fundamental types of graphs that differ
+in how edges are represented between vertices.
+
+1. **Directed Graph (Digraph):**
+   - **Edges:** Edges have a direction or orientation, indicated by arrows.
+   - **Connectivity:** The connection between two vertices has a specific starting
+   and ending point.
+   - **Representation:** Edges are often represented as ordered pairs (u, v), where
+   "u" is the starting vertex, and "v" is the ending vertex.
+
+   **Example:**
+   ```
+   A --> B
+   |     ^
+   v     |
+   C --> D
+   ```
+
+2. **Undirected Graph:**
+   - **Edges:** Edges do not have a direction; they simply connect two vertices.
+   - **Connectivity:** The connection between two vertices is bidirectional; there is no
+   distinction between the starting and ending points.
+   - **Representation:** Edges are often represented as unordered pairs {u, v}.
+
+   **Example:**
+   ```
+   A -- B
+   |    |
+   C -- D
+   ```
+
+In the directed graph example, the edge (A, B) indicates a one-way connection from
+vertex A to vertex B, whereas in the undirected graph example, the edge {A, B}
+represents a bidirectional connection between A and B.
+
+In summary, the key distinction is whether the edges have a direction (directed) or
+not (undirected).

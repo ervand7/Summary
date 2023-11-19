@@ -1,9 +1,7 @@
+# O(log n)
+
 def binary_search(array, item):
-    """
-    Search index of item in sorted array.
-    O(log n)
-    Бинарный поиск выполняется за логарифмическое время.
-    """
+    """ Search index of item in sorted array """
     low = 0
     high = len(array) - 1
     while low <= high:

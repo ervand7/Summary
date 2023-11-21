@@ -14,66 +14,52 @@
 # Эти шаги помогают пошагово находить кратчайший путь от начального узла ко всем
 # остальным узлам в графе.
 
-
-class Dijkstra:
-    def __init__(self, graph: dict, costs: dict, parents: dict):
-        self.graph = graph
-        self.costs = costs
-        self.parents = parents
-        self.result = []
-
-    def get_list(self) -> list:
-        while True:
-            node = self._find_lowest_cost_node(self.costs)
-            if node is None:
-                return self.result
-
-            cost = self.costs[node]
-            neighbors = self.graph[node]
-            for neighbor in neighbors.keys():
-                new_cost = cost + neighbors[neighbor]
-                if self.costs[neighbor] > new_cost:
-                    self.costs[neighbor] = new_cost
-                    self.parents[neighbor] = node
-            self.result.append(node)
-
-    def _find_lowest_cost_node(self, costs: dict) -> str:
-        lowest_cost = float('inf')
-        lowest_cost_node = None
-        for node in costs:
-            cost = costs[node]
-            if cost < lowest_cost and node not in self.result:
-                lowest_cost = cost
-                lowest_cost_node = node
-        return lowest_cost_node
+import heapq
 
 
+def dijkstra(graph, start, finish):
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+
+    predecessors = {node: None for node in graph}
+
+    priority_queue = [(0, start)]
+
+    while priority_queue:
+        current_distance, current_node = heapq.heappop(priority_queue)
+
+        if current_distance > distances[current_node]:
+            continue
+
+        for neighbor, weight in graph[current_node].items():
+            distance = current_distance + weight
+
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                predecessors[neighbor] = current_node
+                heapq.heappush(priority_queue, (distance, neighbor))
+
+    path = []
+    current = finish
+    while current is not None:
+        path.insert(0, current)
+        current = predecessors[current]
+
+    return path, distances[finish]
+
+
+# Example usage
 graph = {
-    'start': {
-        'a': 6,
-        'b': 2
-    },
-    'a': {
-        'finish': 1
-    },
-    'b': {
-        'a': 3,
-        'finish': 5
-    },
-    'finish': {
-    },
+    'start': {'b': 5, 'c': 2},
+    'b': {'d': 4, 'e': 2},
+    'c': {'b': 8, 'e': 7},
+    'd': {'finish': 3},
+    'e': {'d': 6, 'finish': 1},
+    'finish': {},
 }
 
-costs = {  # таблица стоимостей, которая будет обновляться
-    'a': 6,
-    'b': 2,
-    'finish': float('inf')
-}
-
-parents = {  # таблица родителей, которая будет обновляться
-    'a': 'start',
-    'b': 'start',
-}
-
-d = Dijkstra(graph, costs, parents)
-print(d.get_list())  # ['b', 'a', 'finish']
+start_node = 'start'
+finish_node = 'finish'
+shortest_path, shortest_distance = dijkstra(graph, start_node, finish_node)
+print(f"Shortest path from {start_node} to {finish_node}: {shortest_path}")
+print(f"Shortest distance: {shortest_distance}")

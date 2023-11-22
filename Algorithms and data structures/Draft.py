@@ -1,0 +1,1 @@
+print(hasattr(set(), "__len__"))

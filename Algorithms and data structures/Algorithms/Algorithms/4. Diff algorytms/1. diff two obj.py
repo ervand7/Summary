@@ -1,7 +1,8 @@
+from typing import Any
+
+
 def diff_two_obj(src: Any, dst: Any):
     if src == dst:
-        return None
-    if isinstance(src, float) and isinstance(dst, float) and math.isclose(src, dst):
         return None
     if src is None:
         return f'added {dst}'
@@ -26,3 +27,10 @@ def diff_two_obj(src: Any, dst: Any):
         return result if result else None
 
     return f'changed {src} => {dst}'
+
+
+json_obj1 = {"name": "John", "age": 30, "city": "New York", "hobbies": ["reading", ["cooking", {1: 1}]]}
+json_obj2 = {"name": "John", "age": 30, "city": "New York", "hobbies": ["reading", ["cooking", {1: 3, 2: 2}]]}
+
+print(diff_two_obj(json_obj1, json_obj2))
+# {'hobbies': ["removed ['cooking', {1: 1}]", "added ['cooking', {1: 3, 2: 2}]"]}

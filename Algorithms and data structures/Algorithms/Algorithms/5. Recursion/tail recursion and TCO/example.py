@@ -43,5 +43,5 @@ tail_rec_sum(0, 15)
 15
 """
 
-print(rec_sum(5))
-print(tail_rec_sum(5))
+print(rec_sum(5))  # 15
+print(tail_rec_sum(5))  # 15

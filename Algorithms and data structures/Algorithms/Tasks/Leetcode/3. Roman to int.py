@@ -1,4 +1,8 @@
-def romanToInt(s):
+# 1) make hash-table
+# 2) replace not ordinary characters with convenient
+# 3) calculate by symbol using hash-table
+
+def roman_to_int(s):
     dct = {
         'I': 1,
         'V': 5,
@@ -22,4 +26,4 @@ def romanToInt(s):
     return result
 
 
-print(romanToInt('MCMXCIV'))
+print(roman_to_int('MCMXCIV'))

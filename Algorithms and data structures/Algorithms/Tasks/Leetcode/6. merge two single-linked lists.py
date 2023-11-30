@@ -1,58 +1,112 @@
-# Definition for singly-linked list.
-from typing import Optional
+# my solution
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next: Node = None
+
+    def __str__(self):
+        return str(self.data)
 
 
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+class LinkedList:
+    def __init__(self):
+        self.head: Node = None
 
-
-def mergeTwoLists(list1: Optional[ListNode], list2: Optional[ListNode]) \
-        -> Optional[ListNode]:
-    cur = dummy = ListNode()
-    while list1 and list2:
-        if list1.val < list2.val:
-            cur.next = list1
-            list1, cur = list1.next, list1
+    def append(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
         else:
-            cur.next = list2
-            list2, cur = list2.next, list2
-
-    if list1 or list2:
-        cur.next = list1 if list1 else list2
-
-    return dummy.next
+            current = self.head
+            while current.next is not None:
+                current = current.next
+            current.next = new_node
 
 
-one = ListNode(val=1)
-two = ListNode(val=2)
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(3)
+linked_list.append(5)
+linked_list.append(7)
 
-mergeTwoLists(one, two)
-# debug
-a = one
-b = two
-c = 0
+linked_list2 = LinkedList()
+linked_list2.append(0)
+linked_list2.append(2)
+linked_list2.append(4)
+linked_list2.append(5)
+linked_list2.append(6)
+linked_list2.append(777)
+linked_list2.append(888)
 
 
-# ______________________________________________________________
-def recursive_solution(list1, list2):
-    if None in (list1, list2):
-        return list1 or list2
+def merge(lst1: LinkedList, lst2: LinkedList) -> LinkedList:
+    result = LinkedList()
+    cur: Node = None
+    while all([lst1.head, lst2.head]):
+        if lst1.head.data <= lst2.head.data:
+            if result.head is None:
+                result.head = lst1.head
+                cur = result.head
+            else:
+                cur.next = lst1.head
+                cur = cur.next
+            lst1.head = lst1.head.next
+        else:
+            if result.head is None:
+                result.head = lst2.head
+                cur = result.head
+            else:
+                cur.next = lst2.head
+                cur = cur.next
+            lst2.head = lst2.head.next
 
-    if list1.val < list2.val and list1:
-        list1.next = recursive_solution(list1.next, list2)
-        return list1
+    cur.next = lst1.head if lst1.head else lst2.head
+
+    return result
+
+
+merged = merge(linked_list, linked_list2)
+print(merged)
+
+# recursive solution:
+linked_list = LinkedList()
+linked_list.append(1)
+linked_list.append(3)
+linked_list.append(5)
+linked_list.append(7)
+
+linked_list2 = LinkedList()
+linked_list2.append(0)
+linked_list2.append(2)
+linked_list2.append(4)
+linked_list2.append(5)
+linked_list2.append(6)
+linked_list2.append(777)
+linked_list2.append(888)
+
+
+def merge_recursive(lst1: Node, lst2: Node) -> Node:
+    if lst1 is None:
+        return lst2
+    elif lst2 is None:
+        return lst1
+
+    if lst1.data <= lst2.data:
+        result = lst1
+        result.next = merge_recursive(lst1.next, lst2)
     else:
-        list2.next = recursive_solution(list1, list2.next)
-        return list2
+        result = lst2
+        result.next = merge_recursive(lst1, lst2.next)
+
+    return result
 
 
-second_one = ListNode(val=1)
-second_two = ListNode(val=2)
+def merge(lst1: LinkedList, lst2: LinkedList) -> LinkedList:
+    result = LinkedList()
+    result.head = merge_recursive(lst1.head, lst2.head)
+    return result
 
-recursive_solution(second_one, second_two)
-# debug
-x = second_one
-y = second_two
-d = 0
+
+merged = merge(linked_list, linked_list2)
+print(merged)

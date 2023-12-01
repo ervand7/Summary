@@ -23,7 +23,7 @@ def get_sqrt(n: int) -> int:
     return right
 
 
-print(get_sqrt(12321))
+print(get_sqrt(1234512345))
 
 
 def get_sqrt_recursive(n: int, left: int = 0, right: int = 0) -> int:
@@ -45,4 +45,4 @@ def get_sqrt_recursive(n: int, left: int = 0, right: int = 0) -> int:
     return get_sqrt_recursive(n, left, mid - 1)
 
 
-print(get_sqrt_recursive(12321))
+print(get_sqrt_recursive(1234512345))

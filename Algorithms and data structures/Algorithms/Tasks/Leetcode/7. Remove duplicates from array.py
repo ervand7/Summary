@@ -1,7 +1,7 @@
 from typing import List
 
 
-def removeDuplicates(nums: List[int]) -> int:
+def remove_duplicates(nums: List[int]) -> int:
     left = 1
     for i in range(1, len(nums)):
         if nums[i] != nums[i - 1]:
@@ -10,7 +10,7 @@ def removeDuplicates(nums: List[int]) -> int:
     return left
 
 
-print(removeDuplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]))
+print(remove_duplicates([0, 0, 1, 1, 1, 2, 2, 3, 3, 4]))
 
 
 # --------------------------------------------------------

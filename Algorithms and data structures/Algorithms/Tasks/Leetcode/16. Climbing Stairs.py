@@ -4,7 +4,7 @@ from functools import lru_cache
 def climbStairs(n: int) -> int:
     @lru_cache
     def dp(number):
-        if number in (1, 2):
+        if number <= 1:
             return number
         else:
             return dp(number - 1) + dp(number - 2)
@@ -13,4 +13,4 @@ def climbStairs(n: int) -> int:
 
 
 print(climbStairs(475))
-# 1344719667586153181419716641724567886890850696275767987106294472017884974410332069524504824747437757
+# 831082459908702935293955784701120993704369028200651613859972830080739980541065544674812034151699525

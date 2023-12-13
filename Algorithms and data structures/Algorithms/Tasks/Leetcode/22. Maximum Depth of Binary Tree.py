@@ -46,7 +46,6 @@ def max_depth3(root: Optional[TreeNode]) -> int:
 
     stack = [(root, 1)]
     result = 0
-
     while stack:
         node, depth = stack.pop()
         if node:

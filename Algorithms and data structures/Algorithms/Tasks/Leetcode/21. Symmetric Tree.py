@@ -1,3 +1,6 @@
+from typing import Optional
+
+
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -8,24 +11,15 @@ class TreeNode:
 
 # recursively
 class Solution:
-    def isSymmetric(self, root):
-        if root is None:
-            return True
-        else:
-            return self.isMirror(root.left, root.right)
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def isMirror(t1, t2):
+            if not t1 and not t2:
+                return True
+            if not t1 or not t2:
+                return False
+            return (t1.val == t2.val) and isMirror(t1.right, t2.left) and isMirror(t1.left, t2.right)
 
-    def isMirror(self, left, right):
-        if left is None and right is None:
-            return True
-        if left is None or right is None:
-            return False
-
-        if left.val == right.val:
-            outPair = self.isMirror(left.left, right.right)
-            inPiar = self.isMirror(left.right, right.left)
-            return outPair and inPiar
-        else:
-            return False
+        return isMirror(root, root)
 
 
 # iteratively

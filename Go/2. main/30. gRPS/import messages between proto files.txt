@@ -1,0 +1,4 @@
+protoc -I FOLDER1/ -I FOLDER2/ --proto_path=FOLDER1/ --proto_path=FOLDER2/ --go_out=./FOLDER2 --go_opt=paths=source_relative \
+ --go-grpc_out=./FOLDER2 --go-grpc_opt=paths=source_relative FOLDER2/MY_SECOND_PROTO_FILE.proto && \
+ protoc -I FOLDER1/ -I FOLDER2/ --proto_path=FOLDER1/ --proto_path=FOLDER2/ --go_out=./FOLDER1 --go_opt=paths=source_relative \
+ --go-grpc_out=./FOLDER1 --go-grpc_opt=paths=source_relative FOLDER1/MY_FIRST_PROTO_FILE.proto

@@ -17,7 +17,6 @@ def sortedArrayToBST(nums: List[int]) -> Optional[TreeNode]:
         return None
 
     mid = len(nums) // 2
-
     root = TreeNode(nums[mid])
     root.left = sortedArrayToBST(nums[:mid])
     root.right = sortedArrayToBST(nums[mid + 1:])

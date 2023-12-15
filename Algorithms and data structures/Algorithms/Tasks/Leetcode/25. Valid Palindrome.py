@@ -1,16 +1,20 @@
-def isPalindrome(string: str) -> bool:
-    start = 0
-    end = len(string) - 1
-    while start < end:
-        while start < end and not string[start].isalnum():
-            start += 1
-        while start < end and not string[end].isalnum():
-            end -= 1
-        if string[start].lower() != string[end].lower():
-            return False
-        start += 1
-        end -= 1
+# my solution
+def is_palindrome(c: str) -> bool:
+    low = 0
+    high = len(c) - 1
+    while low < high:
+        if c[low].isalnum() and c[high].isalnum():
+            if c[low].lower() != c[high].lower():
+                return False
+            low += 1
+            high -= 1
+
+        while c[low].isalnum() is False and low < high:
+            low += 1
+        while c[high].isalnum() is False and low < high:
+            high -= 1
+
     return True
 
 
-print(isPalindrome("A man, start plan, start canal: Panama"))
+print(is_palindrome("A man, start plan, start canal: Panama"))

@@ -1,8 +1,13 @@
-def containsDuplicate(nums: List[int]) -> bool:
-    dct = {}
+from typing import List
+
+
+# my solution
+def contains_duplicate(nums: List[int]) -> bool:
+    hash_table = {}
     for i in nums:
-        dct[i] = dct.get(i, 0) + 1
-    for key, value in dct.items():
-        if value >= 2:
+        if hash_table.get(i) is None:
+            hash_table[i] = True
+        else:
             return True
+
     return False

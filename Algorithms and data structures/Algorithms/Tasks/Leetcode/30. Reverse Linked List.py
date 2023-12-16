@@ -6,6 +6,9 @@ class ListNode:
         self.val = val
         self.next = next
 
+    def __str__(self):
+        return str(self.val)
+
 
 n1 = ListNode(1)
 n2 = ListNode(2)
@@ -17,8 +20,69 @@ n2.next = n3
 n3.next = n4
 
 
-# recursive
-def reverseList1(head: Optional[ListNode]) -> Optional[ListNode]:
+# my best solution
+def reverse_list(head: Optional[ListNode]) -> Optional[ListNode]:
+    result = None
+    while head:
+        temp = ListNode(head.val)
+        if result is None:
+            result = temp
+        else:
+            temp.next = result
+            result = temp
+
+        head = head.next
+
+    return result
+
+
+reverse_list(n1)
+print()
+# --------------------------------------------------------------------
+
+
+n1 = ListNode(1)
+n2 = ListNode(2)
+n3 = ListNode(3)
+n4 = ListNode(4)
+
+n1.next = n2
+n2.next = n3
+n3.next = n4
+
+
+# my not best solution
+def reverse_list(head: Optional[ListNode]) -> Optional[ListNode]:
+    values = []
+    cur = head
+    while cur is not None:
+        values.append(cur.val)
+        cur = cur.next
+
+    cur = head
+    for i in range(len(values) - 1, -1, -1):
+        cur.val = values[i]
+        cur = cur.next
+
+    return head
+
+
+reverse_list(n1)
+print()
+# --------------------------------------------------------------------
+
+
+n1 = ListNode(1)
+n2 = ListNode(2)
+n3 = ListNode(3)
+n4 = ListNode(4)
+
+n1.next = n2
+n2.next = n3
+n3.next = n4
+
+
+def reverse_list(head: Optional[ListNode]) -> Optional[ListNode]:
     prev = None
     while head:
         curr = head
@@ -28,16 +92,23 @@ def reverseList1(head: Optional[ListNode]) -> Optional[ListNode]:
     return prev
 
 
+reverse_list(n1)
+print()
+
+
+# --------------------------------------------------------------------
+
+
 # recursive
-def reverseList2(head: Optional[ListNode]) -> Optional[ListNode]:
-    def _reverse(node, prev=None):
+def reverse_list(head: Optional[ListNode]) -> Optional[ListNode]:
+    def rec(node, prev=None):
         if not node:
             return prev
         n = node.next
         node.next = prev
-        return _reverse(n, node)
+        return rec(n, node)
 
-    return _reverse(head)
+    return rec(head)
 
 
-reverseList2(n1)
+reverse_list(n1)

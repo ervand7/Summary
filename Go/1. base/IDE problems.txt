@@ -1,0 +1,2 @@
+go list problem solving:
+ ● go list -m -json all

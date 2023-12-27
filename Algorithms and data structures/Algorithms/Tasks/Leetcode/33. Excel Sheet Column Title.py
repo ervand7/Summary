@@ -1,12 +1,10 @@
-def convertToTitle(num: int) -> str:
-    capitals = [chr(x) for x in range(ord('A'), ord('Z') + 1)]
-    result = []
-    while num > 0:
-        idx = (num - 1) % 26
-        result.append(capitals[idx])
-        num = (num - 1) // 26
-    result.reverse()
-    return ''.join(result)
+def convert_to_title(column_number: int) -> str:
+    result = ""
+    while column_number > 0:
+        column_number -= 1
+        result = chr(column_number % 26 + 65) + result
+        column_number //= 26
+    return result
 
 
-print(convertToTitle(220))
+print(convert_to_title(701))

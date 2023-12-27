@@ -1,0 +1,31 @@
+`PYTHONPATH` is an environment variable in operating systems that helps
+the Python interpreter determine where to look for modules to import.
+When you import a module in Python, the interpreter first searches for
+this module in the directories specified in `PYTHONPATH`, and then in
+standard locations.
+
+Here are the key points about `PYTHONPATH`:
+
+1. **Extends Standard Search Paths**: `PYTHONPATH` supplements the standard
+search path, which includes the Python installation directories and the current
+working directory. This allows Python to find modules that are not installed
+in standard directories.
+
+2. **Format**: `PYTHONPATH` should contain a list of directories separated by
+colons (in Unix-like systems) or semicolons (in Windows).
+
+3. **Usage**: This is particularly useful when you have your own modules or
+packages located in non-standard directories, or when you are working on large
+projects where modules are organized in different directories.
+
+4. **Dynamic Modification**: You can modify `PYTHONPATH` in your script or
+before running the script to include or exclude specific paths.
+
+5. **Not Recommended for Deployment**: Although modifying `PYTHONPATH` can be
+useful during development, for deployment it is better to use other methods,
+such as installing packages via `pip`, to ensure dependency correctness.
+
+It is important to understand that improper use of `PYTHONPATH` can lead to
+conflicts or unexpected errors, especially if the variable includes directories
+that contain modules with names that coincide with the names of standard Python
+modules.

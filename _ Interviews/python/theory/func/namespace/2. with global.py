@@ -1,4 +1,4 @@
-# val not changes because we create a new var inside func
+# val changes because we create a new var inside func
 
 n = 1
 print(hex(id(n)))  # 0x7fbb3002e930

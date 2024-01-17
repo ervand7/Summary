@@ -1,0 +1,66 @@
+An example of a JSON Web Token (JWT) and break down its parts. A JWT typically
+consists of three parts: Header, Payload, and Signature. These parts are
+base64-url encoded and concatenated with dots (`.`).
+
+### Example JWT:
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+### 1. Header:
+```
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+- **alg** (Algorithm): Specifies the algorithm used to sign the token, in this case HMAC SHA-256.
+- **typ** (Type): Specifies the token type, JWT in this case.
+
+This JSON is base64-url encoded to form the first part of the JWT:
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+```
+
+### 2. Payload:
+```
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022
+}
+```
+- **sub** (Subject): Identifier of the user.
+- **name**: Name of the user.
+- **iat** (Issued At): Timestamp of when the token was issued.
+
+This JSON is also base64-url encoded to form the second part of the JWT:
+```
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+```
+
+### 3. Signature:
+The signature is created by taking the encoded header, the encoded payload, a secret, and using
+the algorithm specified in the header (in this case HMAC SHA-256).
+
+For example:
+```
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
+```
+
+This produces the signature which is base64-url encoded:
+```
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+When these three parts are concatenated with dots, you get the complete JWT:
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+It's important to note that while the payload is encoded, it's not encrypted. This means
+that the data in the payload can be read by anyone who has access to the token. Because
+of this, sensitive information should not be stored in the JWT payload.

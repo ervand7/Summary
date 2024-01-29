@@ -9,3 +9,6 @@ def int_to_bin(num):
         num = num // 2
     # Reverse the list and join to get the binary representation
     return ''.join(reversed(binary))
+
+
+print(int_to_bin(77))

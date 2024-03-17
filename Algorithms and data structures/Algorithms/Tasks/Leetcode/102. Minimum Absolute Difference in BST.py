@@ -8,6 +8,7 @@ class TreeNode:
         self.right = right
 
 
+# my solution
 def get_minimum_difference(root: Optional[TreeNode]) -> int:
     values = []
 

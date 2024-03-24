@@ -1,0 +1,12 @@
+Problem:
+ ● go get my/package/etc
+invalid version: git ls-remote -q origin in /Users/ervand_agadzhanyan/go/pkg/mod/cache/vcs/741fcda285258ab75ce2213d6314cc5411bed5696294c23067797fa0a0dfdb4b: exit status 128:
+        remote: The project you were looking for could not be found or you don't have permission to view it.
+        fatal: repository 'https://my/package/etc/' not found
+
+Solving:
+1) create Personal Access Token in gitlab
+2) add (or create if file not exists) to ~/.netrc
+machine my/package/etc login readonly password YOUR_TOKEN
+3) ● go get my/package/etc
+4) go mod tidy

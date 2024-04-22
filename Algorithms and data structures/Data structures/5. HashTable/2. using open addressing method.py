@@ -42,6 +42,7 @@ class HashTable:
 hash_table = HashTable(size=10)
 
 hash_table.insert("apple", 5)
+hash_table.insert("apple", 5)
 hash_table.insert("orange", 8)
 
 print(hash_table.get("apple"))  # Output: 5

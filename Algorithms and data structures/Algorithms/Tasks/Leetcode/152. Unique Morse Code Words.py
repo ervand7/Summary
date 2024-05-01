@@ -2,6 +2,7 @@ import string
 from typing import List
 
 
+# my solution
 def unique_morse_representations(words: List[str]) -> int:
     morse_alphabet = [".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--",
                       "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.."]

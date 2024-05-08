@@ -1,0 +1,77 @@
+### Base Characteristics:
+- **Object-Based Storage**: S3 stores data as objects within buckets.
+- **Global Namespace**: While S3 operates on a regional basis, the namespace
+for bucket names is global.
+- **Multi-Factor Authentication (MFA)**: Supports MFA for additional security
+during the deletion of S3 versions.
+- **Automatic Scaling**: S3 automatically scales to meet demand without manual
+intervention.
+
+### Attributes of S3 Objects:
+- **Key**: Represents the object name within a bucket, e.g., `MyPhoto.jpg`.
+- **Value**: The actual data content, stored as a sequence of bytes.
+- **Version ID**: Facilitates management of multiple versions of an object.
+- **Metadata**: Additional data about the object stored, such
+as tags or custom metadata.
+
+### Access Control:
+- **Default Privacy**: Buckets and objects are private by default. Both
+need explicit configuration to be made public.
+- **Object ACLs**: Individual objects can be made public using their
+access control lists.
+- **Bucket Policies**: These can be configured to set access permissions
+for the entire bucket.
+
+### Hosting Static Websites:
+- **Static Content Only**: S3 can host websites that consist of static
+content (HTML, CSS, JS, images).
+- **Public Access**: The bucket must be public to serve content over the web.
+
+### Versioning and Lifecycle:
+- **Immutable Versioning**: Once enabled, versioning can only be suspended,
+not disabled.
+- **Lifecycle Policies**: Automate transitioning of objects to different
+storage classes or archiving and deletion stages. Lifecycle rules can be
+applied to both current and previous versions.
+
+### Object Lock and Compliance:
+- **WORM Model**: Object Lock enables a write-once, read-many model to prevent
+deletion or modification.
+    - **Governance Mode**: Allows designated users to manage objects unless
+    they are specifically denied.
+    - **Compliance Mode**: Ensures that objects cannot be modified or
+    deleted by any users, including the root account.
+- **S3 Glacier Vault Lock**: Implements and enforces compliance controls on
+S3 Glacier vaults.
+
+### Encryption:
+- **In Transit**: Utilizes SSL/TLS for secure data transfer.
+- **At Rest**:
+  - **Server-Side Encryption (SSE)**: Automatically encrypts objects on upload.
+    - **SSE-S3**: Uses AES-256 encryption.
+    - **SSE-KMS**: Integrates with AWS KMS for key management and additional
+    audit trails.
+    - **SSE-C**: Allows clients to manage their own encryption keys.
+- **Client-Side Encryption**: Clients encrypt data locally before uploading to S3.
+- **Bucket Policy for Enforcing Encryption**: Deny PUT requests that do not
+include server-side encryption settings.
+
+### Performance Optimization:
+- **Prefix Management**: Prefixes are essentially folders that help organize
+and manage access patterns.
+- **Request Rate**: Support for up to 3500 write and 5500 read requests per
+second per prefix. Use multiple prefixes to scale access further.
+- **Multipart Uploads**: Recommended for files over 100 MB to improve upload
+efficiency and required for files larger than 5 GB.
+- **Byte-Range Fetches**: Enhances retrieval efficiency by fetching only
+parts of an object.
+- **KMS Limitations**: Be aware of request rate limits for KMS when using
+SSE-KMS encryption.
+
+### Replication:
+- **Cross-Bucket Replication**: Allows replication of objects across
+different buckets.
+- **Initial Setup**: Only new objects are replicated following the setup;
+existing objects must be manually handled.
+- **Delete Marker Replication**: Not enabled by default and requires specific
+configuration.

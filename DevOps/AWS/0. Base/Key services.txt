@@ -1,0 +1,40 @@
+1. **Compute Services**:
+   - Amazon EC2 (Elastic Compute Cloud): Virtual servers in the cloud.
+   - AWS Lambda: Run code without provisioning or managing servers.
+   - Amazon ECS (Elastic Container Service): Run and manage Docker containers.
+   - AWS Elastic Beanstalk: Deploy and scale web applications and services.
+
+2. **Storage Services**:
+   - Amazon S3 (Simple Storage Service): Scalable object storage.
+   - Amazon EBS (Elastic Block Store): Persistent block storage for EC2 instances.
+   - Amazon Glacier: Low-cost storage for data archival and backup.
+
+3. **Database Services**:
+   - Amazon RDS (Relational Database Service): Managed relational databases like MySQL, PostgreSQL, SQL Server, etc.
+   - Amazon DynamoDB: Fully managed NoSQL database.
+   - Amazon Redshift: Data warehousing solution.
+
+4. **Networking Services**:
+   - Amazon VPC (Virtual Private Cloud): Isolated section of the AWS Cloud.
+   - AWS Direct Connect: Dedicated network connection between AWS and your datacenter.
+
+5. **Machine Learning and AI Services**:
+   - Amazon SageMaker: Build, train, and deploy machine learning models.
+   - Amazon Rekognition: Image and video analysis.
+   - Amazon Comprehend: Natural language processing (NLP) service.
+
+6. **Analytics Services**:
+   - Amazon Athena: Query data in S3 using SQL.
+   - Amazon EMR (Elastic MapReduce): Big data processing using Apache Hadoop, Spark, etc.
+   - Amazon Kinesis: Real-time data streaming and processing.
+
+7. **Security Services**:
+   - AWS IAM (Identity and Access Management): Manage user access and permissions.
+   - Amazon GuardDuty: Threat detection service.
+   - AWS WAF (Web Application Firewall): Protect web applications from common exploits and threats.
+
+8. **Management Services**:
+   - AWS CloudFormation: Infrastructure as code.
+   - AWS CloudWatch: Monitoring and observability service.
+   - AWS Systems Manager: Automate operational tasks.
+

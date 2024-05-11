@@ -1,6 +1,8 @@
 There are a number of prerequisites that must be met to allow for hibernation,
 including a specific set of supported EC2 instance types.
 
+ - Only certain types of EC2 instances support hibernation.
+
  - EC2 hibernation preserves the in-memory RAM on persistent storage (EBS)
 
  - Much faster to boot up because you do not need to reload the operating system
@@ -14,3 +16,7 @@ including a specific set of supported EC2 instance types.
  - Instances can't be hibernated for more than 60 days
 
  - Available for On-Demand instances and Reserved instances
+
+Use cases:
+If you have an application that takes a long time to load. Hibernating the
+instance prevents you from having to reload it.

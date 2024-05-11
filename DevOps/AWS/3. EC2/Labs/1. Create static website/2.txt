@@ -3,7 +3,7 @@ As key-pair configuration we select "Proceed without key-pair".
 In network config select "Auto-assign public IP" - Enabled.
 
 Paste this in user data from script.sh.
-Then connect to your instance through AWC console
+Then connect to your instance through AWS console
 
  ● sudo systemctl status apache2
  ● ps aux | grep apache

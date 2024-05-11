@@ -4,7 +4,7 @@ EBS - highly available and scalable volumes you can attach to an EC2 instance.
  Volumes exist on EBS. EBS volumes will always be in the same AZ as EC2.
 
  - Resizing.
- Resize on the fly.You do not stop or restart your instance. However,
+ Resize on the fly. You do not stop or restart your instance. However,
  you will need to extend the filesystem in the OS so the OS can see the resized
  volume.
 

@@ -1,9 +1,18 @@
  - Using roles - is preferred option for security perspective.
 
- - Avoin hard-coding your credentials. Roles allow you to provide access without
+ - Avoid hard-coding your credentials. Roles allow you to provide access without
  the use of access keyIDs and secret access keys
 
  - Policies control a role's permissions
 
  - Updates. You can attach and detach roles to running EC2 instances without having to
  stop or terminate those instances
+
+Usage:
+Using roles with Amazon EC2 allows instances to securely make
+API requests without managing static API credentials. Roles provide temporary
+permissions that are automatically rotated and assigned to the EC2 instance,
+improving security by reducing the risk of credential leakage and simplifying
+credential management. This approach adheres to the best practice of least
+privilege, ensuring that applications have only the permissions they
+need to operate.

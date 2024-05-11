@@ -1,5 +1,5 @@
  ● ssh cloud_user@<PUBLIC_IP_ADDRESS>
- ● sudo apt-get update &&sudo apt-get upgrade -y
+ ● sudo apt-get update && sudo apt-get upgrade -y
  ● sudo apt-get install apache2 -y
 
  ● Take Public IPv4 address and open in browser

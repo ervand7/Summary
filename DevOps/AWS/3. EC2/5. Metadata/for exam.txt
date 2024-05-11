@@ -3,3 +3,5 @@
  - Metadata is data about your EC2 instances
 
  - You can user bootstrap scripts (user data) to access metadata
+
+ - By default, user data runs one time and one time only.

@@ -1,13 +1,15 @@
+AWS Aurora is a relational database.
+
  - 2 copies of your data are contained in each AZ, with a minimum of 3 AZ.
  Asa a result - 6 copies of your data.
 
  - You can share Aurora snapshots with other AWS accounts.
 
- - 3 types of replicas available: Aurora, Postgres and MySQL. Automated failover
+ - 3 types of replicas available: Aurora, Postgres and MySQL. Automated fail over
  is only available with Aurora replicas.
 
  - Aurora has automated backups turned on by default. You can also take snapshots
- with Aurora. You can share these snapshots with other AWS accountd.
+ with Aurora. You can share these snapshots with other AWS accounts.
 
  - Use Aurora Serverless if you want a simple, cost-effective option
  for infrequent, intermittent or unpredictable workloads

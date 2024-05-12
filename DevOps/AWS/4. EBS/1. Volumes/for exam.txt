@@ -1,4 +1,5 @@
-EBS - highly available and scalable volumes you can attach to an EC2 instance.
+EBS (Elastic Block Storage) - highly available and scalable volumes you can
+attach to an EC2 instance.
 
  - Location.
  Volumes exist on EBS. EBS volumes will always be in the same AZ as EC2.

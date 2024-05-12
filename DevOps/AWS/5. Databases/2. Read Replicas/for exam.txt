@@ -1,3 +1,5 @@
+Multi-AZ vs Read Replica
+
 Multi-AZ:
     - An exact copy of your production database in another AZ
     - Used for disaster recovery

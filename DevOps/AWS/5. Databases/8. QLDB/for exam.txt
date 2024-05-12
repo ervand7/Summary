@@ -1,0 +1,5 @@
+If the scenario is not talking about immutable databases, do not select Amazon QLDB
+as an answer.
+
+Amazon Quantum Ledger Database (QLDB) is a fully managed ledger database that provides
+a transparent, immutable, and cryptographically verifiable transaction log.

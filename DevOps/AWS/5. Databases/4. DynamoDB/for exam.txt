@@ -1,3 +1,5 @@
+DynamoDB is a non-relational database.
+
  - Stored on SSD storage
 
  - Spread across 3 geographically distinct data centers

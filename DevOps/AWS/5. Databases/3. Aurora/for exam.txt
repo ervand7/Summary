@@ -13,3 +13,6 @@ AWS Aurora is a relational database.
 
  - Use Aurora Serverless if you want a simple, cost-effective option
  for infrequent, intermittent or unpredictable workloads
+
+Practice:
+https://www.youtube.com/watch?v=ciRbXZqBl7M&list=PL9nWRykSBSFithc_PvHAR1MDIFodb2lHd

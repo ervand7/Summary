@@ -9,7 +9,7 @@ DynamoDB is a non-relational database.
        Consistency across all copies of data is usually reached within a second.
        Repeating a read after a short time should return the updated data. Best
        read performance.
-       - Strongly consistent read.
+       - Strongly consistent read. Ensures you don't have stale data.
        Returns a result that reflects all writes that received a successful
        response prior the read.
 

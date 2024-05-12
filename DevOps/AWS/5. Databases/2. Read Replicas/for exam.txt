@@ -4,9 +4,16 @@ Multi-AZ:
     - An exact copy of your production database in another AZ
     - Used for disaster recovery
     - In the event of a failure, RDS will automatically fail over to the standby instance
+    - Backups are taken from a secondary copy of your data
+    - All updates or maintenance changes are applied to a secondary database. Multi-AZ
+        rollovers are typically automatic but can be manually initiated
 
 Read Replica:
     - A read-only copy of your primary database in the same AZ, cross-AZ, or cross-region
     - Used to increase or scale read performance
     - Great for read-heavy workloads and takes the load off your primary database
     for read-only workloads (e.g. business intelligence reporting jobs)
+    - You can direct read traffic to a read replica if your source DB instance
+    is unavailable for maintenance
+    - Cross-region read replicas may have a delay between when data is written
+    and when it is replicated

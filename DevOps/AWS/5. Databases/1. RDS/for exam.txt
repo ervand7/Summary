@@ -7,6 +7,8 @@ software. Once your database is up and running, Amazon RDS automates common
 administrative tasks, such as performing backups and patching the software that
 powers your database.
 
+If you have a database with heavy read load, you should add a read replica.
+
 
  - Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle, and SQL Server.
 

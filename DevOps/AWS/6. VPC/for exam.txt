@@ -81,7 +81,7 @@ IP addresses.
  - Instances behave as if they were on the same network
  - Transitive peering is not supported. This must always be in a hub-and-spoke model
  - You can peer between regions
- - You can peer VPCs with other AWS accounts ass well as with other VPCs in the same
+ - You can peer VPCs with other AWS accounts as well as with other VPCs in the same
  account
  - No overlapping CIDR address ranges
  - Peering is in a star configuration (e.g., 1 central VPC peers with 4 others).
@@ -111,6 +111,11 @@ Direct Connect.
  - Useful when you need a high-speed private connection from your on-premises
  environment to AWS
  - Direct Connect is not encrypted by default
+ - Direct Connect connections bypass the public internet
+ - Direct Connect allows you to establish dedicated network connections from your
+ on-premises data center to AWS
+ - Direct Connect can be used to reduce network costs and increase bandwidth for data
+ transfer between your on-premises environment and AWS
 
 
 Transit Gateway.

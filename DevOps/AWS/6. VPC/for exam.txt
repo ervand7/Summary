@@ -17,7 +17,8 @@
 Nat (Network Address Translation) Gateways.
 Nat is used to enable instances in private subnet to connect to the internet or
 other AWS services while preventing the internet from initiating a connection
-with those instances.
+with those instances. I.e. to forward traffic from private subnets to services
+outside your VPC
  - Redundant inside the AZ
  - Starts at 5 GBps and scales currently to 45 GBps
  - No need to patch

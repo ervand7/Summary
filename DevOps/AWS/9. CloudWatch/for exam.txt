@@ -1,0 +1,49 @@
+CloudWatch is used for monitoring. It is the main tool for anything alarm related.
+CPU utilization and network throughput can be viewed using the
+default CloudWatch metrics.
+
+CloudWatch Logs is the place for logs. All another AWS services can be integrated
+with CloudWatch.
+
+Alarms. There are no default alarms. Anything you want to hear about must be created.
+
+Default vs Custom. AWS can't see past the hypervisor level logs for EC2 instances
+by default.
+
+Managed Services. The more manager service is, the more checks you get out of the box.
+
+Basic vs Detailed. Basic id 5-minute intervals, whereas detailed is 1-minute
+
+Logs should go to CloudWatch logs except for situations where we don't need to process
+them. Then, they should go straight to S3
+
+Go-to tool. Generally, favor CloudWatch Logs, unless the exam asks for a real-time solution
+
+Alarms. CloudWatch alarms can be used to alert if your filter patterns are found.
+
+Agent based. The CloudWatch agent must be installed and configured. It's not automatic.
+
+SQL. If exam mentions SQL, think CloudWatch logs insights.
+
+Amazon managed Grafana - fully managed service for data visualisation. Allows
+instant querying, correlating and visualizing of metrics, logs and traces.
+
+Amazon managed service for Prometheus - serverless, Prometheus-compatible,
+PromQL-compatible service used for securely monitoring container metrics at scale.
+
+Security and Scaling. Both services let AWS handle the high availability and automatic
+scaling of infrastructure. Leverage VPC endpoints for secure VPC access.
+
+Grafana data sources. Several built-in data sources, including Amazon CloudWatch,
+Amazon Managed Service for Prometheus and AWS X-ray
+
+Amazon Managed Service for Prometheus Uses. Leverage the service for Amazon
+EKS clusters or even self-managed Kubernetes clusters
+
+Amazon Managed Grafana Uses. Container metrics visualization (EKS, ECS, or
+self-hosted kubernetes clusters), IoT edge device data, and operational teams.
+
+Real time means Kinesis.
+
+A period is the length of time associated with a specific Amazon CloudWatch statistic.
+The default period value is 60 seconds.

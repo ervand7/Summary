@@ -1,0 +1,82 @@
+Amazon Web Services (AWS) offers different types of Elastic Load Balancers (ELBs):
+1. **Application Load Balancer (ALB)**:
+ - Application Load Balancers can be configured to use static IPs by partnering with
+ a Network Load Balancer.
+ - Listeners. A listener checks for connection requests from clients, using the protocol
+and port you configure.
+ - Rules. Determine how the load balancer routes requests to its registered targets.
+Each rule consists of a priority, one or more actions, and one or more conditions
+ - Target groups. Each target group routes requests to one or more registered targets,
+ such as EC2 instances, using the protocol and port number you specify.
+ - Limitations. Application Load Balancer only support HTTP and HTTPS
+ - HTTPS. To use an HTTPS listener, you must deploy at least ane SSL/TLS server certificate
+ on your load balancer. The load balancer user a server certificate to terminate
+ the frontend connection and then decrypt requests from clients before sending
+ them to the targets.
+ - We can enable sticky session for Application Load Balancer, but the traffic will
+ be sent at the target group level
+ - Use if you need to route traffic based on the contents of the request
+
+   - Best suited for HTTP and HTTPS traffic.
+   - Operates at the application layer (Layer 7) of the OSI model.
+   - Supports advanced routing features such as path-based routing, host-based routing,
+   and routing based on query string or header values.
+   - Ideal for microservices and container-based applications.
+
+2. **Network Load Balancer (NLB)**:
+ - Can decrypt traffic, but you will need to install the certificate on the load balancer.
+ - When the NLB has only unhealthy registered targets, the Network Load Balancer routes
+ requests to all the registered targets, known as fail-open mode.
+   - Best suited for TCP, UDP, and TLS traffic where extreme performance is required.
+   - Operates at the transport layer (Layer 4) of the OSI model.
+   - Capable of handling millions of requests per second while maintaining ultra-low latencies.
+   - Ideal for applications that require extreme performance and static IP addresses.
+
+3. **Classic Load Balancer (CLB)**:
+ - 504 error means the gateway has timed out. This means the application is not responding
+within the idle timeout period.
+ - Troubleshoot the application. Is it the web server or database server?
+ - Need the IPv4 address of your user? Look for the X-Forwarder-For header.
+
+   - The original AWS ELB, best suited for applications that were built within the
+   EC2-Classic network.
+   - Operates at both the application layer (Layer 7) and the transport layer (Layer 4).
+   - Supports both HTTP/HTTPS and TCP protocols.
+   - Recommended for simple load balancing of applications that were created in the
+   EC2-Classic network, but it's generally being phased out in favor of ALB and NLB.
+
+4. **Gateway Load Balancer (GWLB)**:
+   - **Purpose**: Designed for deploying, scaling, and managing third-party virtual
+   appliances such as firewalls, intrusion detection and prevention systems, and deep
+   packet inspection systems.
+   - **Operation Layer**: Operates at the network layer (Layer 3) of the OSI model.
+   - **Features**:
+     - Combines the functions of a transparent network gateway and a load balancer.
+     - Ensures that traffic is directed to the appropriate virtual appliance and then
+     returned to the same flow.
+     - Supports both TCP and UDP traffic.
+     - Provides high availability and scalability for network virtual appliances.
+   - **Use Cases**: Ideal for security applications where you need to inspect and filter
+   traffic before it reaches its destination, enabling easier deployment of security
+   services in a scalable and resilient manner.
+
+
+Health checks:
+ - You can use health checks to route your traffic to instances or targets that are healthy.
+ - What benefit do you get from configuring health checks on an ELB load balancer?
+Instances that fail the health check will not receive traffic.
+
+
+Sticky sessions.
+ - Sticky sessions enable your user to stick to the same EC2 instance. It can be useful
+ if you are storing information locally to that instance.
+ - You can see a scenario-based question where you remove an EC2 instance from a pool,
+ but the load balancer continues to direct traffic to that EC2 instance. To solve this
+ scenario, disable sticky sessions
+
+
+Deregistration Delay.
+ - Enable Deregistration Delay: Keep existing connections open if the EC2 instance
+becomes unhealthy.
+ - Disable Deregistration Delay: Do this if you want your load balancer to immediately
+ close connections to the instances that are de-registering or have become unhealthy.

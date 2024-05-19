@@ -1,0 +1,33 @@
+Anytime you see scaling question, keep the 3 W's in mind:
+What do we scale?
+Where do we scale?
+When do we scale?
+
+What makes a template? What goes into a launch template?
+AMI, EC2, instance size, security groups and potentially networking information
+
+Launch template. The most up-to-date and flexible way to create a template.
+
+Launch configurations. The older version. It's not "wrong" to use them, but if
+possible, use templates.
+
+User data is included in the template configuration.
+
+Change. Can be versioned. Configurations are immutable.
+
+Networking. Configurations don't include networking information. Templates could.
+Auto scaling groups will contain the location of where your instances will live
+
+Auto scaling is vital to creating a highly available application.
+Remember to select answers that spread resources out over multiple AZs and
+utilize load balances.
+
+ELB. It's vital to select a load balancer for the instances to live behind.
+
+Limits. Min, max and desired are the 3 important settings.
+
+Notifications. SNS can act as a notification tool.
+
+Balancing. Auto scaling will balance your EC2 instances across the AZ.
+
+

@@ -1,7 +1,20 @@
 Route 53 is Amazon DNS service.
+Route 53 allows you to register a domain programmatically.
+
+CNAME
+Can not be used for naked domain names (zone apex record). You can't have CNAME
+for http://acloudguru.com
 If at the exam you have choice between alias record and CNAME always choose an
 alias record over CNAME.
 Common DNS record types: SOA Record, CNAME Record, NS records, A records.
+
+
+Record Alias can be used for a naked domain name.
+
+
+Registering a Domain name.
+ - You can buy domain names directly with AWS
+ - It can take up to 3 days to register depending on the circumstances
 
 
 Simple Routing Policy.
@@ -17,6 +30,7 @@ think of Weighted Routing.
 
 
 Health Checks.
+It's a test that allows you to determine if your endpoint is online.
  - You can set health checks on individual record sets
  - If a record set fails a health check, it will be removed from route 53
  until it passed the heath check
@@ -24,8 +38,10 @@ Health Checks.
 
 
 Failover Routing Policy.
-If you see a scenario based question where it's talking about active/passive,
-think of Failover Routing Policy.
+With DNS failover, if a record set fails a health check, it will be removed from
+the Route 53 response until it passes the health check.
+If you see a scenario based question where it's talking about active/passive
+or about backup, think of Failover Routing Policy.
 
 
 Geolocation Routing Policy.
@@ -41,3 +57,41 @@ on the geographic location of your users and resources.
  resource by specifying a value, known as a bias. A bias expands or shrinks the
  size of the geographic region from which traffic is routed to a resource
  - To use Geoproximity Routing, you must use Route 53 traffic flow.
+
+
+TTL control.
+This is the time to live, and it controls how long a DNS record will be cached.
+
+
+7 routing policies available with Route 53:
+1. **Simple Routing Policy**:
+   - Basic routing where a single resource is returned.
+   - Commonly used when you have a single resource that performs a given function for your domain.
+
+2. **Weighted Routing Policy**:
+   - Distributes traffic across multiple resources based on specified weights.
+   - Useful for load balancing and testing new versions of an application.
+
+3. **Latency Routing Policy**:
+   - Routes traffic to the resource that provides the best latency for the user.
+   - Ideal for improving user experience by reducing response time.
+
+4. **Failover Routing Policy**:
+   - Configures active-passive failover.
+   - Routes traffic to a primary resource unless it is unavailable, then it routes to a secondary resource.
+
+5. **Geolocation Routing Policy**:
+   - Routes traffic based on the geographic location of the user.
+   - Useful for serving localized content and complying with legal or regulatory requirements.
+
+6. **Geoproximity Routing Policy**:
+   - Routes traffic based on the geographic location of resources and users, and optionally shifts traffic from
+   resources in one location to resources in another location.
+   - Requires Route 53 Traffic Flow.
+
+7. **Multi-Value Answer Routing Policy**:
+   - Similar to simple routing, but with a healthcheck. It allows multiple values for
+   each DNS query response.
+   - Ideal for routing traffic to multiple resources, for example, to improve availability.
+
+These policies can be used individually or in combination to provide sophisticated DNS routing strategies.

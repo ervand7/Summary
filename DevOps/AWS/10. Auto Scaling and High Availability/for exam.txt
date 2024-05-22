@@ -30,4 +30,21 @@ Notifications. SNS can act as a notification tool.
 
 Balancing. Auto scaling will balance your EC2 instances across the AZ.
 
+Scaling types:
+    - Reactive Scaling. You are playing catchup. Once yhe load is there, you
+    measure it and then determine if you need to create more resources
+    - Scheduled Scaling. If you have a predictable workload, create a scaling
+    event to get your resources ready to go before they're actually needed
+    - Predictive Scaling. AWS uses its machine learning algorithms to determine
+    when you will need to scale. They are reevaluated every 24 hours to create
+    a forecast for the next 40.
+
+Auto Scaling Policies:
+ - Scale out aggressively. Get ahead of the workload if you need to.
+ - Scale in conservatively. Once the instances are up, slowly roll them
+ back when not needed.
+ - Provisioning. Keep an eye an provisioning times. Bake those AMIs to minimize it.
+ - Cost. Use EC2 Ris for minimum count of EC2 instances to save money.
+ - CloudWatch. Your go-to tool for alerting Auto Scaling that you need more or less instances.
+
 

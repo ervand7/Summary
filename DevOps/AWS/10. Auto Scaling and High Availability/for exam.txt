@@ -16,11 +16,13 @@ User data is included in the template configuration.
 Change. Can be versioned. Configurations are immutable.
 
 Networking. Configurations don't include networking information. Templates could.
-Auto scaling groups will contain the location of where your instances will live
+Auto Scaling groups will contain the location of where your instances will live
 
-Auto scaling is vital to creating a highly available application.
+Auto Scaling is vital to creating a highly available application.
 Remember to select answers that spread resources out over multiple AZs and
 utilize load balances.
+
+Auto Scaling is only for EC2.
 
 ELB. It's vital to select a load balancer for the instances to live behind.
 
@@ -28,7 +30,7 @@ Limits. Min, max and desired are the 3 important settings.
 
 Notifications. SNS can act as a notification tool.
 
-Balancing. Auto scaling will balance your EC2 instances across the AZ.
+Balancing. Auto Scaling will balance your EC2 instances across the AZ.
 
 Scaling types:
     - Reactive Scaling. You are playing catchup. Once yhe load is there, you
@@ -40,11 +42,79 @@ Scaling types:
     a forecast for the next 40.
 
 Auto Scaling Policies:
- - Scale out aggressively. Get ahead of the workload if you need to.
+ - Scale out aggressively. Get ahead of the workload if you need to. Whenever possible,
+ favor solutions that are predictive rather than reactive
  - Scale in conservatively. Once the instances are up, slowly roll them
  back when not needed.
- - Provisioning. Keep an eye an provisioning times. Bake those AMIs to minimize it.
+ - Provisioning. Keep an eye at provisioning times. Bake those AMIs to minimize it.
+ You can avoid long provisioning times by putting everything in an AMI. This is better
+ than using user data whenever possible.
  - Cost. Use EC2 Ris for minimum count of EC2 instances to save money.
  - CloudWatch. Your go-to tool for alerting Auto Scaling that you need more or less instances.
 
+Read-heavy workload = Read Replicas
 
+Careful with storage. RDS storage only scales up - it won't scale back down
+
+Vertical Scaling. Don't shy away from this scaling type
+
+Multi-AZ. Unless it's a dev environment, turn this on. Remember that Standby
+instances cannot be directly used.
+Multi-AZ Cluster DB Deployments deploy HA Reader instances, which can be used
+for read operations.
+
+Aurora everything. Whenever possible, try to use Aurora if the situation calls for
+a relational database
+
+Predictable workload? Pick provisioned capacity
+Sporadic? Pick on-demand
+
+Non-Relational Database Scaling
+Access Patterns. Know if your access patterns are predictable or unpredictable
+
+Design matters. Avoiding hot keys will also lead to better performance
+
+Switching.  You can switch, but only twice per 24 hours per table
+
+Cost. Keep cost in mind when considering which type of table to pick
+
+RPO. At what point in time do you want your environment recover to?
+RTO. How quickly do you need your environment recovered (i.e., the
+downtime the business can handle)?
+
+Different Disaster Recovery strategies.
+    - Backup and restore. Cheapest, but usually the slowest option
+    - Pilot Light. Faster than backup and restore, but some downtime
+    - Warm standby. Quicker recovery time plan pilot light, but slightly
+    more expensive
+    - Active/Active failover. Most expensive option, but no downtime and
+    lowestPTO and RPO
+
+
+--------------------------------------------------------------------
+Questions from quiz:
+If you need to change the AMI included in a launch template, what should you do?
+ - Create a new version of the launch template with the updated AMI.
+
+Amazon CloudWatch is the most common service used to trigger a scaling event
+in an EC2 Auto Scaling group.
+
+What is the easiest way to reduce the time it takes for your EC2 instance
+to be ready to take production traffic?
+ - Bake all your dependencies into the AMI.
+
+What should you add to your RDS database to help with a read-heavy workload?
+ - Read replicas
+
+How can you create a highly available application using EC2 Auto Scaling?
+ - Define multiple AZs in your Auto Scaling group.
+
+How can you automatically register EC2 instances with an ELB load balancer
+when they are launched?
+ - Attaching the load balancer to an Auto Scaling group
+
+What setting in your Amazon EC2 Auto Scaling group determines how many
+instances you need online right now?
+ - Desired capacity
+
+You would select Provisioned capacity for a DynamoDB table with a predictable workload.

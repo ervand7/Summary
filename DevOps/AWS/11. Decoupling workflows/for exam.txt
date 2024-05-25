@@ -1,0 +1,4 @@
+Never tightly couple. Avoid answers that include tight coupling.
+Loose coupling is better.
+Every level of application should be loosely coupled.
+There is no single way to decouple.

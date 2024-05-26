@@ -1,0 +1,97 @@
+Never tightly couple. Avoid answers that include tight coupling.
+Loose coupling is better.
+Every level of application should be loosely coupled.
+There is no single way to decouple.
+
+==================================== SQS (Simple Queue Service) ====================================
+Poll-based.
+SQS is pull service:
+USER --> FRONTEND EC2 --> SQS <-- BACKEND EC2
+
+SQS messaging. It's imperative that you know what all the settings do.
+Messages can only live up to 14 days max.
+Long polling is more efficient.
+Messages are 256 KB of text in any format.
+
+DLQs (Dead Letter Queues) are the best sideline. If the scenario laid out mentions
+problems with a message in SQS, think about DLQ and visibility timeout.
+Make sure you set up an alarm and alert on queue depth.
+FIFO Requirements. DLQs for FIFO. SQS queues must also be FIFO.
+You can create SQS DLQ for SNS topics.
+
+Ordered messages. FIFO.
+FIFO queues do not have the same performance as standard queues.
+Message deduplication ID. Token used for deduplication of sent messages. Matching
+deduplication IDs are not delivered during a deduplication interval.
+Message Group ID. Helps ensures messages are proceeded one by one
+in a strict order based on the group.
+It costs more since AWS must spend compute power to deduplicate messaged.
+
+Queues are not bi-directional. If you need communication to return to the instance
+that sent the message, you will need a second queue.
+
+==================================== SNS (Simple Notification Service) ====================================
+SNS - push-based messaging service. Real time alerting. Proactive notifications = SNS.
+Has different subscriber options.
+Only supports custom retry policies for HTTP(S) endpoints.
+FIFO topics support ordering and deduplication.
+Know the fanout architectures presented.
+Is often used with CloudWatch.
+
+==================================== API Gateway ====================================
+It acts as a secure front door to external communication coming into your environment.
+You should favor answers that include API Gateway over those that hardcode access and
+secret keys.
+Any time the exam talks about creating or managing an API, think API Gateway.
+API Gateway supports versioning for your API.
+You can choose different API types
+
+==================================== Batch ====================================
+Perfect for long-running and event-driven workloads. Anything requiring more
+than 15 minutes.
+It is managed service. It leverages AWS to handle the infrastructure creations
+and configurations.
+Jobs: Units of work submitted to AWS Batch.
+Job definitions: Blueprints within the job.
+All jobs get submitted to queues.
+
+Batch or Lambda? Lambda has several limitations. Consider runtimes, execution
+time limits, and file storage sizes.
+
+What type of compute? Use cases determine when to use Fargate or EC2 instances
+
+Managed or Unmanaged?
+ - Managed compute environments leverage AWS for managing capacity and compute.
+They are the most common.
+ - Unmanaged allows you to manage everything. They are used for specific scenarios.
+
+==================================== Amazon MQ ====================================
+Managed broker service for easily migrating message broker systems to
+the AWS Cloud.
+Allows you to leverage both Apache ActiveMQ or RabbitMQ engine types.
+New applications should try and leverage SNS with SQS.
+AmazonMQ restricts access to private networking. Must have VPC connectivity (e.g.
+Direct Connect or Site-to-Site VPN)
+Amazon MQ offers HA architectures that are dependent on the engine type
+
+==================================== Step Functions ====================================
+AWS Step Functions is serverless orchestration service meant for event-driven
+task executions using AWS services. Comes with a graphical interface.
+
+Execution types.
+ - Standard workflows are good for long-running, auditable executions.
+ - Express workflows are good for high-event-rate executions.
+
+Amazon State Language. All machines are written in the Amazon State Language format.
+
+States. States are elements within your state machines. These are things and
+actions that happen with workflows.
+State types: Pass, Task, Choice, Wait, Success, Fail, Parallel, MaP.
+
+Step Functions has many integrations with another AWS services.
+
+==================================== AppFlow ====================================
+AppFlow is fully managed integration service for transferring data to and from SaaS
+vendors and applications. It is bi-directional.
+Usage example: an application needs to reference large amount of SaaS data
+regularly, and the data needs to be accessed from within S3.

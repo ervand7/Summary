@@ -1,0 +1,73 @@
+==================================== RedShift ====================================
+On the exam always favor large batches.
+You should not use RedShift in place of RDS.
+Redshift is a relational database based on PostgreSQL.
+Supports a lot of data uo to 16 PB.
+You can deploy a Multi-AZ cluster for high availability.
+Use RedShift Spectrum to efficiently and quickly process data in S3.
+Leverage Snapshots for point-in-time recovery, or restoration to other regions.
+
+============================== EMR, ETL ===========================
+EMR - big data platform that allows you to process vast amount of data.
+
+EC2 Purchasing rules apply. Remember, you can leverage On-Demand, Reserved
+and Spot instances.
+
+Tools to keep in mind. Built-in support for Spark, Hive, HBase, Flink,
+Hudi and Presto
+
+Storage type Indicators. Keyword indicators can include Hadoop Distributed
+File System (HDFS) and EMR File System (EMRFS).
+
+Use Cases and Scenarios: Large dataset processing (ETL), web indexing,
+machine learning and large-scale genomics.
+
+================================== Kinesis ===============================
+Kinesis offers real-time processing.
+Kinesis vs SQS. Both are message brokers, but only Kinesis is real time.
+Kinesis Data Analytics - for transforming data.
+
+Scaling. Data Streams does not automatically scale. Data Firehouse does.
+
+================================== Athena ===============================
+Athena - SQL serverless solution. Allows you to directly query your data
+that's stored in S3.
+
+Athena and Glue. Knowing the 3000-foot view of these services is good
+enough for this exam.
+When Athena can work by itself, Glue can design a schema for your data
+
+================================== QuickSight ===============================
+QuickSight - data visualization service.
+If you see "Business intelligence" - think about QuickSight.
+Integrates with many AWS services.
+Per-session and per-user pricing.
+Enterprise edition allows for more advanced capabilities.
+SPICE is a powerful in-memory engine.
+
+================================== DataPipeline ===============================
+ - Managed ETL. Managed AWS service for ETL workflows that automates movements
+and transformations of your data.
+ - Data driven. Use data-driven workflows to create dependencies between tasks
+and activities.
+ - Storage integrations. There are several integrations, including DynamoDB,
+RDS, Redshift and S3
+ - Compute integrations. Easily integrate it with EC2 and EMR for managed
+compute needs.
+ - Amazon SNS. Leverage SNS for any notifications
+
+================================== Apache Kafka ===============================
+ - Fully managed AWS service for running and building Apache Kafka data
+streaming applications.
+ - Service handles control-plane operations: creation, updating and deletion
+of clusters
+ - Data Plane. Leverage the same Apache Kafka data-plane operations for
+ producing and consuming data.
+ - Automation mitigation most of the common failures
+ - Encryption. Integrates with KMS and uses TLS 1.2 for in-transit communications
+ - Logging. Push broker logs to cloudWatch, S3 or Kinesis data Firehose. API
+ calls are logged to CloudTrail
+
+
+
+

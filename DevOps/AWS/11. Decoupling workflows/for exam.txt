@@ -30,6 +30,10 @@ It costs more since AWS must spend compute power to deduplicate messaged.
 Queues are not bi-directional. If you need communication to return to the instance
 that sent the message, you will need a second queue.
 
+If the visibility timeout on a message in an SQS queue expires,
+what happens to the message?
+ - Answer: It's now available in the queue to be retrieved.
+
 ==================================== SNS (Simple Notification Service) ====================================
 SNS - push-based messaging service. Real time alerting. Proactive notifications = SNS.
 Has different subscriber options.
@@ -93,5 +97,19 @@ Step Functions has many integrations with another AWS services.
 ==================================== AppFlow ====================================
 AppFlow is fully managed integration service for transferring data to and from SaaS
 vendors and applications. It is bi-directional.
-Usage example: an application needs to reference large amount of SaaS data
+Usage example:
+ - an application needs to reference large amount of SaaS data
 regularly, and the data needs to be accessed from within S3.
+ - if you need to ingest data regularly from Salesforce into Amazon S3 for
+ your application to process.
+
+
+----------------------------------------------------------------------------------
+Questions:
+What type of firewall can be used in conjunction with API Gateway to help
+prevent DDoS attacks?
+ - Answer: Web Application Firewall (WAF)
+
+Which of the following endpoints can use a custom delivery policy to define
+how Amazon SNS retries the delivery of messages when server-side errors occur?
+ - Answer: HTTP/S

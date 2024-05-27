@@ -1,0 +1,40 @@
+================================== Lambda ===============================
+It's almost always better to select an answer on the test that uses
+Lambda or containers rather than a traditional operating system.
+
+Can be invoked by triggers. Lambda is easily integrated with many services.
+Can run inside or outside a VPC (default).
+
+============================ Serverless Repository =========================
+Templates. Define whole applications via AWS SAM templates. Private by default.
+You have 2 choices: publish or deploy.
+Is heavily integrated with Lambda.
+
+=============================== Containers ===============================
+Containers help you easily migrate from on-premises to AWS.
+ECS. Simple orchestration service for Docker containers (like k8s).
+Favor using AWS-designed services over third party.
+Anytime you see open source or Kubernetes, think EKS.
+
+=============================== Fargate ===============================
+Fargate is a serverless compute engine for docker containers.
+You should choose Fargate over EC2 or Lambda for these reasons:
+workload consistency, the different requirements of control.
+
+Fargate requires use of ECS or EKS. It is more expensive, but easier
+than EC2.
+
+Is good for tasks which longer than Lambda tasks (15 min).
+
+You leverage ECS TaskRoles for assigning IAM Permissions to the
+containers
+
+=============================== EventBridge ===============================
+Think of EventBridge if you want to trigger an action based on something
+that happens in AWS.
+
+Common use case is triggering Lambda.
+
+This is CloudWatch Events successor.
+This is the fastest way to respond to things happening in your environment.
+You can use a default bus or create a custom.

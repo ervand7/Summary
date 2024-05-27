@@ -7,8 +7,9 @@ You can deploy a Multi-AZ cluster for high availability.
 Use RedShift Spectrum to efficiently and quickly process data in S3.
 Leverage Snapshots for point-in-time recovery, or restoration to other regions.
 
-============================== EMR, ETL ===========================
+============================== EMR ===========================
 EMR - big data platform that allows you to process vast amount of data.
+Extract, transform, and load (ETL) jobs.
 
 EC2 Purchasing rules apply. Remember, you can leverage On-Demand, Reserved
 and Spot instances.
@@ -29,7 +30,12 @@ Kinesis Data Analytics - for transforming data.
 
 Scaling. Data Streams does not automatically scale. Data Firehouse does.
 
-================================== Athena ===============================
+SQS and Kinesis can both be queues.
+
+Amazon Managed Service for Apache Flink (formerly Kinesis Data Analytics) allows
+you to query Kinesis data streams and perform interactive data analytics.
+
+================================== Athena and Glue ===============================
 Athena - SQL serverless solution. Allows you to directly query your data
 that's stored in S3.
 
@@ -38,7 +44,7 @@ enough for this exam.
 When Athena can work by itself, Glue can design a schema for your data
 
 ================================== QuickSight ===============================
-QuickSight - data visualization service.
+QuickSight - data visualization service (creating a dashboards).
 If you see "Business intelligence" - think about QuickSight.
 Integrates with many AWS services.
 Per-session and per-user pricing.
@@ -56,7 +62,7 @@ RDS, Redshift and S3
 compute needs.
  - Amazon SNS. Leverage SNS for any notifications
 
-================================== Apache Kafka ===============================
+================================== Apache Kafka (MSK) ===============================
  - Fully managed AWS service for running and building Apache Kafka data
 streaming applications.
  - Service handles control-plane operations: creation, updating and deletion
@@ -68,6 +74,11 @@ of clusters
  - Logging. Push broker logs to cloudWatch, S3 or Kinesis data Firehose. API
  calls are logged to CloudTrail
 
+================================== OpenSearch ===============================
+OpenSearch offers a fully managed way of running search and analytics engines.
+If you are given a scenario on the exam that talks about creating a logging
+solution involving visualisation of log file analytics or BI reports, there's
+a good chance OpenSearch will be included.
 
-
-
+It is used as a manager analytics and visualisation service.
+AWS may still reference its predecessor Elasticsearch. The same concepts apply.

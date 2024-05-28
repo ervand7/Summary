@@ -1,0 +1,127 @@
+================================== DDoS ===============================
+A Distributed Denial of Service attack attempts to make your website
+or application unavailable to your end users
+
+Common DDoS attacks include layer 4 attacks suck as SYN floods or NTP amplification attacks.
+
+Common layer 7 attacks include floods of GET/POST requests
+
+================================== CloudTrail ===============================
+Logging API calls.
+It allows After-the-fact incident investigation.
+Near real-time intrusion.
+Industry and regulatory compliance.
+
+CloudTrail is just CCTV for your AWS account. It logs all API calls made to
+your AWS account and stores these logs in S3
+
+================================== Shield ===============================
+Shield protects against Layer 3 and Layer 4 only.
+Shield is high level and is used to protect against DDoS. If you see a scenario
+about DDoS mitigation or protection against Layers 3 and 4, think about Shield.
+Advanced costs 3000 USD but give you 24/7 DDoS response team.
+
+================================== AWS WAF ===============================
+For filtering traffic.
+WAF operates layer 7. If you see scenario about layer 7, think about WAF.
+
+================================== GuardDuty ===============================
+Guarding your network.  It user AI to learn what normal behavior looks like in
+your account and to alert you of any abnormal or malicious behaviour.
+
+Updates a database of malicious domains using external feed from third parties.
+
+Monitors CloudTrail logs, VPC Flow lLogs and DNS logs.
+
+Finding appear in the GuardDuty Dashboard. CloudWatch events can be used to trigger
+a Lambda function to address a threat
+
+================================== AWS Firewall Manager ===============================
+See a scenario about multiple AWS accounts and resources that need to be
+secures centrally, think about AWS Firewall Manager.
+
+================================== Macie ===============================
+Macie uses AI to analyze data in S3 and helps identify PII, PHI and financial data.
+Great for HIPAA and GDPR compliance as well as preventing identity .
+Macie alerts can be sent to EventBridge.
+Automate remediation actions using other AWS services as Step Functions.
+
+================================== Inspector ===============================
+It is used to perform vulnerability scans on both EC2 instances and VPCs
+
+================================== KMS ===============================
+KMS - Key Management Service.
+It makes it easy to create and control the encryption keys used to encrypt your data.
+
+3 ways to generate a CMK:
+1) AWS creates the CMK for you. The key material for a CMK is generated
+within HSMs managed by AWS KMS
+2) Import key material from your own key management infrastructure
+3) Have the key material generated and used in an AWS CloudHSM cluster
+
+================================== Secrets Manager ===============================
+ - Secrets Manager can be used to securely store your application secrets:
+database credentials, API keys, SSH keys, passwords, etc.
+ - Applications use Secrets Manager API
+ - Rotating credentials is super easy, but be careful
+ - When enabled, Secrets Manager will rotate credentials immediately
+ - Make sure all your application instances are configured to use Secrets Manager
+ before enabling credentials rotation
+
+================================== Parameter Store ===============================
+Parameter Store or Secrets Manager? If you are trying to minimize cost, choose Parameter Store.
+
+================================== Presigned URLs ===============================
+For sharing private files in S3 buckets
+
+================================== Advanced IAM Policy Documents ===============================
+ - Not explicitly allowed == implicitly denied
+ - Explicitly deny > everything else
+ - Only attached policies have effect
+ - AWS joins all applicable policies
+
+================================== Certificate Manager ===============================
+If you see scenarios around SSL certificates and what service you should use
+to integrate SSL, choose Certificate Manager
+
+Certificate Manager is integrated with Elastic Load Balancing, CloudFront and API Gateway.
+
+Benefits. Certificate Manager is free. It automatically renews your SSL certificates
+ and rotate the old certificates with new
+
+================================== AWS Audit Manager ===============================
+If you have a scenario question about HIPAA or GDPR compliance that asks
+about continuous auditing ot automating auditing reports, choose Audit Manager
+
+================================== AWS Artifact ===============================
+In the exam usually is used as a distractor.
+If you see scenario question about audits and the need for compliance reports,
+think about AWS Artifact.
+
+================================== Amazon Cognito ===============================
+Authenticating access.
+ - User pool: User directories that provide sign-up and sign-in options for users
+of your application
+ - Identity pool: Allows your users to access other AWS services
+ - You can use User pool and Identity pool separately or together
+
+================================== Amazon Detective ===============================
+Use as a distractor.
+Amazon Detective operates across multiple AWS services and analyzes the root
+cause of an event.
+
+Do not confuse this with Inspector, which is an automated vulnerability
+management service that continually scans EC2 and container workloads for software
+vulnerabilities and unintended network exposure.
+
+================================== AWS Network Firewall ===============================
+If you see a scenario question about filtering your network traffic before
+if reaches your internet gateway, or if you require intrusion prevention systems
+or any hardware firewall requirements, think about AWS Network Firewall
+
+================================== AWS Security Hub ===============================
+If you have a scenario question about a single place to view all your security alerts across
+multiple AWS security services and accounts, think about AWS Security Hub
+
+
+

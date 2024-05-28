@@ -1,9 +1,14 @@
 ================================== Lambda ===============================
+Limit: runtime - 15 min, RAM - 10 GB.
 It's almost always better to select an answer on the test that uses
 Lambda or containers rather than a traditional operating system.
 
 Can be invoked by triggers. Lambda is easily integrated with many services.
 Can run inside or outside a VPC (default).
+
+Lambda loves roles.
+
+CloudWatch Events (EventBridge) is a common trigger for Lambda.
 
 ============================ Serverless Repository =========================
 Templates. Define whole applications via AWS SAM templates. Private by default.
@@ -17,6 +22,7 @@ Favor using AWS-designed services over third party.
 Anytime you see open source or Kubernetes, think EKS.
 
 =============================== Fargate ===============================
+Can't work alone.
 Fargate is a serverless compute engine for docker containers.
 You should choose Fargate over EC2 or Lambda for these reasons:
 workload consistency, the different requirements of control.
@@ -38,3 +44,49 @@ Common use case is triggering Lambda.
 This is CloudWatch Events successor.
 This is the fastest way to respond to things happening in your environment.
 You can use a default bus or create a custom.
+
+=============================== Amazon Elastic Container Registry ===============================
+Storing custom Docker images.
+ - Container Image Storage. AWS-managed container image registry service.
+ - Supported formats: Docker images, OCI-images and OCI-compatible artifacts.
+ - Lifecycle Policies. Rules defining when to expire and remove unused or older images.
+ - Image scanning. Scan or push repository settings allow for identifying software
+vulnerabilities in your container images.
+ - Tag mutability. Helps prevent image tags from beeng overwritten.
+ - Keywords for look for. Questions related to a managed container image registry,
+ OCI repositories or image integration with Amazon ECS and Amazon EKS
+
+=============================== using open-source Kubernetes ===============================
+ - Amazon ECS Anywhere If you need to manage a container-based application on-premises
+via an AWS service.
+ - Amazon EKS Anywhere. You can run your Kubernetes clusters on-premises while easily maintaining
+ AWS best practices.
+Open source = Kubernetes.
+Look out for questions related to self-managed Kubernetes deployment that are similar
+to Amazon EKS.
+Use EKS-D when you need to run versioned deployments of clusters outside of AWS-managed
+services.
+EKS is not commonly featured on the exam.
+Based on EKS Distro, it allows you to run EKS K8s clusters on-premises.
+Distro allows customers to maintain similar operational efficiency to Amazon EKS
+and allows you to leverage Amazon EKS Anywhere.
+It is managed by you. Including control plane, management and location.
+
+=============================== Aurora Serverless ===============================
+ - On-demand, auto scaling version of Aurora database service. Capacity adjusted for you.
+ - ACU (Aurora capacity units). Set min and max ACU for scaling needs. Billed per
+ second for used resources only.
+ - Exam scenarios: variable traffic or workloads, new applications, capacity planning and
+development/testing needs
+
+==================================== X-Ray ====================================
+ - Application insights. Collects data for gaining insights to application requests
+and responses
+ - Important terms to know: traces, tracing headers and segments
+ - Integrations: EC2, Lambda and API Gateway.
+ - Exam scenarios: scenarios involving application insights, viewing response times of
+ downstream resources and HTTP response analysis.
+
+==================================== AppSync ====================================
+Scalable GraphQL interface for application developers.
+Keywords: GraphQL, fetching app data, declarative coding and frontend app data fetching

@@ -1,0 +1,47 @@
+Whenever is possible, select an answer that doesn't include manual steps.
+Select automation the entire process (not partial).
+Select automation over manual work.
+Benefits. It is more reliable and faster.
+
+================================== CloudFormation ===============================
+CloudFormation is perfect for creating immutable infrastructure.
+If it finds an error, CloudFormation rolls back based on your configuration.
+Hard-coded values and resource IDs can be the reason templates fail to create.
+CloudFormation makes the same API calls you make manually.
+
+Stateless is better than stateful on the exam.
+
+Immutable pattern:
+Deployed application code can't modify existing cloud resources, which, as
+a result, requires the creation of new resources.
+
+Parameters allows you to pass values into the template.
+
+If CloudFormation stack encounters an error, by default, your resources are terminated.
+
+================================== Elastic Beanstalk ===============================
+Favor Elastic Beanstalk if you see questions regarding simple solution to
+bundle and deploy applications.
+
+ - Deploys and scales your web applications, including the web application server platform.
+ - Supported languages include Java, PHP, Python, Ruby, Go, .NETm Node.js.
+ - PaaS that provisions the AWS resources for you (e.g. EC2, RDS, S3, Elastic
+Load Balancer, Auto Scaling Groups)
+ - OS and application server updates. Monitoring metrics, and health checks
+ are all included
+ - It can fully manage the EC2 instances for you, or you can take full
+ administrative control
+
+================================== Systems Manager ===============================
+For sensitive data that needs to be stored and referenced in a secure manner.
+
+Automation documents are the primary method used in scenarios asking you to
+configure the inside of an EC2 instance.
+
+ - Systems Manager can manage both on-premises and AWS compute.
+ - Patch manager can patch, update and configure instances.
+ - Automation Documents are usable by AWS Config to enforce architecture states.
+ - Parameter Store is free to store config data and even secret values.
+ - Securely connect to your compute using Session Manager instead of SHH or RDP.
+ - Systems Manager interactions require the SMM Agent to be installed and running.
+

@@ -26,6 +26,7 @@ For filtering traffic.
 WAF operates layer 7. If you see scenario about layer 7, think about WAF.
 
 ================================== GuardDuty ===============================
+Intelligent threat detection.
 Guarding your network.  It user AI to learn what normal behavior looks like in
 your account and to alert you of any abnormal or malicious behaviour.
 
@@ -49,9 +50,19 @@ Automate remediation actions using other AWS services as Step Functions.
 ================================== Inspector ===============================
 It is used to perform vulnerability scans on both EC2 instances and VPCs
 
-================================== KMS ===============================
+================================== KMS and CloudHSM ===============================
 KMS - Key Management Service.
+7 days is the minimum length of time before you can schedule a KMS key to be deleted.
 It makes it easy to create and control the encryption keys used to encrypt your data.
+ - Shared tenancy of underlying hardware
+ - Automatic key rotation
+ - Automatic key generation
+
+CloudHSM
+ - Dedicated HSM to you
+ - Full control of underlying hardware
+ - Full control of users, groups, keys, etc
+ - No automatic key rotation
 
 3 ways to generate a CMK:
 1) AWS creates the CMK for you. The key material for a CMK is generated
@@ -67,6 +78,9 @@ database credentials, API keys, SSH keys, passwords, etc.
  - When enabled, Secrets Manager will rotate credentials immediately
  - Make sure all your application instances are configured to use Secrets Manager
  before enabling credentials rotation
+
+If you need more than 10 000 parameters, key rotation, or the ability to generate
+password using CloudFormation, use Secrets Manager.
 
 ================================== Parameter Store ===============================
 Parameter Store or Secrets Manager? If you are trying to minimize cost, choose Parameter Store.
@@ -87,7 +101,7 @@ to integrate SSL, choose Certificate Manager
 Certificate Manager is integrated with Elastic Load Balancing, CloudFront and API Gateway.
 
 Benefits. Certificate Manager is free. It automatically renews your SSL certificates
- and rotate the old certificates with new
+and rotate the old certificates with new
 
 ================================== AWS Audit Manager ===============================
 If you have a scenario question about HIPAA or GDPR compliance that asks

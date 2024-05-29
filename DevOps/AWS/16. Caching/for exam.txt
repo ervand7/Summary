@@ -1,0 +1,32 @@
+Whenever possible, pick an answer that includes a caching solution.
+If you see a question about in-memory database, think about Redis or DynamoDB.
+Backups are not supported on any solutions besides Redis. Memcached or DAX
+are not solutions in this case.
+
+================================== CloudFront ===============================
+CloudFront is a CDN (content delivery network). Caching and distribution via
+HTTP and HTTPS protocols.
+CloudFront caches content at the edge locations to speed up delivery of data.
+CloudFront fixes all connection issues.
+This CDN works for both AWS and on-site architecture.
+It can be used to block individual countries, but the WAF is a better tool for it.
+All the locations. You cannot pick specific edge locations for your distributions.
+
+CloudFront is tho only option to add HTTPS to a static website beeng hosted
+in S3 bucket.
+
+================================== ElastiCache and DAX ===============================
+On the exam favor answers that include a database caching solution.
+Redis can be more than just a cache - ot can be a standalone database as well.
+
+Redis and Memcached are supported by ElastiCache.
+
+DAX is designed to sit in front of DynamoDB.
+
+================================== Global Accelerator ===============================
+Both Route 53 and Global Accelerator can create weights for application endpoints.
+
+For any scenarios about IP caching, favor Global Accelerator.
+You are provided two Anycast IP addresses.
+Uses edge locations to help speed everything up.
+Meant for TCP and UDT traffic (e.g. gaming apps, IoT messaging)

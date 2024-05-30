@@ -133,17 +133,3 @@ your AWS resources and accounts
 ================================== AWS Well-Architected Tool ===============================
  - For using current workload against established AWS best practices
  - Documentation. Aids in documentation of workload and architecture decisions
-
-
-
-
-
-
-
-
-
-
-
-
-
-

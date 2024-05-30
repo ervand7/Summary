@@ -114,6 +114,8 @@ think about AWS Artifact.
 
 ================================== Amazon Cognito ===============================
 Authenticating access.
+The main role of AWS Cognito is to serve as a Customer Identity and Access
+Management solution.
  - User pool: User directories that provide sign-up and sign-in options for users
 of your application
  - Identity pool: Allows your users to access other AWS services

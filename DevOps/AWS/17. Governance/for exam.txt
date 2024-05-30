@@ -1,0 +1,149 @@
+Can it be centralized?
+How do we standardize?
+How do we enforce the standards>
+Are the users in the question internal or external?
+
+================================== Organizations ===============================
+ - Centrally manage your multi-account AWS designs in a hierarchical manner
+ - SCPs (Service control Policies) are the best way to have the say in what
+ you can do in your AWS accounts
+ - Consolidated billing can easily roll up to a single account for payment
+ - RIs and Saving Plans can be shared across accounts within the organization
+ - You can designate a single AWS account to hold your CloudTrail logs
+ - Centralized logs
+ - Isolating workloads into separate accounts
+
+================================== AWS RAM ===============================
+Use AWS RAM to easily share resources across AWS accounts
+Sharing resources means you do not have to recreate them each time
+AWS RAM is free to use, but you pay for the resources that are beeng shared
+Remember that RAM easily allows organizations to share components like VPC subnets
+Remember that participants cannot modify the shared resources
+
+================================== Cross-Account Role Access ===============================
+Anytime temp credentials are mentioned, scan the answers looking for roles
+It will always preferred to create cross-account roles instead of IAM users
+Use Roles everywhere
+Any temporary employees should get role access only, avoid permanent credentials.
+Role assumption is temporary (credentials expire)
+
+Where is the account ID placed when setting up cross-account role access?
+ - Answer: In the role trust policy.
+
+================================== AWS Config ===============================
+ - AWS Config is the best way to check what standards are applied to your architecture
+ - You can track previous deleted AWS resources using AWS config
+ - You can use Automation documents and Lambda to enforce your standards
+ - You can roll up your results to a single region (aggregation)
+ - AWS Config is a regional service
+ - Remember: AWS config is not preventative
+ - Automate the response. AWS Config offers the ability to automatically
+ remediate problems using Automation Documents
+ - AWS Config does not prevent configuration changes.
+
+================================== Directory Service ===============================
+Active Directory is a common topic when you should favor Directory Service
+Managed Service. Whenever possible, use Directory Service over EC2 instances for AD.
+You should prefer managed solutions over unmanaged
+It's OK to leave AD on-premises. This is frequently the case in exam scenarios
+Cross-account role is a better solution than creating unnecessary IAM credentials.
+
+================================== Cost Explorer ===============================
+ - Allows you to visualize your AWS spend
+ - Watch for answers that use Cast Explorer for questions about budgeting or
+ controlling spend
+ - Use tags. Tage are one of the most important ways to track your spend
+ - Cost Explorer and AWS Budgets go hand in hand
+ - Cost Explorer can forecast spending up to 12 months
+ - Cost Explorer offers hourly and monthly granularity
+ - Organizations Payes accounts can break down costs per Linkedin Account
+
+================================== AWS Budgets ===============================
+Likely won't be on the exam in depth, but you need to know you can create budgets.
+Budgets are the best way to let users know they are getting close to overspending.
+You can use Cost Explorer to create fine-granted budgets.
+Know that there are available 6 types of budgets.
+Tags can be used to create very specific budgets.
+
+================================== AWS Costs and Usage Reports ===============================
+ - Most comprehensive and detailed view of your SWA spending.
+ - AWS CUR easily integrates with S3 for centralizing reports.
+ - Use within Organizations ate organization level, OU level, or member account level.
+ - Built-in support for configuring reports to be queried with Athena, ingested to RedShift
+or visualized with QuickSight
+ - Automatic report updates occur at least once a day
+ - Any mention of detailed cost breakdowns, delivery of daily usage reports ot
+ tracking Savings Plans utilization
+
+================================== Saving Plans and AWS Compute Optimizer ===============================
+ - AWS Compute Optimizer provides recommendations based on collected utilization
+and configuration metrics
+ - Works with EC2, Auto Scaling groups, AWS Lambda, and Amazon EBS
+ - AWS Organizations. Use for an organization in management account, at member account
+ level, or a standalone account
+ - Savings Plans flexible offerings for pricing an AWS compute usage;
+ similar to Reserved instances
+ - Plan Types. Compute Saving Plans, EC2 instance Saving Plans or SageMaker Saving Plans
+ - Pricing Terms. One-year and tree-year agreements. All Upfront, Partial Upfront,
+ or No Upfront
+
+================================== Trusted Advisor ===============================
+ - It's free to use
+ - Leverage established industry best practices when checking your accounts
+ - Remember, it works at an account level and makes recommendations based on our entire account
+ - Five categories: Cost Optimization, Performance, Security, Service Limits and
+ Fault Tolerance
+ - Basic and Develop support comes with limited free checks
+ - Enterprise grants full access to ALL checks. Enables EventBridge automations ass well.
+
+================================== AWS Control Tower ===============================
+ - Governance. Easy way to set up and maintain governance in multi-AWS account environments
+ - Accounts. Automate account deployment with preconfigured compliance rules
+ - Shares Accounts. Management account, lod archive account and audit account
+ - Preventative GuardRail. Leverages service control policies to prevent
+noncompliant actions
+ - Detective Guardrail. Leverage AWS Config rules to detect and alert on
+ violating actions or changes
+ - Scenarios: Automated multi-account governance, guardrails, account orchestration,
+ and governed user account provisioning.
+
+================================== AWS Licence Manager ===============================
+This service is only for licences.
+ - It makes licence management more efficient
+ - Scenarios: AWS-hosted licence management, Hybrid environment licence management,
+ Preventing licence abuse
+
+================================== AWS Personal Health Dashboard ===============================
+ - Health visibility. Gain visibility into service and resource health of
+your AWS resources and accounts
+ - Alerting. Receive notifications and alerts for affected resources and upcoming events
+ - Automate. Automate actions based on events using Amazon EventBridge
+ - Specific and Public events
+ - Scenarios: Checking alerts for service health and automating the reboot of EC2 instances
+ for AWS maintenance
+
+================================== Service catalog and AWS Proton ===============================
+ - Service catalog provides catalogs of preapproved services as CloudFormation templates
+ - End users. Allows end users to deploy the approved services into their own accounts
+ - Standardized infrastructure. AWS Proton offers IaC provisioning and deployment
+ of serverless/container architectures
+ - Empower developers. Enable developers to move faster with a self-service tool to
+ provision infrastructure and manage code deployments
+
+================================== AWS Well-Architected Tool ===============================
+ - For using current workload against established AWS best practices
+ - Documentation. Aids in documentation of workload and architecture decisions
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+================================== AWS Amplify ===============================
+Tools for simplified front-end web and mobile development.
+
+AWS Amplify could be the answer for scenarios like:
+Manager server-side rendering in AWS, easy mobile development, and developers
+running full-stack applications
+
+================================== AWS Device Farm ===============================
+AWS Device Farm could be the answer for scenarios like:
+Requires application testing on mobile devices in AWS (in particular, needing actual phones
+or tablets for automated testing)
+
+================================== AWS Pinpoint ===============================
+For answers related to marketing campaigns, user engagements and sending
+email to targeted audiences, or scenarios leveraging machine learning with
+user engagement predictions.

@@ -1,0 +1,98 @@
+Where are we going?
+How do we get there?
+Is it all at once?
+Or is it a partial migration?
+
+================================== Snow Family ===============================
+Snowball. Are perfect for moving many terabytes of data.
+Storage, Compute and GPU. Can hold up to 81 TB of data.
+Pick Snowball if you see this scenario: Not beeng able to transfer over the internet,
+having a large amount of data or having a very slow internet connection
+
+Snowcone. Small, robust edge computing. Can hold up to 8 tb of data.
+
+Snowmobile. Up to 100 PB in a very large truck.
+
+Both Ways. The Snow Family works to get data into AWS, as well as shipped back to you.
+
+Timing. Generally, turnaround is a week, but that mostly depends on the customer.
+
+================================== Storage Gateway ===============================
+Storage Gateway is a hybrid solution.
+Anytime on-premises storage is mentioned, you should be thinking about which
+type of Storage Gateway can complement the existing architecture.
+
+About Storage Gateway types:
+ - NFS service is out of storage? - pick File Gateway
+ - I am darling to deal with tape backups? - pick Tape Gateway
+
+================================== DataSync ===============================
+DataSync is Migration service for one-time migration.
+It is the best choice for transferring large amounts of data between on-premises
+storage, edge locations, other clouds, and AWS Storage services.
+
+It is agent based. An agent needs to be installed on the architecture on
+your end to get it into AWS.
+BUT!!! An agent is not required when transferring between AWS storage services
+in the same AWS account.
+
+Endpoints. S3 EFS and FSx are all supported locations for your data.
+
+================================== AWS Transfer Family ===============================
+The easiest way to change nothing. The AWS Transfer Family excels when you have
+a collection of alder applications using protocols that cannot be changed. You can
+easily "trick" these applications into using S3 storage.
+If you see anything FTP related, pick Transfer Family.
+
+Legacy. This tool excels with bringing legacy application storage to the cloud.
+
+FTPS, SFTP - that's from outside of your AWS environment in.
+
+DNS. The DNS entry stays tge same, but the location for the storage becomes S3.
+
+================================== Migration Hub ===============================
+Migration Hub is an organisational tool that gives you a way to organize all your steps.
+You will need other tools to complete the migration through.
+
+DMS is going to be used to move databases.
+SMS (Server Migration Service) will be the tool for moving servers (if you have VMs)
+Migration Hub will give you the overview you need.
+
+Magic. One the exam, these tools will solve all application migration needs.
+
+Schema conversion. It's easy to migrate to Aurora or RDS.
+
+Focus on answers that include doing a complete migration
+
+========== AWS Application Discovery Service or AWS Application Migration Service ===========
+AWS Application Discovery Service.
+ - For easily and quickly migrate applications to the AWS Cloud.
+ - Agentless discovery performed via OVA file in vCenter. Easy migration of VMs.
+ - Agent-base discovery. Installable agent for Windows and Linux to collect detailed
+ information on VMs and physical hosts.
+
+AWS Application Migration Service (also known as AWS MGN):
+ - Automated lift and shift of migrating infrastructure to AWS.
+ - Replication. Replicate source services (VMs, physical or cloud servers)
+ into AWS for non-disruptive cutovers.
+ - RTO and RPO. RTO is measured in minutes, depending on OS boot time. RPO is measures
+ in sub-seconds
+
+=========================== AWS Database Migration Service (AWS DMS) =======================
+It allows for easy migration of relational databases, NoSQL databases, data warehouses
+and other data stores to AWS.
+It works for on-premises to the cloud or for moving data between different RDS databases.
+
+DMS server runs replication software that executes specified tasks.
+
+One of the endpoints must be within AWS. You cannot leverage this for external-only
+migrations.
+
+SCT (Schema Conversion Tool) allows you to convert database schemas to a new or
+different target database schema.
+Example of usage:
+To convert an Oracle database to a format compatible with Amazon Aurora
+for a database migration.
+
+Snowball. You can migrate massive databases to AWS more efficiently by using Snowball
+devices with DMS.

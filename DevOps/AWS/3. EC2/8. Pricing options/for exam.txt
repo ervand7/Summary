@@ -11,6 +11,7 @@
  best-effort posted to the metadata of your EC2 instance 2 minutes before it
  is stopped or terminated.
  Great for apps with flexible start and end times.
+ Scenarios: batch runs and interruptions allowed.
 
  - Reserved. Reserved capacity for 1 or 3 years. Up to 72% discount on the
  hourly charge.

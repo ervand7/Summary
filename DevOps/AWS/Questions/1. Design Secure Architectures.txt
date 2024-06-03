@@ -1,0 +1,39 @@
+You are a solutions architect working for an online gaming company.
+The company wants to integrate Amazon, Facebook, and Google authentication
+into the application so people can use their existing social media
+accounts to sign up to the application. Which AWS service facilitates this?
+ - Amazon Cognito
+Amazon Cognito provides authentication, authorization, and user management
+for your web and mobile apps in a single service without the need for custom code.
+
+
+You work for an Australian company that is undergoing an audit and requires compliance
+reports for its AWS-hosted applications. Specifically, you need to obtain an
+Australian Hosting Certification Framework - Strategic Certification certificate
+promptly. What steps should you take to accomplish this quickly?
+ - Use AWS Artifact to download the certificate.
+AWS Artifact is a single source you can visit to get the compliance-related
+information that matters to you, such as AWS security and compliance reports
+or select online agreements.
+
+
+Your company has received results back from an audit. One of the mandates from the
+audit is that your application, which is hosted on EC2, must encrypt the data
+before writing this data to storage. It has been directed internally that you
+must have the ability to manage dedicated hardware security module instances
+to generate and store your encryption keys. Which service could you use to
+meet this requirement?
+ - AWS CloudHSM
+
+
+You have been put in charge of S3 buckets for your company. The buckets are separated
+based on the type of data they are holding and the level of security required
+for that data. You have several buckets that have data you want to safeguard
+from accidental deletion. Which configuration will meet this requirement?
+ - Enable versioning on the bucket and multi-factor authentication delete as well.
+
+
+You are managing S3 buckets in your organization. This management of S3 extends to
+Amazon Glacier. For auditing purposes, you would like to be informed if an object is
+restored to S3 from Glacier. What is the most efficient way you can do this?
+ - Configure S3 event notifications for restore operations from Glacier

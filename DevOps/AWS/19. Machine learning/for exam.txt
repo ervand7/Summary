@@ -1,0 +1,47 @@
+Polly, Lex and Translate are used to power Alexa.
+
+================================== Kendra ===============================
+If you have a scenario question about using machine learning to build
+an intelligent search service using unstructured text - favor Kendra
+
+================================== Textrack ===============================
+Use Textrack to convert text, handwriting and data from scanned documents into test.
+
+================================== Amazon Forecast ===============================
+If you have a scenario question where you need to analyze time-series data and
+make predictions based on that analysis - favor Amazon Forecast.
+
+================================== Amazon Fraud Detector ===============================
+Look for scenarios where you are asked to build a fraud detection machine learning
+model that is highly customized based on your data.
+
+================================== Transcribe ===============================
+If you see a scenario about using machine learning to convert video and/or audio to text
+(e.g. generating closed captioning)
+
+================================== Lex ===============================
+If you see a scenario when you need to build conversational chatbots - favor Lex.
+This is the service that powers the logic behind A-Lex-a.
+
+================================== Polly ===============================
+Use Polly to convert text into Natural speech in multiple languages
+
+================================== Recognition ===============================
+If you have a scenario question about content moderation using AI/ML - favor Recognition
+
+================================== Sagemaker ===============================
+Ground Truth. Set up manage labeling jobs for training databases using active
+learning and human labeling
+
+Notebook. Access a managed Jupiter Notebook environment.
+
+Training. Train and tune models.
+
+Interface. Package and deploy your machine learning models at scale.
+
+================================== Translate ===============================
+If you have a scenario question when you need to translate from one language to another
+using deep learning/neural networks, think of Amazon Translate
+
+================================== Comprehend ===============================
+Used to help you understand the meaning and sentiment in your text.

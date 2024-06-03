@@ -17,11 +17,15 @@ Is heavily integrated with Lambda.
 
 =============================== Containers ===============================
 Containers help you easily migrate from on-premises to AWS.
-ECS. Simple orchestration service for Docker containers (like k8s).
+ECS (Elastic Container Service) — это сервис для запуска и управления
+контейнерами на инфраструктуре AWS
+Simple orchestration service for Docker containers (like k8s).
 Favor using AWS-designed services over third party.
-Anytime you see open source or Kubernetes, think EKS.
+Anytime you see open source or Kubernetes, think ECS.
 
 =============================== Fargate ===============================
+Fargate — это дополнение к ECS, которое позволяет вам запускать контейнеры
+без управления серверами.
 Can't work alone.
 Fargate is a serverless compute engine for docker containers.
 You should choose Fargate over EC2 or Lambda for these reasons:
@@ -57,6 +61,9 @@ vulnerabilities in your container images.
  OCI repositories or image integration with Amazon ECS and Amazon EKS
 
 =============================== using open-source Kubernetes ===============================
+Amazon EKS (Elastic Kubernetes Service) — это управляемый сервис, который позволяет запускать,
+масштабировать и управлять контейнерными приложениями с использованием Kubernetes.
+
  - Amazon ECS Anywhere If you need to manage a container-based application on-premises
 via an AWS service.
  - Amazon EKS Anywhere. You can run your Kubernetes clusters on-premises while easily maintaining
@@ -66,8 +73,9 @@ Look out for questions related to self-managed Kubernetes deployment that are si
 to Amazon EKS.
 Use EKS-D when you need to run versioned deployments of clusters outside of AWS-managed
 services.
-EKS is not commonly featured on the exam.
-Based on EKS Distro, it allows you to run EKS K8s clusters on-premises.
+
+Amazon EKS is based on the EKS Distro, which allows you to leverage the best
+practices and established processes on-premises that Amazon EKS uses in AWS.
 Distro allows customers to maintain similar operational efficiency to Amazon EKS
 and allows you to leverage Amazon EKS Anywhere.
 It is managed by you. Including control plane, management and location.

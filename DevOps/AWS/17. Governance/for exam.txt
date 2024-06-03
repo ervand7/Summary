@@ -4,6 +4,7 @@ How do we enforce the standards>
 Are the users in the question internal or external?
 
 ================================== Organizations ===============================
+Organizations can help with centrally managing accounts.
  - Centrally manage your multi-account AWS designs in a hierarchical manner
  - SCPs (Service control Policies) are the best way to have the say in what
  you can do in your AWS accounts
@@ -50,7 +51,7 @@ Cross-account role is a better solution than creating unnecessary IAM credential
 
 ================================== Cost Explorer ===============================
  - Allows you to visualize your AWS spend
- - Watch for answers that use Cast Explorer for questions about budgeting or
+ - Watch for answers that use Cost Explorer for questions about budgeting or
  controlling spend
  - Use tags. Tage are one of the most important ways to track your spend
  - Cost Explorer and AWS Budgets go hand in hand
@@ -59,7 +60,8 @@ Cross-account role is a better solution than creating unnecessary IAM credential
  - Organizations Payes accounts can break down costs per Linkedin Account
 
 ================================== AWS Budgets ===============================
-Likely won't be on the exam in depth, but you need to know you can create budgets.
+AWS Budgets gives you the ability to set custom budgets that alert you when
+your costs or usage exceed (or are forecasted to exceed) your budgeted amount.
 Budgets are the best way to let users know they are getting close to overspending.
 You can use Cost Explorer to create fine-granted budgets.
 Know that there are available 6 types of budgets.
@@ -88,6 +90,7 @@ and configuration metrics
  or No Upfront
 
 ================================== Trusted Advisor ===============================
+AWS Trusted Advisor provides recommendations that help you follow AWS best practices.
  - It's free to use
  - Leverage established industry best practices when checking your accounts
  - Remember, it works at an account level and makes recommendations based on our entire account

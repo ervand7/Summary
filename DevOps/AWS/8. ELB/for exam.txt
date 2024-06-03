@@ -1,5 +1,8 @@
 Amazon Web Services (AWS) offers different types of Elastic Load Balancers (ELBs):
 1. **Application Load Balancer (ALB)**:
+The load balancer routes requests only to the healthy instances. When the load
+balancer determines that an instance is unhealthy, it stops routing requests to
+that instance.
  - Application Load Balancers can be configured to use static IPs by partnering with
  a Network Load Balancer.
  - Listeners. A listener checks for connection requests from clients, using the protocol

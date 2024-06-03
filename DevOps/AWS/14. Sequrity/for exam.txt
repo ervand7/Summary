@@ -7,6 +7,8 @@ Common DDoS attacks include layer 4 attacks suck as SYN floods or NTP amplificat
 Common layer 7 attacks include floods of GET/POST requests
 
 ================================== CloudTrail ===============================
+AWS CloudTrail is a service that enables governance, compliance, operational
+auditing, and risk auditing of your AWS account.
 Logging API calls.
 It allows After-the-fact incident investigation.
 Near real-time intrusion.
@@ -52,6 +54,8 @@ It is used to perform vulnerability scans on both EC2 instances and VPCs
 
 ================================== KMS and CloudHSM ===============================
 KMS - Key Management Service.
+If you need to secure your encryption keys in a service backed by FIPS-validated
+HSMs, but you do not need to manage the HSM, you can try KMS.
 7 days is the minimum length of time before you can schedule a KMS key to be deleted.
 It makes it easy to create and control the encryption keys used to encrypt your data.
  - Shared tenancy of underlying hardware
@@ -95,6 +99,8 @@ For sharing private files in S3 buckets
  - AWS joins all applicable policies
 
 ================================== Certificate Manager ===============================
+AWS Certificate Manager is used to create and store SSL certificates,
+not certification certificates.
 If you see scenarios around SSL certificates and what service you should use
 to integrate SSL, choose Certificate Manager
 
@@ -105,15 +111,15 @@ and rotate the old certificates with new
 
 ================================== AWS Audit Manager ===============================
 If you have a scenario question about HIPAA or GDPR compliance that asks
-about continuous auditing ot automating auditing reports, choose Audit Manager
+about continuous auditing or automating auditing reports, choose Audit Manager
 
 ================================== AWS Artifact ===============================
-In the exam usually is used as a distractor.
 If you see scenario question about audits and the need for compliance reports,
 think about AWS Artifact.
 
 ================================== Amazon Cognito ===============================
-Authenticating access.
+Amazon Cognito provides authentication, authorization, and user management
+for your web and mobile apps in a single service without the need for custom code.
 The main role of AWS Cognito is to serve as a Customer Identity and Access
 Management solution.
  - User pool: User directories that provide sign-up and sign-in options for users

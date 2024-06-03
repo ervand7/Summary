@@ -43,6 +43,10 @@ deletion or modification.
     deleted by any users, including the root account.
 - **S3 Glacier Vault Lock**: Implements and enforces compliance controls on
 S3 Glacier vaults.
+ Amazon Glacier — это облачный сервис, предназначенный для длительного и экономичного
+ хранения данных, которые редко используются. Простыми словами, это "холодное
+ хранилище" для данных, которые нужно сохранить надолго, но которые вы не
+ планируете часто использовать.
 
 ### Encryption:
 - **In Transit**: Utilizes SSL/TLS for secure data transfer.
@@ -75,3 +79,7 @@ different buckets.
 existing objects must be manually handled.
 - **Delete Marker Replication**: Not enabled by default and requires specific
 configuration.
+
+ - Notifications.
+The Amazon S3 event notification feature enables you to receive notifications
+when certain events happen in your bucket

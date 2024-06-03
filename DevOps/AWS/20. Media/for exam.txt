@@ -1,0 +1,8 @@
+================================== Elastic Transcoder ===============================
+If you see a scenario question using the word "transcode" or that is talking
+about converting your media files into an optimized format of a particular
+device - favor Elastic Transcoder.
+
+================================== Amazon Kinesis Video Streams ===============================
+If you see a scenario question where you see video streaming at scale
+from millions of devices - favor Amazon Kinesis Video Streams

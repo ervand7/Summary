@@ -17,6 +17,12 @@ Both Ways. The Snow Family works to get data into AWS, as well as shipped back t
 
 Timing. Generally, turnaround is a week, but that mostly depends on the customer.
 
+Snowball Edge.
+The AWS Snowball Edge is a type of Snowball device with on-board storage and
+compute power for select AWS capabilities. Snowball Edge can undertake local
+processing and edge-computing workloads in addition to transferring data
+between your local environment and the AWS Cloud.
+
 ================================== Storage Gateway ===============================
 Storage Gateway is a hybrid solution.
 Anytime on-premises storage is mentioned, you should be thinking about which

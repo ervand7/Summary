@@ -1,0 +1,30 @@
+You have joined a newly formed software company as a Solutions Architect.
+It is a small company, and you are the only employee with AWS experience.
+The owner has asked for your recommendations to ensure that the AWS resources
+are deployed to proactively remain within budget. Which AWS service can you
+use to help ensure you don’t have cost overruns for your AWS resources?
+ - AWS Budgets
+
+
+A company needs to deploy EC2 instances to handle overnight batch processing.
+This includes media transcoding and some voice to text transcription. This is
+not high priority work, and it is OK if these batch runs get interrupted.
+What is the best EC2 instance purchasing option for this work?
+ - Spot
+
+
+You have recently migrated your small company to AWS and are looking for some
+general best practice guidance within the platform. Which AWS service can help
+you optimize your AWS environment by giving recommendations to reduce cost,
+increase performance, and improve security?
+ - AWS Trusted Advisor
+
+
+Your company needs to shift an application to the cloud. You are looking for
+a solution to collect, process, gain immediate insight, and then transfer the
+application data to AWS. Part of this effort also includes moving a large
+data warehouse into AWS. The warehouse is 50TB, and it would take over a
+month to migrate the data using the current bandwidth available. What is
+the best option available to perform this one time migration considering
+both cost and performance aspects?
+ - AWS Snowball Edge

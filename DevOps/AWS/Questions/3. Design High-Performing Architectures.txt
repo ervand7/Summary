@@ -1,0 +1,15 @@
+Your company is in the process of creating a multi-region disaster recovery
+solution for your database, and you have been tasked to implement it. The
+required RTO is 1 hour, and the RPO is 15 minutes. What steps can you take
+to ensure these thresholds are met?
+ - Use RDS to host your database. Create a cross-region read replica of your
+ database. In the event of a failure, promote the read replica to be a standalone
+ database. Send new reads and writes to this database.
+
+Recently, you've been experiencing issues with your dynamic application that is
+running on EC2 instances. These instances aren't able to keep up with the amount
+of traffic being sent to them, and customers are getting timeouts. Upon further
+investigation, there is no discernible traffic pattern for these surges.
+The application can be easily containerized. What can you do to fix the
+problem while keeping cost in mind?
+ - Migrate the application to ECS. Use Fargate to run the required tasks

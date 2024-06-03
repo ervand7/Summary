@@ -1,0 +1,20 @@
+A financial tech company has decided to begin migrating their applications
+to the AWS cloud. Currently, they host their entire application using several
+self-managed Kubernetes clusters. One of their major concerns during this
+migration is monitoring and collecting system metrics due to the very
+large-scale deployments that are in place. Your Chief Technology Officer
+has requested the use of open-source technologies for this implementation
+but has also stipulated that, with the current workload of the team,
+the ability to manage the monitoring environment needs to be low-maintenance.
+Which combination of the following AWS services would best fit the company
+requirements while minimizing operational overhead?
+ - AWS Managed Grafana
+ - AWS Managed Service for Prometheus
+
+
+Due to strict compliance requirements, your company cannot leverage AWS cloud for
+hosting their Kubernetes clusters, nor for managing the clusters. However, they
+do want to try to follow the established best practices and processes that the
+Amazon EKS service has implemented. How can your company achieve this while
+running entirely on-premises?
+ - Run the clusters on-premises using Amazon EKS Distro

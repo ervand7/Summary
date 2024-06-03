@@ -22,6 +22,9 @@ Redis can be more than just a cache - ot can be a standalone database as well.
 Redis and Memcached are supported by ElastiCache.
 
 DAX is designed to sit in front of DynamoDB.
+AWS DAX (DynamoDB Accelerator) — это служба, которая предназначена для ускорения работы
+с базой данных DynamoDB. Простыми словами, это "ускоритель" для DynamoDB, который
+помогает делать запросы к базе данных быстрее.
 
 ================================== Global Accelerator ===============================
 Both Route 53 and Global Accelerator can create weights for application endpoints.

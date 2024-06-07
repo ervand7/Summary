@@ -35,6 +35,17 @@ SQS and Kinesis can both be queues.
 Amazon Managed Service for Apache Flink (formerly Kinesis Data Analytics) allows
 you to query Kinesis data streams and perform interactive data analytics.
 
+=============================== Kinesis Data Streams ============================
+Use case:
+Kinesis Data Streams can be used to continuously collect data about player-game
+interactions and feed the data into your gaming platform.
+
+=============================== Kinesis Data Firehose ============================
+Amazon Kinesis Data Firehose is a fully managed service that automatically captures,
+transforms, and loads streaming data into data lakes, data stores, and analytics
+services. It supports direct integration with Amazon S3 and Amazon Elasticsearch
+Service (now called Amazon OpenSearch Service).
+
 ================================== Athena and Glue ===============================
 Athena - SQL serverless solution. Allows you to directly query your data
 that's stored in S3.

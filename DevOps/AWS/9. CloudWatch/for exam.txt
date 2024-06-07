@@ -2,6 +2,9 @@ CloudWatch is used for monitoring. It is the main tool for anything alarm relate
 CPU utilization and network throughput can be viewed using the
 default CloudWatch metrics.
 
+CPU utilization, DiskReadOps, and NetworkIn are default metrics provided by
+Amazon CloudWatch for EC2 instances.
+
 CloudWatch Logs is the place for logs. All another AWS services can be integrated
 with CloudWatch.
 

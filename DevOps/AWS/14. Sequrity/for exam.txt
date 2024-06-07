@@ -29,7 +29,7 @@ WAF operates layer 7. If you see scenario about layer 7, think about WAF.
 
 ================================== GuardDuty ===============================
 Intelligent threat detection.
-Guarding your network.  It user AI to learn what normal behavior looks like in
+Guarding your network. It uses AI to learn what normal behavior looks like in
 your account and to alert you of any abnormal or malicious behaviour.
 
 Updates a database of malicious domains using external feed from third parties.
@@ -45,7 +45,7 @@ secures centrally, think about AWS Firewall Manager.
 
 ================================== Macie ===============================
 Macie uses AI to analyze data in S3 and helps identify PII, PHI and financial data.
-Great for HIPAA and GDPR compliance as well as preventing identity .
+Great for HIPAA and GDPR compliance as well as preventing identity.
 Macie alerts can be sent to EventBridge.
 Automate remediation actions using other AWS services as Step Functions.
 
@@ -128,7 +128,6 @@ of your application
  - You can use User pool and Identity pool separately or together
 
 ================================== Amazon Detective ===============================
-Use as a distractor.
 Amazon Detective operates across multiple AWS services and analyzes the root
 cause of an event.
 
@@ -138,7 +137,7 @@ vulnerabilities and unintended network exposure.
 
 ================================== AWS Network Firewall ===============================
 If you see a scenario question about filtering your network traffic before
-if reaches your internet gateway, or if you require intrusion prevention systems
+it reaches your internet gateway, or if you require intrusion prevention systems
 or any hardware firewall requirements, think about AWS Network Firewall
 
 ================================== AWS Security Hub ===============================

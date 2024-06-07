@@ -11,6 +11,9 @@ Launch template. The most up-to-date and flexible way to create a template.
 Launch configurations. The older version. It's not "wrong" to use them, but if
 possible, use templates.
 
+Launch templates provide the necessary configuration options to specify that instances
+should use dedicated hosts.
+
 User data is included in the template configuration.
 
 Change. Can be versioned. Configurations are immutable.

@@ -1,3 +1,5 @@
+A single object upload to S3 can only be up to 160 GB in size.
+
 ### Base Characteristics:
 - **Object-Based Storage**: S3 stores data as objects within buckets.
 - **Global Namespace**: While S3 operates on a regional basis, the namespace
@@ -65,8 +67,18 @@ include server-side encryption settings.
 and manage access patterns.
 - **Request Rate**: Support for up to 3500 write and 5500 read requests per
 second per prefix. Use multiple prefixes to scale access further.
-- **Multipart Uploads**: Recommended for files over 100 MB to improve upload
-efficiency and required for files larger than 5 GB.
+- **Multipart Uploads**:
+Multipart upload allows you to upload a single object as a set of parts. After all
+parts of your object are uploaded, Amazon S3 then presents the data as a
+single object. With this feature you can create parallel uploads, pause and
+resume an object upload, and begin uploads before you know the total object size.
+
+- **Transfer Acceleration**:
+Use case:
+You transfer gigabytes to terabytes of data on a regular basis across continents.
+You are unable to utilize all of your available bandwidth over the Internet when
+uploading to Amazon S3
+
 - **Byte-Range Fetches**: Enhances retrieval efficiency by fetching only
 parts of an object.
 - **KMS Limitations**: Be aware of request rate limits for KMS when using

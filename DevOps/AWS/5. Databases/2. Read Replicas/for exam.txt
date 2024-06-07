@@ -1,6 +1,8 @@
 Multi-AZ vs Read Replica
 
 Multi-AZ:
+    - Amazon RDS for MySQL automatically provisions and maintains a synchronous
+    standby replica in a different Availability Zone.
     - An exact copy of your production database in another AZ
     - Used for disaster recovery
     - In the event of a failure, RDS will automatically fail over to the standby instance

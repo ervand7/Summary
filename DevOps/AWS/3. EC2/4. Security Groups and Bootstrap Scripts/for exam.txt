@@ -1,3 +1,5 @@
+You can assign up to five security groups to the instance.
+
  - Changes to security group take effect immediately
  - You can have any number of EC2 instances within a security group
  - You can have multiple security groups attached to EC2 instances

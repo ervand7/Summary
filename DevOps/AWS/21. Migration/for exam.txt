@@ -46,7 +46,7 @@ Endpoints. S3 EFS and FSx are all supported locations for your data.
 
 ================================== AWS Transfer Family ===============================
 The easiest way to change nothing. The AWS Transfer Family excels when you have
-a collection of alder applications using protocols that cannot be changed. You can
+a collection of older applications using protocols that cannot be changed. You can
 easily "trick" these applications into using S3 storage.
 If you see anything FTP related, pick Transfer Family.
 

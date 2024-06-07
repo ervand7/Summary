@@ -1,3 +1,7 @@
+What are two key concepts regarding subnets?
+ - Each subnet maps to a single Availability Zone
+ - Every subnet you create is associated with the main route table for the VPC:
+
  - VPC is a logical data center in AWS
  - Consists of gateways (or virtual private gateways), route tables, network
  access control lists, subnets, and security groups
@@ -105,6 +109,14 @@ CloudHub is encrypted.
 
 
 Direct Connect.
+AWS Direct Connect — это услуга, которая позволяет установить выделенное
+сетевое соединение между вашим локальным дата-центром (или офисом) и AWS.
+Простыми словами:
+ - Direct Connect обеспечивает более быстрый и стабильный доступ к вашим ресурсам в AWS
+по сравнению с обычным интернет-соединением.
+ - Это выделенная линия связи, которая идет напрямую в дата-центры AWS, обходя
+ общий интернет.
+
  - Direct connect directly connects your data center to AWS
  - Useful for high-throughput workloads (e.g., lots of network address)
  - Helpful when you need a stable and reliable connection
@@ -117,6 +129,10 @@ Direct Connect.
  - Direct Connect can be used to reduce network costs and increase bandwidth for data
  transfer between your on-premises environment and AWS
 
+Direct Connect VS VPN:
+ - VPN is using the internet and provides a connection between an on-premises
+ network and a VPC, using a secure and private connection with IPsec and TLS.
+
 
 Transit Gateway.
 Is designed for when you have too many VPCs to peer together.
@@ -126,7 +142,7 @@ configuration, and low operational costs. VPC peering has: lower overall
 cost, no bandwidth limits, lower latency, security group compatibility with
 intra-Region VPC peering.
  - You can use route tables to limit how VPCs talk to one another
- - Works with direct connect as well as VPN connections
+ - Works with Direct Connect as well as VPN connections
  - Supports IP multicast (not supported by any other AWS service)
  - You can use Transit Gateway over VPC peering if you have too many
  VPCs to reasonably peer together.
@@ -135,3 +151,4 @@ intra-Region VPC peering.
 AWS Wavelength.
 If you see a scenario about 5G, increasing application speed at edge using mobile
 networks, think of AWS Wavelength
+

@@ -21,6 +21,11 @@ AWS RAM is free to use, but you pay for the resources that are beeng shared
 Remember that RAM easily allows organizations to share components like VPC subnets
 Remember that participants cannot modify the shared resources
 
+================================== AWS STS ===============================
+AWS STS (AWS Security Token Service) is the service that you can use to create
+and provide trusted users with temporary security credentials that can control
+access to your AWS resources.
+
 ================================== Cross-Account Role Access ===============================
 Anytime temp credentials are mentioned, scan the answers looking for roles
 It will always preferred to create cross-account roles instead of IAM users

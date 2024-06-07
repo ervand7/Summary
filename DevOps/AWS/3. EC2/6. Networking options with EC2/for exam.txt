@@ -1,5 +1,7 @@
 Network devices:
  - ENI.
+ The process of attaching an Elastic Network Interface (ENI) to an EC2 instance
+ while it is running is called a: "hot attach".
  For basic networking. Perhaps you need a separate management network from
  your production network or a separate logging network, and you need to do
  this at a low cost. in this scenario, use multiple ENIs for each network.

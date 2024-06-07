@@ -28,3 +28,11 @@ month to migrate the data using the current bandwidth available. What is
 the best option available to perform this one time migration considering
 both cost and performance aspects?
  - AWS Snowball Edge
+
+
+You have been tasked with migrating an application and the servers it runs on to the
+company AWS cloud environment. You have created a checklist of steps necessary to
+perform this migration. A subsection in the checklist is security considerations.
+One of the things that you need to consider is the shared responsibility model.
+Which option does AWS handle under the shared responsibility model?
+ - Physical hardware infrastructure

@@ -1,6 +1,9 @@
 Polly, Lex and Translate are used to power Alexa.
 
 ================================== Kendra ===============================
+Amazon Kendra — это облачная служба интеллектуального поиска, предоставляемая
+AWS, которая использует машинное обучение для повышения точности поиска информации
+в корпоративных данных.
 If you have a scenario question about using machine learning to build
 an intelligent search service using unstructured text - favor Kendra
 

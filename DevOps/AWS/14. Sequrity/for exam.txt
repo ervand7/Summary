@@ -50,7 +50,8 @@ Macie alerts can be sent to EventBridge.
 Automate remediation actions using other AWS services as Step Functions.
 
 ================================== Inspector ===============================
-It is used to perform vulnerability scans on both EC2 instances and VPCs
+It is used to perform vulnerability scans on both EC2 instances and VPCs.
+
 
 ================================== KMS and CloudHSM ===============================
 KMS - Key Management Service.
@@ -63,7 +64,7 @@ It makes it easy to create and control the encryption keys used to encrypt your 
  - Automatic key generation
 
 CloudHSM
- - Dedicated HSM to you
+ - Dedicated HSM (hardware security modules) to you
  - Full control of underlying hardware
  - Full control of users, groups, keys, etc
  - No automatic key rotation

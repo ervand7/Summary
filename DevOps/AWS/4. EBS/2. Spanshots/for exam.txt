@@ -1,4 +1,5 @@
  - Snapshots are point-in-time photographs of volumes and are incremental in nature.
+The volume can be used normally while the snapshot is in progress.
 
  - Snapshots exist on S3
 

@@ -32,6 +32,15 @@ About Storage Gateway types:
  - NFS service is out of storage? - pick File Gateway
  - I am darling to deal with tape backups? - pick Tape Gateway
 
+
+================================== File Gateway ===============================
+File Gateway natively supports the SMB (Server Message Block) protocol, allowing
+seamless integration with on-premises applications that use SMB for file storage.
+Files stored in AWS using File Gateway are immediately accessible and can be
+retrieved within minutes. This ensures that backups are readily available when needed.
+File Gateway allows you to store backups in Amazon S3, which is a cost-effective
+and durable storage solution
+
 ================================== DataSync ===============================
 DataSync is Migration service for one-time migration.
 It is the best choice for transferring large amounts of data between on-premises

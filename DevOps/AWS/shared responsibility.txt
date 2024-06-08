@@ -1,0 +1,23 @@
+### AWS Shared Responsibility Model Cheat Sheet
+
+#### **AWS Responsibilities (Security **of** the Cloud):**
+- **Infrastructure:** Physical security of data centers, including hardware, software,
+networking, and facilities.
+- **Networking:** Security of the global network infrastructure, including edge
+locations and availability zones.
+- **Hardware:** Maintenance and management of server hardware, storage devices, and
+network components.
+- **Software:** Protection of foundational AWS services like compute, storage, database,
+and networking.
+
+#### **Customer Responsibilities (Security **in** the Cloud):**
+- **Data:** Protecting data you put into AWS (encryption, data integrity, and backups).
+- **Identity and Access Management (IAM):** Managing user identities, permissions, and
+access controls.
+- **Configuration:** Properly configuring AWS services to meet security and compliance
+requirements.
+- **Application:** Secure development, deployment, and management of applications.
+- **Operating System:** Managing guest operating systems, updates, and security patches
+for EC2 instances.
+- **Network Traffic:** Using security groups, NACLs (network ACLs), and other network
+access controls to manage and secure network traffic.

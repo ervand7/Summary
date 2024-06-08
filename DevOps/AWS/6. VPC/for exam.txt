@@ -107,16 +107,6 @@ on a hub-and-spoke model. It is very low cost and easy to manage. Thou it operat
 over the public internet, all traffic between the customer gateway and the AWS VPN
 CloudHub is encrypted.
 
-
-Direct Connect.
-AWS Direct Connect — это услуга, которая позволяет установить выделенное
-сетевое соединение между вашим локальным дата-центром (или офисом) и AWS.
-Простыми словами:
- - Direct Connect обеспечивает более быстрый и стабильный доступ к вашим ресурсам в AWS
-по сравнению с обычным интернет-соединением.
- - Это выделенная линия связи, которая идет напрямую в дата-центры AWS, обходя
- общий интернет.
-
  - Direct connect directly connects your data center to AWS
  - Useful for high-throughput workloads (e.g., lots of network address)
  - Helpful when you need a stable and reliable connection

@@ -29,7 +29,7 @@ Use Polly to convert text into Natural speech in multiple languages
 ================================== Recognition ===============================
 If you have a scenario question about content moderation using AI/ML - favor Recognition
 
-================================== Sagemaker ===============================
+================================== SageMaker ===============================
 Ground Truth. Set up manage labeling jobs for training databases using active
 learning and human labeling
 

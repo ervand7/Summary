@@ -5,10 +5,42 @@
 2. **Subnet (подсеть)** — сегмент VPC, в котором можно запускать ресурсы.
 Подсети могут быть публичными (имеют доступ в интернет) или приватными (без
 прямого доступа в интернет).
+Каждый subnet привязан к одной AZ.
+If a subnet's traffic is routed to an internet gateway, the subnet is known as a
+public subnet.**
+### Explanation:
+- **Public Subnet:**
+  - **Route to Internet Gateway:** A public subnet has a route in its route table that
+  directs traffic to an internet gateway, allowing instances within the subnet to
+  communicate with the internet.
+  - **Public IP Addresses:** Instances in a public subnet typically have public IP
+  addresses or Elastic IP addresses, but this is not what makes the subnet public.
+
+- **Private Subnet:**
+  - **No Route to Internet Gateway:** A private subnet does not have a route to an
+  internet gateway in its route table. Instances in this subnet cannot directly
+  communicate with the internet.
+  - **Internal Traffic Only:** Traffic from instances in a private subnet can be
+  routed to a NAT gateway or NAT instance for internet access, but these instances
+  do not have public IP addresses directly.
 
 3. **Route Table (таблица маршрутизации)** — таблица, которая определяет
 правила для направления сетевого трафика в пределах VPC. Каждая подсеть
 должна быть связана с таблицей маршрутизации.
+### Main Route Table vs. Route Table
+**Main Route Table:**
+- **По умолчанию:** Используется для всех новых subnet в VPC.
+- **Единственная:** Одна на весь VPC.
+- **Не удаляется:** Можно изменить, но не удалить.
+
+**Route Table:**
+- **Пользовательская:** Создаётся и управляется пользователем.
+- **Много:** Можно создать несколько для разных subnet.
+- **Ассоциация:** Требует ручной ассоциации с subnet.
+
+**Отличие:**
+- **Main Route Table:** По умолчанию для всех subnet, одна на VPC.
+- **Route Table:** Пользовательская, много, нужно ассоциировать с подсетями вручную.
 
 4. **Internet Gateway (интернет-шлюз)** — шлюз, который подключает VPC к
 интернету, позволяя ресурсам в публичных подсетях доступ к интернету.
@@ -20,7 +52,7 @@
 контролирует входящий и исходящий трафик для ресурсов в VPC. Группы безопасности
 применяются на уровне инстансов.
 
-7. **Network ACL (сетевой ACL)** — контрольный список доступа на уровне подсети,
+7. **NACL (Network ACL)** — контрольный список доступа на уровне подсети,
 который контролирует входящий и исходящий трафик для подсетей.
 
 8. **VPC Peering (одноранговое подключение VPC)** — связь между двумя VPC, которая
@@ -35,5 +67,17 @@
 11. **Endpoint (конечная точка)** — сервис, который позволяет подключаться к другим
 сервисам AWS (например, S3) без выхода в интернет.
 
-12. **Elastic IP (эластичный IP)** — статический публичный IP-адрес, который можно
+12. **EIP (Elastic IP Address)** — статический публичный IP-адрес, который можно
 прикрепить к ресурсам в VPC для постоянного доступа.
+
+13. **Direct Connect** — это услуга, которая позволяет установить выделенное
+сетевое соединение между вашим локальным дата-центром (или офисом) и AWS.
+Простыми словами:
+ - Direct Connect обеспечивает более быстрый и стабильный доступ к вашим ресурсам в AWS
+по сравнению с обычным интернет-соединением.
+ - Это выделенная линия связи, которая идет напрямую в дата-центры AWS, обходя
+ общий интернет.
+
+14. **Public address** - работает на уровне инстансов.
+
+15. **Private address**.

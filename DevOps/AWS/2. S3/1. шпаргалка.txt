@@ -75,6 +75,8 @@ SSE-C (управляется клиентом).
 
 20. **Transfer Acceleration** — функция, использующая глобальную сеть AWS для
 ускорения загрузки и скачивания данных из S3.
+This feature can significantly speed up data transfers over long distances, which is
+ideal for an international company with clients around the world.
 
 21. **Multipart Upload (многократная загрузка)** — метод загрузки больших объектов
 в S3 частями. Улучшает надежность и скорость загрузки.

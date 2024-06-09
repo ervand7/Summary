@@ -7,7 +7,7 @@ You can deploy a Multi-AZ cluster for high availability.
 Use RedShift Spectrum to efficiently and quickly process data in S3.
 Leverage Snapshots for point-in-time recovery, or restoration to other regions.
 
-============================== EMR ===========================
+============================== EMR (Elastic MapReduce) ===========================
 EMR - big data platform that allows you to process vast amount of data.
 Extract, transform, and load (ETL) jobs.
 

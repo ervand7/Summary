@@ -14,3 +14,14 @@ Network devices:
  For when you need to accelerate High Performance Computing (HPC) and machine
  learning applications or if you see a scenario question mentioning HPC or ML
  and asking what network adapter you want, choose EFA.
+
+
+Billing alarm:
+The best approach to prevent a high bill from occurring in the future and identify
+potential cost issues before they become too costly is to create a billing alarm.
+ - Here’s how to set it up:
+    Go to the AWS Management Console: Navigate to the CloudWatch service.
+    Create an Alarm: Select “Billing” as the metric namespace, and set a threshold based
+    on your budget.
+    Configure Notifications: Set up SNS (Simple Notification Service) to send
+    alerts via email, SMS, or other methods when the alarm is triggered.

@@ -17,6 +17,9 @@ PostgreSQL. Обеспечивает высокую производительн
 5. **Amazon DynamoDB** — полностью управляемая NoSQL база данных, обеспечивающая быструю и
 предсказуемую производительность при масштабировании. Поддерживает документный и ключ-значение
 модели данных.
+DynamoDB auto-scaling allows your table's read and write capacity to automatically
+adjust based on the incoming traffic. It can automatically increase provisioned capacity
+to accommodate higher request rates and reduce capacity during lower traffic periods.
 
 6. **DynamoDB Streams** — функция DynamoDB, которая захватывает изменения в таблицах DynamoDB
 и отправляет их в поток для дальнейшей обработки.

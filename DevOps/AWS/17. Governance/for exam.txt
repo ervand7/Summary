@@ -107,7 +107,7 @@ AWS Trusted Advisor provides recommendations that help you follow AWS best pract
 ================================== AWS Control Tower ===============================
  - Governance. Easy way to set up and maintain governance in multi-AWS account environments
  - Accounts. Automate account deployment with preconfigured compliance rules
- - Shares Accounts. Management account, lod archive account and audit account
+ - Shares Accounts. Management account, Log Archive account and Audit Account
  - Preventative GuardRail. Leverages service control policies to prevent
 noncompliant actions
  - Detective Guardrail. Leverage AWS Config rules to detect and alert on

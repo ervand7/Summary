@@ -69,3 +69,15 @@
 для аутентификации к Amazon RDS для MySQL и PostgreSQL баз данных вместо традиционных
 паролей. Это обеспечивает более безопасный и управляемый способ контроля доступа к
 вашей базе данных.
+
+22. **AWS Identity Center** -
+ - Centralized Identity Management: AWS Identity Center provides a single place to manage
+access to multiple AWS accounts and business applications. It integrates with existing
+corporate directories, such as Microsoft Active Directory, making it easier to manage
+user identities and permissions.
+ - Streamlined Access Management: With AWS Identity Center, you can assign users to groups,
+and these groups can be granted permissions to various AWS accounts and resources.
+This simplifies the process of managing permissions and access for a large number of users.
+ - SSO (Single Sign-On): AWS Identity Center provides SSO capabilities, allowing
+users to sign in once and gain access to multiple AWS accounts and applications,
+enhancing user experience and productivity.

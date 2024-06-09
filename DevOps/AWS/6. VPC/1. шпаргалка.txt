@@ -24,9 +24,9 @@ public subnet.**
   routed to a NAT gateway or NAT instance for internet access, but these instances
   do not have public IP addresses directly.
 
-3. **Route Table (таблица маршрутизации)** — таблица, которая определяет
-правила для направления сетевого трафика в пределах VPC. Каждая подсеть
-должна быть связана с таблицей маршрутизации.
+3. **Route Table (таблица маршрутизации)** — таблица, которая определяет правила для
+направления сетевого трафика в пределах VPC. Каждая подсеть должна быть связана с таблицей
+маршрутизации.
 ### Main Route Table vs. Route Table
 **Main Route Table:**
 - **По умолчанию:** Используется для всех новых subnet в VPC.
@@ -43,10 +43,10 @@ public subnet.**
 - **Route Table:** Пользовательская, много, нужно ассоциировать с подсетями вручную.
 
 4. **Internet Gateway (интернет-шлюз)** — шлюз, который подключает VPC к
-интернету, позволяя ресурсам в публичных подсетях доступ к интернету.
+интернету, позволяя ресурсам в public subnets доступ к интернету.
 
-5. **NAT Gateway (NAT-шлюз)** — шлюз, который позволяет ресурсам в частных
-подсетях выходить в интернет, но блокирует входящий трафик с интернета.
+5. **NAT Gateway (NAT-шлюз)** — шлюз, который позволяет ресурсам в private subnets
+выходить в интернет, но блокирует входящий трафик с интернета.
 
 6. **Security Group (группа безопасности)** — виртуальный фаервол, который
 контролирует входящий и исходящий трафик для ресурсов в VPC. Группы безопасности
@@ -54,6 +54,7 @@ public subnet.**
 
 7. **NACL (Network ACL)** — контрольный список доступа на уровне подсети,
 который контролирует входящий и исходящий трафик для подсетей.
+Именно тут можно заблокировать конкретный IP-адрес с которого идут запросы.
 
 8. **VPC Peering (одноранговое подключение VPC)** — связь между двумя VPC, которая
 позволяет им обмениваться трафиком, как будто они находятся в одной сети.
@@ -77,7 +78,16 @@ public subnet.**
 по сравнению с обычным интернет-соединением.
  - Это выделенная линия связи, которая идет напрямую в дата-центры AWS, обходя
  общий интернет.
+В сценарии масштабирования этого решения можно использовать Direct Connect Gateway:
+Create a new Direct Connect gateway and set this up with the existing Direct
+Connect connection. Set up a transit gateway between the AWS accounts and connect
+the transit gateway to the Direct Connect gateway.
 
 14. **Public address** - работает на уровне инстансов.
 
 15. **Private address**.
+
+16. **Transit Gateway** - AWS Transit Gateway connects your Amazon Virtual Private
+Clouds (VPCs) and on-premises networks through a central hub. This simplifies your
+network and puts an end to complex peering relationships. It acts as a cloud router;
+each new connection is only made once.

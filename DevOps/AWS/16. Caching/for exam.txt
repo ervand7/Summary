@@ -6,6 +6,13 @@ are not solutions in this case.
 ================================== CloudFront ===============================
 CloudFront is a CDN (content delivery network). Caching and distribution via
 HTTP and HTTPS protocols.
+CloudFront Signed Cookies provide a scalable and manageable way to control access to
+multiple private files delivered by your CloudFront distribution.
+
+Signed URLs allow you to create time-limited URLs that provide secure access to
+your private content. This feature ensures that only users with a valid signed URL
+can access the content, and only for a specified period.
+
 CloudFront caches content at the edge locations to speed up delivery of data.
 CloudFront fixes all connection issues.
 This CDN works for both AWS and on-site architecture.

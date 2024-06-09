@@ -1,4 +1,4 @@
-================================== DDoS ===============================
+DDoS:
 A Distributed Denial of Service attack attempts to make your website
 or application unavailable to your end users
 
@@ -144,6 +144,6 @@ or any hardware firewall requirements, think about AWS Network Firewall
 ================================== AWS Security Hub ===============================
 If you have a scenario question about a single place to view all your security alerts across
 multiple AWS security services and accounts, think about AWS Security Hub
-
-
-
+AWS Security Hub is the most suitable service to meet your requirement for a
+Cloud Security Posture Management (CSPM) solution that performs security best practice
+checks, aggregates alerts, and enables automated remediation.

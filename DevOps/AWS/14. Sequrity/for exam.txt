@@ -139,7 +139,9 @@ vulnerabilities and unintended network exposure.
 ================================== AWS Network Firewall ===============================
 If you see a scenario question about filtering your network traffic before
 it reaches your internet gateway, or if you require intrusion prevention systems
-or any hardware firewall requirements, think about AWS Network Firewall
+or any hardware firewall requirements, think about AWS Network Firewall.
+AWS Network Firewall gives you control and visibility of VPC-to-VPC traffic to
+logically separate networks hosting sensitive applications or line-of-business resources.
 
 ================================== AWS Security Hub ===============================
 If you have a scenario question about a single place to view all your security alerts across

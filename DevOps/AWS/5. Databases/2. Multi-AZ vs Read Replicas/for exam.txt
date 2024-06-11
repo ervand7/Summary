@@ -6,6 +6,7 @@ Multi-AZ:
     - An exact copy of your production database in another AZ
     - Used for disaster recovery
     - In the event of a failure, RDS will automatically fail over to the standby instance
+    (automatic failover)
     - Backups are taken from a secondary copy of your data
     - All updates or maintenance changes are applied to a secondary database. Multi-AZ
         rollovers are typically automatic but can be manually initiated
@@ -19,3 +20,8 @@ Read Replica:
     is unavailable for maintenance
     - Cross-region read replicas may have a delay between when data is written
     and when it is replicated
+    - Cross-region read replicas in RDS typically replicate data asynchronously
+    with a minimal lag
+    - Once the failure is detected, you need to manually promote one of the read
+    replicas to be the new primary database
+    (not automatic failover)

@@ -51,6 +51,7 @@ public subnet.**
 6. **Security Group (группа безопасности)** — виртуальный фаервол, который
 контролирует входящий и исходящий трафик для ресурсов в VPC. Группы безопасности
 применяются на уровне инстансов.
+You can assign up to five security groups to the instance.
 
 7. **NACL (Network ACL)** — контрольный список доступа на уровне подсети,
 который контролирует входящий и исходящий трафик для подсетей.
@@ -58,6 +59,12 @@ public subnet.**
 
 8. **VPC Peering (одноранговое подключение VPC)** — связь между двумя VPC, которая
 позволяет им обмениваться трафиком, как будто они находятся в одной сети.
+VPC Peering позволяет напрямую соединять два VPC, чтобы они могли общаться друг с
+другом как одна сеть. Это создаёт приватное соединение между двумя VPC, и трафик
+между ними также не выходит в интернет.
+Use case:
+У вас есть два VPC, один из которых содержит базу данных, а другой - веб-приложение.
+Вам нужно, чтобы веб-приложение напрямую обращалось к базе данных.
 
 9. **VPN (Virtual Private Network)** — виртуальная частная сеть, которая позволяет
 безопасно подключать вашу локальную сеть к VPC.
@@ -91,3 +98,21 @@ the transit gateway to the Direct Connect gateway.
 Clouds (VPCs) and on-premises networks through a central hub. This simplifies your
 network and puts an end to complex peering relationships. It acts as a cloud router;
 each new connection is only made once.
+
+17. **PrivateLink позволяет безопасно подключать ваши VPC к другим AWS сервисам или
+к VPC других аккаунтов AWS, используя частные IP-адреса. Это значит, что трафик не
+выходит в интернет, а остаётся внутри сети AWS, что повышает безопасность.
+Use case:
+Вы разработали внутренний сервис (например, API) и хотите, чтобы другие VPC могли
+безопасно подключаться к этому сервису, не выводя трафик в интернет.
+
+18. **Task definition** — это документ в формате JSON, который описывает одно или
+несколько контейнеров, образующих ваше приложение. Он включает в себя настройки,
+такие как образы контейнеров, количество ресурсов (CPU и память), необходимые для
+контейнеров, сетевые конфигурации, политики IAM и другие параметры, необходимые для
+запуска контейнеров. Проще говоря, это шаблон, который определяет, как должен быть
+запущен и настроен ваш контейнер.
+Attaching an IAM role to the ECS task definition is the most secure method
+for handling authentication for the newly containerized application in AWS ECS. This
+eliminates the need to store access keys and secret access keys within your code
+or Docker images, reducing the risk of accidental exposure.

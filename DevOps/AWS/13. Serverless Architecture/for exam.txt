@@ -15,10 +15,9 @@ Templates. Define whole applications via AWS SAM templates. Private by default.
 You have 2 choices: publish or deploy.
 Is heavily integrated with Lambda.
 
-=============================== Containers ===============================
+=============================== ECS (Elastic Container Service) ===============================
 Containers help you easily migrate from on-premises to AWS.
-ECS (Elastic Container Service) — это сервис для запуска и управления
-контейнерами на инфраструктуре AWS
+ECS это сервис для запуска и управления контейнерами на инфраструктуре AWS
 Simple orchestration service for Docker containers (like k8s).
 Favor using AWS-designed services over third party.
 Anytime you see open source or Kubernetes, think ECS.
@@ -60,7 +59,7 @@ vulnerabilities in your container images.
  - Keywords for look for. Questions related to a managed container image registry,
  OCI repositories or image integration with Amazon ECS and Amazon EKS
 
-=============================== using open-source Kubernetes ===============================
+=============================== EKS (Elastic Kubernetes Service) ===============================
 Amazon EKS (Elastic Kubernetes Service) — это управляемый сервис, который позволяет запускать,
 масштабировать и управлять контейнерными приложениями с использованием Kubernetes.
 

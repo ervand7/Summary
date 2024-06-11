@@ -1,6 +1,9 @@
 1. **AWS KMS (Key Management Service)** — сервис для управления криптографическими
 ключами, используемыми для шифрования данных. Поддерживает создание, управление
 и использование ключей шифрования.
+x-amz-server-side-encryption: aws:kms
+This header specifies that Server-Side Encryption with AWS Key Management Service
+(KMS) should be used for encrypting the objects stored in Amazon S3.
 
 2. **AWS CloudTrail** — сервис для мониторинга и логирования активности аккаунта
 AWS. Записывает действия, выполняемые пользователями, ролями и сервисами, и

@@ -1,0 +1,5 @@
+ - AWS Free Tier includes free trials, specific amounts of specified services for
+ 12 months, and many always free services.
+ - Among the always free services provided by AWS Free Tier is 1 million free AWS
+ Lambda requests per month.
+ - 12-month AWS Free Tier offers are only available to new AWS customers.

@@ -41,6 +41,9 @@ retrieved within minutes. This ensures that backups are readily available when n
 File Gateway allows you to store backups in Amazon S3, which is a cost-effective
 and durable storage solution
 
+================================== Volume Gateway ===============================
+if you see something about iSCSI - pick Volume Gateway
+
 ================================== DataSync ===============================
 DataSync is Migration service for one-time migration.
 It is the best choice for transferring large amounts of data between on-premises

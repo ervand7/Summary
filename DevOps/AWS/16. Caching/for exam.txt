@@ -32,11 +32,32 @@ DAX is designed to sit in front of DynamoDB.
 AWS DAX (DynamoDB Accelerator) — это служба, которая предназначена для ускорения работы
 с базой данных DynamoDB. Простыми словами, это "ускоритель" для DynamoDB, который
 помогает делать запросы к базе данных быстрее.
+DAX: DynamoDB Accelerator (DAX) improves read performance but does not affect write capacity.
 
 ================================== Global Accelerator ===============================
+Global Accelerator — это сервис, который помогает улучшить производительность и
+доступность ваших приложений, работающих в интернете. Проще говоря, это инструмент, к
+оторый направляет трафик к вашим приложениям через глобальную сеть AWS, обеспечивая
+более быстрый и стабильный доступ для пользователей.
+
+Основные преимущества Global Accelerator:
+ - Ускорение доступа: Ваши пользователи получают более быстрый доступ к вашим
+ приложениям, так как трафик проходит через оптимизированные маршруты сети AWS.
+ - Повышение доступности: Если один из ваших серверов становится недоступным,
+ Global Accelerator автоматически перенаправляет трафик на работающий сервер, обеспечивая
+ бесперебойную работу приложения.
+ - Единый адрес: Вы получаете один глобальный IP-адрес, который остается неизменным,
+ даже если изменяются ваши сервера или их расположение.
+Это как использовать скоростное шоссе вместо обычных дорог, чтобы добраться до пункта
+назначения быстрее и с меньшими задержками.
+
 Both Route 53 and Global Accelerator can create weights for application endpoints.
 
 For any scenarios about IP caching, favor Global Accelerator.
 You are provided two Anycast IP addresses.
 Uses edge locations to help speed everything up.
 Meant for TCP and UDT traffic (e.g. gaming apps, IoT messaging)
+
+When you configure an Application Load Balancer as an endpoint for AWS Global Accelerator,
+the accelerator provides static IP addresses that you can associate with your
+Application Load Balancer.

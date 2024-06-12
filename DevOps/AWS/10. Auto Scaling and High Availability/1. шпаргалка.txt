@@ -77,6 +77,9 @@ Auto Scaling Group до новой конфигурации или новой в
 Auto Scaling Group для оптимизации затрат и производительности.
 
 
+Your data is automatically deleted by default if you terminate the EC2 instance.
+
+
 Using with SQS:
 To ensure all messages are saved and processed effectively when integrating SQS with
 an Auto Scaling Group, the appropriate metric for Auto Scaling is "Backlog per instance".

@@ -5,6 +5,8 @@
 2. **Amazon Aurora** — управляемая реляционная база данных, совместимая с MySQL и
 PostgreSQL. Обеспечивает высокую производительность и доступность, а также автоматическое
 масштабирование и резервное копирование.
+Aurora automatically fails over by either promoting an existing Aurora Replica to
+the new primary instance or creating a new primary instance.
 
 3. **Multi-AZ Deployment** — конфигурация для Amazon RDS и Amazon Aurora, обеспечивающая
 повышенную доступность и отказоустойчивость базы данных. Данные автоматически реплицируются

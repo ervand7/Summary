@@ -9,6 +9,7 @@
    и поддержка WebSocket.
    - **Network Load Balancer (NLB)** — работает на уровне 4 модели OSI (транспортный уровень).
    Обеспечивает высокую производительность и низкую задержку для TCP, UDP и TLS трафика.
+   You can assign static IP addresses to a Network Load Balancer.
    - **Classic Load Balancer (CLB)** — работает на уровнях 4 и 7 модели OSI. Подходит
    для приложений, созданных в классическом EC2-Classic режиме. Поддерживает как
    HTTP/HTTPS, так и TCP трафик.

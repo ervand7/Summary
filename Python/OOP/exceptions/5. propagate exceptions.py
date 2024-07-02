@@ -21,8 +21,7 @@ def first() -> None:
     except ParentException as err:
         print(hex(id(err)))  # 0x7fd4400df100
         print(isinstance(err, ParentException))  # True
-
-        print(err)  # v
+        print(err)  # ChildException: 44, 55
 
 
 def second() -> None:

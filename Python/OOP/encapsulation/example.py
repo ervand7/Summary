@@ -7,7 +7,6 @@ Public, protected and private attr and methods.
 
 
 class BankAccount:
-
     def __init__(self, name, balance, passport):
         self.__name = name
         self.__balance = balance

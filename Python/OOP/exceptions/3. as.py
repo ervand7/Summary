@@ -8,4 +8,5 @@ except ZeroDivisionError as err:
     print(err.__doc__)  # Second argument to a division or modulo operation was zero.
     print(err.__sizeof__())  # 64
     print(err)  # division by zero
+    print(err.__str__())  # division by zero
 

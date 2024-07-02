@@ -1,4 +1,4 @@
-# we can not use private methods of parent class inside of child class
+# we can not use private methods and attrs of parent class inside of child class
 
 class Geom:
     name = 'Geom'

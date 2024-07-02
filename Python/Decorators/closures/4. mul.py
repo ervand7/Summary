@@ -6,3 +6,4 @@ def mul(e):
 
 
 print(mul(5)(2))  # 10
+print(mul(5)(3))  # 15

@@ -11,6 +11,7 @@ def fact(n) -> Generator:
         yield pr
 
 
+print(type(fact))  # <class 'function'>
 print(type(fact(10)))  # <class 'generator'>
 
 for i in fact(10):

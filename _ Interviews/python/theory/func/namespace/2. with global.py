@@ -8,7 +8,7 @@ def some():
     global n
     print(hex(id(n)))  # 0x7fbb3002e930
     n = 333
-    print(hex(id(n)))  # 0x7fc7680884f0  <- addr changed after changing global val
+    print(hex(id(n)))  # 0x7fc7680884f0 addr changed after changing global val
 
 
 some()

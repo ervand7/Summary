@@ -7,3 +7,4 @@ def main(value):
 
 a = main('Ivan')
 a()  # hello, my friend Ivan
+a()  # hello, my friend Ivan

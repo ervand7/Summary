@@ -12,8 +12,8 @@ def my_generator():
 gen = my_generator()
 
 # Iterate through the generator
-print(next(gen))  # Prints 'Starting'
-print(next(gen))  # Prints 'Running'
+print(next(gen))  # Starting
+print(next(gen))  # Running
 
 # Close the generator
 gen.close()  # Prints 'Generator is being closed!' and 'Cleanup actions if any'

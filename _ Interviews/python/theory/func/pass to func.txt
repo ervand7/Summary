@@ -1,7 +1,7 @@
 In Python when we pass val to func:
-1) if it has immutable data type in will not change inside the func
-2) if it has mutable data type in will change inside the func
-3) independent of the data type it will not change if we make reassign:
+1) if it has immutable data type, it will not change inside the func
+2) if it has mutable data type, it will change inside the func
+3) independent of the data type, it will not change if we make reassign:
 def func(arg):
     # it will be copy
     arg = 1

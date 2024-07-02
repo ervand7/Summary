@@ -15,13 +15,6 @@ def decorator(func):
 
 
 d = decorator(add)
-print(d(1, 2))
-print(d(1, 2))
-print(d(1, 2))
-
-# function "add" was called 1 times
-# 3
-# function "add" was called 2 times
-# 3
-# function "add" was called 3 times
-# 3
+d(1, 2)  # function "add" was called 1 times
+d(1, 2)  # function "add" was called 2 times
+d(1, 2)  # function "add" was called 3 times

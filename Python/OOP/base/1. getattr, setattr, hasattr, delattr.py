@@ -7,6 +7,7 @@ class Ivan:
 
 
 print(hasattr(Ivan, 'say_hello'))  # True
+
 getattr(Ivan, 'say_hello', None)()  # Hello
 
 setattr(Ivan, 'say_hello', 55)

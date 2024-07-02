@@ -1,6 +1,6 @@
 # Problem
 class DepartamentIT:
-    PYTHON_DEV = 3  # Problem is that in given construction we can't change PYTHON_DEV value in lines 14-18
+    PYTHON_DEV = 3  # Problem is that in given construction we can't change PYTHON_DEV value
     GO_DEV = 3
     REACT_SEV = 2
 

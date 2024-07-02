@@ -10,8 +10,8 @@ class DepartamentIT:
         print(PYTHON_DEV, GO_DEV, REACT_SEV)
 
 
-a = DepartamentIT()
-# a.info()  # here will be error
+d = DepartamentIT()
+# d.info()  # here will be error
 
 # _______________________________________________________
 # Solution:
@@ -28,9 +28,8 @@ class DepartamentIT2:
         print(PYTHON_DEV_, GO_DEV_, REACT_SEV_)
 
 
-a1 = DepartamentIT2()
-
-a1.info()  # 3 3 2
+a = DepartamentIT2()
+a.info()  # 3 3 2
 
 
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -44,9 +43,8 @@ class DepartamentIT3:
         print(self.PYTHON_DEV, self.GO_DEV, self.REACT_SEV)
 
 
-a2 = DepartamentIT3()
-
-a2.info()  # 3 3 2
+a = DepartamentIT3()
+a.info()  # 3 3 2
 
 
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
@@ -60,29 +58,12 @@ class DepartamentIT4:
         print(DepartamentIT4.PYTHON_DEV, DepartamentIT4.GO_DEV, DepartamentIT4.REACT_SEV)
 
 
-a3 = DepartamentIT4()
-
-a3.info()  # 3 3 2
-
-
-# _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# 4) use ordinary function
-class DepartamentIT5:
-    PYTHON_DEV = 3
-    GO_DEV = 3
-    REACT_SEV = 2
-
-    def info(self):
-        return print(self.PYTHON_DEV, self.GO_DEV, self.REACT_SEV)
-
-
-a4 = DepartamentIT5()
-
-a4.info()  # 3 3 2
+a = DepartamentIT4()
+a.info()  # 3 3 2
 
 
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# 5) use property
+# 4) use property
 class DepartamentIT5:
     PYTHON_DEV = 3
     GO_DEV = 3
@@ -90,16 +71,15 @@ class DepartamentIT5:
 
     @property
     def info(self):
-        return print(self.PYTHON_DEV, self.GO_DEV, self.REACT_SEV)
+        return self.PYTHON_DEV, self.GO_DEV, self.REACT_SEV
 
 
-a5 = DepartamentIT5()
-
-a5.info  # 3 3 2
+a = DepartamentIT5()
+print(*a.info)  # 3 3 2
 
 
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# 6) use classmethod
+# 5) use classmethod
 class DepartamentIT6:
     PYTHON_DEV = 3
     GO_DEV = 3
@@ -110,13 +90,13 @@ class DepartamentIT6:
         print(cls.PYTHON_DEV, cls.GO_DEV, cls.REACT_SEV)
 
 
-a6 = DepartamentIT6()
+a = DepartamentIT6()
 
-a6.info()  # 3 3 2
+a.info()  # 3 3 2
 
 
 # _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-# 7) use staticmethod
+# 6) use staticmethod
 class DepartamentIT7:
     PYTHON_DEV = 3
     GO_DEV = 3
@@ -127,5 +107,5 @@ class DepartamentIT7:
         print(DepartamentIT7.PYTHON_DEV, DepartamentIT7.GO_DEV, DepartamentIT7.REACT_SEV)
 
 
-a7 = DepartamentIT7()
-a7.info()  # 3 3 2
+a = DepartamentIT7()
+a.info()  # 3 3 2

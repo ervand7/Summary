@@ -18,7 +18,7 @@ print(hex(id(Person.name)))  # 0x7fd05003ad30
 print(hex(id(a.name)))  # 0x7fd05003ad30
 print(hex(id(b.name)))  # 0x7fd05003ad30
 
-Person.name = "Vasya"
+Person.name = "Vasya"  # address changed
 print(hex(id(Person.name)))  # 0x7fb2381e8b70
 print(hex(id(a.name)))  # 0x7fb2381e8b70
 print(hex(id(b.name)))  # 0x7fb2381e8b70

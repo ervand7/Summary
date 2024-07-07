@@ -29,3 +29,6 @@ riddle
 collateral
 prevalent
 decent
+upfront
+amongst
+derive

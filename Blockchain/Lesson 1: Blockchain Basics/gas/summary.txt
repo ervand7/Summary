@@ -1,0 +1,11 @@
+Gas Fees:
+ - Base - minimum gas prise you need to set to include your transaction
+ - Max - maximum gas fee that we are willing to pay for this transaction
+ - Max Piority - max gas fee that we are willing to pay plus the max tip
+ that we are willing to give to miners
+
+Gwei:
+ - это маленькая единица криптовалюты Ethereum. Она используется для обозначения
+цены газа, необходимой для выполнения транзакций и операций в сети Ethereum. 1 Gwei
+равен \(10^{-9}\) ETH. Таким образом, Gwei помогает легче оперировать небольшими
+значениями, поскольку сами транзакции часто требуют очень малые суммы ETH.

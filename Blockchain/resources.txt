@@ -1,0 +1,23 @@
+Coursera:
+https://www.coursera.org/learn/blockchain-basics?action=enroll
+
+YouTube:
+https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=5s
+
+github repo:
+https://github.com/smartcontractkit/full-blockchain-solidity-course-js
+
+what is blockchain:
+https://andersbrownworth.com/blockchain/
+
+metamask wallet:
+in chrome extention
+
+etherscan:
+https://etherscan.io/address
+
+eth-converter:
+https://eth-converter.com/
+
+EIP-1559:
+https://www.youtube.com/watch?v=MGemhK9t44Q

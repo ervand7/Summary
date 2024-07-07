@@ -22,3 +22,7 @@ the main takeaway
 is getting burnt
 nitty-gritties
 multiple peers
+consensus
+allude / refer
+sybil
+riddle

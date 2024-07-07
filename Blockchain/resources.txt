@@ -4,6 +4,12 @@ https://www.coursera.org/learn/blockchain-basics?action=enroll
 YouTube:
 https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=5s
 
+remix:
+https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljson-v0.8.26+commit.8a97fa7a.js
+
+solidity doc:
+https://docs.soliditylang.org/en/latest/types.html
+
 github repo:
 https://github.com/smartcontractkit/full-blockchain-solidity-course-js
 

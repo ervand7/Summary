@@ -26,3 +26,6 @@ consensus
 allude / refer
 sybil
 riddle
+collateral
+prevalent
+decent

@@ -1,4 +1,0 @@
-1) chain selection
- - proof of work
- - proof of steak
-2) civil resistance

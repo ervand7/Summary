@@ -22,5 +22,5 @@ func main() {
 		}(i, wg)
 	}
 	fmt.Printf("result: %d\n", <-ch)
-	wg.Wait()
+	wg.Wait() // если закомментировать Wait, то ошибки не будет
 }

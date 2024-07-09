@@ -8,6 +8,7 @@ import "fmt"
 
 func main() {
 	var ch chan int
+	fmt.Println(ch == nil) // true
 
 	go func() {
 		ch <- 7

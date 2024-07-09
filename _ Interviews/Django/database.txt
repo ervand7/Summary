@@ -1,0 +1,108 @@
+1. **Что такое проблема n+1 запросов и как ее решить в Django?**
+   - **Ответ**: Проблема n+1 запросов возникает, когда ORM выполняет один запрос для
+   получения основного набора данных и n дополнительных запросов для получения связанных
+   данных для каждого объекта из основного набора. Это может сильно замедлить производительность.
+     - Решение: Использование `select_related` и `prefetch_related`
+       ```python
+       # Использование select_related
+       books = Book.objects.select_related('author').all()
+
+       # Использование prefetch_related
+       authors = Author.objects.prefetch_related('books').all()
+       ```
+
+2. **Как работает `select_related` и в каких случаях его использовать?**
+   - **Ответ**: `select_related` используется для одно-к-одному и многие-к-одному отношений.
+   Он выполняет один SQL JOIN запрос для получения связанных данных, что значительно
+   уменьшает количество выполняемых запросов и повышает производительность. Например:
+     ```python
+     books = Book.objects.select_related('author').all()
+     ```
+
+3. **Как работает `prefetch_related` и в каких случаях его использовать?**
+   - **Ответ**: `prefetch_related` используется для многие-ко-многим и
+   обратных одно-к-ко-многим отношений. Он выполняет отдельные запросы для основного
+   набора данных и связанных данных, а затем соединяет их в памяти Python. Это помогает
+   избежать проблемы n+1 запросов для сложных связей. Например:
+     ```python
+     authors = Author.objects.prefetch_related('books').all()
+     ```
+
+4. **Как измерить производительность запросов в Django?**
+   - **Ответ**: Для измерения производительности запросов в Django можно использовать
+   инструмент `django-debug-toolbar`, который предоставляет информацию о выполненных SQL
+   запросах, времени их выполнения и потенциальных проблемах. Установка и настройка:
+     ```bash
+     pip install django-debug-toolbar
+     ```
+     Добавьте в `INSTALLED_APPS` и `MIDDLEWARE`:
+     ```python
+     INSTALLED_APPS = [
+         ...
+         'debug_toolbar',
+     ]
+
+     MIDDLEWARE = [
+         ...
+         'debug_toolbar.middleware.DebugToolbarMiddleware',
+     ]
+     ```
+     Включите в `urls.py`:
+     ```python
+     from django.urls import path, include
+
+     urlpatterns = [
+         ...
+         path('__debug__/', include('debug_toolbar.urls')),
+     ]
+     ```
+
+5. **Как использовать `Q` объекты для сложных запросов в Django?**
+   - **Ответ**: `Q` объекты позволяют создавать сложные запросы с использованием логических
+   операторов `AND`, `OR`, `NOT`. Это полезно, когда требуется фильтрация по нескольким условиям.
+   Пример:
+     ```python
+     from django.db.models import Q
+
+     # Поиск книг, где название содержит "Django" или автор имеет имя "John"
+     books = Book.objects.filter(Q(title__contains='Django') | Q(author__name='John'))
+     ```
+
+6. **Что такое аннотации и агрегации в Django ORM и как их использовать?**
+   - **Ответ**: Аннотации и агрегации позволяют выполнять вычисления на уровне базы
+   данных. `annotate` добавляет вычисленные поля к каждому объекту в QuerySet, а `aggregate`
+   возвращает единичное вычисленное значение. Примеры:
+     ```python
+     from django.db.models import Count, Sum
+
+     # Аннотирование количества книг у каждого автора
+     authors = Author.objects.annotate(num_books=Count('books'))
+
+     # Агрегация общего количества страниц у всех книг
+     total_pages = Book.objects.aggregate(total_pages=Sum('pages'))
+     ```
+
+7. **Как использовать транзакции в Django?**
+   - **Ответ**: Django предоставляет инструменты для работы с транзакциями, что позволяет
+   атомарно выполнять набор операций. Для этого используется `transaction.atomic`. Пример:
+     ```python
+     from django.db import transaction
+
+     with transaction.atomic():
+         # Все операции внутри блока будут выполнены атомарно
+         author = Author.objects.create(name='New Author')
+         Book.objects.create(title='New Book', author=author)
+     ```
+
+8. **Как работает кеширование в Django и какие есть типы кешей?**
+   - **Ответ**: Django поддерживает несколько типов кешей, включая файловый кеш, кеш
+   в памяти (например, Memcached, Redis) и базу данных. Кеширование помогает улучшить
+   производительность, сохраняя результаты дорогостоящих операций. Пример настройки кеша в памяти:
+     ```python
+     CACHES = {
+         'default': {
+             'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+             'LOCATION': '127.0.0.1:11211',
+         }
+     }
+     ```

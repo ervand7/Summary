@@ -1,0 +1,93 @@
+Если стандартный парсер Flask не может распарсить данные в формат JSON, я бы
+использовал кастомный сериализатор. Например, я могу создать свой класс, наследующий
+от `json.JSONEncoder`, и переопределить метод `default` для обработки сложных
+типов данных, таких как объекты `datetime`. Также я мог бы использовать
+библиотеку `marshmallow` для сериализации ORM моделей в JSON. Эти подходы позволяют
+гибко и эффективно преобразовывать данные в сериализуемый формат, совместимый с JSON."
+
+
+### Примерный план действий:
+
+1. **Преобразование данных в сериализуемый формат**:
+   - Проверьте, что данные, которые вы получаете из базы данных, являются сериализуемыми.
+   Например, все объекты должны быть либо стандартными типами данных Python (строки,
+   числа, списки, словари и т.д.), либо должны быть преобразованы в такие типы.
+
+2. **Использование кастомного сериализатора**:
+   - Если у вас есть сложные объекты, такие как ORM модели или собственные классы,
+   вы можете создать кастомный сериализатор, который преобразует их в JSON-совместимый формат.
+
+3. **Использование библиотеки `json`**:
+   - Вы можете использовать стандартную библиотеку `json` в Python для сериализации данных.
+
+### Пример решения:
+
+1. **Преобразование данных**:
+   ```python
+   from flask import Flask, jsonify
+   from datetime import datetime
+   import json
+
+   app = Flask(__name__)
+
+   class CustomEncoder(json.JSONEncoder):
+       def default(self, obj):
+           if isinstance(obj, datetime):
+               return obj.isoformat()
+           # Добавьте обработку других типов объектов, если необходимо
+           return json.JSONEncoder.default(self, obj)
+
+   @app.route('/data')
+   def get_data():
+       # Пример данных из базы данных
+       data = {
+           'name': 'Alice',
+           'timestamp': datetime.now()
+       }
+
+       # Преобразование данных в JSON
+       json_data = json.dumps(data, cls=CustomEncoder)
+       return app.response_class(response=json_data, status=200, mimetype='application/json')
+
+   if __name__ == '__main__':
+       app.run(debug=True)
+   ```
+
+2. **Использование библиотеки `marshmallow` для сериализации**:
+   ```python
+   from flask import Flask, jsonify
+   from flask_sqlalchemy import SQLAlchemy
+   from marshmallow import Schema, fields
+
+   app = Flask(__name__)
+   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+   db = SQLAlchemy(app)
+
+   class User(db.Model):
+       id = db.Column(db.Integer, primary_key=True)
+       name = db.Column(db.String(50))
+       email = db.Column(db.String(50))
+
+   class UserSchema(Schema):
+       id = fields.Int()
+       name = fields.Str()
+       email = fields.Str()
+
+   user_schema = UserSchema()
+   users_schema = UserSchema(many=True)
+
+   @app.route('/users')
+   def get_users():
+       users = User.query.all()
+       return jsonify(users_schema.dump(users))
+
+   if __name__ == '__main__':
+       db.create_all()
+       app.run(debug=True)
+   ```
+
+### Объяснение:
+- **CustomEncoder**: Этот класс наследуется от `json.JSONEncoder` и переопределяет
+метод `default` для обработки нестандартных типов данных, таких как `datetime`.
+- **marshmallow**: Это библиотека для сериализации и десериализации сложных данных.
+Она позволяет легко определять схемы и преобразовывать данные в JSON.

@@ -1,0 +1,38 @@
+In Apache Kafka, two consumers cannot read the same message twice because Kafka
+adheres to the consumer group model. Let's delve into how this works:
+
+1. **Topics and Partitions**:
+   - In Kafka, data is organized into topics, which can be divided into multiple
+   partitions.
+   - Each partition contains a sequence of messages, and messages in a partition
+   have unique offsets.
+
+2. **Consumer Groups**:
+   - Consumers in Kafka are organized into consumer groups.
+   - Each consumer in a group reads from one or more partitions.
+   - Kafka distributes partitions among the consumers in a group in such a way
+   that each partition is assigned to only one consumer within the group at any given time.
+
+3. **Exclusive Reading**:
+   - If you have two consumers within the same consumer group, Kafka ensures that each
+   partition is assigned to only one of these consumers.
+   - This means that each partition is read by only one consumer in the group, and
+   thus each message in the partition will be read by only one consumer in the group.
+
+4. **Handling the Same Messages by Different Consumer Groups** - так тоже можно настроить специально:
+   - If you have two different consumer groups, then consumers in each group can read
+   the same message.
+   - This allows different systems or applications to process the same data independently.
+
+### Example:
+
+Suppose you have a topic with two partitions and two consumers in the same consumer group:
+
+- **Consumer A** reads from **partition 0**.
+- **Consumer B** reads from **partition 1**.
+
+If a new message is sent to partition 0, only Consumer A will read it. If a message
+is sent to partition 1, only Consumer B will read it. Thus, two consumers in the same group will not read the same message.
+
+If you have another consumer group with two consumers, they can independently read
+the same messages from the same partitions as the consumers in the first group.

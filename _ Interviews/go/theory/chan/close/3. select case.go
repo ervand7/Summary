@@ -37,6 +37,6 @@ func main() {
 	}
 	time.Sleep(1 * time.Second)
 
-	close(ch)
+	// close(ch)
 	wg.Wait()
 }

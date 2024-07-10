@@ -13,17 +13,18 @@ import (
 
 func main() {
 	wg := sync.WaitGroup{}
-	q := make(chan bool, 10)
+	ch := make(chan bool, 10)
 
 	for i := 0; i < 100; i++ {
-		q <- true
+		ch <- true
 		wg.Add(1)
 
 		go func(n int) {
+			defer wg.Done()
+
 			time.Sleep(time.Second)
 			fmt.Println("do something concurrently", n)
-			<-q
-			wg.Done()
+			<-ch
 		}(i)
 	}
 

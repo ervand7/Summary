@@ -16,8 +16,8 @@ func changeOneByDereferencing(slice *[]int) {
 
 func main() {
 	slice := make([]int, 0)
-	fmt.Printf("%p\n", slice) // 0x14000130000
 	slice = append(slice, 0, 1, 2, 3, 4)
+	fmt.Printf("%p\n", slice) // 0x14000130000
 
 	changeOneByDereferencing(&slice)
 	fmt.Println(slice) // [0 0 2 3 4 5]

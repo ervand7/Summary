@@ -20,7 +20,7 @@ func main() {
 	for _ = range ch {
 		select {
 		case i := <-ch:
-			fmt.Print(i)
+			fmt.Println(i)
 		}
 	}
 }

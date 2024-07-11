@@ -13,9 +13,17 @@ func main() {
 
 	var b = struct {
 		field1 int
+		field2 int
+		field3 int
+		field4 int
+		field5 int
 	}{}
 	// Видим, что просто объявленная и заполненная структуры весят одинаково
-	fmt.Println(unsafe.Sizeof(b)) // 8
-	b.field1 = 9
-	fmt.Println(unsafe.Sizeof(b)) // 8
+	fmt.Println(unsafe.Sizeof(b)) // 40
+	b.field1 = 1
+	b.field1 = 2
+	b.field1 = 3
+	b.field1 = 4
+	b.field1 = 5
+	fmt.Println(unsafe.Sizeof(b)) // 40
 }

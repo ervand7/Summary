@@ -1,14 +1,12 @@
 package main
 
-import (
-	"fmt"
-	"reflect"
-)
+import "fmt"
 
-func PrintType(i interface{}) {
-	fmt.Println("Type:", reflect.TypeOf(i))
-	fmt.Println("Value:", reflect.ValueOf(i))
-}
 func main() {
-	PrintType(6)
+	var a = map[int]int{}
+	b := a
+
+	b[1] = 666
+	fmt.Println(a)
+	fmt.Println(b)
 }

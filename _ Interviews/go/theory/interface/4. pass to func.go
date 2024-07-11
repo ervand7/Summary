@@ -29,7 +29,7 @@ func (s *Impl2) SayHello() (string, error) {
 }
 
 func some(n SayHelloer) {
-	// здесь ставим очку дебага и смотрим, является ли n указателем или нет
+	// здесь ставим точку дебага и смотрим, является ли n указателем или нет
 	result, err := n.SayHello()
 	if err != nil {
 		fmt.Println(err.Error())

@@ -15,6 +15,7 @@ func main() {
 	fmt.Printf("%p\n", &b) // 0x14000122010
 
 	b = 777
+	fmt.Printf("%p\n", &b) // 0x14000122010
 
 	fmt.Println(a) // 1
 	fmt.Println(b) // 777

@@ -6,6 +6,7 @@ import "fmt"
 
 func main() {
 	var a []int
+	fmt.Println(a == nil) // true
 	fmt.Printf("%p\n", a) // 0x0
 
 	for i := 0; i < 10; i++ {

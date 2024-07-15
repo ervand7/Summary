@@ -12,6 +12,6 @@ func main() {
 	var c = make([]int, 0)
 	fmt.Println(c, c != nil) // [] true
 
-	var d = make([]int, 0)
+	var d = make([]int, 0, 0)
 	fmt.Println(d, d != nil) // [] true
 }

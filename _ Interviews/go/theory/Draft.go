@@ -1,12 +1,30 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
+
+type account struct {
+	balance int
+}
+
+func deposit(acc *account, amount int) {
+	acc.balance += amount
+}
 
 func main() {
-	var a = map[int]int{}
-	b := a
+	acc := account{balance: 0}
+	var wg sync.WaitGroup
 
-	b[1] = 666
-	fmt.Println(a)
-	fmt.Println(b)
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go func(n int) {
+			deposit(&acc, 1)
+			wg.Done()
+		}(i)
+	}
+	wg.Wait()
+
+	fmt.Printf("balance=%d\n", acc.balance)
 }

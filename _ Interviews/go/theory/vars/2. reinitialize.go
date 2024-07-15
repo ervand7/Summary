@@ -1,10 +1,10 @@
-// val will not be changed, because we reinitialized new
-
 package main
 
 import (
 	"fmt"
 )
+
+// val will not be changed because after reassigning vars will receive new addr
 
 var (
 	A = 1

@@ -1,10 +1,10 @@
-// val will be changed
-
 package main
 
 import (
 	"fmt"
 )
+
+// val will be changed because after assigning new val vars will keep the same addr
 
 var (
 	a = 1

@@ -14,4 +14,7 @@ func main() {
 
 	var d = make([]int, 0, 0)
 	fmt.Println(d, d != nil) // [] true
+
+	var e = []int{10: 0}
+	fmt.Println(e, e != nil) // [0 0 0 0 0 0 0 0 0 0 0] true
 }

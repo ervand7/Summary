@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// не изменится
+// не изменится. Разные адреса
 
 type some struct {
 	field string

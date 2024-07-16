@@ -1,8 +1,5 @@
 // SPDX-License-Identifier: MIT
 
-// function visibility specifier:
-// https://docs.soliditylang.org/en/latest/contracts.html#visibility-and-getters
-
 pragma solidity 0.8.8;
 
 contract  SimpleStorage {

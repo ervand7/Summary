@@ -1,3 +1,5 @@
 curly brackets
 surface
 erase
+funky
+spit out

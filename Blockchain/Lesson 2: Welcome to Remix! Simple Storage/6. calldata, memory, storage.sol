@@ -3,10 +3,8 @@
 pragma solidity ^0.8.8;
 
 contract  SimpleStorage {
+    // favoriteNumber automatically will be store in storage
     uint256 favoriteNumber;
-    function store(uint256 num) public {
-        favoriteNumber = num;
-    }
 
     struct People {
         uint256 favoriteNumber;
@@ -15,6 +13,7 @@ contract  SimpleStorage {
     People public person = People({favoriteNumber: 2, name: "Patrick"});
     People[] public peoples;
 
+    // calldata, memory, stotage
     function addPerson(uint256 _favoriteNumber, string memory _name) public {
         peoples.push(People(_favoriteNumber, _name));
     }

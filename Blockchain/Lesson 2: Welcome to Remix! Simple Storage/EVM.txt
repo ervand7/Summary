@@ -2,6 +2,9 @@ EVM stands for Ethereum Virtual Machine. It's a crucial component of the Ethereu
 blockchain and serves as the runtime environment for smart contracts in Ethereum.
 Here’s a more detailed explanation of EVM in the context of Solidity:
 
+EVM-compatible blockchains: Avalanche, Fantom, Polygon - here we can
+deploy our solidity code.
+
 Can access and store information in six places:
 In Solidity and the Ethereum Virtual Machine (EVM), information can be accessed and stored in six distinct places, each serving a different purpose and having different properties. Here’s a detailed explanation of these storage locations:
 1. **Storage**:

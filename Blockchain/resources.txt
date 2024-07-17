@@ -10,6 +10,8 @@ https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&vers
 solidity doc:
 https://docs.soliditylang.org/en/latest/types.html
 
+chainlink doc: https://docs.chain.link/getting-started/conceptual-overview
+
 github repo:
 https://github.com/smartcontractkit/full-blockchain-solidity-course-js
 
@@ -27,3 +29,5 @@ https://eth-converter.com/
 
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q
+
+chainlink github: https://github.com/smartcontractkit/chainlink/tree/develop

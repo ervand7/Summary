@@ -5,3 +5,6 @@ funky
 spit out
 chainlink
 assumptions
+a price feed
+elsewhere
+intense

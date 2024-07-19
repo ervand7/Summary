@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	var a uint8 = 255
+	var a int8 = 127
 	a += 1
-	fmt.Println(a) // 0
+	fmt.Println(a) // -128
 }

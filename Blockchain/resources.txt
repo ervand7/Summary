@@ -9,6 +9,8 @@ https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&vers
 
 solidity doc:
 https://docs.soliditylang.org/en/latest/types.html
+solidity examples:
+https://solidity-by-example.org/sending-ether/
 
 chainlink doc: https://docs.chain.link/getting-started/conceptual-overview
 

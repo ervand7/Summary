@@ -1,0 +1,127 @@
+1. **Boolean (`bool`)**:
+   - Represents a single bit value that can be either `true` or `false`.
+   ```solidity
+   bool isCompleted = true;
+   ```
+
+2. **Integer (`int` and `uint`)**:
+   - **`int`**: Signed integers of various sizes from `int8` to `int256` in steps of 8 bits.
+     ```solidity
+     int256 a = -123;
+     ```
+   - **`uint`**: Unsigned integers of various sizes from `uint8` to `uint256` in steps of 8 bits.
+     ```solidity
+     uint256 b = 123;
+     ```
+
+3. **Fixed Point Numbers (`fixed` and `ufixed`)**:
+   - **`fixed`**: Signed fixed-point numbers.
+   - **`ufixed`**: Unsigned fixed-point numbers.
+   - These are not fully supported yet.
+
+4. **Address (`address` and `address payable`)**:
+   - **`address`**: Holds a 20-byte Ethereum address.
+   - **`address payable`**: An address you can send Ether to.
+     ```solidity
+     address myAddress = 0x1234567890123456789012345678901234567890;
+     address payable myPayableAddress = payable(myAddress);
+     ```
+
+5. **Bytes (`bytes1` to `bytes32`)**:
+   - Fixed-size byte arrays.
+     ```solidity
+     bytes32 data = "0x1234...";
+     ```
+
+6. **Dynamic Byte Array (`bytes`)**:
+   - Dynamically-sized byte array.
+     ```solidity
+     bytes dynamicData = "Hello";
+     ```
+
+7. **String (`string`)**:
+   - Dynamically-sized UTF-8 encoded string.
+     ```solidity
+     string name = "Alice";
+     ```
+
+8. **Enumeration (`enum`)**:
+   - User-defined type to assign names to integral constants.
+     ```solidity
+     enum Status { Pending, Shipped, Delivered }
+     Status public currentStatus = Status.Pending;
+     ```
+
+### Reference Types
+
+1. **Arrays**:
+   - **Fixed-size arrays**: Arrays with a fixed number of elements.
+     ```solidity
+     uint[3] fixedArray = [1, 2, 3];
+     ```
+   - **Dynamic-size arrays**: Arrays with a dynamic number of elements.
+     ```solidity
+     uint[] dynamicArray = [1, 2, 3];
+     ```
+
+2. **Structs**:
+   - User-defined complex data type that groups variables.
+     ```solidity
+     struct Person {
+         string name;
+         uint age;
+     }
+     Person public person = Person("Alice", 30);
+     ```
+
+3. **Mapping**:
+   - Key-value store for storing and looking up data.
+     ```solidity
+     mapping(address => uint) public balances;
+     ```
+
+### Special Types
+
+1. **Function Types**:
+   - Can be internal or external. Used to specify function signatures.
+     ```solidity
+     function (uint, uint) external pure returns (uint);
+     ```
+
+### Example of Using Multiple Data Types
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract DataTypesExample {
+    bool public isActive = true;
+    int8 public temperature = -10;
+    uint256 public balance = 1000;
+    address public owner = msg.sender;
+    bytes32 public data = "Hello, Solidity!";
+    string public greeting = "Welcome!";
+
+    enum Status { Pending, Active, Inactive }
+    Status public currentStatus = Status.Pending;
+
+    uint[3] public fixedArray = [1, 2, 3];
+    uint[] public dynamicArray;
+
+    struct Person {
+        string name;
+        uint age;
+    }
+    Person public person = Person("Alice", 30);
+
+    mapping(address => uint) public balances;
+
+    function addToDynamicArray(uint value) public {
+        dynamicArray.push(value);
+    }
+
+    function updateBalance(address user, uint amount) public {
+        balances[user] = amount;
+    }
+}
+```

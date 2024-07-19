@@ -1,0 +1,31 @@
+In Solidity, a constructor is a special function that is executed once when
+the contract is deployed. Its primary purposes are:
+
+1. **Initialization**: It sets the initial state of the contract.
+2. **Setup**: It can initialize variables, set initial values, and perform necessary
+setup operations.
+
+### Key Points:
+
+- **Function Signature**: A constructor is defined using the `constructor` keyword.
+- **No Return Values**: Constructors do not have return values.
+- **Executed Once**: It is executed only once during the contract deployment and cannot
+be called again.
+
+### Example:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Example {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender; // Set the contract deployer as the owner
+    }
+}
+```
+
+In this example, the constructor sets the contract's owner to the address that
+deploys the contract.

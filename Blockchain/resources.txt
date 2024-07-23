@@ -11,6 +11,8 @@ solidity doc:
 https://docs.soliditylang.org/en/latest/types.html
 solidity examples:
 https://solidity-by-example.org/sending-ether/
+solidity compiler:
+https://github.com/ethereum/solc-js
 
 chainlink doc: https://docs.chain.link/getting-started/conceptual-overview
 

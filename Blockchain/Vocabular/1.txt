@@ -34,3 +34,7 @@ amongst
 derive
 boilerplate
 genuinely
+to tinker
+triage
+pinpoint
+dense

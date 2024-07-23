@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 // pragma solidity ^0.8.7 - any version include and above 0.8.7 untill  0.9.0 (not included)
-// pragma solidity >=0.8.7 - also available
+// pragma solidity >=0.8.7        - also available
 // pragma solidity >=0.8.7 <0.9.0 - also available
 
 // command+S - compile

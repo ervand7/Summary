@@ -15,3 +15,6 @@ a number of tweaks
 do not sweat it
 they do have gas costs
 bog you down
+sprinkle
+beforehand / in advance
+fallback

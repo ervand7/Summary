@@ -1,0 +1,92 @@
+### Basic Commands
+1. **`go run`**
+   - **Usage:** `go run <file.go>`
+   - **Explanation:** Compiles and runs the Go program specified by `<file.go>`. This is useful
+   for quick testing and development.
+
+2. **`go build`**
+   - **Usage:** `go build <file.go>` or `go build`
+   - **Explanation:** Compiles the Go source files but does not run them. If used in a directory
+   containing a Go package, it will build the executable for that package.
+
+3. **`go install`**
+   - **Usage:** `go install <package>`
+   - **Explanation:** Compiles and installs the packages named by the import paths. The resulting
+   executable is placed in the `GOPATH/bin` directory.
+
+4. **`go get`**
+   - **Usage:** `go get <package>`
+   - **Explanation:** Downloads and installs the specified packages along with their
+   dependencies. The source code is fetched from version control repositories.
+
+5. **`go test`**
+   - **Usage:** `go test` or `go test <package>`
+   - **Explanation:** Runs the tests in the specified package. It automatically looks for
+   files ending in `_test.go`.
+
+6. **`go fmt`**
+   - **Usage:** `go fmt <file.go>` or `go fmt ./...`
+   - **Explanation:** Formats Go source code according to the Go standards. This is useful
+   for maintaining a consistent coding style.
+
+7. **`go mod`**
+   - **Usage:** `go mod <command>`
+   - **Explanation:** Manages dependencies in a module. Some common subcommands are:
+     - `go mod init`: Initializes a new module.
+     - `go mod tidy`: Adds missing and removes unused modules.
+     - `go mod vendor`: Copies dependencies to the vendor directory.
+
+8. **`go doc`**
+   - **Usage:** `go doc <package>` or `go doc <package>.<symbol>`
+   - **Explanation:** Displays documentation for a package or a symbol within a package.
+
+### Advanced Commands
+1. **`go list`**
+   - **Usage:** `go list <args>`
+   - **Explanation:** Lists the packages or modules according to the specified arguments.
+   Useful for scripting and querying.
+
+2. **`go clean`**
+   - **Usage:** `go clean <args>`
+   - **Explanation:** Removes object files, cached files, and executable files created by
+   `go build` and `go test`.
+
+3. **`go env`**
+   - **Usage:** `go env`
+   - **Explanation:** Displays the environment variables that affect Go's behavior.
+
+4. **`go generate`**
+   - **Usage:** `go generate ./...`
+   - **Explanation:** Runs commands described by `//go:generate` directives within source
+   files. It is used to automate code generation.
+
+5. **`go tool`**
+   - **Usage:** `go tool <tool>`
+   - **Explanation:** Provides access to various tools, such as `compile`, `cover`, and `vet`.
+   These are useful for deeper insights into Go programs.
+
+### Example Usages
+1. **Running a program:**
+   ```bash
+   go run main.go
+   ```
+
+2. **Building an executable:**
+   ```bash
+   go build -o myapp main.go
+   ```
+
+3. **Installing a package:**
+   ```bash
+   go install github.com/user/package
+   ```
+
+4. **Formatting code:**
+   ```bash
+   go fmt ./...
+   ```
+
+5. **Running tests:**
+   ```bash
+   go test ./...
+   ```

@@ -1,0 +1,1 @@
+https://ethereum.stackexchange.com/questions/83222/vm-exception-while-processing-transaction-invalid-opcode-error

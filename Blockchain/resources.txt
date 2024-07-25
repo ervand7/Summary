@@ -25,6 +25,9 @@ https://andersbrownworth.com/blockchain/
 metamask wallet:
 in chrome extention
 
+ganache:
+https://archive.trufflesuite.com/ganache/
+
 etherscan:
 https://etherscan.io/address
 
@@ -35,3 +38,13 @@ EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q
 
 chainlink github: https://github.com/smartcontractkit/chainlink/tree/develop
+
+go-ethereum: https://github.com/ethereum/go-ethereum
+
+Ethereum JSON-RPC Specification:
+https://playground.open-rpc.org/?schemaUrl=https://raw.githubusercontent.com/ethereum/execution-apis/assembled-spec/openrpc.json&uiSchema%5BappBar%5D%5Bui:splitView%5D=false&uiSchema%5BappBar%5D%5Bui:input%5D=false&uiSchema%5BappBar%5D%5Bui:examplesDropdown%5D=false
+
+Ethers.js: https://docs.ethers.org/v5/getting-started/
+
+ether decompiler:
+https://ethervm.io/decompile

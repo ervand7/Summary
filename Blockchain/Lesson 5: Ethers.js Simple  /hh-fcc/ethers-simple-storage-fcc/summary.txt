@@ -1,6 +1,0 @@
- ● brew update
- ● brew install node
- ● brew install corepack
- ● corepack enable
- ● yarn add solc
- ● yarn add solc@0.8.7-fixed

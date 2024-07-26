@@ -5,3 +5,6 @@ to spin up
 that resolves to contract
 this lump of code
 bare
+just to really hone this in
+announcements
+pledge

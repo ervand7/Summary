@@ -1,0 +1,5 @@
+ ● yarn add dotenv
+ ● PRIVATE_KEY=0xa78a186c58db50cbb15822332181a70878c1eecef7831dae71f83f35ad21669e PRIVATE_KEY_PASSWORD=password node encryptKey.js
+make encryption using special encryptKey.js
+ ● PRIVATE_KEY_PASSWORD=password node deploy.js
+run main deploy.js script using only password

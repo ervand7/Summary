@@ -1,0 +1,4 @@
+ ● yarn add typescript ts-node
+ ● npm install -g ts-node
+ ● yarn add @types/fs-extrac
+ ● ts-node deploy.ts

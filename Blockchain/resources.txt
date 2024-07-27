@@ -48,3 +48,6 @@ Ethers.js: https://docs.ethers.org/v5/getting-started/
 
 ether decompiler:
 https://ethervm.io/decompile
+
+alchemy:
+https://www.alchemy.com

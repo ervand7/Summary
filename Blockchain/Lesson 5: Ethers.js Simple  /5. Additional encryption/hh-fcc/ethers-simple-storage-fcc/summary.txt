@@ -3,3 +3,4 @@
 make encryption using special encryptKey.js
  ● PRIVATE_KEY_PASSWORD=password node deploy.js
 run main deploy.js script using only password
+ ● yarn add prettier prettier-plugin-solidity

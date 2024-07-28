@@ -1,0 +1,60 @@
+NPM, Yarn, and NPX are related but serve different purposes in the JavaScript ecosystem.
+Here's a breakdown of each:
+
+### NPM (Node Package Manager)
+**NPM** is the default package manager for Node.js. It helps manage project dependencies,
+publish packages, and run scripts. Key functions include:
+- **Installing Packages:** Adds packages to your project.
+- **Dependency Management:** Manages versions and updates for your project dependencies.
+- **Script Running:** Allows running custom scripts defined in `package.json`.
+
+### Yarn
+**Yarn** is an alternative package manager to NPM, created by Facebook. It aims to address
+some of the perceived shortcomings of NPM, such as speed, reliability, and security. Key
+features include:
+- **Fast Installations:** Parallelizes operations to enhance speed.
+- **Offline Mode:** Can install packages without an internet connection if they've been
+installed previously.
+- **Deterministic Lockfiles:** Ensures consistent installations across different environments
+with a `yarn.lock` file.
+- **Enhanced Security:** Verifies package integrity using checksums.
+
+### NPX (Node Package Execute)
+**NPX** is a tool that comes with NPM (starting from version 5.2.0) and is designed to execute
+binaries from the NPM registry. It's particularly useful for running one-off commands without
+globally installing the package. Key uses include:
+- **Running Local Binaries:** Executes commands without the need to have the package globally
+installed.
+- **Temporary Package Installation:** Installs a package temporarily to run a specific command.
+- **Script Execution:** Simplifies the execution of scripts and binaries directly.
+
+### Comparison
+- **NPM and Yarn**: Both are package managers used to install and manage dependencies. Yarn offers performance and security improvements over NPM, but their core functionalities are similar. Yarn also introduces a different way of locking dependencies with the `yarn.lock` file compared to NPM's `package-lock.json`.
+- **NPX**: Not a package manager, but a package runner. It facilitates the execution of packages, often eliminating the need to install them globally.
+
+### Use Cases
+- **NPM**: Standard package manager for most Node.js projects.
+- **Yarn**: Preferred for projects where performance, reliability, and security are critical, and consistency in installations is required.
+- **NPX**: Useful for running tools and commands without installing them globally, making it ideal for tasks like creating new projects with frameworks or running temporary scripts.
+
+### Examples
+**Using NPM:**
+```sh
+npm install express
+npm run build
+```
+
+**Using Yarn:**
+```sh
+yarn add express
+yarn build
+```
+
+**Using NPX:**
+```sh
+npx create-react-app my-app
+npx eslint . --fix
+```
+
+While NPM and Yarn serve similar purposes as package managers with some differences
+in performance and features, NPX is distinct in its role as a tool for executing packages.

@@ -58,3 +58,6 @@ https://www.alchemy.com
 
 hardhat doc:
 https://hardhat.org
+
+chainlist:
+https://chainlist.org

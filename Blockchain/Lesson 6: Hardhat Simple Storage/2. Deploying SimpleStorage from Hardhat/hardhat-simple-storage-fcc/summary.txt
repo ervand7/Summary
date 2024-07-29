@@ -1,0 +1,13 @@
+ ● yarn init
+ ● delete all files and folders besides package.json
+ ● yarn add --dev hardhat@2.9.3
+ ● yarn hardhat
+
+ ● yarn hardhat compile
+ see compiling information in ./artifacts folder
+
+ ● yarn hardhat run scripts/deploy.js
+
+Особенности моей ситуации:
+yarn --version              
+4.3.1

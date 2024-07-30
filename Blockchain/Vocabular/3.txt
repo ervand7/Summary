@@ -8,3 +8,4 @@ bare
 just to really hone this in
 announcements
 pledge
+exploit

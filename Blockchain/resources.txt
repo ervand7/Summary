@@ -61,3 +61,6 @@ https://hardhat.org
 
 chainlist:
 https://chainlist.org
+
+rekt:
+https://rekt.news/leaderboard/

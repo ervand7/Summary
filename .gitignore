@@ -30,3 +30,6 @@ settings_local.py
 
 **/node_modules/
 **/.encryptedKey.json
+**/.yarn/
+**/artifacts/
+**/cache/

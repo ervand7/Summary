@@ -64,3 +64,6 @@ https://chainlist.org
 
 rekt:
 https://rekt.news/leaderboard/
+
+typechain:
+https://github.com/dethcrypto/TypeChain

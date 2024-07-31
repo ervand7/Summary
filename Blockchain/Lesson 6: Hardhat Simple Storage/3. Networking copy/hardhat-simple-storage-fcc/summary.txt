@@ -1,0 +1,50 @@
+ ● yarn init
+ ● delete all files and folders besides package.json
+ ● yarn add --dev hardhat
+ but sometimes i used hardhat@2.9.3
+ ● yarn hardhat
+
+ ● yarn hardhat compile
+ see compiling information in ./artifacts folder
+
+ ● yarn hardhat run scripts/deploy.js
+ ● yarn add --dev dotenv
+ ● yarn hardhat run scripts/deploy.js
+ ● yarn hardhat run scripts/deploy.js --network sepolia
+ ● yarn add --dev @nomiclabs/hardhat-etherscan
+ ● yarn hardhat verify --help
+ ● yarn hardhat block-number --network sepolia
+
+Localhost working:
+ ● yarn hardhat node
+ ● yarn hardhat run scripts/deploy.js --network localhost
+
+Console working:
+ ● yarn hardhat node
+ ● yarn hardhat console --network localhost
+ ● const simpleStorageFactory = await ethers.getContractFactory("SimpleStorage")
+ ● const simpleStorage = await simpleStorageFactory.deploy();
+ ● await simpleStorage.retrieve();
+ ● await simpleStorage.store(7);
+ ● await simpleStorage.retrieve();
+
+Testing:
+ ● yarn hardhat clean
+deletes artifacts folder and cleans cache folder
+ ● yarn hardhat test
+
+Hardhat gas reporter:
+ ● yarn add hardhat-gas-reporter --dev
+ ● yarn hardhat test
+
+Coverage:
+ ● yarn add --dev solidity-coverage
+ ● yarn hardhat coverage
+
+Особенности моей ситуации:
+yarn --version              
+4.3.1
+
+Troubleshooting:
+If something is wrong, you can delete artifact and cache folders and run
+ ● yarn hardhat run scripts/deploy.js --network sepolia

@@ -1,9 +1,5 @@
 const { network } = require("hardhat");
 
-function deployFunc() {
-  console.log("Hi");
-}
-
 /*
 This is the same if we say:
 const helperConfig = require("../helper-hardhat-config")

@@ -11,6 +11,8 @@ const networkConfig = {
 };
 
 const developmentChains = ["hardhat", "localhost"];
+
+// for mocks
 const DECIMALS = 8;
 const INITIAL_ANSWER = 200000000000;
 

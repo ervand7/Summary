@@ -5,6 +5,7 @@ const {
   INITIAL_ANSWER,
 } = require("../helper-hardhat-config");
 
+// https://github.com/wighawag/hardhat-deploy
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();

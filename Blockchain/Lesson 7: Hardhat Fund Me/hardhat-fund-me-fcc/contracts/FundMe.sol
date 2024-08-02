@@ -20,7 +20,7 @@ contract FundMe {
 
     AggregatorV3Interface public priceFeed;
 
-    // good convention to start the name with i_
+    // good convention to start the name with i_ in immutable case
     address public immutable i_owner;
     constructor(address priceFeedAddress){
         i_owner = msg.sender;

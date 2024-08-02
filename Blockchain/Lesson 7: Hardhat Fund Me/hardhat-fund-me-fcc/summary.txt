@@ -10,3 +10,18 @@
  ● yarn hardhat deploy --tags mocks
  ● yarn hardhat deploy
  ● yarn hardhat node
+
+
+ Project description:
+  - artifacts - contains compiled contract artifacts, including the 
+  contract's ABI (Application Binary Interface), bytecode, and other 
+  metadata necessary for interacting with the smart contracts.
+
+  - cache - contains temporary files generated during the compilation 
+  and deployment process. This includes cache data that speeds up 
+  subsequent compilations by storing intermediate results and other 
+  data that Hardhat uses internally to optimize the build process.
+
+  - contracts - our contracts and tests
+  - deploy - our hardhat deploy scripts
+  - .solhint.json - for linting

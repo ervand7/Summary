@@ -6,14 +6,12 @@ the contract is deployed. Its primary purposes are:
 setup operations.
 
 ### Key Points:
-
 - **Function Signature**: A constructor is defined using the `constructor` keyword.
 - **No Return Values**: Constructors do not have return values.
 - **Executed Once**: It is executed only once during the contract deployment and cannot
 be called again.
 
 ### Example:
-
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;

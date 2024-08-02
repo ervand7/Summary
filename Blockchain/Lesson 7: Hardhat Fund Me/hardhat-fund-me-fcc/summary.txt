@@ -1,0 +1,12 @@
+ ● yarn add --dev hardhat
+ ● yarn hardhat
+ ● yarn add solhint
+ ● yarn solhint contracts/*.sol
+ ● yarn add --dev @chainlink/contracts
+ ● yarn hardhat compile
+ ● yarn add --dev hardhat-deploy
+ ● yarn add --dev @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers
+ ● yarn hardhat deploy
+ ● yarn hardhat deploy --tags mocks
+ ● yarn hardhat deploy
+ ● yarn hardhat node

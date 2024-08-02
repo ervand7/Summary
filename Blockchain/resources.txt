@@ -67,3 +67,12 @@ https://rekt.news/leaderboard/
 
 typechain:
 https://github.com/dethcrypto/TypeChain
+
+npm packages:
+https://www.npmjs.com/package/@chainlink/contracts
+
+hardhat-deploy:
+https://github.com/wighawag/hardhat-deploy
+
+aave:
+https://github.com/aave/aave-v3-core/tree/master/helpers

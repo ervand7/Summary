@@ -10,6 +10,8 @@
  ● yarn hardhat deploy --tags mocks
  ● yarn hardhat deploy
  ● yarn hardhat node
+ ● yarn add dotenv
+ ● yarn hardhat deploy --network sepolia
 
 
  Project description:

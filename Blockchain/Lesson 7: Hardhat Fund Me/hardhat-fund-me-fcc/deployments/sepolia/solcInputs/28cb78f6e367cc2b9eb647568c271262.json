@@ -1,0 +1,41 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\n// solhint-disable-next-line interface-starts-with-i\ninterface AggregatorV3Interface {\n  function decimals() external view returns (uint8);\n\n  function description() external view returns (string memory);\n\n  function version() external view returns (uint256);\n\n  function getRoundData(\n    uint80 _roundId\n  ) external view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n\n  function latestRoundData()\n    external\n    view\n    returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n}\n"
+    },
+    "contracts/FundMe.sol": {
+      "content": "// Get funds from users\n// Withdraw funds\n// Set a minimum funding value in USD\n\n//  SPDX-License-Identifier: MIT\npragma solidity ^0.8.8;\n\nimport \"./PriceConverter.sol\";\n\nerror NotOwner();\n\ncontract FundMe {\n    using PriceConverter for uint256;\n\n    // using constant we can save gas\n    uint256 public constant MINIMUM_USD = 0.1 * 1e18;\n\n    address[] public funders;\n    mapping(address => uint256) public addressToAmountFunded;\n\n    AggregatorV3Interface public priceFeed;\n\n    // good convention to start the name with i_ in immutable case\n    address public immutable i_owner;\n    constructor(address priceFeedAddress){\n        i_owner = msg.sender;\n        priceFeed = AggregatorV3Interface(priceFeedAddress);\n    }\n\n    function fund() public payable{\n        require(msg.value.getConversionRate(priceFeed) >= MINIMUM_USD, \"Didn't send enougth\"); // 1e18 == 1 * 10 ** 18 == 1000000000000000000\n        funders.push(msg.sender);\n        addressToAmountFunded[msg.sender] += msg.value;\n    }\n\n    function withdraw() public onlyOwner {\n        for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {\n            address funder = funders[funderIndex];\n            addressToAmountFunded[funder] = 0;\n        }\n\n        // reset the array\n        funders = new address[](0);\n        (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}(\"\");\n        require(callSuccess, \"Call failed\");\n    }\n\n    modifier onlyOwner {\n        // require(msg.sender == i_owner, \"Sender is not owner!\");\n        if (msg.sender != i_owner) {\n            revert NotOwner();\n        }\n        _;\n    }\n\n    receive() external payable {\n        fund();\n    }\n\n    fallback() external payable {\n        fund();\n    }\n}"
+    },
+    "contracts/PriceConverter.sol": {
+      "content": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\nimport \"@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol\";\n\nlibrary PriceConverter {\n    function getPrice(AggregatorV3Interface priceFeed) internal view returns (uint256) {\n        (, int price, , , ) = priceFeed.latestRoundData();\n        // ETH in terms of USD\n        // 3000.00000000\n\n        return uint256(price * 1e10); // 1**10 == 10000000000\n    }\n\n    function getConversionRate(\n        uint256 ethAmount,\n        AggregatorV3Interface priceFeed\n    ) internal view returns (uint256) {\n        uint256 ethPrice = getPrice(priceFeed);\n        // 3000_000000000000000000 = ETH / USD price\n        // 1_000000000000000000 ETH\n        uint256 ethAmountInUsd = (ethPrice * ethAmount) / 1e18;\n\n        // 3000\n        return ethAmountInUsd;\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

@@ -9,12 +9,10 @@ https://github.com/smartcontractkit/full-blockchain-solidity-course-js
 remix:
 https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljson-v0.8.26+commit.8a97fa7a.js
 
-solidity doc:
-https://docs.soliditylang.org/en/latest/types.html
-solidity examples:
-https://solidity-by-example.org/sending-ether/
-solidity compiler:
-https://github.com/ethereum/solc-js
+solidity doc: https://docs.soliditylang.org/en/latest/types.html
+style guide: https://docs.soliditylang.org/en/latest/style-guide.html
+solidity examples: https://solidity-by-example.org/sending-ether/
+solidity compiler: https://github.com/ethereum/solc-js
 
 chainlink doc:
 link: https://docs.chain.link/getting-started/conceptual-overview

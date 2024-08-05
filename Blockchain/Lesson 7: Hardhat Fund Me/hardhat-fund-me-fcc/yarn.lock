@@ -4248,9 +4248,9 @@ solc@0.8.26:
     tmp "0.0.33"
 
 solhint@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/solhint/-/solhint-5.0.2.tgz#720f7a879d7d137ffa1498575462cac8e131ba2a"
-  integrity sha512-fDoflGz1jztGRqEDiLI25wSvpjGu0fIqeRXXYKYt4qBOA0EJi8RZwlM11+K2ZAcGFW2K8bevJ2A/wtZ0lDi/bw==
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/solhint/-/solhint-5.0.3.tgz#b57f6d2534fe09a60f9db1b92e834363edd1cbde"
+  integrity sha512-OLCH6qm/mZTCpplTXzXTJGId1zrtNuDYP5c2e6snIv/hdRVxPfBBz/bAlL91bY/Accavkayp2Zp2BaDSrLVXTQ==
   dependencies:
     "@solidity-parser/parser" "^0.18.0"
     ajv "^6.12.6"
@@ -4847,8 +4847,8 @@ yocto-queue@^0.1.0:
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
 zksync-ethers@^5.0.0:
-  version "5.9.1"
-  resolved "https://registry.yarnpkg.com/zksync-ethers/-/zksync-ethers-5.9.1.tgz#318df4ead59059b074703e76f66e93a65a7f6313"
-  integrity sha512-Y1zxoVxOz1cujw+5RcJVR6rANpX398DVFtUIOkovciltyk1hKetavGmCTA5fCmfqoA074Jjxl6SpX7vrDcUVSg==
+  version "5.9.2"
+  resolved "https://registry.yarnpkg.com/zksync-ethers/-/zksync-ethers-5.9.2.tgz#1c5f34cb25ac0b040fd1a6118f2ba1c2c3bda090"
+  integrity sha512-Y2Mx6ovvxO6UdC2dePLguVzvNToOY8iLWeq5ne+jgGSJxAi/f4He/NF6FNsf6x1aWX0o8dy4Df8RcOQXAkj5qw==
   dependencies:
     ethers "~5.7.0"

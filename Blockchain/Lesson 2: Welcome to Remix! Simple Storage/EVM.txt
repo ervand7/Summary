@@ -6,7 +6,8 @@ EVM-compatible blockchains: Avalanche, Fantom, Polygon - here we can
 deploy our solidity code.
 
 Can access and store information in six places:
-In Solidity and the Ethereum Virtual Machine (EVM), information can be accessed and stored in six distinct places, each serving a different purpose and having different properties. Here’s a detailed explanation of these storage locations:
+In Solidity and the Ethereum Virtual Machine (EVM), information can be accessed and stored in
+six distinct places, each serving a different purpose and having different properties:
 1. **Storage**:
    - **Description**: Persistent storage for smart contracts. This data is stored
    on the blockchain and remains there indefinitely unless explicitly changed.

@@ -1,0 +1,4 @@
+ ● yarn
+ ● yarn hardhat test
+ ● yarn hardhat coverage
+ ● yarn hardhat deploy --tags storage

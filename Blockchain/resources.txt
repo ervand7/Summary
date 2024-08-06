@@ -79,5 +79,8 @@ description: plugin for Hardhat simplifies the deployment and management of smar
 aave:
 https://github.com/aave/aave-v3-core/tree/master/helpers
 
+evm-opcodes:
+https://github.com/crytic/evm-opcodes
+
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

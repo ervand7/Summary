@@ -10,3 +10,5 @@ announcements
 pledge
 exploit
 to lint
+he gets slotted
+wacky

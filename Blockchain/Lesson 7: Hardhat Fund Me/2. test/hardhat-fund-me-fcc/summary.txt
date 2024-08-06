@@ -2,3 +2,8 @@
  ● yarn hardhat test
  ● yarn hardhat coverage
  ● yarn hardhat deploy --tags storage
+ ● yarn hardhat deploy --network sepolia
+
+ ● yarn hardhat node
+ ● (in second terminal) yarn hardhat run scripts/fund.js --network localhost
+ ● (in second terminal) yarn hardhat run scripts/withdraw.js --network localhost

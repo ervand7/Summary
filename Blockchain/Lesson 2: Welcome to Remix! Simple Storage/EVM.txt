@@ -14,6 +14,41 @@ six distinct places, each serving a different purpose and having different prope
    - **Usage**: Used for storing contract state variables.
    - **Cost**: Expensive in terms of gas.
    - **Scope**: Persistent across function calls and transactions.
+   Можно сказать, что хранилище (storage) в Solidity представлено как массив
+   32-байтовых слотов. Этот массив позволяет адресоваться по индексам (слотам), что
+   позволяет контракту сохранять и читать данные в этих слотах. Каждый слот в хранилище
+   имеет фиксированную длину в 32 байта (256 бит). Вот несколько ключевых моментов:
+        1. **Простые типы данных**:
+           - Например, переменная типа `uint256` или `bool` сохраняется в отдельном слоте.
+           `uint256` занимает весь слот, а `bool` занимает только 1 байт, но все равно
+           резервирует весь слот.
+
+        2. **Сложные типы данных**:
+           - **Массивы**: Длина динамического массива хранится в одном слоте, а его элементы
+           хранятся в последовательных слотах, начинающихся с хэшированного значения базового слота.
+           - **Маппинги**: Для маппингов используется хэширование ключа и базового слота, чтобы
+           определить, в каком слоте хранятся данные.
+
+        ### Пример
+        Рассмотрим пример хранения данных из твоего контракта:
+
+        ```solidity
+        uint256 favoriteNumber; // Слот 0
+        bool someBool; // Слот 1
+        uint256[] myArray; // Слот 2 (длина массива), элементы по адресу keccak256(2)
+        mapping(uint256 => bool) myMap; // Пустой слот 3, элементы по адресу keccak256(ключ . 3)
+        ```
+
+        ### Визуализация
+        ```plaintext
+        Slot 0: favoriteNumber (uint256)
+        Slot 1: someBool (bool)
+        Slot 2: myArray.length (uint256)
+        Slot 3: myMap (mapping, пустой слот)
+        Slot keccak256(2): myArray[0]
+        Slot keccak256(2) + 1: myArray[1]
+        Slot keccak256(ключ . 3): myMap[ключ]
+        ```
 
 2. **Memory**:
    - **Description**: A temporary, mutable space used during contract execution.

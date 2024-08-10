@@ -1,7 +1,3 @@
-// Get funds from users
-// Withdraw funds
-// Set a minimum funding value in USD
-
 //  SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
@@ -34,7 +30,6 @@ contract FundMe {
             addressToAmountFunded[funder] = 0;
         }
 
-        // reset the array
         funders = new address[](0);
         (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Call failed");

@@ -40,7 +40,8 @@ contract FundMe {
         bool sendSuccess = payable(msg.sender).send(address(this).balance);
         require(sendSuccess, "Send failed");
 
-        // call. For advance usage. Most flexible, forwards all gas, handles complex interactions, requires explicit error handling.
+        // call. For advance usage. Most flexible, forwards all gas, handles
+        // complex interactions, requires explicit error handling.
         (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
         require(callSuccess, "Call failed");
     }

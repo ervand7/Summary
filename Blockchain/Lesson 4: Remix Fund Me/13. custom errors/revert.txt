@@ -1,0 +1,59 @@
+In Solidity, the `revert` keyword is used to immediately stop the execution of a
+contract, undoing all changes made to the state during the current transaction,
+and optionally providing an error message. It is often used to handle errors or enforce
+conditions that must be met before certain code can be executed.
+
+### Key Points about `revert`:
+1. **State Reversion:**
+   - When `revert` is called, any changes made to the contract's state during the current
+   transaction are undone. This includes changes to variables, balances, and other state
+   modifications.
+
+2. **Gas Refund:**
+   - The remaining gas is refunded to the caller, minus the gas used up to the point of
+   the revert. However, the gas spent on the operations before the revert is still consumed.
+
+3. **Error Messages:**
+   - `revert` can optionally include a string message, which can provide additional
+   information about why the transaction was reverted. This message can be useful
+   for debugging and understanding the cause of the error.
+
+4. **Usage with Custom Errors:**
+   - Solidity versions starting from 0.8.4 introduced custom errors, which can be used
+   with `revert` to save gas and make error handling more efficient.
+
+### Example Usage:
+#### Basic `revert` with an Error Message:
+```solidity
+function withdraw(uint amount) public {
+    if (amount > balance[msg.sender]) {
+        revert("Insufficient balance");
+    }
+    balance[msg.sender] -= amount;
+    msg.sender.transfer(amount);
+}
+```
+
+#### Using Custom Errors:
+```solidity
+error InsufficientBalance(uint requested, uint available);
+
+function withdraw(uint amount) public {
+    uint available = balance[msg.sender];
+    if (amount > available) {
+        revert InsufficientBalance(amount, available);
+    }
+    balance[msg.sender] -= amount;
+    msg.sender.transfer(amount);
+}
+```
+
+In this second example, using a custom error can save gas compared to a string-based
+`revert` message, especially if the error is used frequently throughout the contract.
+
+### When to Use `revert`:
+- **Input Validation:** To ensure that function arguments are within acceptable bounds.
+- **Authorization Checks:** To enforce that certain actions can only be performed by
+authorized users.
+- **Contract Invariants:** To enforce rules or conditions that must always hold true,
+ensuring the contract remains in a valid state.

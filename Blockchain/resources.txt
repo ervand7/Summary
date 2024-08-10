@@ -1,10 +1,13 @@
 Coursera:
 https://www.coursera.org/learn/blockchain-basics?action=enroll
 
-YouTube:
-https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=5s
-Github repo:
-https://github.com/smartcontractkit/full-blockchain-solidity-course-js
+Patrick:
+    old:
+        YouTube: https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=5s
+        Github repo: https://github.com/smartcontractkit/full-blockchain-solidity-course-js
+    new:
+        YouTube: https://www.youtube.com/watch?v=-1GB6m39-rM&t=178s
+        Github repo: https://github.com/Cyfrin/foundry-full-course-cu
 
 remix:
 https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljson-v0.8.26+commit.8a97fa7a.js
@@ -25,6 +28,9 @@ https://andersbrownworth.com/blockchain/
 metamask wallet:
 in chrome extention
 
+faucet: https://faucets.chain.link/
+google faucet: https://cloud.google.com/application/web3/faucet/ethereum/sepolia
+
 ganache:
 link: https://archive.trufflesuite.com/ganache/
 description: deploying fake blockchain locally
@@ -32,6 +38,8 @@ description: deploying fake blockchain locally
 etherscan:
 link: https://etherscan.io/address
 description: eth transactions info
+
+zksync sepolia explorer: https://sepolia.explorer.zksync.io/
 
 eth-converter:
 https://eth-converter.com/
@@ -59,6 +67,7 @@ description: node js framework
 
 chainlist:
 link: https://chainlist.org
+link on zkSync sepolia testnet: https://chainlist.org/chain/300
 description: networks information
 
 rekt:
@@ -81,6 +90,16 @@ https://github.com/aave/aave-v3-core/tree/master/helpers
 
 evm-opcodes:
 https://github.com/crytic/evm-opcodes
+
+l2beat:
+link: https://l2beat.com/scaling/summary
+description: eth L2 projects
+
+zksync bridge:
+description: transfer eth from sepolia to zkSync sepolia
+link: https://portal.zksync.io/bridge/?network=sepolia
+
+zkSync doc: https://docs.zksync.io/zk-stack/concepts/finality
 
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

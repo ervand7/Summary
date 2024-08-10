@@ -56,6 +56,7 @@ six distinct places, each serving a different purpose and having different prope
    - **Usage**: Used for function arguments, local variables, and temporary data.
    - **Cost**: Cheaper than storage but still has gas costs associated with it.
    - **Scope**: Limited to the function execution.
+   Used for strings, arrays (both dynamic and fixed), structs, and bytes.
 
 3. **Stack**:
    - **Description**: A fixed-size data structure (limited to 1024 elements) used
@@ -63,6 +64,7 @@ six distinct places, each serving a different purpose and having different prope
    - **Usage**: Used for operations and storing small local variables.
    - **Cost**: Very cheap in terms of gas.
    - **Scope**: Limited to the function execution.
+   Used for integers, booleans, addresses, fixed-size bytes, enums, and function pointers.
 
 4. **Calldata**:
    - **Description**: Read-only area where data passed to functions (via external calls)

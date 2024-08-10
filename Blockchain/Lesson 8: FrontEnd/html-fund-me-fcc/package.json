@@ -1,0 +1,9 @@
+{
+  "name": "html-fund-me-fcc",
+  "version": "1.0.0",
+  "description": "",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "packageManager": "yarn@1.22.17+sha512.1f4a76e35057687d1437d21e1fffd14fcdad9793df36b695a52a44a16f844fb966a29342eb5799f80f880ef53c14ce86a39bf1d7ad929dc0cbf09d598d106b89"
+}

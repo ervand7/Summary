@@ -1,7 +1,3 @@
-// Get funds from users
-// Withdraw funds
-// Set a minimum funding value in USD
-
 //  SPDX-License-Identifier: MIT
 pragma solidity ^0.8.8;
 
@@ -11,17 +7,16 @@ contract FundMe {
     using PriceConverter for uint256;
 
     uint256 public minimumUSD = 0.1 * 1e18;
-
     address[] public funders;
     mapping(address => uint256) public addressToAmountFunded;
-
     address public owner;
+
     constructor(){
         owner = msg.sender;
     }
 
     function fund() public payable{
-        require(msg.value.getConversionRate() >= minimumUSD, "Didn't send enougth"); // 1e18 == 1 * 10 ** 18 == 1000000000000000000
+        require(msg.value.getConversionRate() >= minimumUSD, "Didn't send enougth");
         funders.push(msg.sender);
         addressToAmountFunded[msg.sender] += msg.value;
     }

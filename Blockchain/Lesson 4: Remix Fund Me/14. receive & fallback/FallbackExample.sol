@@ -4,11 +4,12 @@ pragma solidity ^0.8.7;
 contract FallbackExample {
     uint256 public result;
 
-    // Fallback function must be declared as external.
+    // must be declared as external and payable.
     fallback() external payable {
         result = 1;
     }
 
+    // must be declared as external and payable.
     receive() external payable {
         result = 2;
     }
@@ -20,7 +21,7 @@ contract FallbackExample {
     //          /   \
     //         yes  no
     //         /     \
-    //    receive()?  fallback()
+    //    receive()  fallback()
     //     /   \
     //   yes   no
     //  /        \

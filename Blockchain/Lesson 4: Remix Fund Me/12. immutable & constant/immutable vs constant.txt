@@ -1,0 +1,43 @@
+In Solidity, `immutable` and `constant` are two keywords used to define variables
+with certain restrictions on their mutability, but they have different use cases
+and behaviors. Here's a comparison:
+
+### 1. **constant:**
+   - **Definition:** The `constant` keyword is used for variables whose value is fixed
+   at compile-time and cannot be changed thereafter.
+   - **Initialization:** Must be assigned a value at the time of declaration.
+   - **Storage:** These variables are stored directly in the bytecode, which means
+   they do not consume storage on the blockchain.
+   - **Usage:** Typically used for defining constants like mathematical constants or
+   fixed addresses.
+   - **Example:**
+     ```solidity
+     uint256 public constant MAX_SUPPLY = 1000000;
+     ```
+
+### 2. **immutable:**
+   - **Definition:** The `immutable` keyword is used for variables whose value is set
+   at deployment-time (in the constructor) and cannot be changed after deployment.
+   - **Initialization:** Must be assigned a value either at the time of declaration or
+   in the constructor. It cannot be modified after the contract is deployed.
+   - **Storage:** These variables are stored in storage, but because their values are
+   fixed after deployment, they can be accessed more efficiently than regular storage variables.
+   - **Usage:** Useful for values that are known only at deployment but should remain
+   constant afterward, such as contract addresses or configuration parameters.
+   - **Example:**
+     ```solidity
+     uint256 public immutable deploymentTimestamp;
+
+     constructor() {
+         deploymentTimestamp = block.timestamp;
+     }
+     ```
+
+### Summary:
+- **`constant`:** Value is known at compile-time, must be assigned at declaration, and
+stored in the bytecode.
+- **`immutable`:** Value is known at deployment-time, must be assigned either at
+declaration or in the constructor, and stored in the contract's storage.
+
+These keywords help optimize gas usage and ensure the integrity of values that should
+not change during the lifecycle of the contract.

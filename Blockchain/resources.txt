@@ -59,7 +59,7 @@ https://ethervm.io/decompile
 
 alchemy:
 link: https://www.alchemy.com
-description: platform for building and managing blockchain applications:
+description: platform for building and managing blockchain applications
 
 hardhat doc:
 link: https://hardhat.org
@@ -100,6 +100,10 @@ description: transfer eth from sepolia to zkSync sepolia
 link: https://portal.zksync.io/bridge/?network=sepolia
 
 zkSync doc: https://docs.zksync.io/zk-stack/concepts/finality
+
+l2fees:
+description: shows current Ethereum transaction fees on L1 and L2 to help users choose the cheapest option.
+link: https://l2fees.info
 
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

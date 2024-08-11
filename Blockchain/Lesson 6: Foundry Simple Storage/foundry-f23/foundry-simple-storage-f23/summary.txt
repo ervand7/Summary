@@ -1,0 +1,47 @@
+ ● curl -L https://foundry.paradigm.xyz | bash
+ ● source /Users/ervand_agadzhanyan/.zshenv
+ ● foundryup
+ ● forge --version
+ ● cd
+ ● echo "source /Users/ervand_agadzhanyan/.zshenv" >> .zprofile
+
+ ● forge init
+here can be problems with git
+ ● forge compile
+
+ connect metamask to anvil network
+
+ ● anvil
+runs fake local blockchain node
+
+ ● forge create SimpleStorage --rpc-url http://127.0.0.1:8545 --interactive
+
+ ● forge script script/DeploySimpleStorage.s.sol
+deploy on temp anvil chain
+ ● forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545   
+ ● forge script script/DeploySimpleStorage.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80       
+ ● cast --to-base 0x714f1 dec
+
+Working with .env
+ ● source .env
+ ● forge script script/DeploySimpleStorage.s.sol --rpc-url $RPC_URL --broadcast --private-key $PRIVATE_KEY
+
+ERC-2335 encryption:
+ ● cast wallet import defaultKey --interactive
+result: `defaultKey` keystore was saved successfully. Address: 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+ ● cast wallet list
+ ● forge script script/DeploySimpleStorage.s.sol:DeploySimpleStorage --rpc-url http://127.0.0.1:8545 --account defaultKey --sender 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 --broadcast -vvvv
+
+
+Interracting with the contract via command line: 
+ ● anvil
+ ● source .env
+ ● cast send 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 "store(uint256)" 123 --rpc-url $RPC_URL --private-key $PRIVATE_KEY
+0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 is a contract address
+calling `send` function
+ ● cast call 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 "retrieve()"
+ ● cast --to-base 0x000000000000000000000000000000000000000000000000000000000000007b dec
+
+Testnet:
+ ● source .env
+ ● forge script script/DeploySimpleStorage.s.sol --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --broadcast

@@ -1,0 +1,32 @@
+Installation
+ ● make install
+you can have problems with git
+
+Deployment and interracting:
+ ● anvil
+ ● forge script script/DeployFundMe.s.sol:DeployFundMe --rpc-url http://localhost:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80  --broadcast
+ deploy
+ ● forge script script/Interactions.s.sol:FundFundMe --sender 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://localhost:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80  --broadcast
+ fund
+ ● forge script script/Interactions.s.sol:WithdrawFundMe --sender 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 --rpc-url http://localhost:8545 --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80  --broadcast
+ withdraw
+ ● cast balance 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266  --rpc-url http://127.0.0.1:8545
+ check account balance
+
+Tests:
+ ● forge install smartcontractkit/chainlink-brownie-contracts@0.6.1 --no-commit
+make remappings in toml file
+ ● forge test -vvvv
+
+ ● source .env
+ ● forge test  -vvv --fork-url $SEPOLIA_RPC_URL
+ ● forge coverage  -vvvv --fork-url $SEPOLIA_RPC_URL
+
+Gas reporting:
+ ● chisel
+ ● forge snapshot --match-test testWithdrawFromMultipleFunders
+ generate gas snapshot
+
+Inspect storage:
+ ● forge inspect FundMe storageLayout
+ to see memory usage by slots

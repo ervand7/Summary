@@ -105,5 +105,7 @@ l2fees:
 description: shows current Ethereum transaction fees on L1 and L2 to help users choose the cheapest option.
 link: https://l2fees.info
 
+foundry cheatcodes: https://book.getfoundry.sh/forge/cheatcodes
+
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

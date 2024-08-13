@@ -1,0 +1,9 @@
+[submodule "Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-f23/lib/chainlink-brownie-contracts"]
+	path = Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-f23/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-cu/lib/foundry-devops"]
+	path = Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-cu/lib/foundry-devops
+	url = https://github.com/ChainAccelOrg/foundry-devops
+[submodule "Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-cu/lib/chainlink-brownie-contracts"]
+	path = Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-cu/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts

@@ -1,0 +1,8 @@
+It supports both user authentication and integrity of messages.
+
+A digital signature serves two primary purposes:
+1. **User Authentication**: It verifies the identity of the sender, ensuring that the
+message was indeed sent by the claimed sender.
+2. **Integrity of Messages**: It ensures that the message has not been altered during
+transmission. If the message is tampered with, the digital signature will no longer match,
+alerting the recipient to the change.

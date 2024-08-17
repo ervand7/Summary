@@ -1,0 +1,10 @@
+1. **Transaction initiated** A transaction is created and broadcast
+to the network.
+2. **Transactions validated** Nodes in the network validate the transaction to
+ensure it's legitimate (e.g., ensuring the sender has sufficient funds).
+3. **Transactions Bundled & broadcasted** Valid transactions are bundled together
+into a block by miners.
+4. **Proof of work consensus problem solved** Miners solve a cryptographic puzzle
+(proof of work) to validate the new block.
+5. **Block added to the local chain and propagated to the network** The newly mined
+block is added to the blockchain and propagated throughout the network.

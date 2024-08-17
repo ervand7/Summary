@@ -1,0 +1,16 @@
+**Public Blockchain:**
+- Open to anyone.
+- Decentralized and transparent.
+- Participants can join or leave freely.
+- High security due to the number of participants.
+- Examples: Bitcoin, Ethereum.
+
+**Private Blockchain:**
+- Restricted access, usually to a specific organization or group.
+- Centralized control with permissions required to join.
+- Transactions are private and visible only to authorized participants.
+- Faster and more efficient due to fewer participants.
+- Examples: Hyperledger, Corda.
+
+Public blockchains prioritize openness and security, while private blockchains focus
+on privacy and control.

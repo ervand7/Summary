@@ -1,0 +1,37 @@
+Here’s a summary of common data types in Solidity and their sizes:
+
+### **Integer Types**
+- **uint8**: Unsigned integer of 8 bits (1 byte), range: 0 to 2^8 - 1.
+- **uint16**: Unsigned integer of 16 bits (2 bytes), range: 0 to 2^16 - 1.
+- **uint32**: Unsigned integer of 32 bits (4 bytes), range: 0 to 2^32 - 1.
+- **uint64**: Unsigned integer of 64 bits (8 bytes), range: 0 to 2^64 - 1.
+- **uint128**: Unsigned integer of 128 bits (16 bytes), range: 0 to 2^128 - 1.
+- **uint256 (or uint)**: Unsigned integer of 256 bits (32 bytes), range: 0 to 2^256 - 1.
+
+- **int8**: Signed integer of 8 bits (1 byte), range: -2^7 to 2^7 - 1.
+- **int16**: Signed integer of 16 bits (2 bytes), range: -2^15 to 2^15 - 1.
+- **int32**: Signed integer of 32 bits (4 bytes), range: -2^31 to 2^31 - 1.
+- **int64**: Signed integer of 64 bits (8 bytes), range: -2^63 to 2^63 - 1.
+- **int128**: Signed integer of 128 bits (16 bytes), range: -2^127 to 2^127 - 1.
+- **int256 (or int)**: Signed integer of 256 bits (32 bytes), range: -2^255 to 2^255 - 1.
+
+### **Address**
+- **address**: 160 bits (20 bytes). An Ethereum address is derived from the last 20 bytes
+of the Keccak-256 hash of the public key.
+
+### **Boolean**
+- **bool**: 1 byte. Represents a boolean value, either `true` or `false`.
+
+### **Fixed-Size Byte Arrays**
+- **bytes1** to **bytes32**: Fixed-size byte arrays ranging from 1 byte to 32 bytes.
+
+### **Dynamic Arrays**
+- **bytes**: Dynamic-sized byte array (variable length).
+- **string**: Dynamic-sized UTF-8 encoded string (variable length).
+
+### **Other Data Types**
+- **fixed and ufixed**: Fixed-point numbers of various sizes. Note that these are
+currently not fully supported in Solidity.
+
+Each of these types is used to store data in smart contracts, with the size impacting
+the range of values that can be stored and the amount of gas used in transactions.

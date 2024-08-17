@@ -1,0 +1,37 @@
+Asymmetric encryption is a method of encryption that uses two different keys:
+a **public key** and a **private key**. These keys work together, with each
+having its specific role:
+
+1. **Public Key**: This key is used for encrypting data. It is available to everyone,
+and anyone can use it to encrypt a message.
+2. **Private Key**: This key is used for decrypting data. It is kept secret and
+is owned by the recipient. Only this key can decrypt the message that was encrypted
+with the corresponding public key.
+
+### Example:
+Imagine you have a mailbox with a lock that has two keys. One key (the public key)
+is left near the mailbox, so anyone can use it to lock the mailbox (i.e., encrypt
+the data). The other key (the private key) is kept by you, and only you can
+use it to unlock the mailbox and read the letters (i.e., decrypt the data).
+
+### How It Works in Practice:
+1. **Sending an Encrypted Message**:
+   - Suppose someone wants to send you a secret message. They encrypt it using your
+   public key.
+   - Now, only you can read this message, as only you have the private key that can
+   decrypt it.
+
+2. **Digital Signature**:
+   - If you want to send someone a message and ensure they know it’s from you, you
+   can sign it with your private key.
+   - The recipient can verify the signature using your public key, confirming that
+   the message is indeed from you and hasn’t been altered.
+
+### Real-World Example:
+- **HTTPS (SSL/TLS)**: When you visit a website with HTTPS protection, asymmetric
+encryption is used. The browser receives the public key of the website and uses
+it to encrypt the data it sends to the server. The server then decrypts this data
+using its private key.
+
+Asymmetric encryption is fundamental to many modern security systems, including
+digital signatures, encrypted emails, and website protection.

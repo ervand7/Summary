@@ -1,0 +1,5 @@
+In Solidity and Ethereum, the address of a contract is determined by hashing
+the creator’s account address (the address of the account that deploys the contract)
+along with the nonce of the creator’s account. The nonce is a counter that represents
+the number of transactions sent from the creator’s account. These two factors combined
+determine the unique address of the newly created contract.

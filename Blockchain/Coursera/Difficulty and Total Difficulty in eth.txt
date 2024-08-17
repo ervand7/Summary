@@ -1,0 +1,30 @@
+**Difficulty** and **Total Difficulty** are two important metrics in the Ethereum
+network that relate to the mining process:
+
+### Difficulty
+- **Difficulty** in Ethereum refers to how hard it is to find a valid hash for a new
+block. It is a measure of how much computational work is required to mine a new block.
+- The difficulty level is adjusted dynamically by the network to ensure that the
+time between blocks remains relatively constant (approximately 15 seconds on average).
+- As more miners join the network and more computational power is added, the
+difficulty increases to maintain the block time. Conversely, if miners leave the
+network, the difficulty decreases.
+
+### Total Difficulty
+- **Total Difficulty** is the cumulative sum of the difficulty levels of all blocks
+up to a given point. It represents the total amount of computational work that
+has been done to secure the blockchain from its inception to the current block.
+- Total Difficulty is often used to determine the longest chain in cases where
+there are competing forks. The chain with the highest total difficulty is considered
+the valid chain, as it represents the most work done.
+
+### Practical Example
+- If block #1 has a difficulty of 1,000 and block #2 has a difficulty of 1,200, the
+total difficulty at block #2 would be 2,200.
+- The **Total Difficulty** metric is particularly useful during hard forks or chain
+splits, where it helps in determining which chain has the most computational work
+and should be considered the main chain.
+
+These concepts are crucial for understanding how the Ethereum network maintains
+security and consensus through the proof-of-work mechanism, although Ethereum is
+transitioning to proof-of-stake with Ethereum 2.0.

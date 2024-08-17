@@ -1,0 +1,26 @@
+An **ommer block** (sometimes called an "uncle block" in Ethereum) is a block
+that was mined but did not get included in the main blockchain because another
+block at the same height (or level) was added to the chain first. Despite not being
+part of the main blockchain, ommer blocks still contribute to the security of the network.
+
+### Key Points:
+1. **Purpose**: Ommer blocks help to increase the security of the blockchain by
+allowing miners who mined blocks that were valid but not included in the main chain
+to still receive a partial reward. This mechanism reduces the centralization of mining
+power.
+
+2. **Rewards**: The miners of ommer blocks receive a reduced block reward. Additionally,
+the miner who includes an ommer block in the main chain (as a reference) also gets a
+small reward.
+
+3. **Inclusion in Blocks**: Ethereum allows up to two ommer blocks to be included in a
+newly mined block. This helps in increasing the overall efficiency of the network by
+recognizing the work done by miners of the ommer blocks.
+
+4. **Impact on Security**: Including ommer blocks helps in preventing centralization by
+providing incentives for miners even when their blocks do not make it into the main
+chain, thus encouraging a more decentralized mining process.
+
+Ommer blocks are a unique feature of Ethereum and some other blockchains, designed to
+make the network more secure and fair by acknowledging the work of miners whose blocks
+were not directly included in the main chain.

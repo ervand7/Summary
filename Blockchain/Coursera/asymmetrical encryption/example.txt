@@ -1,0 +1,47 @@
+### Step 1: Generate Keys
+For simplicity, I'll use small keys here, though in practice, these keys are
+much longer for security reasons.
+
+- **Public Key:** `MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5Qe7mJ3JmM7Us9aIvf3Jz`
+- **Private Key:** `MIICXAIBAAKBgQC5Qe7mJ3JmM7Us9aIvf3Jzv+J9cvx2d4ddRIKu5tc29ZGg`
+
+### Step 2: Encrypting a Message
+Let's say you want to send a message: `"Hello, World!"`.
+
+Using the **public key**, you encrypt the message:
+```plaintext
+Encrypted Message: IBBbCjwJv0BQ/da7fwzQ2G5zdx9VQ7Lk1AIH45qlwrs=
+```
+
+### Step 3: Decrypting the Message
+The recipient uses their **private key** to decrypt the message:
+```plaintext
+Decrypted Message: Hello, World!
+```
+
+### Explanation:
+- **Encryption**: Anyone with the public key can encrypt a message. However,
+once encrypted, only the person with the corresponding private key can decrypt it.
+- **Decryption**: The private key is used to decrypt the message, turning it back
+into its original form.
+
+### Example with Real Data:
+To give a more concrete example, suppose you have the following:
+
+- **Public Key (shortened for simplicity)**:
+  ```
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7fJZsI/QO13KcFt8
+  ```
+
+- **Message**: `"Confidential Data"`
+
+If you encrypt `"Confidential Data"` with the above public key, you'll get a string
+of characters that looks like gibberish. Only the private key can decrypt it back to
+`"Confidential Data"`.
+
+### Tools to Try It Yourself:
+You can use tools like OpenSSL or online RSA encryption tools to experiment with
+real encryption and decryption using public and private keys.
+
+This demonstration illustrates the basic concept of asymmetric encryption, where a
+public key encrypts data, and a private key decrypts it, ensuring secure communication.

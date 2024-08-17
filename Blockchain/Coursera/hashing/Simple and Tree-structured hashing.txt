@@ -1,0 +1,11 @@
+**Simple Hash**
+A simple hash is typically used when there is a fixed number of items to be hashed,
+such as the items in a block header, and when verifying the composite block integrity.
+Simple hashing ensures that any change in the data results in a different hash,
+which helps in verifying the integrity of the block as a whole.
+
+**Tree-structured Hash**
+When there is a variable number of items to be hashed, such as the many state changes
+in a block, a tree-structured hash, specifically a Merkle Tree, is often used. This
+structure allows for efficient and secure verification of the integrity of large sets
+of data by organizing the hashes in a hierarchical tree format.

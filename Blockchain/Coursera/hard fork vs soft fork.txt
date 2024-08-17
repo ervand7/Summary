@@ -1,0 +1,41 @@
+In the context of blockchain technology, **hard forks** and **soft forks** are two
+types of changes or upgrades to the blockchain protocol. Both forks involve altering
+the rules or structure of the blockchain, but they have different implications and
+outcomes.
+
+### Hard Fork:
+- **Definition**: A hard fork is a radical change to the blockchain protocol that
+makes previously invalid blocks or transactions valid (or vice versa). It requires all
+nodes or users to upgrade to the latest version of the protocol software.
+- **Result**: A hard fork can result in a split of the blockchain into two separate
+chains if not all participants in the network agree to adopt the new rules. Each chain
+will then have its own version of the history and its own tokens.
+- **Examples**:
+  - **Bitcoin Cash (BCH)** was created from a hard fork of Bitcoin (BTC) in 2017 due to
+  disagreements over how to scale the network.
+  - **Ethereum Classic (ETC)** was created from a hard fork of Ethereum (ETH) after the
+  DAO hack in 2016.
+
+### Soft Fork:
+- **Definition**: A soft fork is a backward-compatible upgrade to the blockchain
+protocol. This means that the new rules are compatible with the old protocol, so
+non-upgraded nodes can still validate transactions, as long as those transactions
+follow the new rules.
+- **Result**: Since it is backward-compatible, a soft fork typically does not lead to a
+chain split. The blockchain continues on a single chain, and the updated protocol
+becomes the new consensus.
+- **Examples**:
+  - **Segregated Witness (SegWit)** in Bitcoin is an example of a soft fork. It was
+  implemented to fix transaction malleability and increase the block size limit.
+
+### Key Differences:
+- **Compatibility**: Hard forks are not backward-compatible, whereas soft forks are.
+- **Outcome**: Hard forks can lead to a split in the blockchain, resulting in two
+separate chains, while soft forks do not split the chain and maintain a single chain.
+- **Adoption**: Hard forks require all participants to upgrade to the new software,
+while soft forks allow nodes that haven't upgraded to continue participating in the
+network, as long as they follow the new rules.
+
+In summary, hard forks lead to permanent divergence in the blockchain, potentially
+creating a new cryptocurrency, while soft forks introduce changes that are
+backward-compatible and don't split the chain.

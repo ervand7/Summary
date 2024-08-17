@@ -1,6 +1,0 @@
-install `live server` vscode extention
- ● yarn add --dev http-server
- ● yarn http-server
-
- ● cd '/Users/ervand_agadzhanyan/Desktop/Summary/Blockchain/Lesson 8: FrontEnd/hardhat-fund-me-fcc' && yarn hardhat node
- run backend

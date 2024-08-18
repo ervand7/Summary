@@ -1,0 +1,1 @@
+https://docs.soliditylang.org/en/latest/style-guide.html#order-of-layout

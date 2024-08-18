@@ -1,0 +1,5 @@
+subscription manager:
+https://vrf.chain.link/
+
+automation:
+https://docs.chain.link/chainlink-automation/guides/compatible-contracts

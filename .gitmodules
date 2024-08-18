@@ -7,3 +7,6 @@
 [submodule "Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-cu/lib/chainlink-brownie-contracts"]
 	path = Blockchain/Lesson 7: Foundry Fund Me/foundry-fund-me-cu/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/chainlink-brownie-contracts"]
+	path = Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts

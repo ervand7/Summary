@@ -1,0 +1,12 @@
+Setup:
+ ● foundryup
+ ● forge --version
+
+ ● forge init
+here can be problems with git
+
+ ● forge bild
+
+Working with chainlink
+ ● forge install smartcontractkit/chainlink-brownie-contracts@1.1.1 --no-commit
+ ● forhe fmt

@@ -107,5 +107,9 @@ link: https://l2fees.info
 
 foundry cheatcodes: https://book.getfoundry.sh/forge/cheatcodes
 
+openchain:
+description: is used for verifying, analyzing, and exploring smart contracts to ensure security, transparency, and correct deployment on blockchain networks.
+link: https://openchain.xyz
+
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

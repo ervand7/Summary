@@ -3,6 +3,7 @@ pragma solidity 0.8.19;
 
 import {Script} from "forge-std/Script.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
+import {LinkToken} from "test/mocks/LinkToken.sol";
 
 abstract contract CodeConstants {
     uint96 public MOCK_BASE_FEE = 0.25 ether;
@@ -23,13 +24,14 @@ contract HelperConfig is CodeConstants, Script {
         bytes32 gasLane;
         uint32 callbackGasLimit;
         uint256 subscriptionId;
+        address link;
     }
 
     NetworkConfig public localNetworkConfig;
     mapping(uint256 chainId => NetworkConfig) public networkConfigs;
 
     constructor() {
-        networkConfigs[ETH_SEPOLIA_CHAIN_ID] = getSepoliaConfig();
+        networkConfigs[ETH_SEPOLIA_CHAIN_ID] = getSepoliaETHConfig();
     }
 
     function getConfigByChainId(
@@ -44,11 +46,11 @@ contract HelperConfig is CodeConstants, Script {
         }
     }
 
-    function getConfig() public returns(NetworkConfig memory) {
+    function getConfig() public returns (NetworkConfig memory) {
         return getConfigByChainId(block.chainid);
     }
 
-    function getSepoliaConfig() public pure returns (NetworkConfig memory) {
+    function getSepoliaETHConfig() public pure returns (NetworkConfig memory) {
         return
             NetworkConfig({
                 enteranceFee: 0.01 ether, // 1e16
@@ -56,7 +58,8 @@ contract HelperConfig is CodeConstants, Script {
                 vrfCoordinator: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B, // https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
                 gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae, // 100 gwei Key Hash from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
                 callbackGasLimit: 500000, // 500 000 gas
-                subscriptionId: 0
+                subscriptionId: 38954113706610858228321828025925565813353901076081352247063000584589643203844, // from https://vrf.chain.link/sepolia/38954113706610858228321828025925565813353901076081352247063000584589643203844
+                link: 0x779877A7B0D9E8603169DdbD7836e478b4624789 // from https://docs.chain.link/resources/link-token-contracts#sepolia-testnet
             });
     }
 
@@ -67,18 +70,23 @@ contract HelperConfig is CodeConstants, Script {
 
         vm.startBroadcast();
         VRFCoordinatorV2_5Mock vrfCoordinatorMock = new VRFCoordinatorV2_5Mock(
-            MOCK_BASE_FEE, MOCK_GAS_PRICE_LINK, MOCK_WEI_PER_UINT_LINK
+            MOCK_BASE_FEE,
+            MOCK_GAS_PRICE_LINK,
+            MOCK_WEI_PER_UINT_LINK
         );
+
+        LinkToken linkToken = new LinkToken();
         vm.stopBroadcast();
 
         localNetworkConfig = NetworkConfig({
-                enteranceFee: 0.01 ether, // 1e16
-                interval: 30, // 30 seconds
-                vrfCoordinator: address(vrfCoordinatorMock),
-                // doesn't matter
-                gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae, // 100 gwei Key Hash from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
-                callbackGasLimit: 500000, // 500 000 gas
-                subscriptionId: 0
+            enteranceFee: 0.01 ether, // 1e16
+            interval: 30, // 30 seconds
+            vrfCoordinator: address(vrfCoordinatorMock),
+            // doesn't matter
+            gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae, // 100 gwei Key Hash from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
+            callbackGasLimit: 500000, // 500 000 gas
+            subscriptionId: 0,
+            link: address(linkToken)
         });
 
         return localNetworkConfig;

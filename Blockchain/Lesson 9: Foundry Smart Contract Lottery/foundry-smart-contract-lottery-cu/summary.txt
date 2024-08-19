@@ -10,7 +10,24 @@ here can be problems with git
 Working with chainlink
  ● forge install smartcontractkit/chainlink-brownie-contracts@1.1.1 --no-commit
  ● forhe fmt
+ ● forge install transmissions11/solmate@v6 --no-commit
 
 
-Tests:
- ● 
+Creating subscription in UI:
+1) subscription manager: https://vrf.chain.link/sepolia
+2) go to faucet, receive 25 links and copy transaction hash
+0xe6c3942e0f063045ffbf0986af31c410fd7c38de88fbdc5e9e96afe391de6306
+3) go to https://docs.chain.link/resources/link-token-contracts#sepolia-testnet 
+and click `add to wallet`
+4) go back to your subscription https://vrf.chain.link/sepolia and fund it
+
+Automation:
+https://docs.chain.link/chainlink-automation/guides/compatible-contracts
+
+Run scripts:
+ ● cast wallet import myaccount --interactive
+use metamask private key
+ ● source .env
+ ● forge script script/Interactions.s.sol:FundSubscription --rpc-url $SEPOLIA_RPC_URL --account myaccount --broadcast
+after this go to https://vrf.chain.link/sepolia/38954113706610858228321828025925565813353901076081352247063000584589643203844
+and check that the subscription is funded

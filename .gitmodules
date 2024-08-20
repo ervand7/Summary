@@ -13,3 +13,6 @@
 [submodule "Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/solmate"]
 	path = Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/solmate
 	url = https://github.com/transmissions11/solmate
+[submodule "Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/foundry-devops"]
+	path = Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/foundry-devops
+	url = https://github.com/Cyfrin/foundry-devops

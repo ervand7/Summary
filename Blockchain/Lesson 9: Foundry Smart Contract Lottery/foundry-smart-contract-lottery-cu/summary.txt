@@ -11,6 +11,7 @@ Working with chainlink
  ● forge install smartcontractkit/chainlink-brownie-contracts@1.1.1 --no-commit
  ● forhe fmt
  ● forge install transmissions11/solmate@v6 --no-commit
+ ● forge install Cyfrin/foundry-devops --no-commit
 
 
 Creating subscription in UI:

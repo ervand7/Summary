@@ -1,0 +1,104 @@
+In Solidity, the `super` keyword is used within a derived contract to call a
+function from its immediate parent contract or from one of the base contracts in
+the case of multiple inheritance. This allows a derived contract to extend or modify
+the behavior of a function while still being able to execute the original logic
+defined in the base contract.
+
+### Key Points about `super`:
+
+1. **Function Overriding with `super`**:
+   - When a function in a derived contract overrides a function from its parent
+   contract, the derived contract can use `super` to call the overridden function
+   in the parent contract.
+   - This is useful when you want to extend the functionality of the base contract's
+   function rather than completely replace it.
+
+2. **Multiple Inheritance**:
+   - In the case of multiple inheritance, `super` can be used to ensure that all base
+   contracts are properly called in the linearized inheritance order (C3 Linearization).
+   - Solidity will determine the correct parent contract to call when `super` is used,
+   following the inheritance order.
+
+### Example of `super` in Single Inheritance:
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract BaseContract {
+    function foo() public virtual returns (string memory) {
+        return "BaseContract";
+    }
+}
+
+contract DerivedContract is BaseContract {
+    function foo() public override returns (string memory) {
+        return string(abi.encodePacked(super.foo(), " -> DerivedContract"));
+    }
+}
+```
+
+- **BaseContract**:
+  - The `foo` function is marked as `virtual`, allowing it to be overridden.
+
+- **DerivedContract**:
+  - The `foo` function is overridden and uses `super.foo()` to call the `foo` function
+  in `BaseContract`.
+  - The `super.foo()` call ensures that the logic from `BaseContract` is executed first,
+  and then the derived contract adds its own logic.
+
+### Example of `super` in Multiple Inheritance:
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract A {
+    function foo() public virtual returns (string memory) {
+        return "A";
+    }
+}
+
+contract B is A {
+    function foo() public virtual override returns (string memory) {
+        return string(abi.encodePacked(super.foo(), " -> B"));
+    }
+}
+
+contract C is A {
+    function foo() public virtual override returns (string memory) {
+        return string(abi.encodePacked(super.foo(), " -> C"));
+    }
+}
+
+contract D is B, C {
+    function foo() public override(B, C) returns (string memory) {
+        return string(abi.encodePacked(super.foo(), " -> D"));
+    }
+}
+```
+
+- **Contracts A, B, C**:
+  - Each contract defines and overrides the `foo` function, and each uses `super.foo()`
+  to call the `foo` function from its immediate parent.
+
+- **Contract D**:
+  - `D` inherits from both `B` and `C`, and it overrides the `foo` function.
+  - The call to `super.foo()` in `D` will follow the linearized inheritance order,
+  calling the `foo` function in `C`, which then calls `foo` in `B`, and finally `foo` in `A`.
+
+### Linearized Order:
+
+In the example above, the linearized inheritance order for contract `D` is:
+- `D -> C -> B -> A`
+
+When `super.foo()` is called in `D`, Solidity follows this order to ensure that each
+parent contract's function is executed in the correct sequence.
+
+### Summary:
+
+- **`super`** is used to call a function from the immediate parent contract in the
+inheritance chain.
+- It is particularly useful in situations involving multiple inheritance, ensuring
+that the correct base contract's function is called according to the linearized
+inheritance order.
+- Using `super` allows a derived contract to extend the functionality of a base
+contract's function rather than completely replace it.

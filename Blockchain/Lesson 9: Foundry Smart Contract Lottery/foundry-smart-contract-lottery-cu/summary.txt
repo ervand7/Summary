@@ -32,3 +32,9 @@ use metamask private key
  ● forge script script/Interactions.s.sol:FundSubscription --rpc-url $SEPOLIA_RPC_URL --account myaccount --broadcast
 after this go to https://vrf.chain.link/sepolia/38954113706610858228321828025925565813353901076081352247063000584589643203844
 and check that the subscription is funded
+
+Testing:
+ ● forge coverage --report debug
+shows, which lines are not covered
+ ● forge test -vvvv
+ ● source .env && forge test --fork-url $SEPOLIA_RPC_URL -vvvv

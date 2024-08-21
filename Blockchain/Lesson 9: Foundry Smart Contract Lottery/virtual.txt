@@ -1,0 +1,90 @@
+In Solidity, the `virtual` keyword is used to indicate that a function or a modifier
+can be overridden by a derived contract. This is a crucial feature in object-oriented
+programming (OOP) within Solidity, allowing for the implementation of polymorphism,
+where a function in a base contract can have its behavior changed in a derived contract.
+
+### Key Points about `virtual`:
+
+1. **Inheritance**:
+   - Solidity allows contracts to inherit properties and functions from other contracts.
+   By default, functions in Solidity are not overridable. To allow a function to be
+   overridden in a derived contract, you must mark it with the `virtual` keyword.
+
+2. **Function Overriding**:
+   - When you declare a function with the `virtual` keyword, you are explicitly stating
+   that this function can be overridden in any contract that inherits from this contract.
+   - The derived contract can then override this function by using the `override` keyword.
+
+3. **Modifiers**:
+   - Similar to functions, modifiers can also be marked as `virtual` if you want to
+   allow them to be overridden in derived contracts.
+
+### Example of `virtual` in a Function:
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract BaseContract {
+    function greet() public virtual returns (string memory) {
+        return "Hello from BaseContract";
+    }
+}
+
+contract DerivedContract is BaseContract {
+    function greet() public override returns (string memory) {
+        return "Hello from DerivedContract";
+    }
+}
+```
+
+- **BaseContract**:
+  - The `greet` function is marked as `virtual`, indicating that it can be overridden.
+
+- **DerivedContract**:
+  - The `greet` function is overridden using the `override` keyword, changing its
+  behavior to return a different string.
+
+### Example with Multiple Inheritance:
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract A {
+    function foo() public virtual returns (string memory) {
+        return "A";
+    }
+}
+
+contract B is A {
+    function foo() public virtual override returns (string memory) {
+        return "B";
+    }
+}
+
+contract C is B {
+    function foo() public override returns (string memory) {
+        return "C";
+    }
+}
+```
+
+- **Contract A**:
+  - `foo` is marked as `virtual`, so it can be overridden.
+
+- **Contract B**:
+  - `foo` is overridden and also marked as `virtual` to allow further overriding.
+
+- **Contract C**:
+  - `foo` is overridden without marking it as `virtual`, meaning it cannot be further
+  overridden in any contract derived from `C`.
+
+### Summary:
+
+- **`virtual`**: Used in a base contract to allow a function or modifier to be
+overridden in derived contracts.
+- **`override`**: Used in the derived contract to specify that the function is
+overriding a `virtual` function from the base contract.
+
+This system of `virtual` and `override` allows for flexible and reusable code, enabling
+developers to create complex contract hierarchies with customized behavior in derived
+contracts.

@@ -25,6 +25,7 @@ contract HelperConfig is CodeConstants, Script {
         uint32 callbackGasLimit;
         uint256 subscriptionId;
         address link;
+        address account;
     }
 
     NetworkConfig public localNetworkConfig;
@@ -59,7 +60,8 @@ contract HelperConfig is CodeConstants, Script {
                 gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae, // 100 gwei Key Hash from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
                 callbackGasLimit: 500000, // 500 000 gas
                 subscriptionId: 38954113706610858228321828025925565813353901076081352247063000584589643203844, // from https://vrf.chain.link/sepolia/38954113706610858228321828025925565813353901076081352247063000584589643203844
-                link: 0x779877A7B0D9E8603169DdbD7836e478b4624789 // from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
+                link: 0x779877A7B0D9E8603169DdbD7836e478b4624789, // from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
+                account: 0xc97Ca114c952EA557f49eF605c0F3864c794B373 // metamask account address
             });
     }
 
@@ -86,7 +88,8 @@ contract HelperConfig is CodeConstants, Script {
             gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae, // 100 gwei Key Hash from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
             callbackGasLimit: 500000, // 500 000 gas
             subscriptionId: 0,
-            link: address(linkToken)
+            link: address(linkToken),
+            account: 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38 // DEFAULT_SENDER address from forge-std/src/Base.sol
         });
 
         return localNetworkConfig;

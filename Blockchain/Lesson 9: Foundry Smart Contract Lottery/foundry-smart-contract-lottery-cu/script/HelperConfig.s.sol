@@ -59,7 +59,7 @@ contract HelperConfig is CodeConstants, Script {
                 gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae, // 100 gwei Key Hash from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
                 callbackGasLimit: 500000, // 500 000 gas
                 subscriptionId: 38954113706610858228321828025925565813353901076081352247063000584589643203844, // from https://vrf.chain.link/sepolia/38954113706610858228321828025925565813353901076081352247063000584589643203844
-                link: 0x779877A7B0D9E8603169DdbD7836e478b4624789 // from https://docs.chain.link/resources/link-token-contracts#sepolia-testnet
+                link: 0x779877A7B0D9E8603169DdbD7836e478b4624789 // from https://docs.chain.link/vrf/v2-5/supported-networks#sepolia-testnet
             });
     }
 

@@ -43,7 +43,11 @@ contract DeployRaffle is Script {
 
         AddConsumer addConsumer = new AddConsumer();
         // We already have a broadcast in here
-        addConsumer.addConsumer(address(raffle), config.vrfCoordinator, config.subscriptionId);
+        addConsumer.addConsumer(
+            address(raffle),
+            config.vrfCoordinator,
+            config.subscriptionId
+        );
 
         return (raffle, helperConfig);
     }

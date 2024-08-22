@@ -1,3 +1,12 @@
+/*
+How this contract works:
+1) Users call enterRaffle to participate.
+2) Chainlink Keepers monitor the contract by calling checkUpkeep.
+3) Chainlink Keepers automatically call performUpkeep when conditions are met.
+4) Chainlink VRF automatically calls fulfillRandomWords to complete the raffle and select a winner.
+5) Contract resets for a new raffle round, and the cycle repeats.
+*/
+
 // Layout of Contract:
 // version
 // imports
@@ -24,6 +33,7 @@ pragma solidity 0.8.19;
 
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
+// import {console} from "forge-std/console.sol"; <- use for logging
 
 /**
  * @title Raffle
@@ -100,14 +110,15 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
     // https://docs.chain.link/chainlink-automation/guides/compatible-contracts#example-automation-compatible-contract-using-custom-logic-trigger
     /**
-     * @dev This is the function that the Chainlink Keeper nodes call
-     * they look for `upkeepNeeded` to return True.
-     * the following should be true for this to return true:
+     * @dev This is the function that the Chainlink Keeper nodes call.
+     * They look for `upkeepNeeded` to return True.
+     * The following should be true for this to return true:
      * 1. The time interval has passed between raffle runs.
      * 2. The lottery is open.
      * 3. The contract has ETH.
      * 4. Implicity, your subscription is funded with LINK.
      */
+    // This function will be automatically called by Chainlink Keeper.
     function checkUpkeep(
         bytes memory
     ) public view returns (bool upkeepNeeded, bytes memory) {
@@ -122,6 +133,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     // 1. Get a random number
     // 2. Use random number to pick a player
     // 3. Be automatically called
+    // This function will be automatically called by Chainlink Keeper.
     function performUpkeep(bytes calldata) external {
         (bool upkeepNeeded, ) = checkUpkeep("");
         if (!upkeepNeeded) {

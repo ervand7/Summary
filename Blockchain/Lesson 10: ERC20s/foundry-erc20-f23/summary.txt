@@ -1,0 +1,6 @@
+ ● forge init
+ ● make remove && make install
+ ● forge build
+
+ ● make anvil
+ ● make deploy

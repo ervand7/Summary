@@ -16,3 +16,9 @@
 [submodule "Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/foundry-devops"]
 	path = Blockchain/Lesson 9: Foundry Smart Contract Lottery/foundry-smart-contract-lottery-cu/lib/foundry-devops
 	url = https://github.com/Cyfrin/foundry-devops
+[submodule "Blockchain/Lesson 10: ERC20s/foundry-erc20-f23/lib/foundry-devops"]
+	path = Blockchain/Lesson 10: ERC20s/foundry-erc20-f23/lib/foundry-devops
+	url = https://github.com/cyfrin/foundry-devops
+[submodule "Blockchain/Lesson 10: ERC20s/foundry-erc20-f23/lib/openzepplin-contracts"]
+	path = Blockchain/Lesson 10: ERC20s/foundry-erc20-f23/lib/openzepplin-contracts
+	url = https://github.com/Openzepplin/openzepplin-contracts

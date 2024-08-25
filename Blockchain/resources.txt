@@ -117,5 +117,9 @@ openzeppelin:
 description: documentation which provides trusted, secure, and well-audited smart contract libraries, tools, and guidelines for building decentralized applications (dApps) on Ethereum and other blockchains.
 link: https://docs.openzeppelin.com/contracts/5.x/
 
+opensea:
+description: a decentralized marketplace for buying, selling, and trading NFTs, supporting multiple blockchains and providing tools for minting, discovering, and managing digital assets.
+link: https://opensea.io
+
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

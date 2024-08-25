@@ -1,0 +1,72 @@
+It is a common process used when creating and deploying NFTs (Non-Fungible Tokens)
+on the Ethereum blockchain, particularly those that adhere to the ERC-721 or
+ERC-1155 standards. Here's a breakdown of the steps:
+
+### 1. **Get IPFS**
+   - **What It Means**: This step involves setting up IPFS (InterPlanetary File System)
+   on your machine or using a hosted IPFS service. You can either run your own IPFS node
+   or use a service like Infura or Pinata that provides IPFS hosting.
+   - **How to Do It**:
+     - If you want to run your own node, you can download and install IPFS from the
+     official website https://ipfs.io/.
+     - Alternatively, you can sign up for a service like Pinata or Infura, which allows
+     you to upload files to IPFS without needing to run your own node.
+
+### 2. **Add `tokenURI` JSON File to IPFS**
+   - **What It Means**: This step involves creating the metadata file for your NFT and
+   uploading it to IPFS. The metadata file is a JSON file that contains important
+   information about the NFT, such as its name, description, image URL, and other attributes.
+   - **How to Do It**:
+     - Create a JSON file that includes metadata for your NFT. Here’s an example of what
+     the JSON file might look like:
+       ```json
+       {
+         "name": "My NFT",
+         "description": "This is my first NFT.",
+         "image": "https://ipfs.io/ipfs/Qm... (CID of the image file)",
+         "attributes": [
+           {
+             "trait_type": "Color",
+             "value": "Red"
+           },
+           {
+             "trait_type": "Rarity",
+             "value": "Rare"
+           }
+         ]
+       }
+       ```
+     - Once the JSON file is ready, upload it to IPFS. If you’re using a service like
+     Pinata, you can simply drag and drop the file into their interface, and it will
+     be uploaded to the IPFS network. You will receive a unique CID (Content Identifier)
+     for the file.
+
+### 3. **Add IPFS URI to Your NFT URI**
+   - **What It Means**: After uploading your JSON metadata file to IPFS, you need to link
+   this metadata to your NFT smart contract. The smart contract has a function, usually
+   called `tokenURI`, that returns the URI where the metadata is stored. In this step,
+   you provide the IPFS URI (which includes the CID) of the JSON file as the `tokenURI`.
+   - **How to Do It**:
+     - In your NFT smart contract, you would set the `tokenURI` for each token to the
+     IPFS URI that you received after uploading the JSON file.
+     - For example, if the CID of your JSON file is `QmXyz...`, your `tokenURI` might
+     look like this:
+       ```solidity
+       function tokenURI(uint256 tokenId) public view override returns (string memory) {
+           return string(abi.encodePacked("https://ipfs.io/ipfs/", "QmXyz..."));
+       }
+       ```
+     - Alternatively, some developers might use `ipfs://` URIs directly:
+       ```solidity
+       function tokenURI(uint256 tokenId) public view override returns (string memory) {
+           return string(abi.encodePacked("ipfs://", "QmXyz..."));
+       }
+       ```
+
+### Summary
+This process is used to ensure that the metadata associated with your NFT is stored
+in a decentralized and immutable way. By uploading the metadata to IPFS, you ensure
+that it can be accessed independently of any single centralized server, making your
+NFT more resilient and in line with the principles of decentralization. The IPFS URI
+in the `tokenURI` function makes sure that anyone interacting with your NFT can retrieve
+this metadata using the IPFS network.

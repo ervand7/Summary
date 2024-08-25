@@ -1,0 +1,36 @@
+ ● forge init
+ ● forge install OpenZeppelin/openzeppelin-contracts --no-commit
+ ● forge install ChainAccelOrg/foundry-devops --no-commit
+
+IPFS chrome extention (desktop version is bad, use chrome extention):
+1) install IPFS companion
+2) docker run -d --name ipfs_host -v $ipfs_staging:/export -v $ipfs_data:/data/ipfs -p 4001:4001 -p 4001:4001/udp -p 127.0.0.1:8080:8080 -p 127.0.0.1:5001:5001 ipfs/kubo:latest
+3) pin and use your extention
+For Safari use IPFS Gateway (just prefix), example: https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8
+
+Deploy:
+sepolia:
+1) make deploy ARGS="--network sepolia"
+2) takethe contract address from console output
+3) go to metamask, import NFT using contract addr and tokenId
+
+anvil:
+ ● make anvil
+ ● make deployMood
+take your contract addr from console output (like 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512)
+ ● cast send 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512 "mintNft()" --private-key ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545
+take the same contract addr and import NFT to your metamask ANVIL wallet
+ ● cast send 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512 "flipMood(uint256)" 0  --private-key ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 --rpc-url http://localhost:8545
+then delete NFT from metamask and reimport it
+
+Testing:
+ ● forge test
+ ● source .env && forge test --fork-url $SEPOLIA_RPC_URL
+
+Mint (after deploying):
+ ● make mint ARGS="--network sepolia"
+
+Encoding SVG:
+ ● cd images/dynamicNft 
+ ● base64 -i example.svg
+

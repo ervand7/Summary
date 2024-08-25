@@ -1,0 +1,9 @@
+NFTs (Non-Fungible Tokens) is **ERC-721**. Unlike ERC-20 tokens, which are fungible
+and identical to each other, ERC-721 tokens are unique and represent individual assets.
+Each ERC-721 token has its own unique identifier and cannot be exchanged on a one-to-one
+basis with other ERC-721 tokens.
+
+Another related standard is **ERC-1155**, which supports both fungible and non-fungible
+tokens in a single contract. This standard is more flexible and efficient for use cases
+where multiple types of tokens are needed, such as in gaming where you might have both
+unique items (NFTs) and currency (fungible tokens) in the same ecosystem.

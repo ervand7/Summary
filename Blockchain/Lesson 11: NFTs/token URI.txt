@@ -1,0 +1,56 @@
+The `tokenURI` is a function typically found in ERC-721 (NFT) smart contracts, which
+provides a link to metadata associated with a specific token. This metadata usually
+contains information such as the token's name, description, image, and other attributes
+that help define the uniqueness of the NFT.
+
+### Key Points About `tokenURI`:
+
+1. **Metadata Link**: The `tokenURI` function returns a URI (Uniform Resource Identifier),
+which can be a URL pointing to a JSON file that contains the metadata for the token.
+
+2. **Metadata Structure**: The JSON file usually follows a standard structure and includes
+fields such as `name`, `description`, `image`, and any other custom attributes the token
+might have.
+
+   Example of a typical JSON metadata file:
+   ```json
+   {
+     "name": "CryptoKitty #1",
+     "description": "This is the first CryptoKitty",
+     "image": "https://example.com/images/cryptokitty1.png",
+     "attributes": [
+       {
+         "trait_type": "color",
+         "value": "blue"
+       },
+       {
+         "trait_type": "eye shape",
+         "value": "round"
+       }
+     ]
+   }
+   ```
+
+3. **Dynamic or Static**: The URI can be static (a fixed URL) or dynamic (generated
+based on the token's ID). Some implementations dynamically generate the metadata URL to
+ensure it is unique for each token.
+
+4. **IPFS Use**: Many NFT projects store the metadata and images on decentralized
+storage solutions like IPFS (InterPlanetary File System) to ensure that the data remains
+accessible and immutable.
+
+### Example of `tokenURI` Function in Solidity:
+Here's a simplified example of how the `tokenURI` function might be implemented in a
+Solidity smart contract:
+
+```solidity
+function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+    return string(abi.encodePacked(baseURI, Strings.toString(tokenId), ".json"));
+}
+```
+
+In this example, `baseURI` would be a base path, and `tokenId` is the unique identifier
+of the token, which, when combined, forms the complete URI pointing to the token's metadata.
+
+The `tokenURI` function plays a crucial role in defining how NFTs are represented and
+what information is associated with them, making it an essential part of the NFT ecosystem.

@@ -121,5 +121,13 @@ opensea:
 description: a decentralized marketplace for buying, selling, and trading NFTs, supporting multiple blockchains and providing tools for minting, discovering, and managing digital assets.
 link: https://opensea.io
 
+defilama:
+description: website that provides real-time analytics and rankings for DeFi protocols, focusing on metrics like total value locked (TVL), to help users track the performance and trends within the decentralized finance space.
+link: https://defillama.com
+
+flashbots:
+description: provides guidance on how to mitigate the negative effects of Maximal Extractable Value (MEV) in blockchain networks, helping developers, validators, and users engage in more fair and transparent practices.
+link: https://docs.flashbots.net
+
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

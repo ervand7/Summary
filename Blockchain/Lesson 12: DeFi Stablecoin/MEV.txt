@@ -1,0 +1,35 @@
+MEV, or **Maximal Extractable Value** (formerly known as Miner Extractable Value),
+refers to the profit that validators (previously miners in a Proof of Work system) or
+others can make by reordering, including, or excluding transactions within a block they
+are validating.
+
+### Here’s how it works in simple terms:
+
+1. **Reordering Transactions:**
+   - Validators can change the order of transactions in a block to their advantage. For
+   example, they might place their own transaction ahead of others to benefit from price
+   changes in a decentralized exchange.
+
+2. **Including Specific Transactions:**
+   - Validators can include certain transactions that are particularly profitable. For
+   instance, if they see a profitable arbitrage opportunity, they might include their own
+   transaction that takes advantage of this before others.
+
+3. **Excluding Transactions:**
+   - They can also choose to leave out certain transactions that might hurt their profits
+   or allow others to profit in a way they don’t want.
+
+### Example:
+Imagine there’s an opportunity to buy a token cheaply on one exchange and sell it for
+more on another (arbitrage). A validator might see someone else’s transaction trying to do
+this, reorder the block to put their own transaction first, and take the profit for
+themselves. This manipulation is an example of MEV.
+
+### Why is it important?
+MEV can lead to unfair practices and inefficiencies in the blockchain. It can result in
+higher fees and worse outcomes for regular users, as those with the power to reorder
+transactions take advantage of the system for profit.
+
+Efforts are being made to reduce the negative impacts of MEV, such as through MEV-aware
+strategies and solutions like Flashbots, which aim to make the extraction of MEV more
+transparent and fair.

@@ -157,31 +157,6 @@ contract DSCEngine is ReentrancyGuard {
     /*
      * @param tokenCollateralAddress: The ERC20 token address of the collateral you're depositing
      * @param amountCollateral: The amount of collateral you're depositing
-     */
-    function depositCollateral(address tokenCollateralAddress, uint256 amountCollateral)
-        public
-        moreThanZero(amountCollateral) // Ensure the amount of collateral is more than zero using the modifier.
-        isAllowedToken(tokenCollateralAddress) // Ensure the token is allowed as collateral using the modifier.
-        nonReentrant // Prevent reentrancy attacks using the modifier.
-    {
-        // Increase the amount of collateral deposited by the user for the specified token.
-        s_collateralDeposited[msg.sender][tokenCollateralAddress] += amountCollateral;
-
-        // Emit an event to log the deposit of collateral by the user.
-        emit CollateralDeposited(msg.sender, tokenCollateralAddress, amountCollateral);
-
-        // Transfer the specified amount of collateral from the user's address to this contract.
-        bool success = IERC20(tokenCollateralAddress).transferFrom(msg.sender, address(this), amountCollateral);
-
-        // If the transfer fails, revert the transaction with a custom error.
-        if (!success) {
-            revert DSCEngine__TransferFailed();
-        }
-    }
-
-    /*
-     * @param tokenCollateralAddress: The ERC20 token address of the collateral you're depositing
-     * @param amountCollateral: The amount of collateral you're depositing
      * @param amountDscToBurn: The amount of DSC you want to burn
      * @notice This function will withdraw your collateral and burn DSC in one transaction
      */
@@ -216,19 +191,6 @@ contract DSCEngine is ReentrancyGuard {
         // but in this case, the user redeeming the collateral is also the recipient.
         _redeemCollateral(tokenCollateralAddress, amountCollateral, msg.sender, msg.sender);
         _revertIfHealthFactorIsBroken(msg.sender);
-    }
-
-    /*
-     * @param amountDscToMint: The amount of DSC you want to mint
-     * You can only mint DSC if you hav enough collateral
-     */
-    function mintDsc(uint256 amountDscToMint) public moreThanZero(amountDscToMint) nonReentrant {
-        s_DSCMinted[msg.sender] += amountDscToMint;
-        _revertIfHealthFactorIsBroken(msg.sender);
-        bool minted = i_dsc.mint(msg.sender, amountDscToMint);
-        if (!minted) {
-            revert DSCEngine__MintFailed();
-        }
     }
 
     /*
@@ -375,6 +337,43 @@ contract DSCEngine is ReentrancyGuard {
     ///////////////////
     // Public Functions
     ///////////////////
+    /*
+     * @param tokenCollateralAddress: The ERC20 token address of the collateral you're depositing
+     * @param amountCollateral: The amount of collateral you're depositing
+     */
+    function depositCollateral(address tokenCollateralAddress, uint256 amountCollateral)
+        public
+        moreThanZero(amountCollateral) // Ensure the amount of collateral is more than zero using the modifier.
+        isAllowedToken(tokenCollateralAddress) // Ensure the token is allowed as collateral using the modifier.
+        nonReentrant // Prevent reentrancy attacks using the modifier.
+    {
+        // Increase the amount of collateral deposited by the user for the specified token.
+        s_collateralDeposited[msg.sender][tokenCollateralAddress] += amountCollateral;
+
+        // Emit an event to log the deposit of collateral by the user.
+        emit CollateralDeposited(msg.sender, tokenCollateralAddress, amountCollateral);
+
+        // Transfer the specified amount of collateral from the user's address to this contract.
+        bool success = IERC20(tokenCollateralAddress).transferFrom(msg.sender, address(this), amountCollateral);
+
+        // If the transfer fails, revert the transaction with a custom error.
+        if (!success) {
+            revert DSCEngine__TransferFailed();
+        }
+    }
+
+    /*
+     * @param amountDscToMint: The amount of DSC you want to mint
+     * You can only mint DSC if you hav enough collateral
+     */
+    function mintDsc(uint256 amountDscToMint) public moreThanZero(amountDscToMint) nonReentrant {
+        s_DSCMinted[msg.sender] += amountDscToMint;
+        _revertIfHealthFactorIsBroken(msg.sender);
+        bool minted = i_dsc.mint(msg.sender, amountDscToMint);
+        if (!minted) {
+            revert DSCEngine__MintFailed();
+        }
+    }
 
     /*
     * @notice Calculates the total value of a user's collateral in USD.
@@ -425,7 +424,7 @@ contract DSCEngine is ReentrancyGuard {
     }
 
     //////////////////////////////
-    // Private & Internal View & Pure Functions
+    // Internal & Private & View & Pure Functions
     //////////////////////////////
 
     // 1. Check health factor (do they have enougth collateral?)

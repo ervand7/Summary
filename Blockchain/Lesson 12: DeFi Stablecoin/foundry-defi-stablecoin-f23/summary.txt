@@ -1,3 +1,7 @@
  ● forge init
- ● forge install OpenZeppelin/openzeppelin-contracts --no-commit
+ ● forge install openzeppelin/openzeppelin-contracts@v4.8.3 --no-commit
  ● forge install ChainAccelOrg/foundry-devops --no-commit
+ ● forge install smartcontractkit/chainlink-brownie-contracts@0.6.1 --no-commit
+
+Tests:
+ ● source .env && forge test --fork-url $SEPOLIA_RPC_URL

@@ -30,4 +30,7 @@
 	url = https://github.com/ChainAccelOrg/foundry-devops
 [submodule "Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/openzeppelin-contracts"]
 	path = Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/openzeppelin-contracts
-	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/chainlink-brownie-contracts"]
+	path = Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts

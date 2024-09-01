@@ -30,9 +30,9 @@ contract DSCEngineTest is Test {
     address public wbtc;
     uint256 public deployerKey;
 
-    uint256 amountCollateral = 10 ether;
+    uint256 AMOUNT_COLLATERAL = 10 ether;
     uint256 amountToMint = 100 ether;
-    address public user = address(1);
+    address public USER = address(1);
 
     uint256 public constant STARTING_USER_BALANCE = 10 ether;
     uint256 public constant MIN_HEALTH_FACTOR = 1e18;
@@ -76,8 +76,23 @@ contract DSCEngineTest is Test {
         // While vm.deal is useful for setting the ETH balance of an address, it doesn't affect ERC20 token balances.
         // Since our tests involve interacting with ERC20 tokens, we need to mint these tokens directly
         // to the user's address to simulate a realistic scenario where the user holds these tokens.
-        ERC20Mock(weth).mint(user, STARTING_USER_BALANCE);
-        ERC20Mock(wbtc).mint(user, STARTING_USER_BALANCE);
+        ERC20Mock(weth).mint(USER, STARTING_USER_BALANCE);
+        ERC20Mock(wbtc).mint(USER, STARTING_USER_BALANCE);
+    }
+
+    ///////////////////////
+    // Constructor Tests //
+    ///////////////////////
+    address[] public tokenAddresses;
+    address[] public feedAddresses;
+
+    function testRevertsIfTokenLengthDoesntMatchPriceFeeds() public {
+        tokenAddresses.push(weth);
+        feedAddresses.push(ethUsdPriceFeed);
+        feedAddresses.push(btcUsdPriceFeed);
+
+        vm.expectRevert(DSCEngine.DSCEngine__TokenAddressesAndPriceFeedAddressesAmountsDontMatch.selector);
+        new DSCEngine(tokenAddresses, feedAddresses, address(dsc));
     }
 
     //////////////////
@@ -92,19 +107,49 @@ contract DSCEngineTest is Test {
         assertEq(usdValue, expectedUsd);
     }
 
+    function testGetTokenAmountFromUsd() public {
+        // If we want $100 of WETH @ $2000/WETH, that would be 0.05 WETH
+        uint256 expectedWeth = 0.05 ether;
+        uint256 amountWeth = dsce.getTokenAmountFromUsd(weth, 100 ether);
+        assertEq(amountWeth, expectedWeth);
+    }
+
     //////////////////////////////////////
     // depositCollateral Tests //
     ///////////////////////////////////////
     function testRevertsIfCollateralZero() public {
-        vm.startPrank(user);
+        vm.startPrank(USER);
         // Approve the DSCEngine contract to spend the specified amount of WETH tokens on behalf of the user.
         // This is necessary for the depositCollateral function to later call transferFrom to move the tokens.
         // Even though the test is checking for a zero deposit (which should revert), this approval simulates
         // realistic conditions where the contract has the user's permission to transfer tokens.
-        ERC20Mock(weth).approve(address(dsce), amountCollateral);
+        ERC20Mock(weth).approve(address(dsce), AMOUNT_COLLATERAL);
 
         vm.expectRevert(DSCEngine.DSCEngine__NeedsMoreThanZero.selector);
         dsce.depositCollateral(weth, 0);
         vm.stopPrank();
+    }
+
+    function testRevertsWithUnapprovedCollateral() public {
+        ERC20Mock randToken = new ERC20Mock("RAN", "RAN", USER, 100e18);
+        vm.startPrank(USER);
+        vm.expectRevert(DSCEngine.DSCEngine__NotAllowedToken.selector);
+        dsce.depositCollateral(address(randToken), AMOUNT_COLLATERAL);
+        vm.stopPrank();
+    }
+
+    modifier depositedCollateral() {
+        vm.startPrank(USER);
+        ERC20Mock(weth).approve(address(dsce), AMOUNT_COLLATERAL);
+        dsce.depositCollateral(weth, AMOUNT_COLLATERAL);
+        vm.stopPrank();
+        _;
+    }
+
+    function testCanDepositedCollateralAndGetAccountInfo() public depositedCollateral {
+        (uint256 totalDscMinted, uint256 collateralValueInUsd) = dsce.getAccountInformation(USER);
+        uint256 expectedDepositedAmount = dsce.getTokenAmountFromUsd(weth, collateralValueInUsd);
+        assertEq(totalDscMinted, 0);
+        assertEq(expectedDepositedAmount, AMOUNT_COLLATERAL);
     }
 }

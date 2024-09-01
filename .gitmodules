@@ -34,3 +34,6 @@
 [submodule "Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/chainlink-brownie-contracts"]
 	path = Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/foundry-devops"]
+	path = Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/foundry-devops
+	url = https://github.com/ChainAccelOrg/foundry-devops

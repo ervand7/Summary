@@ -1,0 +1,64 @@
+Fuzz testing, or fuzzing, is a testing technique that involves providing random or
+unexpected inputs to a program to find bugs, vulnerabilities, or other unexpected behavior.
+In the context of Solidity smart contracts, fuzz testing is commonly used to test contract functions with various inputs. There are two main types of fuzz testing in Solidity: **stateless** and **stateful**.
+
+### Stateless Fuzz Testing
+
+**Stateless fuzz testing** involves testing individual functions of a smart contract with
+random inputs without considering the state of the contract. Each test case is independent
+of others, and the contract is typically reset to its initial state between each test.
+
+- **Focus**: The focus is on testing the behavior of individual functions with different
+inputs.
+- **Use Cases**: This type of testing is useful for testing functions that are
+deterministic and don't depend on the contract's state, such as pure or view functions.
+- **Example**:
+  - If you have a function that adds two numbers, stateless fuzz testing would randomly
+  generate pairs of numbers and test the function to ensure it returns the correct sum each
+  time.
+
+**Tools**:
+- **Foundry**: Foundry, a popular testing framework in Solidity, supports fuzz testing
+by default. You can write test cases that automatically fuzz the inputs to your functions.
+- **Hardhat and Truffle**: Although not inherently built for fuzz testing, you can
+integrate fuzzing tools like Echidna to perform stateless fuzz testing in these environments.
+
+### Stateful Fuzz Testing
+
+**Stateful fuzz testing** (or stateful property testing) involves testing the entire
+contract's state transitions by providing sequences of transactions (or operations) that
+manipulate the contract's state.
+
+- **Focus**: The focus is on testing how the contract behaves as its state changes
+through multiple transactions. This type of testing helps uncover bugs that only manifest
+after a sequence of operations, such as reentrancy attacks, incorrect state updates, or
+issues that arise due to complex state interactions.
+- **Use Cases**: This is particularly useful for testing contracts that maintain complex
+states, such as DeFi protocols, governance systems, or any contract that involves multiple
+operations affecting the state.
+- **Example**:
+  - Consider a decentralized exchange contract. Stateful fuzz testing would involve
+  performing a series of operations like adding liquidity, swapping tokens, removing
+  liquidity, etc., in random or specific sequences, and then checking if the contract's
+  state remains consistent and correct.
+
+**Tools**:
+- **Echidna**: Echidna is a popular fuzz testing tool for Ethereum smart contracts. It
+supports stateful fuzz testing by allowing you to specify sequences of transactions to be
+tested against the contract.
+- **Foundry**: Foundry also supports stateful fuzz testing. You can use its `vm.assume`
+and other related functions to define stateful tests.
+
+### Summary of Differences
+
+- **Stateless Fuzz Testing**: Tests individual functions with random inputs, without
+considering the state of the contract. It’s useful for simple functions that don’t change
+or depend on the state.
+
+- **Stateful Fuzz Testing**: Tests sequences of operations that change the contract’s
+state, focusing on how the contract behaves as its state evolves. It’s useful for
+contracts with complex state transitions.
+
+Both types of fuzz testing are valuable for ensuring the robustness and security of smart
+contracts, especially in critical applications like DeFi where unexpected behavior can
+have severe consequences.

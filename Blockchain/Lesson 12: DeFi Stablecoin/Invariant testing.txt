@@ -1,0 +1,31 @@
+When you run an invariant test using the Foundry framework, the framework executes your
+smart contract many times with different sequences of inputs, transactions, or operations.
+The goal is to explore a wide range of possible states and actions to ensure that the specified
+invariants hold true under all circumstances.
+
+### Here's how it works:
+
+1. **Randomized Input Generation**: Foundry generates random inputs and executes various transactions
+on your contract. These inputs can be function arguments, sequences of function calls, or even
+different state changes.
+
+2. **Invariant Checking**: After performing a series of operations on your contract, Foundry checks
+whether the invariants (the conditions you want to be true at all times) still hold. If an invariant
+is violated at any point, the test fails.
+
+3. **Multiple Runs**: The framework runs these tests many times (as specified by the `runs` parameter)
+to cover a broad range of scenarios and inputs. This helps in uncovering edge cases or bugs that might
+only occur under specific conditions.
+
+4. **State Exploration**: By varying the depth and sequence of operations (`depth` parameter),
+Foundry explores different contract states to ensure that your contract behaves correctly and
+maintains its invariants across a wide spectrum of possible situations.
+
+### Example:
+If you have an invariant that ensures the contract remains overcollateralized, Foundry will perform
+a wide range of operations, such as depositing collateral, minting tokens, and more, to check if the
+contract ever becomes undercollateralized. If it does, the invariant test will fail, indicating a
+potential issue in the contract logic.
+
+This type of testing is particularly powerful for finding subtle bugs and ensuring that your smart
+contract is robust and secure.

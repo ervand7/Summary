@@ -129,5 +129,8 @@ flashbots:
 description: provides guidance on how to mitigate the negative effects of Maximal Extractable Value (MEV) in blockchain networks, helping developers, validators, and users engage in more fair and transparent practices.
 link: https://docs.flashbots.net
 
+foundry invariant testing:
+https://book.getfoundry.sh/forge/invariant-testing
+
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

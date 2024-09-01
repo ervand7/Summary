@@ -6,3 +6,8 @@
 3. Collateral: exogenous (crypto)
     1. wETH
     2. wBTC
+
+
+What are our invariants?
+1) The total supply of DSC should be less than the total value of collateral
+2) Getter view functions should never revert

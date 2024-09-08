@@ -1,0 +1,15 @@
+The term **"Social Yeet" or "Migration"** in the context of smart contracts refers
+to a method where an old contract is replaced with a new one by deploying it to a
+completely different address. This migration isn't connected to the old contract in any
+way, and users are expected to manually switch over to the new contract. It's a simpler
+way of upgrading a system because it avoids complexities like proxy patterns, but it
+comes with its own challenges.
+
+For example, projects like Aave used this method when transitioning from Aave V1 to
+Aave V2. A key disadvantage is that users must be convinced to move to the new contract,
+which can be difficult, and the contract addresses change, which may complicate auditing
+and user interaction. However, this method remains true to blockchain values by avoiding
+complex upgrade systems that could introduce vulnerabilities.
+
+In summary, **Social Yeet/Migration** provides a clean slate approach to upgrading a
+smart contract system, but it requires community engagement to ensure a smooth transition

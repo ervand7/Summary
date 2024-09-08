@@ -1,0 +1,51 @@
+**Storage clashes** and **function selector clashes** are two potential pitfalls that
+arise when using proxy patterns to upgrade smart contracts.
+
+### 1. **Storage Clashes**:
+In the proxy pattern, the **proxy contract** holds the storage (state) for the entire
+system, while the **implementation contract** contains the logic. When the implementation
+contract is upgraded, the proxy contract continues to use the same storage layout.
+
+A **storage clash** occurs when a new implementation contract has a different storage
+layout (e.g., new variables are added or the order of existing variables is changed)
+compared to the previous version. If not handled correctly, the storage in the proxy
+contract could get corrupted because the proxy continues to use the old layout, but
+the new logic interacts with it incorrectly.
+
+For example, if the new logic expects a certain variable at a specific storage slot and
+another variable occupies that slot due to a changed layout, this can lead to
+unpredictable behavior, including data loss or unintended outcomes.
+
+### Mitigating Storage Clashes:
+- **Careful management of storage layout**: One common solution is to ensure that variables
+are added to the end of the contract's storage and never reordered or deleted.
+- **Use of base contracts**: Another practice is to use base contracts to organize
+storage and avoid conflicts.
+
+### 2. **Function Selector Clashes**:
+In Solidity, each function has a **selector**—a 4-byte hash derived from the function's
+name and parameters. This selector is used to identify the function being called.
+
+A **function selector clash** occurs when two functions, either in the same contract or
+across different versions of an implementation contract, generate the same 4-byte selector.
+This can happen if two functions have similar names or signatures. As a result, when
+a user calls a function, the proxy might delegate the call to the wrong function, leading
+to unexpected or harmful behavior.
+
+### Example of Function Selector Clash:
+Imagine two functions with the following signatures:
+- `function transfer(address to, uint256 amount)`
+- `function withdraw(address recipient, uint256 value)`
+
+If these two functions produce the same 4-byte selector, calling `transfer` could
+unintentionally trigger `withdraw`, leading to incorrect execution.
+
+### Mitigating Function Selector Clashes:
+- **Use unique function names and signatures**: Ensure that function names and parameter
+types are sufficiently distinct.
+- **Careful contract upgrades**: Be diligent when adding new functions to avoid signature
+collisions with existing ones.
+
+Both storage and function selector clashes underscore the complexity and potential risks
+in upgrading smart contracts using proxies. Proper planning and careful contract design
+are necessary to avoid these issues】.

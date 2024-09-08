@@ -1,0 +1,50 @@
+Here are three common implementations of the **Proxy Pattern** in smart contracts:
+
+### 1. **Transparent Proxy Pattern**
+This is the most widely used pattern. The idea is to have a **proxy contract** that
+stores state and delegates logic to an **implementation contract**. There is a distinction
+between admin functions (upgrading the contract) and user functions. Only the admin can
+perform upgrades, and users interact with the logic.
+
+- **How it works**: Users interact with the proxy, which forwards the calls to the
+implementation. Admins can upgrade the implementation via special admin-only functions.
+- **Pros**: Clear separation between admin and user actions.
+- **Cons**: Slightly more gas usage because of the need to check who is calling (admin
+or user).
+
+**Example**: OpenZeppelin provides a widely used implementation of this pattern with
+`TransparentUpgradeableProxy`【8†source】【9†source】.
+
+### 2. **Universal Upgradeable Proxy Standard (UUPS)**
+In the **UUPS pattern**, the logic for upgrading the contract is included in the
+**implementation contract** itself rather than in the proxy. The proxy is only responsible
+for routing calls to the implementation contract.
+
+- **How it works**: The implementation contract contains an `upgradeTo` function that
+admins can call to upgrade the logic. This reduces the proxy contract's complexity.
+- **Pros**: More gas-efficient since the proxy is smaller, and no admin checks are
+performed in the proxy contract.
+- **Cons**: If the implementation contract is not carefully written, it might lose
+the upgrade functionality, locking the contract in its current state.
+
+**Example**: UUPS proxies are supported by OpenZeppelin, making this method widely
+accessible for Solidity developers【9†source】.
+
+### 3. **Diamond (Multi-Facet) Proxy Pattern**
+The **Diamond pattern**, or **EIP-2535**, allows for breaking up the implementation
+across multiple smaller contracts (facets). This is useful for large smart contracts
+that can exceed the maximum contract size limit in Ethereum.
+
+- **How it works**: The proxy routes calls to different facets of the implementation.
+Different logic can be separated into multiple contracts (facets), and upgrades can be
+made to individual facets without affecting the others.
+- **Pros**: Modular and flexible; allows the upgrade of different parts of the contract
+independently.
+- **Cons**: More complex, as it requires careful management of storage and function
+selectors across multiple contracts.
+
+**Example**: This pattern is used by protocols with complex logic, like the modular
+DeFi systems【9†source】【10†source】.
+
+Each of these patterns is suited for different use cases based on gas efficiency,
+complexity, and upgradeability needs.

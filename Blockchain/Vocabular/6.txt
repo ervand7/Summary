@@ -26,3 +26,9 @@ blob
 substantial
 draining
 silently
+to temper
+tempted
+implication
+clashes
+gotchas
+pitfall

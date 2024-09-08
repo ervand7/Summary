@@ -1,0 +1,37 @@
+The **Proxy Pattern** in the context of upgradable smart contracts is a design
+pattern that allows contract logic to be updated without changing the contract's
+address or losing the state of the contract. This is particularly useful for long-term
+projects, such as decentralized finance (DeFi) protocols, where upgrades are necessary
+but it’s critical to maintain the same contract address for user convenience and
+interoperability.
+
+In the proxy pattern, the contract is split into two main parts:
+
+1. **Proxy Contract**: This contract holds the contract's storage (state) and delegates
+all function calls to an implementation contract using low-level calls like `delegatecall`.
+It is the address users interact with, ensuring that users don't have to change their
+interaction point even when the logic is updated.
+
+2. **Implementation (Logic) Contract**: This contract contains the logic of the smart
+contract. When an upgrade is required, a new implementation contract is deployed with
+updated logic, and the proxy contract is pointed to the new implementation.
+
+### Key Variants of Proxy Pattern:
+
+1. **Transparent Proxy Pattern**: In this version, the proxy distinguishes between the
+admin (who manages upgrades) and regular users. Only the admin can call upgrade-related
+functions, while users can only interact with the logic functions.
+
+2. **Universal Upgradeable Proxy Standard (UUPS)**: In this variant, the upgrade logic
+is managed within the implementation contract itself, making it more gas-efficient since
+the proxy contract is smaller.
+
+3. **Diamond (Multi-Facet) Proxy**: This method allows for multiple implementation
+contracts, which is useful if your logic becomes too large to fit in a single contract,
+allowing more granular upgrades.
+
+The key advantage of this approach is that the contract's state is preserved in the
+proxy contract, which avoids issues related to transferring data across different
+addresses in the case of a complete contract migration (as in Social Yeet).
+However, it introduces complexities like storage clashes and function selector
+collisions if not handled carefully.

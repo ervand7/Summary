@@ -54,6 +54,10 @@ contract InvariantTest is StdInvariant, Test {
         // For example, if 1 WBTC is worth $30,000 and 20 WBTC are deposited, wbtcValue will be $600,000.
         uint256 wbtcValue = dsce.getUsdValue(wbtc, totalWbtcDeposited);
 
+        console.log("wethValue: %s", wethValue);
+        console.log("wbtcValue: %s", wbtcValue);
+        console.log("total supply: %s", totalSupply);
+
         // Assert that the total value of WETH and WBTC in USD is greater than or equal to the total DSC supply.
         // This ensures that the protocol is overcollateralized.
         assert(wethValue + wbtcValue >= totalSupply);

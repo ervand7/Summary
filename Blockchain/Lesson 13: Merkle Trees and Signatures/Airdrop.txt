@@ -1,0 +1,19 @@
+In the context of blockchain, an **airdrop** refers to the distribution of
+cryptocurrency tokens or assets directly to the wallets of users, usually for
+free. This process is typically used as a marketing strategy by blockchain projects
+to raise awareness, attract new users, or reward loyal participants. Airdrops can
+happen for various reasons, including:
+
+1. **Promotion**: To promote a new cryptocurrency or project by giving away
+tokens to potential users.
+2. **Loyalty rewards**: To reward early adopters or users who have been
+actively supporting the project.
+3. **Forks**: When a blockchain undergoes a fork, new tokens from the forked
+chain may be airdropped to holders of the original cryptocurrency.
+4. **Token distribution**: In decentralized finance (DeFi) or governance
+projects, airdrops may be used to distribute tokens for voting rights or governance
+participation.
+
+Users typically qualify for airdrops based on criteria like holding a specific
+cryptocurrency, performing certain actions (like signing up or following social media
+channels), or being part of a particular blockchain network.

@@ -1,0 +1,42 @@
+**EIP-191** and **EIP-712** are both Ethereum Improvement Proposals (EIPs) that define
+standards for how messages are signed and verified within Ethereum, but they serve slightly
+different purposes and have different levels of complexity.
+
+### EIP-191 (Ethereum Signed Messages)
+EIP-191 is a simple proposal for signing messages in a specific format. It standardizes the
+process for signing messages that are **not transactions**. The signature includes a specific
+prefix that ensures the signed message cannot be misinterpreted as a transaction. This is
+important to prevent replay attacks.
+
+#### Key Points:
+- **Prefixing**: The standard includes a prefix (`"\x19Ethereum Signed Message:\n"`),
+followed by the length of the message. This ensures that the signature refers to a plain
+message and not to a transaction.
+- **Applications**: It's used in simple signing schemes where the message is just a string
+or data that doesn't need complex structuring or encoding.
+
+### EIP-712 (Ethereum Typed Data)
+EIP-712 is more complex than EIP-191 and is designed to provide a secure and standardized way
+to sign **structured data**. It allows for the creation of typed data structures that can be
+signed and verified on-chain. This provides better security guarantees and makes the
+signatures easier to verify, especially when dealing with smart contracts.
+
+#### Key Points:
+- **Typed Structured Data**: You define data with types, ensuring clarity about what is being
+signed. This is useful for more complex applications like decentralized finance (DeFi)
+protocols, where the signing data includes various fields and types.
+- **Domain Separator**: It includes a domain separator to prevent cross-domain attacks,
+where the same data could be valid in one context but malicious in another.
+- **JSON-like Data Signing**: EIP-712 enables signing complex data structures, similar to
+JSON objects, making it versatile for more sophisticated use cases, like DAO proposals or
+financial transactions.
+
+### Comparison:
+
+| Feature                   | EIP-191                                   | EIP-712                                   |
+|---------------------------|-------------------------------------------|-------------------------------------------|
+| **Purpose**                | Signing simple messages                  | Signing complex, structured data          |
+| **Complexity**             | Simple                                   | More complex, handles structured data     |
+| **Prefix**                 | Includes a prefix to differentiate signed messages | Uses a domain separator for context isolation |
+| **Use Cases**              | Simple message signing                   | Complex contracts, DAOs, DeFi applications |
+| **Security**               | Basic protection against replay attacks  | Provides better guarantees for complex data signing |

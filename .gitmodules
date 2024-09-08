@@ -37,3 +37,9 @@
 [submodule "Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/foundry-devops"]
 	path = Blockchain/Lesson 12: DeFi Stablecoin/foundry-defi-stablecoin-f23/lib/foundry-devops
 	url = https://github.com/ChainAccelOrg/foundry-devops
+[submodule "Blockchain/Lesson 13: Merkle Trees and Signatures/merkle-airdrop/lib/openzeppelin-contracts"]
+	path = Blockchain/Lesson 13: Merkle Trees and Signatures/merkle-airdrop/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "Blockchain/Lesson 13: Merkle Trees and Signatures/merkle-airdrop/lib/murky"]
+	path = Blockchain/Lesson 13: Merkle Trees and Signatures/merkle-airdrop/lib/murky
+	url = https://github.com/dmfxyz/murky

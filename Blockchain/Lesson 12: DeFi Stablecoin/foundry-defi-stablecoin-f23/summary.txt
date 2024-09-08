@@ -5,3 +5,7 @@
 
 Tests:
  ● source .env && forge test --fork-url $SEPOLIA_RPC_URL
+
+Fuzz tests:
+ ● foundryup && forge clean
+ ● forge test --match-test invariant_protocolMustHaveMoreValueThanTotalSupply

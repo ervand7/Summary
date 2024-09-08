@@ -1,0 +1,48 @@
+In the function `verifyMerkleProof`, the parameter `bytes32[] memory proof` contains
+the **Merkle proof**, which is an array of **hashes** (sibling nodes) used to verify the
+inclusion of a particular leaf (transaction or data) in the Merkle tree.
+
+### Detailed Explanation of `proof`:
+
+- **Purpose**: The `proof` array provides the necessary sibling hashes to recreate the
+Merkle path from a specific leaf (the transaction or data being verified) up to the Merkle root.
+
+- **Structure**:
+  - Each element in the `proof` array represents a hash of a sibling node on the path from
+  the target leaf to the root of the Merkle tree.
+  - These hashes are used to successively compute parent node hashes, moving up the tree,
+  until reaching the Merkle root.
+
+### How `proof` is used:
+- The function starts with the hash of the target leaf (the transaction/data being verified).
+- It then combines this hash with each corresponding sibling hash from the `proof` array in
+the correct order (either left or right depending on the position in the tree).
+- The goal is to compute the Merkle root by combining the hashes from the leaf to the top.
+
+### Example of how the `proof` works:
+Consider a Merkle tree with 4 transactions:
+
+```
+        Root
+       /    \
+   Hash 0-1  Hash 2-3
+   /     \   /     \
+ T0      T1 T2      T3
+```
+
+Let’s say we want to verify that transaction `T2` is part of the tree:
+- **Leaf**: `T2` (this is the `leaf` parameter).
+- **Proof**: The `proof` array would contain the sibling hashes needed to compute the Merkle root:
+  - The sibling of `T2`, which is `T3` (`proof[0]`).
+  - The hash of `Hash 0-1` (`proof[1]`), which is the sibling of `Hash 2-3` at the next level up.
+
+The function would combine `T2` with `T3` to get `Hash 2-3`, then combine `Hash 2-3` with
+`Hash 0-1` to calculate the Merkle root.
+
+### In Summary:
+- The `proof` array contains the sibling hashes that allow the contract to recompute the Merkle
+root and verify that a given leaf (e.g., `T2`) is indeed part of the tree.
+- Without these sibling hashes, it would not be possible to verify the inclusion of the leaf in
+the tree, as you need to recreate the entire path up to the root.
+
+This is how Merkle proofs enable efficient verification of data inclusion in a Merkle tree.

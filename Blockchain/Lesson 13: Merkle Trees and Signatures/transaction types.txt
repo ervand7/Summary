@@ -1,0 +1,105 @@
+In Ethereum, there are different **types of transactions**, each serving specific
+purposes within the network. These types of transactions define what actions can be
+performed on the blockchain. Let’s go over the main types of transactions.
+
+### 1. **Regular Transaction (Simple ETH Transfer)**
+   - **Purpose**: Sending ETH from one account to another.
+   - **Example**: If you want to transfer 1 ETH to another wallet, this is a regular
+   transaction.
+   - **Fields**:
+     - **From**: Your address (sender).
+     - **To**: Recipient's address.
+     - **Value**: Amount of ETH you want to send.
+     - **Gas Price/Gas Limit**: Specifies how much gas you’re willing to pay for this
+     transaction.
+
+### 2. **Contract Deployment Transaction**
+   - **Purpose**: Deploying a new smart contract on the Ethereum network.
+   - **Example**: If you’ve written a smart contract (e.g., an ERC20 token), you would use
+   this type of transaction to upload it to the blockchain.
+   - **Fields**:
+     - **From**: Your address.
+     - **To**: This field is empty (since it’s deploying a new contract).
+     - **Data**: Contains the smart contract bytecode and possibly constructor parameters.
+     - **Gas Price/Gas Limit**: Specifies how much gas you’ll pay to deploy the contract.
+
+### 3. **Contract Interaction Transaction**
+   - **Purpose**: Interacting with an existing smart contract.
+   - **Example**: Calling a function on a smart contract, like transferring tokens from one
+   account to another or executing a decentralized finance (DeFi) action.
+   - **Fields**:
+     - **From**: Your address.
+     - **To**: Address of the smart contract you’re interacting with.
+     - **Data**: Contains encoded information about which function you want to call and what
+     parameters you are passing.
+     - **Value**: Sometimes, you also send ETH along with the function call (e.g., when buying
+     tokens).
+     - **Gas Price/Gas Limit**: Specifies how much gas you're willing to pay for executing the
+     function.
+
+### 4. **Internal Transactions**
+   - **Purpose**: Transactions triggered by smart contracts.
+   - **Example**: You send ETH to a smart contract, and the smart contract forwards part of
+   it to another address. This forwarding transaction is considered an internal transaction.
+   - **Important**: Internal transactions are not recorded directly on the blockchain as
+   regular transactions but are a result of contract execution.
+
+### 5. **EIP-1559 Transaction (Type 2 Transaction)**
+   - **Purpose**: Introduced with Ethereum's London hard fork, this new type of transaction
+   brings changes to the gas fee mechanism.
+   - **Fields**:
+     - **From**: Your address.
+     - **To**: Recipient's address.
+     - **Value**: Amount of ETH to send.
+     - **MaxFeePerGas**: The maximum gas price you’re willing to pay, including tips.
+     - **MaxPriorityFeePerGas**: The priority fee (tip) for miners.
+     - **Gas Limit**: The maximum gas you're willing to use.
+     - **Burn Mechanism**: This transaction type includes a base fee that is burned (removed
+     from circulation), improving network efficiency.
+
+### 6. **Multisig Transaction**
+   - **Purpose**: Transactions that require multiple parties to sign before they can be
+   executed.
+   - **Example**: In a multisig wallet, if 3 out of 5 participants need to sign before funds
+   can be transferred.
+   - **Process**: A smart contract coordinates the signatures and confirms that the required
+   number of signatories have approved the transaction.
+
+### 7. **Meta-transactions**
+   - **Purpose**: Allows someone else to pay the gas fees on behalf of the sender.
+   - **Example**: If a decentralized application (dApp) wants to cover the gas fees for its
+   users, it can use meta-transactions.
+   - **Fields**: The original sender signs the transaction, but a third party submits it and
+   pays the gas fee.
+
+### 8. **Layer 2 Transaction**
+   - **Purpose**: Transactions executed on Layer 2 scaling solutions like Optimism or zkSync
+   to reduce fees and improve speed.
+   - **Example**: Sending ETH or interacting with smart contracts on Layer 2, where the
+   transaction is later bundled and submitted to the Ethereum Layer 1 for finality.
+
+### 9. **Token Transfer (ERC20/ERC721)**
+   - **Purpose**: Transfer of tokens (ERC20 for fungible tokens, ERC721 for NFTs).
+   - **Example**: Transferring DAI (an ERC20 token) or sending an NFT to another address.
+   - **Fields**:
+     - **From**: Your address.
+     - **To**: The smart contract that manages the tokens.
+     - **Data**: Encoded function call for the transfer (e.g., `transfer()` for ERC20 or
+     `safeTransferFrom()` for ERC721).
+
+### Summary:
+
+- **Regular Transaction**: ETH transfer between accounts.
+- **Contract Deployment**: Deploying a smart contract to the network.
+- **Contract Interaction**: Interacting with deployed contracts (e.g., calling a function).
+- **EIP-1559 Transaction**: Transactions with dynamic gas fees (introduced by the London fork).
+- **Internal Transactions**: Result of smart contract execution (not directly visible as
+normal transactions).
+- **Multisig**: Requires multiple signatures.
+- **Meta-transactions**: Allows someone else to pay gas fees.
+- **Layer 2 Transactions**: Transactions that happen on Layer 2 scaling solutions.
+- **Token Transfers**: Transfer of ERC20 or ERC721 tokens (fungible tokens or NFTs).
+
+Each of these transaction types plays a vital role in the functioning of the Ethereum
+ecosystem, allowing users to transfer assets, interact with smart contracts, and perform
+various blockchain-based operations.

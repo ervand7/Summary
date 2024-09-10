@@ -26,7 +26,7 @@ contract SmallProxy is Proxy {
     }
 
     function readStorage() public view returns (uint256 valueAtStorageSlotZero) {
-        assembly {
+        assembly { 
             valueAtStorageSlotZero := sload(0)
         }
     }

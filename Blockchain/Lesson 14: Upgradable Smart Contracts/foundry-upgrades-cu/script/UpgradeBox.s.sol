@@ -20,7 +20,13 @@ contract UpgradeBox is Script {
 
     function upgradeBox(address proxyAddress, address newBox) public returns (address) {
         vm.startBroadcast();
+
+        // Casting the proxy address to the BoxV1 type, allowing interaction with the proxy as if it were the BoxV1 contract.
+        // The payable keyword is used here because the proxyAddress might receive or hold funds.
         BoxV1 proxy = BoxV1(payable(proxyAddress));
+
+        // Calling the upgradeTo function on the proxy, which will update the implementation to the new BoxV2 contract.
+        // The proxy will now delegate calls to the newBox implementation, while keeping the existing contract state.
         proxy.upgradeTo(address(newBox));
         vm.stopBroadcast();
         return address(proxy);

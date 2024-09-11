@@ -33,3 +33,5 @@ clashes
 gotchas
 pitfall
 to rug pull
+convoluted
+lame

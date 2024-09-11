@@ -1,0 +1,45 @@
+In the context of **EIP-4337**, a **User Operation** is a new concept that
+replaces traditional Ethereum transactions for account abstraction. Instead of
+sending a transaction directly to the Ethereum network like in the current model, a
+**User Operation** is a request that is sent to a special mempool (separate from the
+Ethereum transaction mempool) where it can be picked up by "bundlers" and executed.
+
+### Key Concepts of User Operation:
+1. **User Operation Object**: It is essentially a structured data object that contains
+information about the action a user wants to perform. This can be thought of as a
+"transaction" but with more flexibility.
+
+2. **Mempool for User Operations**: Unlike the traditional mempool where regular Ethereum
+transactions are broadcasted, **User Operations** are sent to a different mempool
+specifically for account abstraction. This mempool holds these operations until they are
+processed by a **bundler**.
+
+3. **Bundlers**: These are special actors in the EIP-4337 system that take multiple **User
+Operations** from the mempool, bundle them together, and submit them to Ethereum as a
+single transaction. This makes the system more efficient and enables batching of multiple
+actions.
+
+4. **Validation**: Instead of the traditional method where only EOAs can sign and send
+transactions, **User Operations** allow smart contracts to define custom validation logic.
+This means the account can verify transactions in different ways (multisig, social
+recovery, etc.) before they are bundled and sent to the network.
+
+### Example of How User Operations Work:
+Let’s say you have an account that uses a custom multisig verification method. When you
+want to send a transaction:
+1. You submit a **User Operation** to the dedicated mempool, describing what action you
+want to take (e.g., send 1 ETH to another account).
+2. A **bundler** collects this **User Operation**, bundles it with others, and sends it
+as a single Ethereum transaction.
+3. The network executes the bundled transaction, and your operation is validated according
+to your custom multisig logic.
+
+### Why is User Operation Important?
+It decouples the **transaction validation** from the traditional EOA model, allowing
+accounts to define custom rules for validating actions. For example, you can have:
+- Gas payments in tokens other than ETH.
+- Transactions validated by multiple signatures.
+- Wallet recovery mechanisms through social recovery.
+
+In essence, **User Operations** bring more flexibility to how accounts work, allowing
+features that are not possible in the traditional Ethereum model without smart contracts.

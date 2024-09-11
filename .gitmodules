@@ -43,3 +43,18 @@
 [submodule "Blockchain/Lesson 13: Merkle Trees and Signatures/merkle-airdrop/lib/murky"]
 	path = Blockchain/Lesson 13: Merkle Trees and Signatures/merkle-airdrop/lib/murky
 	url = https://github.com/dmfxyz/murky
+[submodule "Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/forge-std"]
+	path = Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/openzeppelin-contracts"]
+	path = Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/account-abstraction"]
+	path = Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/account-abstraction
+	url = https://github.com/eth-infinitism/account-abstraction
+[submodule "Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/foundry-era-contracts"]
+	path = Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/foundry-era-contracts
+	url = https://github.com/cyfrin/foundry-era-contracts
+[submodule "Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/foundry-devops"]
+	path = Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/foundry-devops
+	url = https://github.com/cyfrin/foundry-devops

@@ -1,0 +1,62 @@
+- **Ethereum (EIP-4337)**: Account abstraction is added at **Layer 1** without
+changing the core Ethereum protocol. It uses **User Operations** and **bundlers** to
+handle transactions, offering features like paying gas fees with non-ETH tokens and
+custom wallet logic (e.g., multisig or social recovery). However, this is done
+off-chain, and Ethereum itself stays unchanged.
+
+- **zkSync**: Account abstraction is built directly into the **Layer 2** protocol,
+making it more efficient and integrated. zkSync doesn’t need bundlers; it handles
+custom transaction logic and gas payments in tokens other than ETH **natively**
+within its architecture, resulting in lower fees and faster execution.
+
+zkSync’s solution is more deeply integrated, while Ethereum’s approach works within
+its existing infrastructure.
+
+
+Schemas:
+### 1. **Ethereum (EIP-4337)** with Alternative Mempool
+**User** → **User Operation** → **Alt Mempool (EIP-4337)** → **Bundler** → **Ethereum Network** → **Execute Transaction**
+- **User Operation**: The user submits a transaction request, which is different
+from a regular Ethereum transaction. This operation contains all the necessary
+details, including gas payments and custom validation logic.
+
+- **Alt Mempool**: Instead of going to the traditional Ethereum mempool, these
+**User Operations** are submitted to a **separate, alternative mempool**. This
+mempool is dedicated to handling account abstraction operations.
+
+- **Bundler**: Bundlers are entities that gather these operations from the alt
+mempool, group them together, and submit them as a single transaction to the
+Ethereum network.
+
+- **Ethereum Network**: Once the bundler submits the grouped User Operations as
+a regular Ethereum transaction, the network processes it, executing each operation
+based on the user's custom logic (e.g., multisig, custom gas payment).
+
+---
+
+### 2. **zkSync**
+**User** → **zkSync Layer 2** → **Native Protocol Handling** → **zkRollup (Proof)** → **Ethereum Layer 1**
+
+- **User**: The user interacts directly with zkSync’s Layer 2, submitting
+transactions with custom logic (e.g., social recovery, pay gas with non-ETH tokens).
+
+- **zkSync Layer 2**: zkSync handles these custom features natively without the
+need for an alternate mempool or bundler. Everything happens within zkSync's Layer 2.
+
+- **zkRollup**: zkSync batches multiple transactions, creating a cryptographic
+proof (zkRollup), and submits it to Ethereum’s Layer 1.
+
+- **Ethereum Layer 1**: Ethereum Layer 1 verifies the zkRollup proof, ensuring all
+transactions on Layer 2 are valid without needing to process each transaction
+individually.
+
+### Main Difference:
+- In **Ethereum EIP-4337**, the alternative mempool is a crucial part of the system
+where **User Operations** are collected before bundlers submit them to Ethereum.
+- In **zkSync**, everything happens natively on Layer 2 without the need for an
+alternate mempool or bundlers. It directly interacts with Ethereum through
+zkRollups for verification.
+
+This alt mempool helps Ethereum handle account abstraction without changing the
+core protocol but adds an extra layer of transaction processing compared to
+zkSync’s more integrated approach.

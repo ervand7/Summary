@@ -35,3 +35,5 @@ pitfall
 to rug pull
 convoluted
 lame
+blunt
+burner

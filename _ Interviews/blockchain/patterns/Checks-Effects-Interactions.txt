@@ -1,0 +1,73 @@
+The **Checks-Effects-Interactions** pattern is a best practice in Solidity programming used
+to enhance the security and reliability of smart contracts. It helps prevent vulnerabilities
+like **reentrancy attacks** by organizing functions in a specific order:
+
+1. **Checks:** Validate all conditions and inputs.
+2. **Effects:** Update the contract’s state.
+3. **Interactions:** Interact with external contracts or send Ether.
+
+### Why It Matters
+Reentrancy attacks occur when an external contract calls back into the vulnerable contract
+before the first invocation is complete, potentially manipulating the contract’s state
+unexpectedly. By following the Checks-Effects-Interactions pattern, you minimize the risk of
+such attacks.
+
+### Example
+
+Here’s a simple example of a withdrawal function in a Solidity contract using the
+Checks-Effects-Interactions pattern:
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract SecureVault {
+    mapping(address => uint256) private balances;
+
+    // Deposit function to add funds to the contract
+    function deposit() external payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    // Withdraw function following Checks-Effects-Interactions pattern
+    function withdraw(uint256 _amount) external {
+        // **Checks**
+        require(balances[msg.sender] >= _amount, "Insufficient balance");
+
+        // **Effects**
+        balances[msg.sender] -= _amount;
+
+        // **Interactions**
+        (bool success, ) = msg.sender.call{value: _amount}("");
+        require(success, "Transfer failed");
+    }
+}
+```
+
+### Breakdown
+
+1. **Checks:**
+   - `require(balances[msg.sender] >= _amount, "Insufficient balance");`
+     - Ensures the caller has enough balance to withdraw the requested amount.
+
+2. **Effects:**
+   - `balances[msg.sender] -= _amount;`
+     - Updates the contract’s state by deducting the withdrawn amount from the caller’s balance.
+
+3. **Interactions:**
+   - `(bool success, ) = msg.sender.call{value: _amount}("");`
+     - Sends Ether to the caller. Using `call` is generally recommended over `transfer` or
+     `send` for better gas management.
+   - `require(success, "Transfer failed");`
+     - Ensures the Ether transfer was successful.
+
+### Why This Order?
+
+- **State Update Before External Call:** By updating the state before making external calls,
+you ensure that even if the external contract tries to re-enter the `withdraw` function, the
+balance has already been updated, preventing double withdrawals.
+- **Validation First:** All necessary conditions are checked upfront, ensuring that only
+valid operations proceed.
+
+Following the Checks-Effects-Interactions pattern helps create secure and maintainable
+smart contracts by systematically organizing code to prevent common vulnerabilities.

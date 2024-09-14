@@ -1,7 +1,7 @@
 Gas Fees:
  - Base - minimum gas prise you need to set to include your transaction
  - Max - maximum gas fee that we are willing to pay for this transaction
- - Max Piority - max gas fee that we are willing to pay plus the max tip
+ - Max Piority - max gas fee that we are willing to pay + max tip
  that we are willing to give to miners
 
 Gwei:

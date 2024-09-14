@@ -23,9 +23,22 @@ contract SendPackedUserOp is Script {
         uint256 value = 0;
         address minimalAccountAddress = DevOpsTools.get_most_recent_deployment("MinimalAccount", block.chainid);
 
-        bytes memory functionData = abi.encodeWithSelector(IERC20.approve.selector, RANDOM_APPROVER, 1e18);
-        bytes memory executeCalldata =
-            abi.encodeWithSelector(MinimalAccount.execute.selector, dest, value, functionData);
+        // Encode the calldata for the IERC20 approve function,
+        // approving RANDOM_APPROVER to spend 1e18 tokens on behalf of the sender
+        bytes memory functionData = abi.encodeWithSelector(
+            IERC20.approve.selector, // Function selector for IERC20.approve(address spender, uint256 amount)
+            RANDOM_APPROVER, // The address being approved to spend tokens
+            1e18 // The amount of tokens to approve (in wei, so 1e18 represents 1 token with 18 decimals)
+        );
+
+        // Encode the calldata for the MinimalAccount's execute function,
+        // which will execute the approve function on the token contract
+        bytes memory executeCalldata = abi.encodeWithSelector(
+            MinimalAccount.execute.selector, // Function selector for MinimalAccount.execute(address dest, uint256 value, bytes calldata data)
+            dest, // The destination address (token contract address where approve will be called)
+            value, // Amount of Ether to send with the call (usually 0 for token interactions)
+            functionData // The calldata for the approve function encoded above
+        );
         PackedUserOperation memory userOp =
             generateSignedUserOperation(executeCalldata, helperConfig.getConfig(), minimalAccountAddress);
         PackedUserOperation[] memory ops = new PackedUserOperation[](1);

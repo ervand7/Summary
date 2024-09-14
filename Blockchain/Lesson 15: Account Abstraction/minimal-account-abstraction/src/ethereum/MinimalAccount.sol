@@ -10,21 +10,15 @@ import {SIG_VALIDATION_FAILED, SIG_VALIDATION_SUCCESS} from "lib/account-abstrac
 import {IEntryPoint} from "lib/account-abstraction/contracts/interfaces/IEntryPoint.sol";
 
 contract MinimalAccount is IAccount, Ownable {
-    /*//////////////////////////////////////////////////////////////
-                                 ERRORS
-    //////////////////////////////////////////////////////////////*/
+    // ERRORS
     error MinimalAccount__NotFromEntryPoint();
     error MinimalAccount__NotFromEntryPointOrOwner();
     error MiniamlAccount__CallFailed(bytes);
 
-    /*//////////////////////////////////////////////////////////////
-                            STATE VARIABLES
-    //////////////////////////////////////////////////////////////*/
+    // STATE VARIABLES
     IEntryPoint private immutable i_entryPoint;
 
-    /*//////////////////////////////////////////////////////////////
-                               MODIFIERS
-    //////////////////////////////////////////////////////////////*/
+    // MODIFIERS
     modifier requireFromEntryPoint() {
         if (msg.sender != address(i_entryPoint)) {
             revert MinimalAccount__NotFromEntryPoint();
@@ -39,64 +33,58 @@ contract MinimalAccount is IAccount, Ownable {
         _;
     }
 
-    /*//////////////////////////////////////////////////////////////
-                               FUNCTIONS
-    //////////////////////////////////////////////////////////////*/
+    // FUNCTIONS
     constructor(address entryPoint) Ownable(msg.sender) {
         i_entryPoint = IEntryPoint(entryPoint);
     }
 
     receive() external payable {}
 
-    /*//////////////////////////////////////////////////////////////
-                           EXTERNAL FUNCTIONS
-    //////////////////////////////////////////////////////////////*/
+    // EXTERNAL FUNCTIONS
+    /**
+     * @notice Allows the owner or EntryPoint to execute a transaction on behalf of this account.
+     * @dev Executes a call to `dest` with the provided `value` and `functionData`.
+     *      Can only be called by the owner or the EntryPoint contract.
+     * @param dest The destination address to call.
+     * @param value The amount of ether to send with the call.
+     * @param functionData The calldata to send to the destination address.
+     */
     function execute(address dest, uint256 value, bytes calldata functionData) external requireFromEntryPointOrOwner {
-        // 1. Perform a low-level call to the `dest` (destination) address.
-        //    `dest.call{value: value}(functionData)` sends `value` amount of native currency (e.g., ETH)
-        //    and executes the function call defined by `functionData` on the `dest` address.
-        //    The `call` function is used for flexible external function execution.
-        //    The call returns two values:
-        //    - `success`: a boolean indicating whether the call was successful or not.
-        //    - `result`: the returned data (if any) from the called function.
         (bool success, bytes memory result) = dest.call{value: value}(functionData);
-
-        // 2. Check if the external call was unsuccessful (`success == false`).
-        //    If the call failed, revert the transaction and provide an error message.
-        //    `result` contains the reason for the failure, which is returned as part of the custom error `MiniamlAccount__CallFailed`.
         if (!success) {
             revert MiniamlAccount__CallFailed(result);
         }
     }
 
-    // A signature is valid, if it's the MinimalAccount owner
+    /**
+     * @notice Validates a user operation by verifying the signature and ensuring the account has sufficient funds.
+     * @dev This function is called by the EntryPoint contract to validate the user's operation.
+     *      It checks the signature against the owner's address and pays any required prefunding.
+     *      Only callable by the EntryPoint contract.
+     * @param userOp The packed user operation containing details like sender, signature, nonce, and call data.
+     * @param userOpHash The hash of the user operation used for signature verification.
+     * @param missingAccountFunds The amount of funds needed to cover transaction costs; the account supplies this if required.
+     * @return validationData A status code indicating whether the signature is valid or not.
+     */
     function validateUserOp(PackedUserOperation calldata userOp, bytes32 userOpHash, uint256 missingAccountFunds)
         external
         requireFromEntryPoint
         returns (uint256 validationData)
     {
-        // `userOp` is the packed data of the user's operation that needs to be processed.
-        // It includes important information like the sender's address, signature, nonce, and call data.
-        // This is passed as `calldata` to optimize gas usage as it only needs to be read, not modified.
-
-        // `userOpHash` is the hash of the entire user operation.
-        // This hash is used to verify the integrity and authenticity of the operation.
-        // The hash is passed as a separate argument to avoid recalculating it inside the function.
-
-        // `missingAccountFunds` represents the amount of funds that are needed to cover the transaction costs.
-        // If the account does not have enough balance to cover gas fees, this value indicates how much more is required.
-
-        // Validate the user's signature using the `userOp` and `userOpHash`.
         validationData = _validateSignature(userOp, userOpHash);
-
-        // Pay any missing funds required to ensure the transaction can proceed.
         _payPrefund(missingAccountFunds);
     }
 
-    /*//////////////////////////////////////////////////////////////
-                           INTERNAL FUNCTIONS
-    //////////////////////////////////////////////////////////////*/
-    // EIP-191 version of the signed hash
+    // INTERNAL FUNCTIONS
+    /**
+     * @notice Validates the signature of a user operation to ensure it's authorized by the owner.
+     * @dev Converts the user operation hash to an Ethereum Signed Message Hash (per EIP-191),
+     *      recovers the signer's address from the signature, and verifies it matches the owner.
+     *      Returns a validation status code indicating success or failure.
+     * @param userOp The packed user operation containing the signature to verify.
+     * @param userOpHash The hash of the user operation used for signature verification.
+     * @return validationData Status code indicating signature validation result (success or failure).
+     */
     function _validateSignature(PackedUserOperation calldata userOp, bytes32 userOpHash)
         internal
         view
@@ -122,27 +110,25 @@ contract MinimalAccount is IAccount, Ownable {
         return SIG_VALIDATION_SUCCESS;
     }
 
+    /**
+     * @notice Ensures the account provides sufficient funds to cover transaction costs.
+     * @dev If the EntryPoint contract indicates that the account is missing funds (`missingAccountFunds > 0`),
+     *      this function transfers the required amount to the EntryPoint.
+     *      It uses a payable call with maximum gas to ensure the transfer succeeds.
+     * @param missingAccountFunds The amount of ether the account needs to supply to cover transaction costs.
+     */
     function _payPrefund(uint256 missingAccountFunds) internal {
-        // 1. Check if there are any missing funds that the account needs to cover.
-        //    If `missingAccountFunds` is non-zero, it means the account doesn't have enough funds to
-        //    cover the gas fees or other costs required for the transaction.
         if (missingAccountFunds != 0) {
-            // 2. Initiate a payment of the `missingAccountFunds` from the current contract to the caller (`msg.sender`).
+            // 1. Initiate a payment of the `missingAccountFunds` from the current contract to the caller (`msg.sender`).
             //    The caller is typically the `EntryPoint` contract that facilitates user operations.
             //    The payable call sends the specified `missingAccountFunds` value to `msg.sender`.
             //    The `gas: type(uint256).max` ensures that the transaction uses the maximum possible gas to succeed.
             (bool success,) = payable(msg.sender).call{value: missingAccountFunds, gas: type(uint256).max}("");
-
-            // 3. Evaluate the success of the transfer operation.
-            //    This line simply evaluates the result of the `call`, ensuring the code compiles
-            //    without issuing warnings about unused variables.
-            (success); // This line ignores the `success` value but ensures it is evaluated for any warnings.
+            (success);
         }
     }
 
-    /*//////////////////////////////////////////////////////////////
-                                GETTERS
-    //////////////////////////////////////////////////////////////*/
+    // GETTERS
     function getEntryPoint() external view returns (address) {
         return address(i_entryPoint);
     }

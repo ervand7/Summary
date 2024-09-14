@@ -1,0 +1,102 @@
+@startuml
+autonumber
+
+actor User
+participant "User's Script" as Script
+participant "Alternative Mempool" as Mempool
+participant Bundler
+participant EntryPoint
+participant MinimalAccount
+participant "Token Contract" as Token
+participant "Ethereum Blockchain" as Blockchain
+
+== Preparation Phase ==
+
+User -> Script: Run script to create UserOperation
+note right of Script
+  // From SendPackedUserOp.sol
+  // Create functionData for IERC20.approve()
+  bytes memory functionData = abi.encodeWithSelector(
+      IERC20.approve.selector, RANDOM_APPROVER, 1e18
+  );
+
+  // Encode executeCalldata for MinimalAccount.execute()
+  bytes memory executeCalldata = abi.encodeWithSelector(
+      MinimalAccount.execute.selector, dest, value, functionData
+  );
+end note
+
+Script -> Script: Construct and sign UserOperation
+note right of Script
+  // Generate and sign UserOperation
+  PackedUserOperation memory userOp = generateSignedUserOperation(
+      executeCalldata, helperConfig.getConfig(), minimalAccountAddress
+  );
+
+  // Create an array of operations
+  PackedUserOperation;
+  ops[0] = userOp;
+end note
+
+== Submission Phase ==
+
+Script -> EntryPoint: Call handleOps(ops, beneficiary)
+note right of EntryPoint
+  // Direct call to EntryPoint's handleOps function
+  IEntryPoint(helperConfig.getConfig().entryPoint).handleOps(
+      ops, payable(helperConfig.getConfig().account)
+  );
+end note
+
+== Execution Phase ==
+
+EntryPoint -> MinimalAccount: validateUserOp(userOp, userOpHash, missingFunds)
+note right of MinimalAccount
+  // From MinimalAccount.sol
+  function validateUserOp(...) external returns (uint256) {
+      uint256 validationData = _validateSignature(userOp, userOpHash);
+      _payPrefund(missingAccountFunds);
+      return validationData;
+  }
+end note
+
+MinimalAccount -> MinimalAccount: Verify signature and nonce
+note right of MinimalAccount
+  // Verify the signature
+  function _validateSignature(...) internal view returns (uint256) {
+      // Signature verification logic
+  }
+end note
+
+MinimalAccount --> EntryPoint: validationData
+
+alt Validation Successful
+    EntryPoint -> MinimalAccount: execute(userOp.callData)
+    note right of MinimalAccount
+      // Execute the callData
+      function execute(...) external {
+          (bool success, bytes memory result) = dest.call{value: value}(functionData);
+          if (!success) {
+              revert MiniamlAccount__CallFailed(result);
+          }
+      }
+    end note
+
+    MinimalAccount -> Token: approve(spender, amount)
+    note right of Token
+      // Token contract processes approve()
+    end note
+
+    Token --> MinimalAccount: Approval confirmed
+    MinimalAccount --> EntryPoint: Execution completed
+else Validation Failed
+    EntryPoint --> User: Validation failed
+end
+
+== Finalization ==
+
+EntryPoint -> Blockchain: Record transaction
+Blockchain --> EntryPoint: Transaction mined
+EntryPoint --> User: Operation result
+
+@enduml

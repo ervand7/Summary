@@ -6,23 +6,17 @@ import {EntryPoint} from "lib/account-abstraction/contracts/core/EntryPoint.sol"
 import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
 contract HelperConfig is Script {
-    /*//////////////////////////////////////////////////////////////
-                                 ERRORS
-    //////////////////////////////////////////////////////////////*/
+    // ERRORS
     error HelperConfig__InvalidChainId();
 
-    /*//////////////////////////////////////////////////////////////
-                                 TYPES
-    //////////////////////////////////////////////////////////////*/
+    // TYPES
     struct NetworkConfig {
         address entryPoint;
         address usdc;
         address account;
     }
 
-    /*//////////////////////////////////////////////////////////////
-                            STATE VARIABLES
-    //////////////////////////////////////////////////////////////*/
+    // STATE VARIABLES
     uint256 constant ETH_MAINNET_CHAIN_ID = 1;
     uint256 constant ETH_SEPOLIA_CHAIN_ID = 11155111;
     uint256 constant ZKSYNC_SEPOLIA_CHAIN_ID = 300;
@@ -37,9 +31,7 @@ contract HelperConfig is Script {
     NetworkConfig public localNetworkConfig;
     mapping(uint256 chainId => NetworkConfig) public networkConfigs;
 
-    /*//////////////////////////////////////////////////////////////
-                               FUNCTIONS
-    //////////////////////////////////////////////////////////////*/
+    // FUNCTIONS
     constructor() {
         networkConfigs[ETH_SEPOLIA_CHAIN_ID] = getEthSepoliaConfig();
         networkConfigs[ETH_MAINNET_CHAIN_ID] = getEthMainnetConfig();
@@ -61,9 +53,7 @@ contract HelperConfig is Script {
         }
     }
 
-    /*//////////////////////////////////////////////////////////////
-                                CONFIGS
-    //////////////////////////////////////////////////////////////*/
+    // CONFIGS
     function getEthMainnetConfig() public pure returns (NetworkConfig memory) {
         // This is v7
         return NetworkConfig({
@@ -113,6 +103,7 @@ contract HelperConfig is Script {
 
         // deploy mocks
         console2.log("Deploying mocks...");
+        // start sending transactions to the blockchain using the Anvil default account as the signer
         vm.startBroadcast(ANVIL_DEFAULT_ACCOUNT);
         EntryPoint entryPoint = new EntryPoint();
         ERC20Mock erc20Mock = new ERC20Mock();

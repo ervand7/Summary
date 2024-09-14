@@ -1,0 +1,69 @@
+### **1. What is Gas in the context of Ethereum, and why is it necessary?**
+**Answer:**
+Gas is a unit that measures the computational effort required to execute
+transactions and smart contracts on Ethereum. It’s necessary to:
+
+- **Allocate Resources:** Ensures efficient use of network resources.
+- **Incentivize Miners/Validators:** Gas fees reward those who process and secure
+transactions.
+- **Prevent Abuse:** Discourages spam and malicious activities by costing every
+operation.
+- **Provide Predictable Costs:** Allows users to estimate transaction fees.
+
+---
+
+### **2. Can you explain the difference between Gas Price and Gas Limit?**
+**Answer:**
+- **Gas Price:** The amount of Ether (usually in Gwei) a user is willing to pay
+per unit of Gas. It influences transaction priority; higher prices can expedite
+processing.
+
+- **Gas Limit:** The maximum Gas a user allows a transaction to consume. It caps
+the total fee and prevents excessive resource usage. If the Gas Limit is too
+low, the transaction may fail, but the used Gas is still paid.
+
+**Total Fee = Gas Used × Gas Price**
+
+---
+
+### **3. How is Gas used to measure computational effort in Ethereum transactions?**
+**Answer:**
+Gas quantifies the computational steps each operation in the Ethereum Virtual Machine
+(EVM) consumes. Every action, like arithmetic operations or data storage, has a specific
+Gas cost. When a transaction is executed:
+
+1. **Gas Consumption:** Each operation deducts its Gas cost from the Gas Limit.
+2. **Execution Monitoring:** Ensures transactions don’t exceed their Gas Limit.
+3. **Optimization:** Developers aim to minimize Gas usage for efficiency and lower costs.
+
+This system ensures fair resource allocation and compensates miners/validators for their work.
+
+---
+
+### **4. What happens if a transaction runs out of Gas during execution?**
+**Answer:**
+If a transaction exhausts its Gas:
+
+- **Reversion:** All state changes from the transaction are undone.
+- **Gas Fee:** The user still pays for the Gas consumed up to the failure point.
+- **Failure Notification:** The transaction is marked as failed, and any calling contracts
+are informed.
+
+This mechanism prevents incomplete transactions from affecting the blockchain while
+ensuring network resources are compensated.
+
+---
+
+### **5. How does Gas relate to the security and stability of the Ethereum network?**
+**Answer:**
+Gas enhances Ethereum’s security and stability by:
+
+- **Preventing Abuse:** Costs deter spam and DoS attacks by making malicious actions expensive.
+- **Incentivizing Validators:** Gas fees reward those who secure and process transactions
+honestly.
+- **Managing Resources:** Ensures fair distribution of computational power, maintaining
+network performance.
+- **Encouraging Efficient Code:** Developers optimize contracts to use less Gas, promoting
+overall network efficiency.
+
+Overall, Gas mechanisms help maintain a secure, reliable, and scalable Ethereum network.

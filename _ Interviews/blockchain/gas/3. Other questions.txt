@@ -1,0 +1,173 @@
+**1. Explain the changes introduced by EIP-1559 and how they affect Gas pricing and fee
+structure.**
+
+**Answer:**
+EIP-1559 revamped Ethereum's fee model by introducing a base fee that dynamically adjusts
+based on network demand and is burned, reducing ETH supply. It also includes a priority
+fee (tip) for miners. This change aims to make Gas pricing more predictable, reduce
+fee volatility, and improve user experience by automatically adjusting fees without
+relying solely on user-set Gas Prices.
+
+---
+
+**2. How do Layer 2 solutions impact Gas fees and transaction efficiency?**
+**Answer:**
+Layer 2 solutions, such as Optimistic Rollups and zk-Rollups, process transactions off the
+main Ethereum chain, significantly reducing Gas fees and increasing transaction throughput.
+By aggregating multiple transactions into a single batch, they lower the cost per transaction
+and enhance scalability, making dApps more efficient and affordable for users.
+
+---
+
+**3. Can you discuss the concept of Gas refunds and scenarios where they are applicable?**
+**Answer:**
+Gas refunds are incentives provided when certain operations reduce the network's state
+size, such as deleting storage variables or freeing up space. For example, setting a storage
+slot to zero can qualify for a Gas refund. This encourages developers to write efficient
+contracts that minimize storage use, promoting overall network efficiency.
+
+---
+
+**4. What are Gas tokens, and how can they be used to manage Gas costs?**
+**Answer:**
+Gas tokens, like GST2 and CHI, allow users to tokenize and store Gas when prices are low
+by performing operations that consume Gas (e.g., storage clearing). These tokens can then
+be redeemed to receive Gas refunds when Gas prices are high, effectively hedging against
+Gas price volatility and reducing transaction costs during peak times.
+
+---
+
+**5. How does Gas pricing affect the prioritization of transactions in the Ethereum mempool?**
+**Answer:**
+Transactions with higher Gas Prices are prioritized by miners for inclusion in the next
+block, as they offer greater rewards. During network congestion, users willing to pay more
+Gas can have their transactions processed faster, while those with lower Gas Prices may
+experience delays, influencing the order and speed of transaction confirmations.
+
+---
+
+### **Practical Scenarios and Problem-Solving**
+**6. Describe a situation where you had to troubleshoot a smart contract running out of Gas.
+How did you resolve it?**
+**Answer:**
+I encountered a contract function with a loop that caused Gas exhaustion due to unbounded
+iterations. To resolve it, I refactored the function to limit iterations, used mappings for
+constant-time access, and optimized storage operations. Additionally, I implemented Gas
+estimations and added require statements to ensure sufficient Gas before execution.
+
+---
+
+**7. How would you handle Gas price volatility when designing a decentralized application (dApp)?**
+**Answer:**
+I would implement dynamic Gas pricing by integrating Gas price oracles to adjust transaction
+fees in real-time. Additionally, optimizing contract functions to minimize Gas usage,
+providing users with fee estimation tools, and possibly incorporating Layer 2 solutions can
+help mitigate the impact of Gas price volatility on the dApp’s usability.
+
+---
+
+**8. Can you provide an example of a Gas optimization you implemented in a past project
+and its impact?**
+**Answer:**
+In a token contract, I replaced multiple storage writes with a single struct update and
+used `uint256` packing to reduce storage slots. This optimization decreased Gas consumption
+per transaction by approximately 30%, resulting in lower fees for users and more efficient
+contract execution.
+
+---
+
+**9. How do you balance Gas efficiency with code readability and maintainability in
+smart contracts?**
+**Answer:**
+I prioritize clear and modular code, applying Gas optimizations where they offer significant
+benefits without compromising readability. Using well-documented helper functions and
+libraries ensures maintainability. Balancing involves identifying critical areas for
+optimization while keeping the overall codebase understandable and easy to manage.
+
+---
+
+**10. What considerations do you take into account when choosing between different
+Gas-efficient design patterns?**
+**Answer:**
+I evaluate factors such as the frequency of operations, the complexity of logic, potential
+Gas savings, and the impact on security and scalability. Additionally, I consider the
+trade-offs between upfront optimization and long-term maintainability, selecting patterns
+that offer optimal Gas efficiency without introducing excessive complexity.
+
+---
+
+**11. How does Gas in Ethereum compare to transaction fees in other blockchain platforms
+like Binance Smart Chain or Solana?**
+**Answer:**
+Ethereum uses a dynamic Gas model with variable fees. Binance Smart Chain offers similar
+fees but generally lower and faster, while Solana has fixed low fees with high throughput.
+
+---
+
+**12. What are the implications of high Gas fees on the usability and adoption of
+decentralized applications?**
+**Answer:**
+High Gas fees make transactions expensive, limiting dApp accessibility and slowing user
+adoption, especially for small-value operations.
+
+---
+
+**13. How do you stay updated with the latest Gas-related improvements and proposals in
+the blockchain ecosystem?**
+**Answer:**
+I follow EIPs, join developer forums, subscribe to newsletters, attend conferences, and
+engage on GitHub and Discord.
+
+---
+
+**14. Can you discuss any upcoming Ethereum upgrades that might affect Gas usage and fees?**
+**Answer:**
+Upgrades like The Merge, sharding, and enhanced Layer 2 integrations aim to improve Gas
+efficiency and reduce fees by increasing scalability.
+
+---
+
+**15. How would you approach designing a smart contract for a platform with different Gas
+mechanisms than Ethereum?**
+**Answer:**
+I would study the platform’s Gas model, adapt contract logic accordingly, use platform-specific
+libraries, and optimize for its unique fee structure.
+
+---
+
+**16. How do you prioritize Gas optimization when developing new features for a smart contract?**
+**Answer:**
+I focus on optimizing high-usage functions first, balancing Gas savings with code complexity
+and maintaining security.
+
+---
+
+**17. Describe a time when Gas considerations influenced your architectural decisions in
+a blockchain project.**
+**Answer:**
+I redesigned a voting dApp to batch votes off-chain and record only results on-chain,
+significantly reducing Gas costs.
+
+---
+
+**18. How do you educate non-technical stakeholders about the importance of Gas in blockchain
+transactions?**
+**Answer:**
+I use simple analogies, like comparing Gas to fuel, and provide clear examples of its impact
+on costs and efficiency.
+
+---
+
+**19. What metrics do you consider most important when evaluating the Gas efficiency of a
+smart contract?**
+**Answer:**
+Total Gas per function, Gas trends, storage vs. memory usage, and frequency of high-Gas
+operations.
+
+---
+
+**20. How do you handle trade-offs between Gas costs and other factors like security or
+functionality?**
+**Answer:**
+I ensure optimizations don’t compromise security or essential features, prioritizing
+critical aspects while optimizing non-critical areas.

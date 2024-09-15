@@ -7,3 +7,4 @@ susceptible
 conceal
 denial
 inherently
+entail

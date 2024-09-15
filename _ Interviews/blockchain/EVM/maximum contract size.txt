@@ -1,0 +1,12 @@
+The **maximum contract size limit in Ethereum** is **24 kilobytes (24 KB)**, which
+equals **24,576 bytes**. This limit, established by [EIP-170]
+(https://eips.ethereum.org/EIPS/eip-170), helps prevent network bloat and ensures
+efficient processing of smart contracts.
+
+### **Key Points:**
+- **Purpose:** Prevents excessively large contracts that could strain the network and
+increase security risks.
+- **Implications for Developers:** Encourages modular contract design, use of libraries,
+and proxy patterns to stay within the size limit.
+- **Checking Size:** Most development tools (like Hardhat or Truffle) display contract
+size during compilation to help ensure compliance.

@@ -1,0 +1,16 @@
+**Description:**
+DoS attacks aim to make a smart contract or the entire network unavailable or unusable by
+overwhelming it with requests or exploiting vulnerabilities that cause the contract to fail.
+
+**Types of DoS Attacks:**
+- **DoS with Revert:** An attacker causes critical functions to revert, blocking legitimate
+users.
+- **DoS with Block Gas Limit:** Making certain operations excessively gas-consuming to prevent
+them from executing.
+
+**Mitigation:**
+- **Fail-Safe Coding Practices:** Ensure that critical functions are not dependent on external
+calls that can fail.
+- **Gas Optimization:** Write efficient code to prevent hitting gas limits.
+- **Circuit Breakers:** Implement emergency stop mechanisms to halt operations in case of
+detected attacks.

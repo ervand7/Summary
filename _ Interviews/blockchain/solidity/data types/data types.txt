@@ -1,0 +1,321 @@
+В Solidity существует широкий спектр типов данных, которые можно классифицировать на
+**значимые типы** (value types) и
+**ссылочные типы** (reference types).
+
+
+## **1. Значимые Типы (Value Types)**
+
+Значимые типы хранят свои значения непосредственно и передаются по значению. Они включают в
+себя следующие категории:
+
+### **1.1. Булевый Тип (`bool`)**
+
+- **Описание:** Хранит логические значения `true` или `false`.
+- **Пример:**
+  ```solidity
+  bool isActive = true;
+  ```
+
+### **1.2. Целочисленные Типы (`int`, `uint`)**
+
+- **Описание:** Хранение целых чисел. `int` — знаковые целые числа, `uint` — беззнаковые.
+- **Диапазон:**
+  - `int8` до `int256` (с шагом 8)
+  - `uint8` до `uint256` (с шагом 8)
+- **Пример:**
+  ```solidity
+  uint256 balance = 1000;
+  int8 temperature = -20;
+  ```
+
+### **1.3. Тип Адреса (`address`, `address payable`)**
+
+- **Описание:** Хранит 20-байтовый адрес Ethereum.
+  - `address`: Используется для хранения адресов контрактов и внешних аккаунтов.
+  - `address payable`: Дополнительно позволяет отправлять Ether.
+- **Пример:**
+  ```solidity
+  address owner = 0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2;
+  address payable beneficiary = payable(owner);
+  ```
+
+### **1.4. Фиксированные Массивы Байтов (`bytes1` до `bytes32`)**
+
+- **Описание:** Хранение фиксированного количества байтов (от 1 до 32).
+- **Пример:**
+  ```solidity
+  bytes32 data = "Hello, Solidity!";
+  ```
+
+### **1.5. Перечисления (`enum`)**
+
+- **Описание:** Определяет пользовательский тип данных с фиксированным набором возможных значений.
+- **Пример:**
+  ```solidity
+  enum State { Waiting, Ready, Active }
+  State public state = State.Waiting;
+  ```
+
+### **1.6. Структуры (`struct`)**
+
+- **Описание:** Позволяет создавать сложные типы данных, объединяя несколько различных типов.
+- **Пример:**
+  ```solidity
+  struct Person {
+      string name;
+      uint age;
+      bool isEmployed;
+  }
+
+  Person public person = Person("Alice", 30, true);
+  ```
+
+---
+
+## **2. Ссылочные Типы (Reference Types)**
+
+Ссылочные типы хранят ссылки на данные, которые находятся в памяти, хранилище или calldata.
+Они включают в себя:
+
+### **2.1. Массивы**
+
+#### **2.1.1. Статические Массивы (Fixed-Size Arrays)**
+
+- **Описание:** Массив с фиксированным размером, определяемым во время компиляции.
+- **Пример:**
+  ```solidity
+  uint[5] fixedArray = [1, 2, 3, 4, 5];
+  ```
+
+#### **2.1.2. Динамические Массивы (Dynamic Arrays)**
+
+- **Описание:** Массив без фиксированного размера, размер которого может изменяться во время
+выполнения.
+- **Пример:**
+  ```solidity
+  uint[] dynamicArray;
+
+  function addElement(uint _element) public {
+      dynamicArray.push(_element);
+  }
+  ```
+
+### **2.2. Строки (`string`)**
+
+- **Описание:** Хранение динамических строковых данных в формате UTF-8.
+- **Пример:**
+  ```solidity
+  string public greeting = "Hello, Ethereum!";
+
+  function setGreeting(string memory _newGreeting) public {
+      greeting = _newGreeting;
+  }
+  ```
+
+### **2.3. Байтовые Массивы (`bytes`)**
+
+- **Описание:** Хранение динамических массивов байтов. Также существуют фиксированные байтовые
+массивы (`bytes1` до `bytes32`), упомянутые ранее.
+- **Пример:**
+  ```solidity
+  bytes public data = "Sample bytes data";
+
+  function appendData(bytes memory _additionalData) public {
+      data = abi.encodePacked(data, _additionalData);
+  }
+  ```
+
+### **2.4. Отображения (`mapping`)**
+
+- **Описание:** Структура данных, представляющая собой ассоциативный массив (ключ-значение).
+Ключи должны быть уникальными и могут быть любого встроенного типа, кроме других отображений,
+динамических массивов или структур.
+- **Пример:**
+  ```solidity
+  mapping(address => uint) public balances;
+
+  function updateBalance(address _user, uint _amount) public {
+      balances[_user] = _amount;
+  }
+  ```
+
+### **2.5. Структуры (`struct`)**
+
+- **Описание:** Уже рассмотрено в значимых типах, но часто используется как ссылочный тип при
+работе с динамическими данными.
+- **Пример:**
+  ```solidity
+  struct Product {
+      string name;
+      uint price;
+      bool inStock;
+  }
+
+  Product[] public products;
+
+  function addProduct(string memory _name, uint _price, bool _inStock) public {
+      products.push(Product(_name, _price, _inStock));
+  }
+  ```
+
+### **2.6. Интерфейсы и Контракты (`interface`, `contract`)**
+
+- **Описание:** Представляют собой типы ссылок на другие контракты. Позволяют взаимодействовать
+с внешними контрактами.
+- **Пример:**
+  ```solidity
+  interface IERC20 {
+      function transfer(address recipient, uint amount) external returns (bool);
+  }
+
+  contract TokenSender {
+      function sendTokens(address _token, address _recipient, uint _amount) public {
+          IERC20(_token).transfer(_recipient, _amount);
+      }
+  }
+  ```
+
+---
+
+## **3. Специальные Типы**
+
+### **3.1. Перечисления (`enum`)**
+
+- **Описание:** Уже рассмотрено выше, позволяет определять тип с фиксированным набором
+возможных значений.
+
+### **3.2. Контракты (`contract`)**
+
+- **Описание:** Специальный тип, представляющий смарт-контракт на блокчейне Ethereum.
+- **Пример:**
+  ```solidity
+  contract MyContract {
+      // Логика контракта
+  }
+
+  contract Interactor {
+      function interact(address _contractAddress) public {
+          MyContract(_contractAddress).someFunction();
+      }
+  }
+  ```
+
+---
+
+## **4. Типы Данных с Спецификаторами Памяти**
+
+В Solidity существуют три спецификатора памяти, определяющие, где хранятся данные:
+
+- **`memory`**: Временное хранение данных, используется для аргументов функций и возвращаемых
+значений.
+- **`storage`**: Постоянное хранение данных на блокчейне.
+- **`calldata`**: Специальный тип данных, который указывает на данные, переданные в функцию,
+и используется только для входных параметров внешних функций.
+
+**Пример:**
+```solidity
+function processData(uint[] memory _data) public pure returns (uint[] memory) {
+    // Обработка данных
+    return _data;
+}
+```
+
+---
+
+## **5. Тип `enum` и `struct` в Деталях**
+
+### **5.1. `enum`**
+
+- **Описание:** Позволяет создавать пользовательские типы с ограниченным набором возможных
+значений.
+- **Преимущества:** Повышает читаемость кода и предотвращает использование недопустимых
+значений.
+- **Пример:**
+  ```solidity
+  enum Status { Pending, Shipped, Delivered, Canceled }
+
+  Status public orderStatus;
+
+  function shipOrder() public {
+      orderStatus = Status.Shipped;
+  }
+  ```
+
+### **5.2. `struct`**
+
+- **Описание:** Позволяет объединять различные типы данных в один комплексный тип.
+- **Преимущества:** Упрощает управление сложными данными и повышает структурированность кода.
+- **Пример:**
+  ```solidity
+  struct Car {
+      string model;
+      uint year;
+      address owner;
+  }
+
+  Car public car;
+
+  function setCar(string memory _model, uint _year, address _owner) public {
+      car = Car(_model, _year, _owner);
+  }
+  ```
+
+---
+
+## **6. Тип `bytes` и `string`**
+
+### **6.1. `bytes`**
+
+- **Описание:** Динамический массив байтов, используемый для хранения бинарных данных.
+- **Применение:** Хранение данных, которые не соответствуют строковому формату, например,
+хэши или двоичные данные.
+- **Пример:**
+  ```solidity
+  bytes public binaryData;
+
+  function addData(bytes memory _data) public {
+      binaryData = _data;
+  }
+  ```
+
+### **6.2. `string`**
+
+- **Описание:** Динамический массив символов в формате UTF-8, используемый для хранения
+текстовых данных.
+- **Применение:** Хранение имен, описаний и других текстовых данных.
+- **Пример:**
+  ```solidity
+  string public name;
+
+  function setName(string memory _name) public {
+      name = _name;
+  }
+  ```
+
+---
+
+## **7. Специализированные Типы**
+
+### **7.1. `function`**
+
+- **Описание:** Специальный тип данных, который указывает на указатель функции.
+- **Применение:** Хранение ссылок на функции для использования в контрактах.
+- **Пример:**
+  ```solidity
+  contract FunctionExample {
+      function myFunction() public pure returns (string memory) {
+          return "Hello";
+      }
+
+      function getFunction() public pure returns (function() pure returns (string memory)) {
+          return this.myFunction;
+      }
+  }
+  ```
+
+### **7.2. `bytes` vs. `string`**
+
+- **`bytes`**: Для хранения произвольных байтовых данных.
+- **`string`**: Для хранения текстовых данных в формате UTF-8.
+- **Важно:** В Solidity строки неизменяемы (`immutable`), поэтому операции над ними могут быть
+затратными по газу.

@@ -48,8 +48,7 @@ contract MerkleAirdrop is EIP712 {
     function claim(
         address account, // The address of the account attempting to claim the airdrop.
         uint256 amount, // The amount of tokens being claimed by the account.
-        bytes32[] calldata merkleProof, // A proof (array of hashes) used to verify the account's presence in the Merkle
-            // tree.
+        bytes32[] calldata merkleProof, // A proof (array of hashes) used to verify the account's presence in the Merkle tree.
         uint8 v, // Part of the signature (EIP-712) for verifying the claim, representing the recovery id.
         bytes32 r, // Part of the signature (EIP-712), representing the first 32 bytes of the signature.
         bytes32 s // Part of the signature (EIP-712), representing the second 32 bytes of the signature.

@@ -1,0 +1,15 @@
+**Description:**
+A reentrancy attack occurs when a malicious contract repeatedly calls a vulnerable contract
+before the initial execution is completed. This can manipulate the contract's state in
+unintended ways. The infamous DAO attack exploited this vulnerability, leading to significant
+financial loss.
+
+**Example:**
+A contract that sends Ether to an external address before updating its balance can be
+exploited. The attacker can recursively call the withdraw function to drain funds.
+
+**Mitigation:**
+- **Checks-Effects-Interactions Pattern:** Update the contract’s state before making
+external calls.
+- **Reentrancy Guards:** Use mutexes or the `ReentrancyGuard` modifier from OpenZeppelin to
+prevent multiple simultaneous calls.

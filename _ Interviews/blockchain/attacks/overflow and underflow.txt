@@ -1,0 +1,13 @@
+**Description:**
+Before Solidity version 0.8.0, arithmetic operations did not automatically check for
+overflows or underflows, allowing attackers to exploit these behaviors to manipulate
+numerical values in contracts.
+
+**Example:**
+If a contract subtracts 1 from a variable that is already 0, it could wrap around to a very
+large number, leading to unexpected behavior.
+
+**Mitigation:**
+- **Use Solidity ≥0.8.0:** These versions include built-in overflow and underflow checks.
+- **SafeMath Libraries:** Utilize libraries like OpenZeppelin’s SafeMath for arithmetic
+operations, which include safety checks.

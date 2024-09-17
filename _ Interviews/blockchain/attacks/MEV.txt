@@ -1,0 +1,15 @@
+**Description:**
+Front-running involves an attacker observing pending transactions and submitting their own
+transactions with higher gas fees to get prioritized by miners. MEV refers to the maximum
+value miners can extract by reordering, including, or excluding transactions within a block.
+
+**Example:**
+An attacker sees a pending transaction to buy a token and quickly submits a buy order with a
+higher gas fee to purchase before the original transaction, potentially manipulating the
+token’s price.
+
+**Mitigation:**
+- **Commit-Reveal Schemes:** Conceal critical information until all commitments are made.
+- **Batch Auctions:** Aggregate transactions to minimize individual transaction influence.
+- **Use of Private Transactions:** Platforms like Flashbots can help reduce MEV by enabling
+private transaction submission.

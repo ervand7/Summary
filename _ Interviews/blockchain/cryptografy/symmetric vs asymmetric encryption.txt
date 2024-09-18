@@ -1,0 +1,28 @@
+**Key Differences Between Symmetric and Asymmetric Encryption**
+
+### **Symmetric Encryption**
+- **Key Usage:** Single secret key for both encryption and decryption.
+- **Speed:** Fast and efficient for large data volumes.
+- **Key Distribution:** Requires secure sharing of the secret key.
+- **Security:** If the key is compromised, all encrypted data is at risk.
+- **Common Algorithms:** AES, DES, Blowfish.
+
+### **Asymmetric Encryption**
+- **Key Usage:** Pair of keys—public key for encryption and private key for decryption.
+- **Speed:** Slower due to complex computations.
+- **Key Distribution:** Public keys can be openly shared; private keys remain confidential.
+- **Security:** More secure for key exchange; private key never transmitted.
+- **Common Algorithms:** RSA, ECC, DSA.
+
+---
+
+### **Summary**
+- **Symmetric:** Best for speed and encrypting large data when secure key exchange is possible.
+- **Asymmetric:** Ideal for secure key distribution, digital signatures, and authentication.
+
+---
+
+**In Blockchain:**
+- **Asymmetric Encryption** is primarily used for digital signatures and address generation.
+- **Symmetric Encryption** is rarely used directly but may be employed for encrypting
+off-chain data.

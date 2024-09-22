@@ -56,6 +56,8 @@ contract ZkMinimalAccount is IAccount, Ownable {
                                MODIFIERS
     //////////////////////////////////////////////////////////////*/
     modifier requireFromBootLoader() {
+        // Bootloader в zkSync является встроенным компонентом протокола, в то время как 
+        // entryPoint в Ethereum (как в EIP-4337) реализуется как смарт-контракт на уровне приложения.
         if (msg.sender != BOOTLOADER_FORMAL_ADDRESS) {
             revert ZkMinimalAccount__NotFromBootLoader();
         }

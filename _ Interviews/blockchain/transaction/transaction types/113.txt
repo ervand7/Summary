@@ -1,0 +1,29 @@
+Transaction type **113** (hex `0x71`) in **zkSync Era** enables **Account Abstraction**,
+allowing users to operate smart contract accounts with custom validation logic instead of
+standard externally owned accounts (EOAs).
+
+**Key Highlights:**
+
+- **Account Abstraction Support:** Users implement the `IAccount` interface in their account
+contracts, defining custom validation (e.g., signature checks) and execution logic.
+
+- **Bootloader Interaction:** The zkSync bootloader system contract (`msg.sender`) manages the
+transaction lifecycle, calling `validateTransaction` and `executeTransaction` on the user's
+account contract.
+
+- **Transaction Lifecycle:**
+  - **Validation Phase:**
+    1. Checks nonce uniqueness using `NonceHolder`.
+    2. Calls `validateTransaction` to verify the signature and increment the nonce.
+    3. Ensures the account has enough balance for fees.
+    4. Processes fee payment via `payForTransaction`.
+  - **Execution Phase:**
+    - Executes the transaction logic in `executeTransaction`.
+
+- **System Contracts and Libraries:** Utilizes zkSync's system contracts and libraries like
+`SystemContractsCaller` for interacting with protocol-level features.
+
+**Summary:**
+
+Type 113 transactions in zkSync allow for customizable smart contract accounts, enhancing
+flexibility and security by integrating Account Abstraction directly into the protocol.

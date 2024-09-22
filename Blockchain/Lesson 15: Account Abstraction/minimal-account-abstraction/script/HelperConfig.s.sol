@@ -22,6 +22,8 @@ contract HelperConfig is Script {
     uint256 constant ZKSYNC_SEPOLIA_CHAIN_ID = 300;
     uint256 constant LOCAL_CHAIN_ID = 31337;
     // Update the BURNER_WALLET to your burner wallet!
+    // Использование burner wallet (временного кошелька) рекомендуется для тестирования и 
+    // разработки, чтобы не подвергать риску основные средства.
     address constant BURNER_WALLET = 0x643315C9Be056cDEA171F4e7b2222a4ddaB9F88D;
     uint256 constant ARBITRUM_MAINNET_CHAIN_ID = 42_161;
     uint256 constant ZKSYNC_MAINNET_CHAIN_ID = 324;

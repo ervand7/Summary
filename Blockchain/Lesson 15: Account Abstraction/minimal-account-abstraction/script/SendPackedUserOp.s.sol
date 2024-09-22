@@ -34,7 +34,7 @@ contract SendPackedUserOp is Script {
         // Encode the calldata for the MinimalAccount's execute function,
         // which will execute the approve function on the token contract
         bytes memory executeCalldata = abi.encodeWithSelector(
-            MinimalAccount.execute.selector, // Function selector for MinimalAccount.execute(address dest, uint256 value, bytes calldata data)
+            MinimalAccount.execute.selector, // Function selector for MinimalAccount.execute(address dest, uint256 value, bytes calldata functionData)
             dest, // The destination address (token contract address where approve will be called)
             value, // Amount of Ether to send with the call (usually 0 for token interactions)
             functionData // The calldata for the approve function encoded above
@@ -46,6 +46,10 @@ contract SendPackedUserOp is Script {
 
         // Send transaction
         vm.startBroadcast();
+        // Calls the EntryPoint contract's `handleOps` function, submitting the array of signed UserOperations `ops`.
+        // The EntryPoint processes each UserOperation by performing validation and executing the requested actions.
+        // `config.account` is specified as the beneficiary address, which will receive any refunds or fees from gas payments.
+        // This call initiates the processing of the UserOperation(s) through the Account Abstraction flow.
         IEntryPoint(helperConfig.getConfig().entryPoint).handleOps(ops, payable(helperConfig.getConfig().account));
         vm.stopBroadcast();
     }

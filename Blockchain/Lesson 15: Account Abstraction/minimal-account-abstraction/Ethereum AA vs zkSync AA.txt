@@ -1,0 +1,67 @@
+The main difference between Ethereum's Account Abstraction (AA) approach and zkSync's
+approach lies in **how and where** the account abstraction is implemented within their
+respective ecosystems.
+
+**Ethereum's AA Approach (EIP-4337):**
+
+- **Overlay Implementation:** Ethereum introduces account abstraction through EIP-4337, which
+operates **on top of the existing Ethereum protocol** without modifying the underlying
+consensus layer.
+
+- **EntryPoint Contract:** It relies on a central smart contract called `EntryPoint`, which
+manages `UserOperation` objects. Users submit their operations to this contract, which handles
+validation, signature checks, and execution.
+
+- **Alternative Mempool:** Transactions are collected in an alternative mempool and bundled
+by "bundlers" before being included in blocks, facilitating the AA mechanism without changing
+the core protocol.
+
+- **Smart Contract Wallets:** Users deploy their own smart contract accounts (like
+`MinimalAccount`) that interact with the `EntryPoint` to define custom logic for transaction
+validation and execution.
+
+**zkSync's AA Approach:**
+
+- **Native Implementation:** zkSync integrates account abstraction **directly into the
+protocol level**. It's a fundamental part of zkSync Era's design, not an additional layer.
+
+- **No EntryPoint Contract:** There is no need for an `EntryPoint` contract or alternative
+mempool. Instead, zkSync uses built-in system contracts (like the Bootloader and NonceHolder)
+to handle transaction validation and execution.
+
+- **System Contracts Interaction:** The account contracts (e.g., your `ZkMinimalAccount`)
+interact directly with zkSync's system contracts. The validation and execution logic is
+embedded within the protocol, leading to more efficient processing.
+
+- **Different Transaction Lifecycle:** Transactions follow a distinct lifecycle involving
+phases like validation and execution handled by the protocol's system contracts, without the
+need for external bundlers or additional infrastructure.
+
+**Summary of Key Differences:**
+
+- **Implementation Layer:** Ethereum's AA is an additional layer built with smart contracts
+over the existing protocol, while zkSync's AA is natively integrated into the protocol itself.
+
+- **Central Contract vs. Native Handling:** Ethereum uses the `EntryPoint` contract to manage
+operations, whereas zkSync handles operations through native protocol mechanisms without a
+central contract.
+
+- **Transaction Processing:** zkSync processes transactions more efficiently by incorporating
+AA into its core, leveraging zero-knowledge proofs and rollups, which is different from
+Ethereum's method that relies on external contracts and mempools.
+
+- **Protocol Modification:** zkSync's approach involves protocol-level features that are not
+possible in Ethereum without consensus changes, allowing for enhanced capabilities like native
+AA support.
+
+**In Essence:**
+
+- **Ethereum AA (EIP-4337):** Account abstraction is achieved through smart contracts and
+operates as an overlay without altering the base protocol.
+
+- **zkSync AA:** Account abstraction is built into the protocol itself, allowing for more
+seamless and efficient transaction handling without additional layers or contracts like
+`EntryPoint`.
+
+This fundamental difference affects how developers write account contracts and how transactions
+are validated and executed in each system.

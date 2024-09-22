@@ -30,11 +30,6 @@ contract MinimalAccountTest is Test, ZkSyncChainChecker {
         sendPackedUserOp = new SendPackedUserOp();
     }
 
-    // USDC Mint
-    // msg.sender -> MinimalAccount
-    // approve some amount
-    // USDC contract
-    // come from the entrypoint
     function testOwnerCanExecuteCommands() public skipZkSync {
         // Arrange
         assertEq(usdc.balanceOf(address(minimalAccount)), 0);
@@ -115,7 +110,6 @@ contract MinimalAccountTest is Test, ZkSyncChainChecker {
         PackedUserOperation memory packedUserOp = sendPackedUserOp.generateSignedUserOperation(
             executeCallData, helperConfig.getConfig(), address(minimalAccount)
         );
-        // bytes32 userOperationHash = IEntryPoint(helperConfig.getConfig().entryPoint).getUserOpHash(packedUserOp);
 
         vm.deal(address(minimalAccount), 1e18);
 

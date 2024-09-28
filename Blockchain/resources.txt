@@ -132,5 +132,7 @@ link: https://docs.flashbots.net
 foundry invariant testing:
 https://book.getfoundry.sh/forge/invariant-testing
 
+openzeppelin wizard: https://wizard.openzeppelin.com/#erc20
+
 EIP-1559:
 https://www.youtube.com/watch?v=MGemhK9t44Q

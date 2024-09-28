@@ -58,3 +58,9 @@
 [submodule "Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/foundry-devops"]
 	path = Blockchain/Lesson 15: Account Abstraction/minimal-account-abstraction/lib/foundry-devops
 	url = https://github.com/cyfrin/foundry-devops
+[submodule "Blockchain/Lesson 16: DAOs/foundry-dao-cu/lib/forge-std"]
+	path = Blockchain/Lesson 16: DAOs/foundry-dao-cu/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Blockchain/Lesson 16: DAOs/foundry-dao-cu/lib/openzeppelin-contracts"]
+	path = Blockchain/Lesson 16: DAOs/foundry-dao-cu/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts

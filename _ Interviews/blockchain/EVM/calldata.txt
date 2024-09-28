@@ -1,5 +1,4 @@
 ### **1. What Is `calldata`?**
-
 - **Definition**: In Solidity, `calldata` is a data location where function arguments are
 stored when external functions are called.
 - **Characteristics**:
@@ -12,7 +11,6 @@ stored when external functions are called.
 
 ### **2. Data Locations in Solidity**
 Solidity uses three primary data locations:
-
 1. **`storage`**:
    - **Persistent**: Data stored here is written to the blockchain.
    - **Usage**: For state variables that need to be stored between transactions.
@@ -67,7 +65,6 @@ function processData(bytes calldata inputData) external {
 ---
 
 ### **5. `calldata` in Your Provided Code**
-
 In your scripts, you have functions that utilize `calldata`. For instance:
 
 ```solidity

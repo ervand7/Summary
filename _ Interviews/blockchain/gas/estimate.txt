@@ -1,0 +1,29 @@
+1. **Hardhat’s `estimateGas` Method**
+   - Use `contract.estimateGas.functionName(args)` in scripts or tests to get gas estimates
+   for specific functions.
+
+2. **Hardhat Gas Reporter Plugin**
+   - Integrate the [`hardhat-gas-reporter`](https://github.com/cgewecke/hardhat-gas-reporter)
+   plugin to automatically generate gas usage reports during tests.
+
+3. **Foundry’s Gas Reporting**
+   - Run `forge test --gas-report` to obtain detailed gas usage statistics for your contracts.
+
+4. **Transaction Simulation on Local Node**
+   - Deploy your contract to a local Hardhat or Foundry node and simulate transactions to
+   observe gas consumption.
+
+5. **Use of Debugging Tools**
+   - Utilize Hardhat’s built-in debugger or Foundry’s debugging features to analyze and
+   estimate gas usage during contract execution.
+
+6. **Third-Party Tools**
+   - Employ external tools like [Remix IDE](https://remix.ethereum.org/) or [Etherscan’s Gas
+   Tracker](https://etherscan.io/gastracker) for additional gas estimation insights.
+
+7. **Optimizing and Profiling Code**
+   - Regularly profile your contract code using these frameworks’ profiling tools to identify
+   and optimize gas-heavy operations.
+
+These methods will help you accurately estimate and optimize the gas consumption of your smart
+contracts during development.

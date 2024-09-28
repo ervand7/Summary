@@ -1,0 +1,24 @@
+In Solidity, the `unchecked` keyword is used to disable overflow and underflow
+checks for arithmetic operations within its block. Starting from Solidity version
+0.8.0, integer arithmetic operations throw an error on overflows and underflows by
+default. Wrapping code inside an `unchecked` block allows these operations to wrap
+around (similar to previous versions) without throwing an error.
+
+**Example:**
+
+```solidity
+uint8 x = 255;
+
+unchecked {
+    x += 1; // x becomes 0 without reverting
+}
+```
+
+**Use Cases:**
+
+- **Gas Optimization:** Disabling checks can save gas when you're certain overflows won't
+occur or when wrapping behavior is desired.
+- **Controlled Wrapping:** When implementing algorithms that rely on wrapping behavior.
+
+**Caution:** Use `unchecked` carefully, as it can lead to unexpected results if not managed
+properly.

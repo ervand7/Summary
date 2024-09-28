@@ -1,0 +1,7 @@
+1) Test Suites
+2) Static Analysis
+3) Fuzz testing
+4) Formal Verification - явные проверки в коде типа
+assert(storedNumber == _number);
+5) Symbolic Execution
+6) AI tools

@@ -50,7 +50,6 @@ tested against the contract.
 and other related functions to define stateful tests.
 
 ### Summary of Differences
-
 - **Stateless Fuzz Testing**: Tests individual functions with random inputs, without
 considering the state of the contract. It’s useful for simple functions that don’t change
 or depend on the state.

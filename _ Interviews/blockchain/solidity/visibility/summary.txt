@@ -1,0 +1,8 @@
+- **public**: Accessible both internally (within the contract and derived contracts) and
+externally.
+- **private**: Accessible only within the contract that declares them; not visible to
+derived contracts.
+- **internal**: (DEFAULT visibility) Accessible within the contract and any contracts that
+inherit from it.
+- **external**: Functions (not variables) callable from other contracts and transactions
+but not internally unless using `this`.

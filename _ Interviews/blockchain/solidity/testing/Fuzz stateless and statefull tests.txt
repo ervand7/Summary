@@ -1,9 +1,10 @@
 Fuzz testing, or fuzzing, is a testing technique that involves providing random or
 unexpected inputs to a program to find bugs, vulnerabilities, or other unexpected behavior.
-In the context of Solidity smart contracts, fuzz testing is commonly used to test contract functions with various inputs. There are two main types of fuzz testing in Solidity: **stateless** and **stateful**.
+In the context of Solidity smart contracts, fuzz testing is commonly used to test contract
+functions with various inputs.
+There are two main types of fuzz testing in Solidity: **stateless** and **stateful**.
 
 ### Stateless Fuzz Testing
-
 **Stateless fuzz testing** involves testing individual functions of a smart contract with
 random inputs without considering the state of the contract. Each test case is independent
 of others, and the contract is typically reset to its initial state between each test.
@@ -24,7 +25,6 @@ by default. You can write test cases that automatically fuzz the inputs to your 
 integrate fuzzing tools like Echidna to perform stateless fuzz testing in these environments.
 
 ### Stateful Fuzz Testing
-
 **Stateful fuzz testing** (or stateful property testing) involves testing the entire
 contract's state transitions by providing sequences of transactions (or operations) that
 manipulate the contract's state.

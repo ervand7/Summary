@@ -1,0 +1,2 @@
+pip3 install slither-analyzer
+slither .

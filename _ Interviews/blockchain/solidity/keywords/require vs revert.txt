@@ -1,0 +1,54 @@
+In Solidity, both `require` and `revert` are used to handle exceptions and revert the
+transaction when certain conditions are not met. However, they serve slightly different
+purposes and are used in different scenarios.
+
+### 1. `require`
+- **Purpose:** Used to check for conditions at the beginning of a function (input validation,
+etc.) or during execution to ensure that certain criteria are met.
+- **Gas Usage:** If the condition is not met, it **reverts the transaction** and refunds the
+remaining gas.
+- **Message:** Optionally, you can pass an error message that will be returned if the condition
+fails.
+
+**Example:**
+```solidity
+function setAge(uint _age) public {
+    require(_age > 0, "Age must be positive");
+    // Code continues if the condition is true
+    age = _age;
+}
+```
+Here, `require` checks if `_age` is positive. If not, the transaction is reverted, and the
+message "Age must be positive" is returned.
+
+### 2. `revert`
+- **Purpose:** Used to explicitly trigger a transaction failure, often in more complex logic
+(e.g., in nested if-else statements).
+- **Gas Usage:** It also reverts the transaction and refunds the remaining gas.
+- **Message:** You can pass an error message with `revert`, similar to `require`.
+
+**Example:**
+```solidity
+function setAge(uint _age) public {
+    if (_age <= 0) {
+        revert("Age must be positive");
+    }
+    age = _age;
+}
+```
+In this case, `revert` is used to stop execution if the condition fails.
+
+### Key Differences:
+- **`require` is more common for input validation or quick checks**. It’s often used at the
+start of functions to enforce conditions.
+- **`revert` is generally used in more complex logic** where you want to conditionally trigger
+an exception after some checks.
+
+### When to Use:
+- **Use `require`** when you want a simple, straightforward check at the start of a function
+or at important steps.
+- **Use `revert`** when you need more granular control over when the transaction should fail,
+especially in deeper parts of the code.
+
+Both `require` and `revert` revert the state changes and refund unused gas, making them safe
+to use for handling exceptions in Solidity.

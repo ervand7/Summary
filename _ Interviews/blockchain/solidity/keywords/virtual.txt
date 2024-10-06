@@ -1,0 +1,32 @@
+The `virtual` keyword in Solidity allows a function or contract to be **overridden** by
+a child contract. Without `virtual`, a function or contract is final and cannot be changed
+by inheritance.
+
+### Example:
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract Parent {
+    // Function marked as virtual, can be overridden in child contract
+    function sayHello() public pure virtual returns (string memory) {
+        return "Hello from Parent";
+    }
+}
+
+contract Child is Parent {
+    // Overriding the sayHello function
+    function sayHello() public pure override returns (string memory) {
+        return "Hello from Child";
+    }
+}
+```
+
+### Explanation:
+- **`virtual` in Parent:** The `sayHello` function in the `Parent` contract is marked as
+`virtual`, allowing it to be overridden by child contracts.
+- **`override` in Child:** In the `Child` contract, we use the `override` keyword to modify
+the behavior of the `sayHello` function.
+
+**Summary:** The `virtual` keyword makes a function overridable in child contracts. Without it,
+functions cannot be changed in inherited contracts.

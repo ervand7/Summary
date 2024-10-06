@@ -1,0 +1,20 @@
+An Ethereum private key must meet the following criteria:
+
+- **256-Bit Integer**: It is a 256-bit (32-byte) number, typically represented as a
+64-character hexadecimal string.
+- **Valid Range**: Must be a number between 1 and \( n - 1 \), where \( n \) is the order
+of the secp256k1 elliptic curve (approximately \(1.158 \times 10^{77}\)).
+- **Secure Generation**: Should be generated using a cryptographically secure random number
+generator to ensure uniqueness and unpredictability.
+
+**Example of a Private Key as a 256-Bit Integer**:
+
+```
+102741580789075306422722474761575122873980036356615948096780904167450780261042
+```
+
+This integer corresponds to the hexadecimal private key:
+
+```
+e331b6d69882b4a18a0f14e6a0c537ec97a9a2dfc9e9c6a0b3b0e3d5b1c0a3b2
+```

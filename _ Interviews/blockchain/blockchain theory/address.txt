@@ -1,0 +1,27 @@
+An Ethereum address must satisfy the following criteria:
+
+1. **Length**: It should be a 42-character string, starting with the prefix `0x`, followed
+by 40 hexadecimal characters.
+
+2. **Hexadecimal Characters**: The address must consist of valid hexadecimal digits, which
+include numbers `0-9` and letters `a-f` or `A-F`.
+
+3. **Derived from a Valid Public Key**: The address is generated from the last 20 bytes of
+the Keccak-256 hash of the public key associated with a valid private key.
+
+4. **Checksum (Optional but Recommended)**: Ethereum addresses can include a checksum per
+[EIP-55](https://eips.ethereum.org/EIPS/eip-55), which uses a mixture of uppercase and
+lowercase letters to help detect typos. If an address uses mixed case, the checksum must
+be correct according to this standard.
+
+**Example of a Valid Ethereum Address**:
+
+- All lowercase (without checksum):
+  ```
+  0x1a2b3c4d5e6f7890abcdef1234567890abcdef12
+  ```
+
+- Checksummed (with mixed case for checksum):
+  ```
+  0x1A2b3C4d5E6F7890aBcDEf1234567890ABcDef12
+  ```

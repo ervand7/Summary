@@ -1,0 +1,9 @@
+1) Static analyzers:
+ ● slither:
+pip3 install slither-analyzer
+slither --exclude-dependencies .
+
+2) Symbolic execution
+ ● Manticore https://github.com/trailofbits/manticore
+Symbolically executes contracts to analyze all possible state transitions and check
+for errors.

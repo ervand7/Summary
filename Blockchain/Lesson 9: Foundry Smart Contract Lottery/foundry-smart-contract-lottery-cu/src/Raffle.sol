@@ -3,30 +3,11 @@ How this contract works:
 1) Users call enterRaffle to participate.
 2) Chainlink Keepers monitor the contract by calling checkUpkeep.
 3) Chainlink Keepers automatically call performUpkeep when conditions are met.
-4) Chainlink VRF automatically calls fulfillRandomWords to complete the raffle and select a winner.
+4) Chainlink VRF automatically calls fulfillRandomWords to complete the raffle and 
+select a winner.
 5) Contract resets for a new raffle round, and the cycle repeats.
 */
 
-// Layout of Contract:
-// version
-// imports
-// errors
-// interfaces, libraries, contracts
-// Type declarations
-// State variables
-// Events
-// Modifiers
-// Functions
-
-// Layout of Functions:
-// constructor
-// receive function (if exists)
-// fallback function (if exists)
-// external
-// public
-// internal
-// private
-// view & pure functions
 
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.19;
@@ -38,8 +19,8 @@ import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/V
 /**
  * @title Raffle
  * @author Ervand Agadzhanyan
- * @notice This contract is for creating a si,ple raffle
- * @dev Implements Chainlink RFv2.5
+ * @notice This contract is for creating a simple raffle
+ * @dev Implements Chainlink VRF
  */
 contract Raffle is VRFConsumerBaseV2Plus {
     // Errors
@@ -52,13 +33,11 @@ contract Raffle is VRFConsumerBaseV2Plus {
         uint256 raffleState
     );
 
-    // Type declarations
     enum RaffleState {
         OPEN, // 0
         CALCULATING // 1
     }
 
-    //  State variables
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
     uint32 private constant NUM_WORDS = 1;
     uint256 private immutable i_enteranceFee;
@@ -71,12 +50,10 @@ contract Raffle is VRFConsumerBaseV2Plus {
     address private s_recentWinner;
     RaffleState private s_raffleState;
 
-    // Events
     event RaffleEntered(address indexed player);
     event WinnerPicked(address indexed winner);
     event ReqestedRaffleWinner(uint256 indexed requestId);
 
-    // Initialization looks like this if your parent contract also needs initialization
     constructor(
         uint256 enteranceFee,
         uint256 interval,
@@ -112,13 +89,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     /**
      * @dev This is the function that the Chainlink Keeper nodes call.
      * They look for `upkeepNeeded` to return True.
-     * The following should be true for this to return true:
-     * 1. The time interval has passed between raffle runs.
-     * 2. The lottery is open.
-     * 3. The contract has ETH.
-     * 4. Implicity, your subscription is funded with LINK.
      */
-    // This function will be automatically called by Chainlink Keeper.
     function checkUpkeep(
         bytes memory
     ) public view returns (bool upkeepNeeded, bytes memory) {
@@ -132,7 +103,6 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
     // 1. Get a random number
     // 2. Use random number to pick a player
-    // 3. Be automatically called
     // This function will be automatically called by Chainlink Keeper.
     function performUpkeep(bytes calldata) external {
         (bool upkeepNeeded, ) = checkUpkeep("");
@@ -148,7 +118,6 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
         // Getting a random number using chainlink
         // https://docs.chain.link/vrf/v2-5/getting-started#how-can-i-use-chainlink-vrf
-        // Will revert if subscription is not set and funded.
         VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient
             .RandomWordsRequest({
                 keyHash: i_keyHash,
@@ -186,7 +155,6 @@ contract Raffle is VRFConsumerBaseV2Plus {
         }
     }
 
-    // Getter functions
     function getEnteranceFee() external view returns (uint256) {
         return i_enteranceFee;
     }

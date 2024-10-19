@@ -1,0 +1,25 @@
+To test smart contracts for vulnerabilities, use the following methods:
+
+### 1. **Manual Code Review**
+   - Look for common issues like reentrancy, integer overflows, unchecked external
+   calls, and access control weaknesses.
+
+### 2. **Automated Tools**
+   - **MythX**: Detects reentrancy, overflows, etc.
+   - **Slither**: Static analysis for security issues.
+   - **Echidna**: Fuzz testing for random inputs.
+   - **Manticore**: Symbolic execution to explore edge cases.
+   - **Securify**: Checks common vulnerabilities.
+
+### 3. **Testing Frameworks**
+   - Use **Foundry**, **Hardhat**, and **Waffle** for unit tests and fuzzing.
+
+### 4. **Bug Bounties & External Audits**
+   - Platforms like **Immunefi** for bug bounties, or hire firms like
+   **OpenZeppelin** or **CertiK** for audits.
+
+### 5. **Simulated Attacks**
+   - Simulate attacks using **Tenderly** or **Ganache**.
+
+Focus on common vulnerabilities such as reentrancy, overflows, and authorization
+flaws.

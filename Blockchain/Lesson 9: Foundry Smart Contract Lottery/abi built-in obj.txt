@@ -1,4 +1,0 @@
-The abi built-in functions in Solidity provide powerful tools for encoding and
-decoding data in the Ethereum ABI format. These functions are essential for interacting
-with other contracts, making low-level calls, and handling data transmission and
-storage in a standardized way.

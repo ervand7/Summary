@@ -31,5 +31,5 @@ higher fees and worse outcomes for regular users, as those with the power to reo
 transactions take advantage of the system for profit.
 
 Efforts are being made to reduce the negative impacts of MEV, such as through MEV-aware
-strategies and solutions like Flashbots, which aim to make the extraction of MEV more
-transparent and fair.
+strategies and solutions like Flashbots https://docs.flashbots.net/new-to-mev
+which aim to make the extraction of MEV more transparent and fair.

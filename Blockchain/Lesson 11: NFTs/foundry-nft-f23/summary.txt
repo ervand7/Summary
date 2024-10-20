@@ -11,7 +11,7 @@ For Safari use IPFS Gateway (just prefix), example: https://ipfs.io/ipfs/QmSsYRx
 Deploy:
 sepolia:
 1) make deploy ARGS="--network sepolia"
-2) takethe contract address from console output
+2) take the contract address from console output
 3) go to metamask, import NFT using contract addr and tokenId
 
 anvil:

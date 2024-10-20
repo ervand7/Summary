@@ -1,25 +1,3 @@
-// Layout of Contract:
-// version
-// imports
-// errors
-// interfaces, libraries, contracts
-// Type declarations
-// State variables
-// Events
-// Modifiers
-// Functions
-
-// Layout of Functions:
-// constructor
-// receive function (if exists)
-// fallback function (if exists)
-// external
-// public
-// internal
-// private
-// internal & private view & pure functions
-// external & public view & pure functions
-
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.18;
@@ -37,8 +15,7 @@ pragma solidity ^0.8.18;
  * It is similar to DAI if DAI had no governance, no fees, and was backed by only
  * WETH and WBTC.
  *
- * Our DSC system should always be "overcollateralized". At no point, should the value of
- * all collateral < the $ backed value of all the DSC.
+ * Our DSC system should always be "overcollateralized".
  *
  * @notice This contract is the core of the Decentralized Stablecoin system.
  * It handles all the logic for minting and redeeming DSC, as well as depositing
@@ -53,9 +30,6 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/Ag
 import {OracleLib} from "./libraries/OracleLib.sol";
 
 contract DSCEngine is ReentrancyGuard {
-    ///////////////////
-    // Errors
-    ///////////////////
     error DSCEngine__TokenAddressesAndPriceFeedAddressesAmountsDontMatch();
     error DSCEngine__NeedsMoreThanZero();
     error DSCEngine__NotAllowedToken();
@@ -65,14 +39,8 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine__HealthFactorOk();
     error DSCEngine__HealthFactorNotImproved();
 
-    ///////////////////
-    // Types
-    ///////////////////
     using OracleLib for AggregatorV3Interface;
 
-    ///////////////////
-    // State Variables
-    ///////////////////
     DecentralizedStableCoin private immutable i_dsc;
 
     uint256 private constant LIQUIDATION_THRESHOLD = 50; // This means you need to be 200% over-collateralized
@@ -93,16 +61,9 @@ contract DSCEngine is ReentrancyGuard {
     /// @dev If we know exactly how many tokens we have, we could make this immutable!
     address[] private s_collateralTokens;
 
-    ///////////////////
-    // Events
-    ///////////////////
     event CollateralDeposited(address indexed user, address indexed token, uint256 indexed amount);
-    // if redeemFrom != redeemedTo, then it was liquidated
     event CollateralRedeemed(address indexed redeemFrom, address indexed redeemTo, address token, uint256 amount);
 
-    ///////////////////
-    // Modifiers
-    ///////////////////
     modifier moreThanZero(uint256 amount) {
         if (amount == 0) {
             revert DSCEngine__NeedsMoreThanZero();
@@ -117,9 +78,6 @@ contract DSCEngine is ReentrancyGuard {
         _;
     }
 
-    ///////////////////
-    // Functions
-    ///////////////////
     constructor(address[] memory tokenAddresses, address[] memory priceFeedAddresses, address dscAddress) {
         // USD Price Feeds
         if (tokenAddresses.length != priceFeedAddresses.length) {

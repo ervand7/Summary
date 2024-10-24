@@ -21,6 +21,7 @@ from functools import lru_cache
 # значением `n`, она сразу возвращает сохраненный результат, не проводя повторные
 # вычисления для тех же подзадач.
 
+# O(n) (thanks to caching with @lru_cache).
 @lru_cache
 def fib(n):
     if n <= 1:

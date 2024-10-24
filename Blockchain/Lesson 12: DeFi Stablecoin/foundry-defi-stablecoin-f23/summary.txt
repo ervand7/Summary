@@ -9,3 +9,17 @@ Tests:
 Fuzz tests:
  ● foundryup && forge clean
  ● forge test --match-test invariant_protocolMustHaveMoreValueThanTotalSupply
+
+cast:
+ ● export SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/fkDZcRFk_FYLhcZtmPot5C_KbAxx2lXE
+ ● export PRIVATE_KEY=56eec78ceb86e1ea41118ed34c00a15970e2ba90d0adbc48a800a64c88214d2f
+first you need to buy some WETH:
+ ● cast send 0xdd13E55209Fd76AfE204dBda4007C227904f0a81  "deposit()" --value 2000000000000000  --from 0xc97Ca114c952EA557f49eF605c0F3864c794B373  --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY
+ ● cast call 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f "getCollateralTokens()" --rpc-url $SEPOLIA_RPC_URL
+ ● cast call 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f "getDsc()" --rpc-url $SEPOLIA_RPC_URL
+ ● cast call 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f "getHealthFactor(address)" 0xc97Ca114c952EA557f49eF605c0F3864c794B373  --rpc-url $SEPOLIA_RPC_URL
+ ● cast call 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f "getAccountInformation(address)" 0xc97Ca114c952EA557f49eF605c0F3864c794B373 --rpc-url $SEPOLIA_RPC_URL
+ ● cast send 0xdd13E55209Fd76AfE204dBda4007C227904f0a81 "approve(address,uint256)" 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f  20000000000000000   --private-key $PRIVATE_KEY --rpc-url $SEPOLIA_RPC_URL
+ ● cast send 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f "depositCollateralAndMintDsc(address,uint256,uint256)"  0xdd13E55209Fd76AfE204dBda4007C227904f0a81   20000000000000000   1   --private-key  $PRIVATE_KEY --rpc-url $SEPOLIA_RPC_URL
+ ● cast send 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f "redeemCollateral(address,uint256)" 0xdd13E55209Fd76AfE204dBda4007C227904f0a81 10000000000000000 --private-key  $PRIVATE_KEY --rpc-url $SEPOLIA_RPC_URL
+ ● cast send 0x5949f5Ad612FfE6666b4D31d4231e212E70be23f "liquidate(address,address,uint256)" <collateral_address> <liquidator_address> <debtToCover> --private-key $LIQUIDATOR_PRIVATE_KEY --rpc-url $SEPOLIA_RPC_URL

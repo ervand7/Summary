@@ -1,0 +1,5 @@
+In an operating system, `fork()` is a system call used to create a new process by
+duplicating the calling (parent) process. The new process (child) gets a unique process
+ID (PID) but initially shares the same code and memory as the parent. This is commonly
+used in UNIX-like systems for multitasking, allowing processes to run independently
+or in parallel.

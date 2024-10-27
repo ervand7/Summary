@@ -1,0 +1,24 @@
+**System calls** are interfaces provided by the operating system that allow user-level
+applications to request services from the kernel (core of the OS). They enable tasks
+such as file operations, memory management, process control, and communication.
+
+### Common Categories of System Calls:
+
+1. **File Management**:
+   - `open()`, `read()`, `write()`, `close()`
+   - Used to manipulate files (e.g., opening, reading, writing, closing files).
+
+2. **Process Control**:
+   - `fork()`, `exec()`, `wait()`, `exit()`
+   - For creating, running, synchronizing, and terminating processes.
+
+3. **Memory Management**:
+   - `mmap()`, `brk()`
+   - Allows programs to allocate, deallocate, and manage memory.
+
+4. **Communication**:
+   - `pipe()`, `socket()`, `send()`, `recv()`
+   - Used for inter-process communication and networking.
+
+System calls bridge user applications with hardware resources through the OS kernel,
+enabling secure and controlled access.

@@ -1,0 +1,24 @@
+1. **Producers** send messages to **Exchanges**, which determine routing based on the
+type of exchange and message properties.
+
+2. **Exchanges** route messages to **Queues** according to predefined routing logic:
+   - **Direct Exchange**: Routes messages to queues based on an exact routing key match.
+   - **Fanout Exchange**: Broadcasts messages to all bound queues, ignoring routing keys.
+   - **Topic Exchange**: Routes messages based on wildcard pattern matching in routing keys.
+   - **Headers Exchange**: Routes messages based on headers instead of routing keys.
+
+3. **Queues** store messages until consumers are ready to process them. Messages in queues
+can be durable (persist across broker restarts) or transient.
+
+4. **Consumers** connect to specific queues and retrieve messages in a **competing
+consumer** model. This means multiple consumers can read from the same queue to process
+messages in parallel, distributing the load. RabbitMQ delivers each message to only one
+consumer in this setup.
+
+5. **Acknowledgments (ACKs)**: Consumers can acknowledge message receipt to RabbitMQ to
+confirm successful processing. If a consumer fails to acknowledge, the message can be
+re-queued for redelivery to another consumer.
+
+6. **RabbitMQ Broker** manages connections, exchanges, queues, and bindings. In
+clustered setups, RabbitMQ replicates queues across nodes to ensure high availability
+and fault tolerance.

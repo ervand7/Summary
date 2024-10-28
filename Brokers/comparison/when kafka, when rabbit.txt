@@ -1,0 +1,9 @@
+Choose **Kafka** when you need high throughput, fault tolerance, and persistent
+storage for real-time data streams and analytics. It excels in handling large volumes
+of sequential data with replay capability and is ideal for distributed log processing,
+event sourcing, and stream processing.
+
+Choose **RabbitMQ** for reliable message delivery in systems with complex routing
+requirements, particularly where you need guaranteed delivery with lower latency. It’s
+well-suited for task queues, real-time communication, and applications with sophisticated
+routing and flexible acknowledgment controls.

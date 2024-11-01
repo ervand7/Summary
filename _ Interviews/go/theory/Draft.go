@@ -2,18 +2,30 @@ package main
 
 import (
 	"fmt"
-	"sync"
+	"time"
 )
 
 func main() {
-	i := 0
-	mu := sync.Mutex{}
+	ch1 := make(chan int)
+	ch2 := make(chan int)
 
 	go func() {
-		mu.Lock()
-		i = 1
+		time.Sleep(time.Second * 5)
+		ch1 <- 1
 	}()
 
-	mu.Unlock()
-	fmt.Println(i)
+	go func() {
+		time.Sleep(time.Second * 3)
+		ch2 <- 2
+	}()
+
+	select {
+	case msg1 := <-ch1:
+		fmt.Println("Received from ch1:", msg1)
+	case msg2 := <-ch2:
+		fmt.Println("Received from ch2:", msg2)
+	default:
+		fmt.Println("No channel is ready")
+	}
+
 }

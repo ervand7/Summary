@@ -20,5 +20,8 @@ func main() {
 		fmt.Println("World")
 	}
 
-	fmt.Println(a, b) // 1 0
+	fmt.Println(a, b)
 }
+
+// World
+// 1 0

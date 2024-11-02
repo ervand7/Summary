@@ -17,7 +17,8 @@ func main() {
 		}
 		close(ch)
 	}()
-	for _ = range ch {
+
+	for range ch {
 		select {
 		case i := <-ch:
 			fmt.Println(i)

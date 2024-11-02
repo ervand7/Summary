@@ -19,6 +19,6 @@ func main() {
 		}(i)
 	}
 
-	time.Sleep(time.Second)
+	time.Sleep(time.Second * 5)
 	fmt.Println("Ok")
 }

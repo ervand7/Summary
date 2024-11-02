@@ -1,6 +1,6 @@
 https://www.postgresql.org/docs/current/sql-set-transaction.html
  ● createdb test_ASID -U ervand
  ● psql -U ervand -d test_ASID
- ● create table test_table(id serial primary key, email varchar);
- ● insert into test_table (email) values ('email1');
+ ● create table test(id serial primary key, value int);
+ ● insert into test (value) values (1);
  BEGIN TRANSACTION ISOLATION LEVEL <your level>;

@@ -1,0 +1,24 @@
+### 1. **Atomic Operations**
+   - **Atomic operations** are simple, indivisible actions that execute without
+   interference from other threads.
+   - They are typically used for working with primitive data types (like `int32`, `uint64`)
+   when you just need to increment, decrement, or read a value.
+   - Atomic operations are fast because they don’t involve locking; they only ensure that
+   a single, quick operation completes without being interrupted.
+   - **Example:** `atomic.AddInt32(&counter, 1)` safely increments a counter without
+   needing a lock.
+
+### 2. **Mutexes**
+   - A **mutex** (mutual exclusion lock) is used to lock a section of code so only one
+   goroutine can access it at a time.
+   - Mutexes are ideal when you need to protect more complex operations or multiple
+   variables, ensuring that only one goroutine can execute a block of code at a time.
+   - Mutexes can be slower than atomic operations because they require locking and unlocking.
+   - **Example:** `mu.Lock()` and `mu.Unlock()` can wrap a code section to ensure only one
+   goroutine runs that section at a time.
+
+### When to Use Each
+   - **Use atomic operations** for simple operations on single variables, where performance
+   is critical.
+   - **Use mutexes** for more complex data structures or multiple variables, where atomic
+   operations alone are not enough for thread safety.

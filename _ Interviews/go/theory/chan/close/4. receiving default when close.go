@@ -10,12 +10,9 @@ import (
 func main() {
 	ch := make(chan bool)
 	go func() {
-		for {
-			val := <-ch
-			fmt.Println(val)
-			return
-		}
-
+		val := <-ch
+		fmt.Println(val)
+		return
 	}()
 
 	close(ch)

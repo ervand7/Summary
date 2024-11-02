@@ -34,7 +34,6 @@ func main() {
 			networkRequest(&mux)
 			wg.Done()
 		}()
-
 	}
 
 	wg.Wait()

@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 
+// fatal error: sync: unlock of unlocked mutex
+
 func main() {
 	i := 0
 	mu := sync.Mutex{}

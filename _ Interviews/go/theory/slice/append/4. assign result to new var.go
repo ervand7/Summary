@@ -15,6 +15,9 @@ import "fmt"
 func main() {
 	arr := make([]int, 4, 4)
 	arr2 := append(arr, 1)
+	fmt.Printf("%p\n", arr)  // 0x140000ba000
+	fmt.Printf("%p\n", arr2) // 0x140000a8080
+
 	arr[0] = 5
 	arr2[0] = 9
 

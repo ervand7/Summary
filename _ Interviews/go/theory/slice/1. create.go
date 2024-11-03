@@ -15,6 +15,6 @@ func main() {
 	var d = make([]int, 0, 0)
 	fmt.Println(d, d != nil) // [] true
 
-	var e = []int{10: 0}
-	fmt.Println(e, e != nil) // [0 0 0 0 0 0 0 0 0 0 0] true
+	var e = []int{10: 1, 6}
+	fmt.Println(e, e != nil) // [0 0 0 0 0 0 0 0 0 0 1 6] true
 }

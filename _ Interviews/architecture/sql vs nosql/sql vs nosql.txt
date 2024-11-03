@@ -1,0 +1,57 @@
+In a senior Go developer interview, you may be asked about choosing SQL vs. NoSQL
+databases based on specific use cases. Here’s a quick guide on how to explain when
+each might be preferable:
+
+### **When to Prefer SQL:**
+
+1. **Complex Queries and Relationships**
+   SQL databases are ideal when you need to perform complex queries and manage
+   relationships between tables, such as with `JOINs` and aggregations. For example,
+   an e-commerce platform managing orders, customers, and inventory would benefit
+   from SQL’s relational structure.
+
+2. **Transactional Integrity (ACID Compliance)**
+   SQL databases ensure atomicity, consistency, isolation, and durability (ACID),
+   making them reliable for applications requiring strict data integrity, like financial
+   systems or inventory management.
+
+3. **Fixed Schema and Predictable Data Structure**
+   If your data structure is well-defined and stable, SQL is generally a better choice,
+   as it enforces schema and data integrity. Examples include ERP systems or applications
+   with consistent record structures.
+
+4. **Reporting and Analytics**
+   SQL databases are optimized for aggregating and querying structured data, making
+   them suitable for applications that require heavy reporting or analytical processing.
+
+### **When to Prefer NoSQL:**
+
+1. **Scalability and High Write Throughput**
+   NoSQL databases (like MongoDB, Cassandra) can handle high write-throughput and are
+    horizontally scalable, making them ideal for applications with massive data writes,
+    such as social media or IoT data storage.
+
+2. **Flexible or Evolving Schema**
+   NoSQL databases allow schema flexibility, so they are better for applications with
+   dynamic, unstructured, or semi-structured data. For instance, a content management
+   system storing varied document types would benefit from NoSQL.
+
+3. **Handling Large Volumes of Unstructured Data**
+   Applications dealing with large-scale unstructured data, such as logs, social media
+   posts, or sensor data, often use NoSQL for efficient storage and access.
+
+4. **Geographically Distributed Systems**
+   NoSQL databases, especially those with a distributed architecture like Cassandra,
+   are suited for globally distributed applications, as they can replicate data across
+   multiple locations with minimal latency.
+
+### **Key Interview Points**
+- **Trade-offs:** Acknowledge that SQL offers strong consistency, while NoSQL may
+provide eventual consistency.
+- **Data Access Patterns:** Highlight that the choice often depends on access patterns,
+e.g., complex queries favor SQL, while high-speed writes or flexible schema favor NoSQL.
+- **Scale Requirements:** Explain the database selection can also depend on expected
+scale and data structure variability.
+
+Being able to demonstrate when and why you would choose each database type will
+showcase your decision-making skills and technical expertise at the senior level.

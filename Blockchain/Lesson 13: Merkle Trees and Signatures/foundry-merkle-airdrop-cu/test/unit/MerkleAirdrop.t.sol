@@ -45,7 +45,6 @@ contract MerkleAirdropTest is ZkSyncChainChecker, Test {
     function testUsersCanClaim() public {
         uint256 startingBalance = token.balanceOf(user);
 
-        // get the signature
         vm.startPrank(user);
         (uint8 v, bytes32 r, bytes32 s) = signMessage(userPrivKey, user);
         vm.stopPrank();

@@ -15,8 +15,7 @@ import {ScriptHelper} from "murky/script/common/ScriptHelper.sol";
 
 /** 
  * @title MakeMerkle
- * @author Ciara Nightingale
- * @author Cyfrin
+ * @author Ervand Agadzhanyan
  *
  * Original Work by:
  * @author kootsZhin

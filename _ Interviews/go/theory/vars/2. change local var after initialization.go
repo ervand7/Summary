@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// в отличие от python адреса остаются теми же
+
 func main() {
 	a := 1
 	fmt.Printf("%p\n", &a) // 0x140000a6018

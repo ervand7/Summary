@@ -1,0 +1,15 @@
+main concepts:
+https://github.com/ByteByteGoHq/system-design-101
+
+books:
+https://github.com/mhadidg/software-architecture-books
+
+tinkoff system design:
+https://github.com/Tinkoff/career/blob/main/interview/sections/system-design-backend.md
+
+other materials:
+https://github.com/madd86/awesome-system-design?tab=readme-ov-file
+
+videos:
+https://www.youtube.com/watch?v=jUbOm0B-eKQ
+https://www.youtube.com/watch?v=Wh5Ya6UFG1k

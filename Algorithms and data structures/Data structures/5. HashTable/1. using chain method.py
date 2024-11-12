@@ -95,6 +95,7 @@ class HashTable:
 hash_table = HashTable()
 
 hash_table.insert("1", "1")
+hash_table.insert("1", "3")
 hash_table.insert("2", "2")
 hash_table.insert("3", "3")
 hash_table.insert("4", "4")
@@ -111,7 +112,6 @@ hash_table.insert("name", "Ivan")
 hash_table.insert("name", "Ivan")
 hash_table.insert("name", "Ivan")
 hash_table.insert("name", "Vasya")
-
 
 hash_table.display()
 

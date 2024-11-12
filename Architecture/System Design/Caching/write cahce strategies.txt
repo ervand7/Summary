@@ -1,0 +1,98 @@
+### 1. **Cache-aside (Lazy Loading)**
+   - **Description**: Data is loaded into the cache only when requested. If data is not
+   in the cache, it is retrieved from the source, stored in the cache, and then returned
+   to the requester.
+   - **Pros**: Ensures only requested data is cached, reducing memory usage.
+   - **Cons**: Can lead to a “cache miss” on the first request, causing a delay.
+   - **Use Case**: Applications where not all data needs to be cached, such as databases
+   with frequently accessed but unpredictable data patterns.
+
+### 2. **Write-through Cache**
+   - **Description**: Data is written to the cache and the underlying data source
+   simultaneously. This strategy ensures that the cache and source are always in sync.
+   - **Pros**: Provides data consistency, as both cache and source are updated.
+   - **Cons**: Can slow down write operations, as both cache and database are updated.
+   - **Use Case**: Systems where data consistency is critical, such as configuration
+   storage or user sessions.
+
+### 3. **Write-back (Write-behind) Cache**
+   - **Description**: Data is written to the cache first, and then asynchronously written
+   to the source after a delay or at regular intervals.
+   - **Pros**: Reduces write latency, as the system doesn’t wait for the database to
+   update immediately.
+   - **Cons**: Risk of data loss if the cache fails before writing back to the source.
+   - **Use Case**: Applications with frequent writes, such as session stores or analytics
+   data, where immediate source updates are not required.
+
+### 4. **Read-through Cache**
+   - **Description**: The application interacts only with the cache. If data is missing
+   in the cache, the cache itself fetches it from the source, caches it, and returns it
+   to the application.
+   - **Pros**: Simplifies cache access logic for the application.
+   - **Cons**: Similar to cache-aside, but less flexible since it requires direct cache-source
+   connectivity.
+   - **Use Case**: Content management systems or applications with a clear, predictable
+   data access pattern.
+
+### 5. **Time-to-Live (TTL) Cache**
+   - **Description**: Data is stored in the cache with an expiration time (TTL). Once
+   the TTL expires, the data is removed, and the next request triggers a new load
+   from the source.
+   - **Pros**: Automatically refreshes stale data and controls memory usage.
+   - **Cons**: If TTL is too short, it can lead to frequent reloads; if too long, data
+    may become stale.
+   - **Use Case**: Suitable for caching web pages, API responses, and other data that
+   must be refreshed periodically.
+
+### 6. **Refresh-ahead Cache**
+   - **Description**: Preemptively refreshes cache entries before they expire, based
+   on access patterns. This ensures frequently accessed data is always fresh.
+   - **Pros**: Reduces the chance of cache misses by keeping commonly accessed data fresh.
+   - **Cons**: Complex to implement and requires a good understanding of access patterns.
+   - **Use Case**: Applications where data changes frequently, but access patterns are
+   predictable, like news or social media feeds.
+
+### 7. **Cache-Only Strategy**
+   - **Description**: Only the cache is used for data retrieval; there is no backend
+   data source. Once the data is stored, all reads and writes happen through the cache.
+   - **Pros**: Extremely fast data access and reduced backend dependencies.
+   - **Cons**: Data loss if the cache is cleared or fails, as there is no persistent source.
+   - **Use Case**: Temporary data storage, like session storage or in-memory task queues,
+   where persistence is not critical.
+
+### 8. **Distributed Cache**
+   - **Description**: Uses multiple cache servers to spread the load, ensuring scalability
+   and availability across distributed systems.
+   - **Pros**: High availability and scalability; can handle large amounts of data.
+   - **Cons**: Increased complexity in setup and maintenance; potential for data
+   inconsistency if not managed properly.
+   - **Use Case**: Large-scale, high-traffic applications like e-commerce sites or
+   social media platforms where caching needs to be scalable.
+
+### 9. **Local (In-Memory) Cache**
+   - **Description**: Stores cache data in memory within the application server, making
+   it very fast to access.
+   - **Pros**: Reduces latency as data is stored close to the application.
+   - **Cons**: Limited by the memory available on the application server; data is not
+   shared between instances.
+   - **Use Case**: Suitable for small datasets or applications with low to moderate
+   traffic where speed is essential, like session caching.
+
+### 10. **Hierarchical Cache**
+   - **Description**: Employs a multi-level cache system, where data is stored in
+   different cache layers, such as local in-memory, distributed cache, and then database.
+   - **Pros**: Reduces load on the primary data source and optimizes performance across
+   various levels.
+   - **Cons**: More complex to set up and manage due to multiple cache layers.
+   - **Use Case**: Scalable applications with varying data needs, such as web
+   applications serving large amounts of static and dynamic content.
+
+---
+
+### **Choosing a Cache Strategy**
+The right cache strategy depends on factors like:
+   - **Data consistency requirements**: For example, choose Write-through if consistency
+   is a priority.
+   - **Latency tolerance**: TTL or cache-aside may be best for data that doesn’t need
+   immediate freshness.
+   - **Data size and access frequency**: For very large datasets, consider distributed caching.

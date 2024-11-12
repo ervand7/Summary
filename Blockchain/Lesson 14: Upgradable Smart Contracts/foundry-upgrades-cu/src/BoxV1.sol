@@ -21,15 +21,6 @@ contract BoxV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable {
 
     function initialize() public initializer {
         __Ownable_init();
-        // This function is part of the OwnableUpgradeable contract from OpenZeppelin.
-        // It initializes the contract's ownership functionality by setting the
-        // deployer (or the caller of the `initialize` function) as the initial
-        // owner of the contract.
-        // Since upgradeable contracts don't use constructors, this ensures ownership logic is properly initialized.
-
-        // This function is part of the UUPSUpgradeable contract from OpenZeppelin.
-        // It initializes the necessary internal variables and settings for UUPS upgradeable functionality,
-        // allowing this contract to be upgraded in the future using the UUPS proxy pattern.
         __UUPSUpgradeable_init();
     }
 

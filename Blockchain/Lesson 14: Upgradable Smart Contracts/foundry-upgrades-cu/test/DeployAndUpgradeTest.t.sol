@@ -37,13 +37,8 @@ contract DeployAndUpgradeTest is StdCheats, Test {
         address proxyAddress = deployBox.deployBox();
 
         BoxV2 box2 = new BoxV2();
-
         vm.prank(BoxV1(proxyAddress).owner());
-
-        // Transfer ownership of the proxy (currently using BoxV1) to msg.sender,
-        // so that the caller has permission to authorize the upgrade to BoxV2.
         BoxV1(proxyAddress).transferOwnership(msg.sender);
-
         address proxy = upgradeBox.upgradeBox(proxyAddress, address(box2));
 
         uint256 expectedValue = 2;

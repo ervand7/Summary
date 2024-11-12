@@ -42,9 +42,9 @@ contract MinimalAccount is IAccount, Ownable {
 
     // EXTERNAL FUNCTIONS
     /**
-     * @notice Allows the owner or EntryPoint to execute a transaction on behalf of this account.
+     * @notice Allows the owner or EntryPoint to execute a transaction on behalf
+     * of this account.
      * @dev Executes a call to `dest` with the provided `value` and `functionData`.
-     *      Can only be called by the owner or the EntryPoint contract.
      * @param dest The destination address to call.
      * @param value The amount of ether to send with the call.
      * @param functionData The calldata to send to the destination address.
@@ -57,13 +57,16 @@ contract MinimalAccount is IAccount, Ownable {
     }
 
     /**
-     * @notice Validates a user operation by verifying the signature and ensuring the account has sufficient funds.
+     * @notice Validates a user operation by verifying the signature and ensuring the
+     * account has sufficient funds.
      * @dev This function is called by the EntryPoint contract to validate the user's operation.
      *      It checks the signature against the owner's address and pays any required prefunding.
      *      Only callable by the EntryPoint contract.
-     * @param userOp The packed user operation containing details like sender, signature, nonce, and call data.
+     * @param userOp The packed user operation containing details like sender, signature,
+     * nonce, and call data.
      * @param userOpHash The hash of the user operation used for signature verification.
-     * @param missingAccountFunds The amount of funds needed to cover transaction costs; the account supplies this if required.
+     * @param missingAccountFunds The amount of funds needed to cover transaction
+     * costs; the account supplies this if required.
      * @return validationData A status code indicating whether the signature is valid or not.
      */
     function validateUserOp(PackedUserOperation calldata userOp, bytes32 userOpHash, uint256 missingAccountFunds)
@@ -90,23 +93,11 @@ contract MinimalAccount is IAccount, Ownable {
         view
         returns (uint256 validationData)
     {
-        // 1. Convert the `userOpHash` into an Ethereum Signed Message Hash format.
-        //    This is the EIP-191 specification, where the hash is prefixed with "\x19Ethereum Signed Message:\n32" before hashing.
         bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(userOpHash);
-
-        // 2. Recover the signer's address from the signature provided in `userOp.signature`.
-        //    It uses the ECDSA (Elliptic Curve Digital Signature Algorithm) to recover the signer
-        //    from the `ethSignedMessageHash` and the `userOp.signature`.
         address signer = ECDSA.recover(ethSignedMessageHash, userOp.signature);
-
-        // 3. Check if the recovered signer's address is the contract owner.
-        //    The owner is the only valid signer for this contract.
-        //    If the recovered signer is not the owner, return `SIG_VALIDATION_FAILED`.
         if (signer != owner()) {
             return SIG_VALIDATION_FAILED;
         }
-
-        // 4. If the signer is the contract owner, return `SIG_VALIDATION_SUCCESS`, indicating the signature is valid.
         return SIG_VALIDATION_SUCCESS;
     }
 
@@ -119,10 +110,6 @@ contract MinimalAccount is IAccount, Ownable {
      */
     function _payPrefund(uint256 missingAccountFunds) internal {
         if (missingAccountFunds != 0) {
-            // 1. Initiate a payment of the `missingAccountFunds` from the current contract to the caller (`msg.sender`).
-            //    The caller is typically the `EntryPoint` contract that facilitates user operations.
-            //    The payable call sends the specified `missingAccountFunds` value to `msg.sender`.
-            //    The `gas: type(uint256).max` ensures that the transaction uses the maximum possible gas to succeed.
             (bool success,) = payable(msg.sender).call{value: missingAccountFunds, gas: type(uint256).max}("");
             (success);
         }

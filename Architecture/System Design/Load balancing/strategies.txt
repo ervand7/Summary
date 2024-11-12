@@ -1,0 +1,73 @@
+### 1. **Round Robin**
+   - Requests are distributed sequentially to each server in a rotating order. This
+   method is simple and works well when all servers have similar capacity.
+   - **Use case**: Small to medium-sized applications with equally capable servers.
+
+### 2. **Weighted Round Robin**
+   - An extension of Round Robin where each server is assigned a weight based on its
+   capacity or priority. Higher-weighted servers receive more requests.
+   - **Use case**: Environments where servers have varying processing power or network
+   capabilities.
+
+### 3. **Least Connections**
+   - Directs each request to the server with the fewest active connections at the time.
+   It’s beneficial when requests have long durations or varying resource demands.
+   - **Use case**: Applications with long-lived or heavy sessions.
+
+### 4. **Weighted Least Connections**
+   - A variation of Least Connections where weights are assigned to servers based on their
+   capacity, prioritizing servers with fewer connections and higher weights.
+   - **Use case**: Complex environments with servers of differing capacities and uneven
+   workloads.
+
+### 5. **IP Hashing**
+   - Routes requests based on the client’s IP address. A hash function determines the
+   server by creating a consistent mapping between IP addresses and servers, ensuring a
+   client consistently connects to the same server.
+   - **Use case**: When session persistence is required without storing session data
+   centrally (e.g., in gaming or online banking).
+
+### 6. **Least Response Time**
+   - Sends requests to the server with the quickest response time. This approach takes
+   into account the current server load and response speed, aiming to minimize latency.
+   - **Use case**: Applications where low latency is essential, like real-time services
+   or media streaming.
+
+### 7. **Resource-Based Load Balancing**
+   - Routes requests based on real-time server metrics, such as CPU and memory usage.
+   The load balancer uses monitoring data to assess which server has the most available
+   resources.
+   - **Use case**: Highly dynamic environments where server loads vary frequently.
+
+### 8. **Random Selection**
+   - Requests are assigned to a server randomly, without any specific distribution logic. This strategy is generally only used in specific testing scenarios.
+   - **Use case**: Testing or when servers are nearly identical and balanced randomly.
+
+### 9. **Geographic or Proximity-Based Routing**
+   - Routes requests to the server closest to the user’s geographic location, reducing
+   latency and improving response times.
+   - **Use case**: Globally distributed applications like content delivery networks (CDNs)
+   and large-scale web applications.
+
+### 10. **Fixed Weighted or Priority-Based Routing**
+   - Prioritizes certain servers over others. Only if the higher-priority servers are full
+   or unavailable are requests sent to lower-priority servers.
+   - **Use case**: Redundancy and failover strategies where a subset of servers should be
+   prioritized unless unavailable.
+
+### 11. **Content-Based Routing**
+   - Routes requests based on the content type or request parameters (e.g., directing image
+   requests to servers optimized for media files).
+   - **Use case**: Complex web applications where certain types of requests are better
+   handled by specialized servers.
+
+### **Choosing the Right Strategy**
+The ideal load balancing strategy depends on:
+   - **Server capacity**: Use weighted strategies if servers have different capabilities.
+   - **Session persistence**: Use IP hashing if the same client must connect to the same server.
+   - **Response time sensitivity**: Use least response time for applications that need low
+   latency.
+   - **Geographic spread**: Use proximity-based routing for globally distributed user bases.
+
+Using multiple strategies together can further optimize traffic handling based on the
+application’s unique requirements.

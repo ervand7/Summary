@@ -13,7 +13,7 @@ implementation. Admins can upgrade the implementation via special admin-only fun
 or user).
 
 **Example**: OpenZeppelin provides a widely used implementation of this pattern with
-`TransparentUpgradeableProxy`【8†source】【9†source】.
+`TransparentUpgradeableProxy`.
 
 ### 2. **Universal Upgradeable Proxy Standard (UUPS)**
 In the **UUPS pattern**, the logic for upgrading the contract is included in the
@@ -28,7 +28,7 @@ performed in the proxy contract.
 the upgrade functionality, locking the contract in its current state.
 
 **Example**: UUPS proxies are supported by OpenZeppelin, making this method widely
-accessible for Solidity developers【9†source】.
+accessible for Solidity developers.
 
 ### 3. **Diamond (Multi-Facet) Proxy Pattern**
 The **Diamond pattern**, or **EIP-2535**, allows for breaking up the implementation
@@ -44,7 +44,7 @@ independently.
 selectors across multiple contracts.
 
 **Example**: This pattern is used by protocols with complex logic, like the modular
-DeFi systems【9†source】【10†source】.
+DeFi systems.
 
 Each of these patterns is suited for different use cases based on gas efficiency,
 complexity, and upgradeability needs.

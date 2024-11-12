@@ -1,0 +1,10 @@
+### Strong Consistency
+- **Definition**: Guarantees that after a write, all reads immediately reflect the latest data.
+- **Use Case**: Critical systems needing real-time accuracy (e.g., banking).
+- **Trade-off**: Higher latency and less availability in distributed systems.
+
+### Eventual Consistency
+- **Definition**: Data eventually becomes consistent across all nodes, but reads may return
+stale data initially.
+- **Use Case**: Non-critical systems where availability is prioritized (e.g., social media feeds).
+- **Trade-off**: Lower latency and higher availability, with a short delay in data synchronization.

@@ -12,3 +12,13 @@ def int_to_bin(num):
 
 
 print(int_to_bin(77))
+
+
+def bin_to_int(binary_str):
+    result = 0
+    for digit in binary_str:
+        result = result * 2 + int(digit)
+    return result
+
+
+print(bin_to_int("011010101011111"))

@@ -20,20 +20,31 @@ def duplicate_zeros(arr: List[int]) -> None:
 # ChatGPT solution
 def duplicate_zeros(arr):
     n = len(arr)
+
+    # Count how many zeros are in the array
+    # because each zero will take one extra space when duplicated
     count_zero = arr.count(0)
+
+    # i is the index for reading the original array (from end to start)
     i = n - 1
-    j = n - 1 + count_zero  # 'virtual' extended index
+
+    # j is the index for writing into the "virtual extended array"
+    j = n - 1 + count_zero
 
     while i >= 0:
+        # If j is within bounds, write arr[i] to arr[j]
+        # (we only write when j is inside the actual array)
         if j < n:
             arr[j] = arr[i]
         j -= 1
 
+        # If the current element is zero, we need to write it twice
         if arr[i] == 0:
             if j < n:
                 arr[j] = 0
             j -= 1
 
+        # Move to the previous element in the original array
         i -= 1
 
 

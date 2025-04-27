@@ -1,0 +1,7 @@
+Адитья Бхаргава - Грокаем алгоритмы
+William Kennedy - Ultimate Go
+Robert Martin - Clean code
+Марко Лукша - Kubernetes в действии
+Таненбаум - архитектура компъютера
+Дж. Ханк Рейнвотер - Как пасти котов
+Alex Xu - System Design interview

@@ -4,54 +4,58 @@ import (
 	"fmt"
 )
 
-func merge(a []int, ch chan int) {
-	if len(a) == 0 {
-		close(ch)
-		return
+func rec(nums []int) []int {
+	if len(nums) <= 1 {
+		return nums
 	}
 
-	if len(a) == 1 {
-		ch <- a[0]
-		close(ch)
-		return
-	}
+	// Channels for left and right halves
+	leftChan := make(chan []int)
+	rightChan := make(chan []int)
 
-	mid := len(a) / 2
-	// рекурсия
-	ch1 := make(chan int)
-	go merge(a[:mid], ch1)
+	mid := len(nums) / 2
 
-	ch2 := make(chan int)
-	go merge(a[mid:], ch2)
+	// Launch goroutines to sort both halves concurrently
+	go func() {
+		leftChan <- rec(nums[:mid])
+	}()
+	go func() {
+		rightChan <- rec(nums[mid:])
+	}()
 
-	v1, ok1 := <-ch1
-	v2, ok2 := <-ch2
-	// слияние
-	for ok1 || ok2 {
-		if (ok1 && ok2 && v1 < v2) || (ok1 && !ok2) {
-			ch <- v1
-			v1, ok1 = <-ch1
-		} else if (ok1 && ok2 && v1 >= v2) || (!ok1 && ok2) {
-			ch <- v2
-			v2, ok2 = <-ch2
+	// Receive sorted halves
+	left := <-leftChan
+	right := <-rightChan
+
+	// Merge and return result
+	return merge(left, right)
+}
+
+// merge merges two sorted slices into one sorted slice
+func merge(left, right []int) []int {
+	result := make([]int, 0, len(left)+len(right))
+	i, j := 0, 0
+
+	// Merge step
+	for i < len(left) && j < len(right) {
+		if left[i] <= right[j] {
+			result = append(result, left[i])
+			i++
+		} else {
+			result = append(result, right[j])
+			j++
 		}
 	}
 
-	close(ch)
-}
+	// Append leftovers
+	result = append(result, left[i:]...)
+	result = append(result, right[j:]...)
 
-func Merge(unsorted []int) (sorted []int) {
-	ch := make(chan int)
-	go merge(unsorted, ch)
-
-	for v := range ch {
-		sorted = append(sorted, v)
-	}
-	return
+	return result
 }
 
 func main() {
-	arr := []int{53, 134, 73, 13, 33, 8, -1, 0, -25, -154, 15}
-	b := Merge(arr)
-	fmt.Printf("Sorted: %v", b)
+	nums := []int{5, 1, 1, 2, 0, 0}
+	sorted := rec(nums)
+	fmt.Println(sorted) // Output: [0 0 1 1 2 5]
 }

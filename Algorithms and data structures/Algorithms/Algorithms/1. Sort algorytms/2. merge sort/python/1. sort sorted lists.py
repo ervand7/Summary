@@ -4,16 +4,18 @@ from typing import List
 
 
 def merge_sort(first: List[int], second: List[int]) -> List[int]:
+    i = j = 0
     result = []
-    while len(first) != 0 and len(second) != 0:
-        if first[0] < second[0]:
-            result.append(first.pop(0))
+    while i < len(first) and j < len(second):
+        if first[i] < second[j]:
+            result.append(first[i])
+            i += 1
         else:
-            result.append(second.pop(0))
+            result.append(second[j])
+            j += 1
 
-    result += first
-    result += second
-
+    result += first[i:]
+    result += second[j:]
     return result
 
 

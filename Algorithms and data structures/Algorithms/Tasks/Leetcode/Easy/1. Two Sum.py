@@ -9,7 +9,7 @@ def two_sum(nums: List[int], target: int) -> List[int]:
                 return [i, j]
 
 
-two_sum([2, 7, 11, 15], 9)
+print(two_sum([2, 7, 11, 15], 9))
 
 
 # O(n)
@@ -23,4 +23,4 @@ def two_sum(nums: List[int], target: int) -> List[int]:
         hash_table[nums[i]] = i
 
 
-two_sum([2, 7, 11, 15], 9)
+print(two_sum([2, 7, 11, 15], 9))

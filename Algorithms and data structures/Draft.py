@@ -1,23 +1,25 @@
 from typing import List
 
 
-# my solution
-def can_form_array(arr: List[int], pieces: List[List[int]]) -> bool:
-    h = {}
-    for i in range(len(arr)):
-        h[arr[i]] = i
+def is_prefix_string(s: str, words: List[str]) -> bool:
+    len_s = len(s)
+    len_words = len(words)
+    attempt = ""
+    i = 0
+    while len(attempt) <= len_s:
+        attempt += words[i]
 
-    values = []
-    for i in pieces:
-        if len(i) == 1:
-            values.append(i[0])
-        else:
-            start_idx = h.get(i[0], None)
-            if start_idx is not None:
-                if arr[start_idx:start_idx + len(i)] == i:
-                    values.extend(i)
+        if i == (len_words - 1) and len(attempt) < len(s):
+            return False
 
-    return set(arr) == set(values)
+        i += 1
+
+    i = 0
+    while i < len(s):
+        if s[i] != attempt[i]:
+            return False
+
+    return True
 
 
-print(can_form_array(arr=[1, 2, 3, 4], pieces=[[2, 3], [1], [4]]))
+print(is_prefix_string("iloveleetcode", ["i", "love", "leetcode", "apples"]))

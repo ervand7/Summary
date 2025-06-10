@@ -34,6 +34,18 @@ class ConsistentHashRing:
                 return self.ring[p]
         return self.ring[self.positions[0]]  # wrap around the ring
 
+    def remove_server(self, server):
+        positions_to_remove = []
+        for i in range(self.virtual_servers_count):
+            key = f"{server}_{i}"
+            position = make_hash(key)
+            if position in self.ring:
+                del self.ring[position]
+                positions_to_remove.append(position)
+        # Remove positions from the list and re-sort
+        self.positions = [p for p in self.positions if p not in positions_to_remove]
+        self.positions.sort()
+
 
 # Step 1: Create ring with 3 servers
 ring = ConsistentHashRing(servers=["A", "B", "C"], virtual_servers_count=3)

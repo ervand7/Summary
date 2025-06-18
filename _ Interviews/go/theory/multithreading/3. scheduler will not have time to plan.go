@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// nothing will be displayed, because planner will not have time to plan goroutines.
+// Nothing will be displayed because the planner will not have time to plan goroutines.
 // We need to use sync.WaitGroup or sleep
 
 func main() {

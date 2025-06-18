@@ -1,6 +1,6 @@
 package main
 
-// we can not get size of type
+// we cannot get the size of type
 
 func main() {
 	type a struct {

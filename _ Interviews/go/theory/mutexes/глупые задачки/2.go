@@ -5,10 +5,7 @@ import (
 	"sync"
 )
 
-/*
-Удивительно, но без WaitGroup и Sleep программа выведет не 0, а какое-то число
-от 0 до 99
-*/
+// Тут не хватает sync.WaitGroup
 
 func main() {
 	var mu sync.Mutex

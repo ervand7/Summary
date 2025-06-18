@@ -14,7 +14,7 @@ var a int
 
 func main() {
 	mux := sync.Mutex{}
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 1000; i++ {
 		go func() {
 			mux.Lock()
 			a += 1
@@ -22,12 +22,12 @@ func main() {
 		}()
 	}
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 1000; i++ {
 		go func() {
 			a += 1
 		}()
 	}
 
 	time.Sleep(time.Second)
-	fmt.Println(a) // 11
+	fmt.Println(a)
 }

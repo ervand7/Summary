@@ -6,9 +6,7 @@ import (
 	"time"
 )
 
-/*
-Удивительно, но программа выведет не 1, а какое-то рандомное число
-*/
+// Тут не хватает sync.WaitGroup
 
 func main() {
 	var mu sync.Mutex

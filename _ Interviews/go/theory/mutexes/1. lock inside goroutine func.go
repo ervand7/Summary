@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	var max int
+	var maximum int
 	wg := sync.WaitGroup{}
 	mux := sync.Mutex{}
 
@@ -14,8 +14,8 @@ func main() {
 		wg.Add(1)
 		go func(item int) {
 			mux.Lock()
-			if item%2 == 0 && item > max {
-				max = item
+			if item%2 == 0 && item > maximum {
+				maximum = item
 			}
 			mux.Unlock()
 			wg.Done()
@@ -23,5 +23,5 @@ func main() {
 	}
 
 	wg.Wait()
-	fmt.Printf("Maximum is %d", max) // Maximum is 10000
+	fmt.Printf("Maximum is %d", maximum) // Maximum is 10000
 }

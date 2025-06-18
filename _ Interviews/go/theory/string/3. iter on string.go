@@ -12,6 +12,7 @@ func main() {
 		fmt.Println(i, val)
 	}
 	/*
+		"qwerty" contains only ASCII characters — each is 1 byte
 		0 113
 		1 119
 		2 101
@@ -28,6 +29,7 @@ func main() {
 		fmt.Println(i, val)
 	}
 	/*
+		"йцукен" contains Unicode characters (Cyrillic) — each is 2 bytes in UTF-8
 		0 1081
 		2 1094
 		4 1091

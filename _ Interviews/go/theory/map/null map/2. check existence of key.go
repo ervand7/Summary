@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// If map is not initialized we can still check existence of key
+// If map is not initialized we can still check the existence of key
 
 func main() {
 	var m map[int]int

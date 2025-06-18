@@ -12,13 +12,13 @@ func MaxNumber[T constraints.Integer | constraints.Float](slice []T) T {
 		// для пустого слайса возвращаем нулевое значение
 		return 0
 	}
-	max := slice[0]
+	maximum := slice[0]
 	for i := 1; i < len(slice); i++ {
-		if slice[i] > max {
-			max = slice[i]
+		if slice[i] > maximum {
+			maximum = slice[i]
 		}
 	}
-	return max
+	return maximum
 }
 
 func main() {

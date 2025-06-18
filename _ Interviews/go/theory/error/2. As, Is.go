@@ -30,14 +30,15 @@ func main() {
 	d := some(c, "third")
 	fmt.Println(d) // third: second: first: Error detected: Hello
 
-	// As берет target и присваивает ему рутовою ошибку из err
+	// Is сравнивает значение, возвращает true, если err == target, либо
+	// err является дочерней ошибкой от target
+	if errors.Is(d, a) && errors.Is(d, b) && errors.Is(d, c) {
+		fmt.Println("Is!!!") // Is!!!
+	}
+
+	// As сравнивает тип, берет target и присваивает ему рутовою ошибку из err
 	var e *MyError
 	if errors.As(a, &e) && errors.As(b, &e) && errors.As(c, &e) && errors.As(d, &e) {
 		fmt.Println(e) // Error detected: Hello
-	}
-
-	// Is - возвращает true, если err является дочерней ошибкой от target
-	if errors.Is(d, a) && errors.Is(d, b) && errors.Is(d, c) {
-		fmt.Println("Is!!!") // Is!!!
 	}
 }

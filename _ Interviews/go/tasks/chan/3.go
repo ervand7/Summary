@@ -10,9 +10,7 @@ import (
 Можно читать из буферизированного канала и когда он не переполнен.
 */
 
-var (
-	balance int
-)
+var balance int
 
 func init() {
 	balance = 100
@@ -31,5 +29,7 @@ func main() {
 	go deposit(10, &wg, ch)
 	go deposit(20, &wg, ch)
 	wg.Wait()
-	fmt.Println("Balance is: ", balance) // Balance is:  130
+	fmt.Println("Balance is: ", balance)
 }
+
+// Balance is:  130

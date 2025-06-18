@@ -18,7 +18,8 @@ func changeOne(slice []int) {
 }
 
 func main() {
-	slice := make([]int, 0)
+	slice := make([]int, 0)   // 0x1005107c0
+	fmt.Printf("%p\n", slice) // 0x14000130000
 	slice = append(slice, 0, 1, 2, 3, 4)
 	fmt.Printf("%p\n", slice) // 0x14000130000
 

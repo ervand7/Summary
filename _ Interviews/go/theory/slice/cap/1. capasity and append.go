@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// Из-за общего базового массива меняется и второй слайс (dir2)
+
 func main() {
 	path := []byte("AAAA/BBBBBBBBB")
 	fmt.Println(path, cap(path)) // [65 65 65 65 47 66 66 66 66 66 66 66 66 66] 14

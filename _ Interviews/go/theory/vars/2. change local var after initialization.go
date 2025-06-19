@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// в отличие от python адреса остаются теми же
+// addresses will remain the same
 
 func main() {
 	a := 1

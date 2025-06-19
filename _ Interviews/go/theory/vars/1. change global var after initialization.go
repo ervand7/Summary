@@ -4,7 +4,8 @@ import (
 	"fmt"
 )
 
-// val will be changed because after assigning new val vars will keep the same addr
+// values will be changed because after assigning new val vars will keep
+// the same addr
 
 var (
 	a = 1

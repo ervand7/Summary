@@ -1,5 +1,6 @@
 # 1) Class.__dir__(): list of available magic methods
-# 2) instance.__dir__(): list of  available magic methods + class attributes + methods of class
+# 2) instance.__dir__(): list of  available magic methods +
+# class attributes + methods of class
 
 
 from pprint import pprint

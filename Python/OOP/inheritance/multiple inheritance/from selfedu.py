@@ -1,5 +1,5 @@
 # while multiple inheritance you should use __init__ without params in
-# auxiliary classes (second, third etc.)
+# auxiliary classes (second, third, etc.)
 
 from datetime import datetime
 from uuid import uuid4

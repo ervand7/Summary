@@ -1,4 +1,4 @@
-# we can not use Outer namespace from Inner
+# we cannot use Outer namespace from Inner
 
 class Outer:
     name = "Ivan"

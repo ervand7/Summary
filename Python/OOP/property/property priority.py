@@ -1,5 +1,5 @@
 # Even if instance has local attr with the same name which class property,
-# we will work only with property, because it has more priority
+# we will work only with property, because it has higher priority
 
 class Ivan:
     __name: str = None

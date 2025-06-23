@@ -1,4 +1,5 @@
-# 1) Ivan.__dict__: dict of class attributes + methods of class + some service info
+# 1) Ivan.__dict__: dict of class attributes + methods of class + some
+# service info
 # 2) instance.__dict__: dict of instance attributes
 from pprint import pprint
 

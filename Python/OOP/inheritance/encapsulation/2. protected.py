@@ -1,4 +1,4 @@
-# we can use protected methods and attrs of parent class inside of child class
+# we can use protected methods and attrs of parent class inside child class
 
 class Geom:
     name = 'Geom'

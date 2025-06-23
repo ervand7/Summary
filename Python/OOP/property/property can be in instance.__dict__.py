@@ -1,4 +1,4 @@
-# after using setter we can see property in instance.__dict__
+# after using setter, we can see property in instance.__dict__
 
 class Ivan:
     __name = "Ivan"

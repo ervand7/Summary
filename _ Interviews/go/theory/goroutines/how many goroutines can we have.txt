@@ -1,0 +1,40 @@
+> There is **no hard-coded fixed limit** to the number of goroutines in a Go
+program — you can have **millions** of them, limited only by **available memory**.
+
+## 💡 Why is that possible?
+
+Because goroutines are **lightweight** compared to OS threads:
+
+* Each goroutine starts with a **tiny stack** (about 2 KB)
+* The stack **grows and shrinks** as needed
+* Go runtime schedules them cooperatively using its own scheduler
+
+
+## 🧪 In practice:
+
+You can easily spawn **100,000+ goroutines**, even on a regular laptop.
+
+```go
+for i := 0; i < 1_000_000; i++ {
+    go func() {
+        select {} // block forever
+    }()
+}
+```
+
+✅ This can run fine — until you run out of memory.
+
+
+## ⚠️ Real limit:
+
+* Limited by **RAM** and **virtual memory**
+* On 64-bit systems, you can go well into **millions of goroutines**
+* But keep in mind: creating too many goroutines **can degrade performance**, especially if they’re all active (CPU-bound)
+
+
+
+## ✅ Best practice:
+
+* Goroutines are cheap, but **not free**
+* Avoid millions unless they’re mostly idle (e.g., waiting on channels)
+* Monitor memory usage with `runtime.NumGoroutine()` or `pprof`

@@ -2,7 +2,7 @@
 # attributes.
 # 2) __slots__ restricts only instances attributes. It does not
 # restrict class attributes.
-# 3) using __slots__ we lose magic method __dict__ and thanks this we save
+# 3) using __slots__ we lose magic method __dict__ and thanks to this, we save
 # member.
 # 4) __slots__ relates only to attributes, not to methods.
 # 5) __slots__ speeds up work with local attrs

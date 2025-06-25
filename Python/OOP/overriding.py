@@ -14,14 +14,14 @@ class Person:
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return f'Person {self.name}'
+
     def breathe(self):
         print('Человек дышит')
 
     def walk(self):
         print('Человек идет')
-
-    def __str__(self):
-        return f'Person {self.name}'
 
     def sleep(self):
         print('Человек спит')

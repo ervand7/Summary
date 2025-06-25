@@ -19,11 +19,11 @@ def decorator(func: Callable):
 
 
 @decorator
-def multiplier4(a, b):
+def multiplier(a, b):
     return a / b
 
 
-multiplier4(1, 0)
+multiplier(1, 0)
 # The number of trying №1
 # The number of trying №2
 # The number of trying №3

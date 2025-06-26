@@ -1,0 +1,109 @@
+A **passkey** is a modern, passwordless authentication method that uses
+**public key cryptography**. Instead of typing a password, users log in by
+verifying themselves with **biometrics** (like Face ID or Touch ID) or a device PIN.
+
+### ✅ How does a Passkey work?
+#### 1. **Registration (first-time setup):**
+* Your device (e.g., iPhone) **generates a key pair**:
+  * 🔐 A **private key** (stored **only on your device**, inside the secure enclave)
+  * 🔓 A **public key** (sent to and stored on the server)
+
+#### 2. **Login:**
+* The server sends a **challenge** (random data).
+* Your device:
+  * Uses **Face ID / Touch ID / PIN** to unlock the private key.
+  * Signs the challenge with the private key.
+* The server:
+  * Verifies the signature using the previously stored **public key**.
+  * If the signature is valid, authentication succeeds.
+
+
+### 🧠 Why is it better?
+* ✅ **No password to steal or forget**
+* ✅ **Phishing-resistant** (cannot be tricked into sending credentials to a fake site)
+* ✅ **User-friendly** (biometric login)
+* ✅ **Secure** (private key never leaves your device)
+
+
+### 💡 Where is the private key stored?
+On an iPhone, the private key is stored in the **Secure Enclave** — a protected
+hardware area that apps cannot access directly. It's used internally when you
+approve with Face ID or Touch ID.
+
+Example:
+```
+package main
+
+import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/sha256"
+	"fmt"
+	"math/big"
+)
+
+// === Simulated server storage ===
+var storedPublicKey *ecdsa.PublicKey // Server stores the client's public key
+var loginChallenge []byte            // Random challenge sent from server to client
+
+// ===== CLIENT SIDE =====
+type Client struct {
+	privateKey *ecdsa.PrivateKey
+}
+
+// Client registers by generating a key pair
+func (c *Client) Register() *ecdsa.PublicKey {
+	key, _ := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	c.privateKey = key
+	return &key.PublicKey
+}
+
+// Client signs the challenge using its private key
+func (c *Client) SignChallenge(challenge []byte) (r, s []byte) {
+	hash := sha256.Sum256(challenge)
+	r1, s1, _ := ecdsa.Sign(rand.Reader, c.privateKey, hash[:])
+	return r1.Bytes(), s1.Bytes()
+}
+
+// ===== SERVER SIDE =====
+
+// Server generates a random challenge
+func generateChallenge() []byte {
+	challenge := make([]byte, 32)
+	rand.Read(challenge)
+	return challenge
+}
+
+// Server verifies the signature using the stored public key
+func verifySignature(publicKey *ecdsa.PublicKey, challenge, rBytes, sBytes []byte) bool {
+	hash := sha256.Sum256(challenge)
+	r := new(big.Int).SetBytes(rBytes)
+	s := new(big.Int).SetBytes(sBytes)
+	return ecdsa.Verify(publicKey, hash[:], r, s)
+}
+
+// ===== MAIN FLOW =====
+
+func main() {
+	client := &Client{}
+
+	// === Registration ===
+	storedPublicKey = client.Register()
+	fmt.Println("✅ Client registered. Public key saved on server.")
+
+	// === Server generates challenge ===
+	loginChallenge = generateChallenge()
+	fmt.Println("🔐 Server sent challenge to client.")
+
+	// === Client signs the challenge ===
+	r, s := client.SignChallenge(loginChallenge)
+
+	// === Server verifies the signature ===
+	if verifySignature(storedPublicKey, loginChallenge, r, s) {
+		fmt.Println("✅ Login successful — signature is valid.")
+	} else {
+		fmt.Println("❌ Login failed — invalid signature.")
+	}
+}
+```

@@ -1,0 +1,42 @@
+### 🤔 Why use OAuth 2.0 (e.g., GitHub login) in your app?
+
+You **can** let users create a login and password in your app — but using OAuth 2.0
+brings **major advantages**:
+
+
+### ✅ Benefits of OAuth 2.0 (e.g., GitHub login):
+1. **No password handling**
+   * You don’t need to build login forms, store passwords, or manage password resets.
+   * No risk of password leaks or hacks — GitHub handles it all.
+
+2. **Faster login**
+   * One-click login for users — no need to register or remember another password.
+
+3. **Built-in trust**
+   * Users already trust GitHub (or Google), but may hesitate to trust a small app
+   with their credentials.
+
+4. **Verified identity**
+   * You get a real GitHub user with a verified email — useful for apps aimed at developers.
+
+
+### ❌ Downsides of building your own login system:
+* You must handle:
+  * Secure password storage (bcrypt, hashing, salting)
+  * Reset-password logic (emails, tokens)
+  * Security attacks (brute force, leaks, etc.)
+* It’s time-consuming and error-prone.
+
+
+### 💡 Summary:
+
+| Your Own Login            | OAuth (GitHub login)           |
+| ------------------------- | ------------------------------ |
+| Full control              | No passwords to manage         |
+| More code & security risk | Quick, secure login (1 click)  |
+| You handle all auth       | GitHub handles auth & identity |
+
+
+So, **OAuth 2.0 makes login safer and easier**, especially for small apps or
+developer-focused tools. You avoid reinventing the wheel and provide a better user
+experience.

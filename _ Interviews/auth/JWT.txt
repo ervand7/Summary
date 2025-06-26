@@ -1,0 +1,63 @@
+**JWT (JSON Web Token)** is a compact, signed token format used to securely
+transmit information — typically for **authentication**.
+
+It looks like:
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (base64-encoded string)
+```
+
+
+### ✅ Why do we need JWT?
+After a user logs in (via OAuth or username+password), your server creates a
+**JWT**, signs it, and sends it to the client. The client then includes this token
+in each request (usually in the `Authorization` header):
+
+```
+Authorization: Bearer <token>
+```
+
+This allows your server to **verify who the user is** — **without needing to store
+session data** in the database.
+
+---
+
+### 🔎 What's inside a JWT?
+1. **Header** – defines signing algorithm (e.g., HS256)
+2. **Payload** – contains claims like:
+   * `sub`: user ID
+   * `exp`: expiration time
+   * `role`: user role
+3. **Signature** – ensures the token wasn't tampered with
+
+> ⚠️ JWTs are **not encrypted** — they are **signed**. Anyone can read the payload,
+but only your server can **verify** it's valid.
+
+
+### 🛡️ How do we verify a JWT?
+Use a **secret key** (HMAC) or **public key** (RSA/ECDSA) to verify the signature:
+
+```go
+jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	return []byte("your-secret-key"), nil
+})
+```
+
+The server checks:
+* Is the **signature** valid?
+* Is the token **expired**?
+
+If valid — you can trust the `user_id`, `role`, etc. inside.
+
+🔁 JWT = **stateless authentication**
+
+### 🔐 Symmetric vs Asymmetric:
+
+| Method    | Use case                      | Keys used                                      |
+| --------- | ----------------------------- | ---------------------------------------------- |
+| HMAC      | Simple apps, internal         | One shared **secret**                          |
+| RSA/ECDSA | Microservices, 3rd-party APIs | **Private key** signs, **public key** verifies |
+
+
+> **JWT is a stateless, signed token that lets you verify the user's identity
+without saving sessions in your database.**
+> It’s fast, secure, and ideal for modern APIs and microservices.

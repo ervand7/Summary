@@ -1,0 +1,46 @@
+### ✅ **SQL Index Types**
+
+1. **B-tree Index**
+   * Default index type in most databases (PostgreSQL, MySQL)
+   * Efficient for equality and range queries
+   * Example: `WHERE age = 30` or `WHERE age > 25`
+
+2. **Hash Index**
+   * Optimized for exact matches only (`=`)
+   * No range queries
+   * MySQL supports it for **MEMORY** tables; PostgreSQL supports it but less
+   commonly used
+
+3. **Composite (Multi-column) Index**
+   * Index on multiple columns
+   * Useful when queries filter or sort by multiple fields
+   * Order matters: `(col1, col2)` supports `WHERE col1 = ? AND col2 = ?`
+
+4. **Unique Index**
+   * Enforces uniqueness of values
+   * Also used to speed up lookups
+   * Example: email or username fields
+
+5. **Partial Index** *(PostgreSQL)*
+   * Indexes only rows that meet a condition
+   * Example: `WHERE is_active = true`
+
+6. **Covering Index / Index with INCLUDE** *(PostgreSQL)*
+   * Index includes extra columns needed for a query
+   * Helps avoid reading the table (index-only scan)
+
+7. **Expression Index / Functional Index**
+   * Indexes the result of an expression
+   * Example: `LOWER(email)` for case-insensitive search
+
+8. **GIN (Generalized Inverted Index)** *(PostgreSQL)*
+   * For indexing array, JSONB, or full-text fields
+   * Example: `tags @> ['go']` or `to_tsvector(body) @@ 'error'`
+
+9. **GiST (Generalized Search Tree)** *(PostgreSQL)*
+   * Used for geometric data, full-text search, custom types
+   * Example: spatial queries
+
+10. **BRIN (Block Range Index)** *(PostgreSQL)*
+    * For very large, append-only tables
+    * Saves space; good for time-series or logs

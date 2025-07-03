@@ -1,0 +1,1 @@
+defer funcs are executed after return statement.

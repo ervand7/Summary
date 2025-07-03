@@ -1,0 +1,51 @@
+in Go you can have multiple `init` functions**—even within the same
+package or even within the same file.
+
+
+### Key facts about `init` functions in Go:
+1. You can declare **multiple `init()` functions** in a package.
+2. They **do not take arguments** and **do not return anything**:
+
+   ```go
+   func init() {
+       // some setup
+   }
+   ```
+3. **All `init` functions are automatically called**:
+   * When the package is imported
+   * Before `main()` runs
+
+
+### Execution order:
+1. **Package-level variables are initialized first** (top to bottom).
+2. Then **all `init()` functions are executed** in **the order they appear** in each file.
+3. Finally, `main()` runs.
+
+
+✅ **Example with multiple `init` functions:**
+
+```go
+package main
+
+import "fmt"
+
+func init() {
+    fmt.Println("init 1")
+}
+
+func init() {
+    fmt.Println("init 2")
+}
+
+func main() {
+    fmt.Println("main")
+}
+```
+
+👉 **Output:**
+
+```
+init 1
+init 2
+main
+```

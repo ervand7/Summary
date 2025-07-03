@@ -1,0 +1,55 @@
+* **DDD** = **Domain-Driven Design**.
+* It’s an **approach to software design** where the **business domain and its
+logic drive the structure and behavior of the software**.
+
+👉 DDD is **not about technology first**, but about **modeling the real-world
+problem accurately in code**.
+
+
+## 🔑 2. Key Concepts You Should Know
+
+| Concept                      | What It Means (Simple)                                                       |
+| ---------------------------- | ---------------------------------------------------------------------------- |
+| **Domain**                   | The business area you are modeling (e.g., payments, orders, wallets).        |
+| **Entity**                   | An object with **identity** (e.g., `User`, `Order`, `Wallet`).               |
+| **Value Object**             | An object without identity (e.g., `Money`, `Email`, `Coordinates`).          |
+| **Aggregate**                | A **root entity** and related entities that form a **consistency boundary**. |
+| **Repository**               | Abstracts storage (DB, cache, etc.). Works with **Aggregates**.              |
+| **Service (Domain Service)** | Business logic that doesn’t naturally belong to a specific entity.           |
+| **Application Service**      | Orchestrates use cases, but contains no business logic.                      |
+| **Bounded Context**          | A **logical boundary** where a specific domain model applies.                |
+
+
+✅ It leads to:
+* **Testable business logic** without dependency on frameworks or databases.
+* **Code that speaks the business language** (ubiquitous language).
+
+
+## ✅ Must-Know Practical Example:
+```go
+// Domain layer
+type Wallet struct {
+	ID      string
+	Balance int64
+}
+
+func (w *Wallet) CanWithdraw(amount int64) bool {
+	return w.Balance >= amount
+}
+
+func (w *Wallet) Withdraw(amount int64) error {
+	if !w.CanWithdraw(amount) {
+		return errors.New("insufficient funds")
+	}
+	w.Balance -= amount
+	return nil
+}
+```
+
+Business logic **lives inside the domain model** → reusable, testable, decoupled.
+
+
+## 🔑 3. DDD and Microservices
+
+* **DDD helps you split large systems** → each microservice can be a **Bounded Context**.
+* But DDD is **not only for microservices**—it works well in monoliths too.

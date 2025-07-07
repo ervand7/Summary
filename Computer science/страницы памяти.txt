@@ -1,21 +1,9 @@
-In operating systems, **memory pages** are fixed-size blocks of memory (usually 4 KB
-to 64 KB) used to manage and organize virtual memory. They allow each process to have
-an isolated, protected memory space.
+🔑 **Страницы памяти** — это маленькие фиксированные блоки оперативной памяти
+(обычно 4 КБ), с которыми работает операционная система для управления памятью.
 
-### Key Points of Memory Pages:
-1. **Virtual Memory Management**: Pages enable virtual memory by mapping each process’s
-virtual address space to physical memory, allowing isolation between processes.
+✅ Они используются для:
+* реализации **виртуальной памяти**,
+* защиты процессов друг от друга,
+* выгрузки неиспользуемых данных на диск (swap).
 
-2. **Efficient Memory Use**: Only actively used pages remain in RAM; inactive pages
-can be swapped to disk, optimizing memory usage.
-
-3. **Page Tables and Translation**: Each process has a **page table** mapping virtual
-addresses to physical addresses. A **page fault** occurs if a requested page isn’t
-in memory, triggering the OS to load it from disk.
-
-4. **Copy-on-Write (COW)**: With `fork()`, pages are shared between parent and child
-processes in read-only mode. Only when changes are made does the OS copy the page,
-saving memory.
-
-Memory paging supports multitasking, memory protection, and efficient use of limited
-physical RAM in an OS.
+👉 Страница может находиться либо в **RAM**, либо временно на **диске**.

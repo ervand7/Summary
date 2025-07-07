@@ -1,9 +1,9 @@
-**System calls** are interfaces provided by the operating system that allow user-level
-applications to request services from the kernel (core of the OS). They enable tasks
-such as file operations, memory management, process control, and communication.
+**System calls** are interfaces provided by the operating system that allow
+user-level applications to request services from the kernel (core of the OS).
+They enable tasks such as file operations, memory management, process control,
+and communication.
 
 ### Common Categories of System Calls:
-
 1. **File Management**:
    - `open()`, `read()`, `write()`, `close()`
    - Used to manipulate files (e.g., opening, reading, writing, closing files).

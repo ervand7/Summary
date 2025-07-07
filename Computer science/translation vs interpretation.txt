@@ -1,38 +1,41 @@
-In computer science and related fields, the terms "translation" and "interpretation" are used in a somewhat different context compared to their linguistic counterparts:
+In computer science and related fields, the terms "translation" and "interpretation"
+are used in a somewhat different context compared to their linguistic counterparts:
 
 **Translation** in Computer Science:
-1. **Compilation**: Translation often refers to the process of converting high-level programming code,
-such as source code written in languages like C, C++, or Java, into a lower-level representation,
-typically machine code or bytecode. This process is known as compilation.
+1. **Compilation**: Translation often refers to the process of converting high-level
+programming code, such as source code written in languages like C, C++, or Java, into
+a lower-level representation, typically machine code or bytecode. This process is
+known as compilation.
 
-2. **Intermediate Code**: Some compilers generate an intermediate representation or intermediate
-code, which is not machine-specific. This intermediate code can then be further translated or
-interpreted for execution on different platforms.
+2. **Intermediate Code**: Some compilers generate an intermediate representation
+or intermediate code, which is not machine-specific. This intermediate code can
+then be further translated or interpreted for execution on different platforms.
 
-3. **Performance**: Compiled code generally tends to be more efficient in terms of execution speed
-because it has already undergone optimizations during the compilation phase. Compiled languages are
-translated into machine code before execution.
+3. **Performance**: Compiled code generally tends to be more efficient in terms of
+execution speed because it has already undergone optimizations during the compilation
+phase. Compiled languages are translated into machine code before execution.
 
 
 **Interpretation** in Computer Science:
-1. **Execution on-the-fly**: Interpretation refers to the process of directly executing a program
-written in a high-level language without a prior compilation step. An interpreter reads the source
-code and executes it line by line or statement by statement.
+1. **Execution on-the-fly**: Interpretation refers to the process of directly
+executing a program written in a high-level language without a prior compilation
+step. An interpreter reads the source code and executes it line by line or statement
+by statement.
 
-2. **Flexibility**: Interpreted languages are often more flexible and platform-independent because
-they are not tied to a specific machine code. They can be executed on different platforms without
-modification.
+2. **Flexibility**: Interpreted languages are often more flexible and platform-independent
+because they are not tied to a specific machine code. They can be executed on different
+platforms without modification.
 
-3. **Performance Overheads**: Interpreted code tends to have a performance overhead compared to
-compiled code because the interpreter must read and execute each line or statement in real-time,
-without the optimizations applied during compilation.
+3. **Performance Overheads**: Interpreted code tends to have a performance overhead
+compared to compiled code because the interpreter must read and execute each line
+or statement in real-time, without the optimizations applied during compilation.
 
 In summary, in computer science:
+- **Translation** is associated with compilation, where high-level code is transformed
+into machine code or an intermediate representation for execution.
+- **Interpretation** involves the direct execution of high-level code by an interpreter
+without prior compilation.
 
-- **Translation** is associated with compilation, where high-level code is transformed into machine
-code or an intermediate representation for execution.
-- **Interpretation** involves the direct execution of high-level code by an interpreter without prior
-compilation.
-
-Both approaches have their advantages and trade-offs, and the choice between them depends on factors
-like performance requirements, platform independence, and development convenience.
+Both approaches have their advantages and trade-offs, and the choice between them
+depends on factors like performance requirements, platform independence, and
+development convenience.

@@ -1,16 +1,9 @@
-A machine word (or processor word) is the fundamental unit of data processed by a
-computer's central processing unit (CPU). A machine word has a fixed size that
-depends on the CPU architecture. Typically, a machine word consists of several
-bytes (8 bits each), but its size can vary depending on the specific architecture.
+🔑 **Machine Word** — это основная единица данных, с которой работает процессор.
 
-It's important to note that machine words are usually processed as a whole by the
-CPU. In other words, if a CPU is, for example, 32-bit, it will process 32-bit
-machine words as a single entity. Similarly, a 64-bit CPU will work with 64-bit
-machine words.
+✅ Размер слова зависит от архитектуры:
 
-Machine words are used for performing operations such as arithmetic calculations,
-logical operations, and data manipulation in the computer's memory. They are the
-basic building blocks for executing processor instructions.
+* 32-битный процессор → слово = 32 бита (4 байта),
+* 64-битный процессор → слово = 64 бита (8 байт).
 
-The size of a machine word in a CPU architecture is crucial for its performance
-and its ability to process data of different types and sizes.
+✅ Машинные слова используются для арифметики, логики и работы с памятью.
+✅ Размер слова влияет на производительность и обработку разных типов данных.

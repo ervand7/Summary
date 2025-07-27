@@ -1,5 +1,5 @@
 # Не указывайте селектор пода при определении rc. Kubernetes сам его
-#извлечет из шаблона пода
+# извлечет из шаблона пода
 
 apiVersion: v1
 kind: ReplicationController

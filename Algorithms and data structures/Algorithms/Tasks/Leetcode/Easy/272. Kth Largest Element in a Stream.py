@@ -12,9 +12,11 @@ class KthLargest:
         self.nums = self.nums[:self.k]
         return result
 
+
 # ChatGPT solution
 import heapq
 from typing import List
+
 
 class KthLargest:
 

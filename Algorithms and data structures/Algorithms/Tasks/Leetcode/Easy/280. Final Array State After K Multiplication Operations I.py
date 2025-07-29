@@ -1,6 +1,3 @@
-from typing import List
-
-
 # my solution
 def get_final_state(nums, k, multiplier):
     for _ in range(k):

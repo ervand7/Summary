@@ -40,4 +40,4 @@ def min_operations(boxes: str):
     return answer
 
 
-print(min_operations(boxes="001011"))
+print(min_operations(boxes="001011"))  # [11, 8, 5, 4, 3, 4]

@@ -9,13 +9,17 @@ import (
 // What will be the output
 
 func main() {
-	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
 	time.Sleep(2950 * time.Millisecond)
 	doDbRequest(ctx)
 }
 
 func doDbRequest(ctx context.Context) {
-	newCtx, _ := context.WithTimeout(ctx, 10*time.Second)
+	newCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+
 	timer := time.NewTimer(1 * time.Second)
 	select {
 	case <-newCtx.Done():

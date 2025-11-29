@@ -16,6 +16,7 @@ func main() {
 		i = 1
 	}()
 
+	// time.Sleep(time.Second) // но со слипом проблем не будет, так как горутина успеет запуститься
 	mu.Unlock()
 	fmt.Println(i)
 }

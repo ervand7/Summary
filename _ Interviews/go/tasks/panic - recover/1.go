@@ -5,6 +5,9 @@ import (
 	"time"
 )
 
+// because panic happened in the child goroutine, and each goroutine has its
+// own panic/recover chain.
+
 func main() {
 	defer func() {
 		if r := recover(); r != nil {

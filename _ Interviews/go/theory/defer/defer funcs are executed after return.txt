@@ -1,1 +1,7 @@
-defer funcs are executed after return statement.
+defer always executes after the return statement runs, but before
+the function actually exits.
+
+Inside a function:
+1) return <value> evaluates return values
+2) then all defers run (LIFO order)
+3) then the function exits and returns

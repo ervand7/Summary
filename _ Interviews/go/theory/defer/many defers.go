@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// LIFO
+
 func main() {
 	defer fmt.Println("defer 1")
 	defer fmt.Println("defer 2")

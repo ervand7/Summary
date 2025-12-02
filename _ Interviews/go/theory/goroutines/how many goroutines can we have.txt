@@ -29,7 +29,8 @@ for i := 0; i < 1_000_000; i++ {
 
 * Limited by **RAM** and **virtual memory**
 * On 64-bit systems, you can go well into **millions of goroutines**
-* But keep in mind: creating too many goroutines **can degrade performance**, especially if they’re all active (CPU-bound)
+* But keep in mind: creating too many goroutines **can degrade performance**,
+especially if they’re all active (CPU-bound)
 
 
 

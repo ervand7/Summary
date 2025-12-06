@@ -6,7 +6,7 @@ import (
 
 /*
 Если забыть сделать Unlock() в горутине main, то получим deadlock.
-Однако, если бы не было цикла, то не получили бы deadlock.
+Because in this case you try to lock the same mutex twice.
 */
 
 func main() {

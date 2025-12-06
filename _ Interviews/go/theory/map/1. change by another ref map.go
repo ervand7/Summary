@@ -11,11 +11,9 @@ import "fmt"
 func main() {
 	m1 := make(map[string]string, 5)
 	m2 := m1
-	fmt.Printf("%p\n", m1) // 0x14000090180
-	fmt.Printf("%p\n", m2) // 0x14000090180
 
 	m2["hello"] = "world"
 
-	fmt.Println(m1) // map[hello:world]
-	fmt.Println(m2) // map[hello:world]
+	fmt.Println(m1)
+	fmt.Println(m2)
 }

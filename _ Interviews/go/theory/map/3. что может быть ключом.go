@@ -3,6 +3,7 @@ package main
 // ключом может быть все, что поддерживает операции сравнения (== и !=)
 
 func main() {
+	var _ map[bool]int
 	var _ map[struct{}]int
 	var _ map[int]int
 	var _ map[string]int
@@ -18,4 +19,5 @@ func main() {
 	var _ map[*func()]int
 	var _ map[chan any]int
 	var _ map[*map[int]int]int
+	var _ map[*[]int]int
 }

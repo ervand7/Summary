@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// Unlike python, we can refer to a non-existent key and get it zero value.
+// Unlike python, we can refer to a non-existent key and get its zero value.
 // Even if a map is not initialized
 
 func main() {

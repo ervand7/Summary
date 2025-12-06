@@ -1,23 +1,31 @@
 ### Кооперативная многозадачность — Python (с `asyncio`)
 - **Как работает**: В Python, с библиотекой `asyncio`, используется **кооперативная
-многозадачность**. Функции сами решают, когда "уступить" процессор. Они делают это с
-помощью ключевых слов `await` или `yield`, говоря: "Сейчас я могу подождать, дай другим
+многозадачность**. Функции сами решают, когда уступить управление event loop’у.
+Они делают это с помощью ключевых слов `async` и `await`, говоря: "Сейчас я могу подождать, дай другим
 задачам шанс поработать".
 - **Пример**:
   ```python
-  import asyncio
+import asyncio
 
-  async def task1():
-      print("Task 1 starting")
-      await asyncio.sleep(1)  # Уступаем управление
-      print("Task 1 resuming")
+async def task1():
+    print("Task 1 starting")
+    await asyncio.sleep(1)
+    print("Task 1 resuming")
 
-  async def task2():
-      print("Task 2 starting")
-      await asyncio.sleep(1)  # Уступаем управление
-      print("Task 2 resuming")
+async def task2():
+    print("Task 2 starting")
+    await asyncio.sleep(1)
+    print("Task 2 resuming")
 
-  asyncio.run(asyncio.gather(task1(), task2()))
+async def main():
+    await asyncio.gather(task1(), task2())
+
+asyncio.run(main())
+
+# Task 1 starting
+# Task 2 starting
+# Task 1 resuming
+# Task 2 resuming
   ```
   - **Что происходит**: Когда `await asyncio.sleep(1)` выполняется, `task1` уступает
   процессор и позволяет `task2` продолжить выполнение. Задачи сами контролируют моменты,

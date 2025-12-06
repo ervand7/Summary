@@ -1,21 +1,16 @@
-# asyncio (Python 3.5+): Python предоставляет библиотеку asyncio для
-# асинхронного программирования. Это позволяет использовать кооперативную
-# многозадачность для работы с асинхронными функциями без блокировки. Пример:
-
 import asyncio
 
+async def task1():
+    print("Task 1 starting")
+    await asyncio.sleep(1)
+    print("Task 1 resuming")
 
-async def foo():
-    await asyncio.sleep(5)
-    for i in range(5000):
-        print(f"Foo: {i}")
+async def task2():
+    print("Task 2 starting")
+    await asyncio.sleep(1)
+    print("Task 2 resuming")
 
+async def main():
+    await asyncio.gather(task1(), task2())
 
-async def bar():
-    await asyncio.sleep(5)
-    for i in range(5000):
-        print(f"Bar: {i}")
-
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(asyncio.gather(foo(), bar()))
+asyncio.run(main())

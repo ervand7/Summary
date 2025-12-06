@@ -20,4 +20,3 @@
 
 9) потокобезопасная мапа
 10) semafore
-11) singleflight

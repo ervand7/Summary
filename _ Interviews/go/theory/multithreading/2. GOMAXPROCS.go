@@ -15,7 +15,7 @@ time.Millisecond, а далее произойдет выход из горут�
 func main() {
 	runtime.GOMAXPROCS(8)
 	go func() {
-		for true {
+		for {
 			fmt.Println("Infinite loop")
 		}
 	}()

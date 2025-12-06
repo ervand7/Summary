@@ -16,7 +16,7 @@ import (
 func main() {
 	runtime.GOMAXPROCS(1)
 	go func() {
-		for true {
+		for {
 			fmt.Println("Infinite loop")
 		}
 	}()

@@ -5,6 +5,9 @@ import (
 	"sync"
 )
 
+// Go allows lock mutex in ane goroutine and unlock it in another. But it is
+// bad and error-prone pattern.
+
 // fatal error: sync: unlock of unlocked mutex
 
 func main() {

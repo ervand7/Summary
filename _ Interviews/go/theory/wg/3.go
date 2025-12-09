@@ -5,11 +5,6 @@ import (
 	"sync"
 )
 
-/*
-В данном примере Wait() будет ждать вечно, так как никто не будет
-записывать в канал и никто не будет закрывать канал.
-*/
-
 var ch = make(chan struct{})
 
 func thread(wg *sync.WaitGroup, i int) {

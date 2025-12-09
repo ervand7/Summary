@@ -5,21 +5,6 @@ import (
 	"sync"
 )
 
-/*
-Программа выведет
-2
-0
-4
-5
-3
-1
-7
-8
-6
-fatal error: all goroutines are asleep - deadlock!
-Так как после вывода всех чисел у нас Wait будет ждать горутины, которой нет
-*/
-
 func main() {
 	var wg sync.WaitGroup
 
@@ -31,5 +16,6 @@ func main() {
 			wg.Done()
 		}(i)
 	}
+
 	wg.Wait()
 }

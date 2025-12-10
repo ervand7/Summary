@@ -3,10 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	s := make([]int, 2, 4)
-	s[0], s[1] = 1, 2
-	t := append(s, 3)
-	u := append(t, 4)
+	s := []int{1, 2, 3}
+	t := append(s[:1], 10)
+	u := append(s, 20)
 	fmt.Println(s)
 	fmt.Println(t)
 	fmt.Println(u)

@@ -11,5 +11,5 @@ func main() {
 		}(i)
 	}
 
-	fmt.Println(len(s)) // 9691
+	fmt.Println(len(s)) // 10000
 }

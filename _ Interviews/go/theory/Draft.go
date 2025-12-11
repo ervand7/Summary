@@ -1,8 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 func main() {
-	// a := "привет"
-	fmt.Println(string(1087))
+	var wg sync.WaitGroup
+
+	wg.Add(1)
+	wg.Wait()
+	fmt.Println("hello")
 }

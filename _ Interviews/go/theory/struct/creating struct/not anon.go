@@ -14,18 +14,13 @@ type Person struct {
 }
 
 func main() {
-	p1 := Person{}        // main.Person{Name:"", Email:""}
-	var p2 Person         // main.Person{Name:"", Email:""}
+	p1 := Person{}
+	var p2 Person
 	fmt.Println(p1 == p2) // true
 
-	p3 := Person{"Ivan", "qew@qwe.ru"}              // main.Person{Name:"Ivan", Email:"qew@qwe.ru"}
-	p4 := Person{Name: "Ivan", Email: "qew@qwe.ru"} // main.Person{Name:"Ivan", Email:"qew@qwe.ru"}
-	fmt.Println(p3 == p4)                           // true
+	p3 := Person{"Ivan", "qew@qwe.ru"}
+	p4 := Person{Name: "Ivan", Email: "qew@qwe.ru"}
+	fmt.Println(p3 == p4) // true
 
 	fmt.Println(p1 == p3) // false
-
-	fmt.Printf("%#v\n", p1)
-	fmt.Printf("%#v\n", p2)
-	fmt.Printf("%#v\n", p3)
-	fmt.Printf("%#v\n", p4)
 }

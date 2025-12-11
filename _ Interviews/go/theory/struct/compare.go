@@ -31,7 +31,5 @@ func main() {
 	val, ok := m[key]
 	fmt.Println(val, ok) // 1 true
 
-	fmt.Printf("%p\n", &a) // 0x1400009c018
-	fmt.Printf("%p\n", &b) // 0x1400009c030
-	fmt.Println(&a == &b)  // false
+	fmt.Println(&a == &b) // false
 }

@@ -5,8 +5,6 @@ import (
 	"time"
 )
 
-// deadlock, because we pass mutex as a pointer
-
 func main() {
 	var mu sync.Mutex
 

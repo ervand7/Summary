@@ -7,3 +7,4 @@ func main() {
 	copy(s[1:], s[2:])
 	fmt.Println(s)
 }
+

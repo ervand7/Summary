@@ -10,3 +10,4 @@ func main() {
 	fmt.Println(m["a"])
 	fmt.Println(v)
 }
+

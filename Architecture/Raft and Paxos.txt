@@ -1,0 +1,6 @@
+Raft / Paxos patterns solve **consensus**: all nodes agree on the same state/log
+despite failures.
+* They use **quorum (majority)** and prefer **safety over availability** during partitions.
+* **Raft** is leader-based and easier to reason about; **Paxos** is more theoretical.
+* You usually **use them indirectly** (etcd, Consul, Kubernetes), not implement them.
+* They **don’t solve delivery or side effects** — that’s what outbox / idempotency are for.

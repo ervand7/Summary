@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+// тут часто берётся один и тот же mutex, но это нормально и абсолютно безопасно,
+// потому что каждый вызов Lock() происходит в разных местах кода, но поток
+// исполнения никогда не берёт один и тот же mutex дважды подряд без Unlock(),
+// и нет рекурсивных локов.
+
 // Behavior:
 // - Starts with minWorkers
 // - If queued tasks > threshold, pool can spawn up to maxWorkers

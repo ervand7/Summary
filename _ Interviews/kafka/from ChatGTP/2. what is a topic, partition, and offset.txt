@@ -1,0 +1,18 @@
+* Topic – a logical stream of messages (events) of the same type
+* Partition – an ordered, append-only log within a topic that enables scalability
+* Offset – a sequential number identifying a message’s position inside a partition
+
+
+A topic is divided into partitions so Kafka can scale horizontally.
+Each partition preserves message order, and every message inside a partition
+has a unique offset, which consumers use to track progress.
+
+
+* Ordering is guaranteed only within a partition
+* Partitions allow parallel consumption
+* Offsets are per-partition, not global
+* Consumers store offsets, not Kafka pushing messages
+
+
+### One-liner mental model
+> Topic = stream, Partition = shard, Offset = position in the shard

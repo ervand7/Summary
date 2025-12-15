@@ -1,0 +1,21 @@
+Apache Kafka is a distributed event streaming platform** used to reliably publish,
+store, and consume events at scale.
+It solves problems of asynchronous communication, service decoupling, high throughput,
+fault tolerance, and event replay.
+
+
+### One-sentence explanation
+Kafka acts as a durable, ordered, append-only log that allows many producers and
+consumers to exchange data independently and at high scale.
+
+
+### Key problems it solves (very short)
+* Decouples microservices
+* Handles very high throughput
+* Guarantees ordering (per partition)
+* Prevents message loss with replication
+* Allows replay and reprocessing of events
+
+
+### Strong one-liner to remember
+> Kafka is a distributed commit log for event-driven systems.

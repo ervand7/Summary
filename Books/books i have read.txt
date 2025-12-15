@@ -2,7 +2,9 @@
 William Kennedy - Ultimate Go
 Robert Martin - Clean code
 Robert Martin - Clean Architecture
+Martin Fowler - Refactoring
 Марко Лукша - Kubernetes в действии
 Таненбаум - архитектура компъютера
 Дж. Ханк Рейнвотер - Как пасти котов
 Alex Xu - System Design interview
+Martin Kleppmann - Designing Data-Intensive Applications

@@ -1,0 +1,14 @@
+👉 Different consumer groups can read the same partition and the same messages.
+
+* Kafka tracks offsets per consumer group
+* Each group has its own offsets
+* So multiple consumer groups can independently read all messages from the
+ same partition
+
+Important contrast:
+* Within one consumer group: one partition → only one consumer
+* Across different consumer groups: the same partition → many consumers
+
+Interview takeaway:
+> Kafka allows message fan-out by letting multiple consumer groups independently
+consume the same partitions.

@@ -1,0 +1,15 @@
+👉 In most real systems, producers and consumers live in different microservices.
+
+* Producers usually belong to services that create events (orders, payments, users, etc.)
+* Consumers belong to services that react to those events (notifications, analytics,
+ billing, fraud, etc.)
+* Kafka acts as a decoupling layer between them
+
+Important nuance:
+* A single microservice can be both a producer and a consumer (very common)
+* But producers and consumers are logically separate roles, even if sometimes
+ deployed together
+
+Interview-style takeaway:
+> Kafka is typically used to decouple microservices, where event-producing services
+and event-consuming services are deployed independently.

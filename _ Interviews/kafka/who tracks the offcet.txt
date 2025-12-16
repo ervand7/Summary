@@ -1,0 +1,18 @@
+👉 Offsets are tracked per *consumer group + partition*, NOT per individual consumer.
+
+* Kafka stores offsets like this:
+  ```
+  (consumer_group, topic, partition) → offset
+  ```
+* Not `(consumer_group, consumer_id, partition)`
+
+
+* ✔️ The consumer client is responsible for:
+  * tracking progress
+  * committing offsets (auto or manual)
+* ❌ But offsets are not owned permanently by a specific consumer
+  * they belong to the group
+
+Interview-ready sentence:
+> Kafka tracks offsets per consumer group and partition; individual consumers may
+change, but the group offset remains the source of truth.

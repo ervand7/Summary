@@ -1,0 +1,9 @@
+👉 Messages live in a partition as long as the retention policy allows.
+
+* Retention is usually time-based (e.g. 7 days)
+* Or size-based (e.g. keep last 100 GB)
+* Messages are deleted regardless of whether they were consumed or not
+* Consumers keep only offsets, not the messages themselves
+
+Typical interview phrase:
+> Kafka stores messages based on retention policies, not on consumption state.

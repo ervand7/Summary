@@ -1,0 +1,16 @@
+Kafka guarantees message ordering within a single partition by appending
+messages sequentially to an immutable log. There is no ordering guarantee across
+partitions.
+
+
+Each partition is an append-only log.
+Producers write messages in order, Kafka assigns monotonically increasing offsets,
+and consumers read messages sequentially by offset, which preserves order inside
+that partition.
+
+
+### Key details interviewers look for
+* Ordering = per partition
+* Same partition key → same partition → same order
+* Multiple partitions = parallelism, but no global order
+* Consumer groups ensure only one consumer reads a partition at a time

@@ -1,0 +1,19 @@
+👉 The message will be reprocessed by another consumer if the offset was not committed.
+
+What happens step by step:
+* Consumer reads a message
+* If it crashes before committing the offset:
+
+  * Kafka triggers a rebalance
+  * Another consumer in the same group takes over the partition
+  * Processing resumes from the last committed offset
+  * 👉 the message is read again (at-least-once delivery)
+
+If the offset WAS committed before the crash:
+* Kafka considers the message successfully processed
+* The message is not reprocessed
+* Potential risk: message loss (if commit happened too early)
+
+Interview takeaway:
+> Kafka provides at-least-once delivery by default; if a consumer crashes before
+committing offsets, another consumer will reprocess the message.

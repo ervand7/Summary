@@ -1,0 +1,16 @@
+👉 A consumer group is a set of consumers that work together to process messages
+from a topic in parallel.
+
+Why it’s needed:
+* Enables horizontal scaling of message processing
+* Each partition is consumed by only one consumer within the group
+* Prevents duplicate processing inside the same group
+
+How it works:
+* Kafka assigns partitions to consumers in the group
+* If a consumer joins/leaves, Kafka rebalances partitions
+* Offsets are tracked per consumer group
+
+One-line interview answer:
+> A consumer group allows multiple consumers to share the work of processing topic
+partitions while maintaining ordered, non-duplicate consumption within the group.

@@ -1,0 +1,18 @@
+👉 A producer can explicitly choose the partition, not only the topic or key.
+
+How it works (concise):
+
+* Producer can send a record with:
+  * topic only → Kafka uses the partitioner
+  * topic + key → partition = `hash(key) % partitions`
+  * topic + partition → producer forces the partition
+
+Important notes:
+* If you explicitly set the partition, the key is ignored for routing
+* You must ensure:
+  * correct load balancing
+  * ordering guarantees yourself
+
+Interview takeaway:
+> Kafka allows producers to control partition selection either via keys or by
+explicitly specifying the partition.

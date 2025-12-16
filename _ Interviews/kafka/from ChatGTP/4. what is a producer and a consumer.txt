@@ -1,0 +1,8 @@
+* Producer – an application that publishes messages to Kafka topics
+* Consumer – an application that reads messages from Kafka topics
+
+A producer sends records to Kafka and chooses a topic and partition (explicitly or
+via a key).
+A consumer polls records from Kafka, processes them, and tracks progress using offsets.
+
+> Producers write to the log, consumers read from the log.

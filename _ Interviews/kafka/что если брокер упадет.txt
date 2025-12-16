@@ -1,0 +1,11 @@
+* Kafka выбирает нового leader’а для partition из in-sync replicas (ISR)
+* Продюсеры и консумеры автоматически переключаются на нового leader’а
+* Данные не теряются, если есть реплики
+
+⚠️ Если реплик нет (replication factor = 1):
+* partition становится недоступной
+* возможна потеря данных
+
+Интервью-фраза:
+> When a broker fails, Kafka promotes a follower replica to leader from the ISR and
+continues serving requests without data loss, provided replication is configured.

@@ -1,0 +1,2 @@
+В инфраструктуре. Например:
+docker compose up -d --scale kafka=5

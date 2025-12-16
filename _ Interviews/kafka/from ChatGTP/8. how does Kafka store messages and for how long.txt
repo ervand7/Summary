@@ -1,0 +1,26 @@
+Kafka stores messages on disk as append-only logs inside topic partitions
+and keeps them according to a retention policy, not based on whether they
+were consumed.
+
+
+Each partition is a sequence of log segments stored on disk. Messages are retained
+for a configured time (`retention.ms`) or size (`retention.bytes`), after which
+old segments are deleted (or compacted).
+
+
+* Messages are persisted to disk, not memory
+* Kafka does not delete messages after consumption
+* Retention is based on:
+  * Time (e.g. 7 days)
+  * Size (e.g. 100 GB)
+* Consumers track offsets independently
+
+
+### Important extra (often a bonus)
+* Kafka also supports log compaction:
+  * Keeps the latest message per key
+  * Used for changelogs, state, CDC
+
+
+### One-liner to remember
+> Kafka keeps messages on disk based on retention rules, not on consumption.

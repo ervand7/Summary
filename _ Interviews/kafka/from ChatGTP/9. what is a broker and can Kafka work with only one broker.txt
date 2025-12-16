@@ -1,0 +1,25 @@
+A broker is a Kafka server that stores partitions and serves read/write requests
+from producers and consumers.
+Yes, Kafka can run with one broker, but without fault tolerance or high availability.
+
+
+Each broker manages:
+* Topic partitions
+* Message storage
+* Replication
+* Client requests
+
+In a single-broker setup, Kafka works functionally, but if that broker goes down,
+the entire cluster is unavailable.
+
+
+### Key points interviewers expect
+* Brokers form a Kafka cluster
+* Partitions are distributed across brokers
+* Replication requires multiple brokers
+* Production setups always use 3+ brokers
+
+
+### One-liner to remember
+> A broker is a Kafka node that stores data and serves clients. One broker works,
+but it’s not fault-tolerant.

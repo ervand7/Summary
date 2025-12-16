@@ -1,0 +1,59 @@
+* Broker — это сервер Kafka
+* Partition — кусок топика
+* Replica — копия partition, хранящаяся на broker’е
+
+
+## Как они соотносятся
+* Одна partition имеет несколько replica
+* Каждая replica живёт на отдельном broker’е
+* Для каждой partition:
+  * 1 replica = leader
+  * остальные = followers
+
+Пример:
+```text
+Topic: orders
+Partitions: 1
+Replication factor: 3
+Brokers: 3
+```
+
+Размещение:
+```text
+Broker 1 → partition-0 (leader)
+Broker 2 → partition-0 (follower)
+Broker 3 → partition-0 (follower)
+```
+
+👉 Это 1 partition, 3 replica, 3 broker’а
+
+
+## Важные правила
+* ❌ На одном broker’е не может быть две replica одной partition
+* ✅ Один broker может хранить:
+  * replica разных partition
+  * replica разных топиков
+* ❌ Broker ≠ replica
+* ✅ Replica — это данные
+* ✅ Broker — это сервер, который хранит данные
+
+
+## Ещё один пример (часто спрашивают)
+```text
+Topic: orders
+Partitions: 3
+Replication factor: 2
+Brokers: 3
+```
+
+```text
+Broker 1 → p0 (leader), p1 (follower)
+Broker 2 → p1 (leader), p2 (follower)
+Broker 3 → p2 (leader), p0 (follower)
+```
+
+
+## Интервью-формулировка:
+> A Kafka broker is a server that stores data, while a replica is a copy of a partition
+stored on a broker. Each partition has one leader replica and zero or more follower
+replicas, each on different brokers.

@@ -1,0 +1,2 @@
+The Kafka controller is a broker elected to manage cluster metadata and
+coordinate leader elections and partition state changes.

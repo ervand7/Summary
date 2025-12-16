@@ -1,0 +1,24 @@
+ZooKeeper (legacy) and KRaft (modern) are used for Kafka cluster metadata
+management and controller coordination. KRaft replaces ZooKeeper and removes
+Kafka’s external dependency.
+
+
+ZooKeeper was responsible for:
+* Broker registration
+* Controller election
+* Topic and partition metadata
+* Leader election
+
+KRaft (Kafka Raft) moves this logic inside Kafka itself, using the Raft
+consensus protocol for metadata replication.
+
+
+### Key points interviewers expect
+* ZooKeeper is deprecated in modern Kafka
+* KRaft = built-in consensus & metadata layer
+* Removes operational complexity
+* Improves scalability and reliability
+
+
+### One-liner to remember
+> ZooKeeper managed Kafka metadata; KRaft does the same internally using Raft.

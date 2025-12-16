@@ -1,0 +1,32 @@
+A partition key should group related messages that require ordering and be
+well-distributed to avoid hot partitions.
+A bad key causes skewed load, poor scalability, and consumer lag.
+
+
+Kafka hashes the key to choose a partition.
+Messages with the same key always go to the same partition, preserving order.
+If the key has low cardinality or is unevenly distributed, some partitions become
+overloaded while others stay idle.
+
+
+### Key points interviewers expect
+* Key defines ordering scope
+* Same key → same partition
+* Good key:
+  * High cardinality
+  * Even distribution
+  * Matches business logic (user_id, order_id, account_id)
+* Bad key:
+  * Null key → round-robin (no ordering)
+  * Constant key → single hot partition
+
+
+### Real consequences of a bad key
+* One partition becomes a bottleneck
+* Consumer lag grows
+* Rebalancing doesn’t help
+* Throughput plateaus despite more consumers
+
+
+### One-liner to remember
+> Partition keys define both ordering and scalability — choose them carefully.

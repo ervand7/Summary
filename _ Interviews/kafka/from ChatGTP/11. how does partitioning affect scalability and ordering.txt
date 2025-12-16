@@ -1,0 +1,23 @@
+Partitioning enables horizontal scalability by allowing parallel
+reads and writes, but ordering is guaranteed only within a single partition,
+not across partitions.
+
+
+Each partition can be processed independently.
+More partitions → more parallelism and higher throughput.
+However, once data is spread across partitions, Kafka cannot preserve a
+global order.
+
+
+### Key points interviewers expect
+* One partition → one consumer per group
+* Partitions are the unit of parallelism
+* Same key → same partition → preserved order
+* More partitions = better scalability, weaker ordering guarantees
+
+
+### Trade-off to state clearly
+> Kafka trades global ordering for scalability.
+
+### One-liner to remember
+> Partitions scale Kafka, but ordering lives inside a partition.

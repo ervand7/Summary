@@ -1,0 +1,25 @@
+A dead-letter topic (DLQ) is a separate Kafka topic where messages that repeatedly
+fail processing are sent so the main consumer flow can continue.
+
+
+After exceeding retry limits, a consumer publishes the problematic message to a DLQ
+(with metadata like error, original topic/partition/offset) and commits past it to
+avoid blocking the partition.
+
+
+### When you use a DLQ
+* Poison messages (bad schema, invalid data)
+* Non-recoverable business errors
+* Preventing one bad event from blocking an entire partition
+* Post-mortem analysis and manual replay
+
+
+### Key points interviewers expect
+* DLQ is a last resort, not a retry mechanism
+* Ordering is preserved until the message is explicitly quarantined
+* DLQ messages should include context for debugging
+* DLQ consumers are usually separate tools or pipelines
+
+
+### One-liner to remember
+> DLQ isolates poison messages so the system can keep moving.

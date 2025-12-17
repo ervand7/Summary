@@ -1,0 +1,44 @@
+We pause and resume consumption by pausing specific partitions on the
+consumer and later resuming them, which temporarily stops fetching records
+without leaving the consumer group.
+
+
+Kafka consumers can call `Pause()` on assigned partitions to apply backpressure or handle
+downstream overload, and `Resume()` to continue consuming. This does not trigger a
+rebalance and keeps partition ownership.
+
+
+### Why this is important
+* Apply backpressure safely
+* Protect downstream systems (DB, APIs)
+* Avoid rebalancing storms
+* Preserve ordering
+
+
+### Go example (Sarama-style)
+```go
+consumer.Pause([]sarama.TopicPartition{
+    {Topic: "orders", Partition: 3},
+})
+
+// later
+consumer.Resume([]sarama.TopicPartition{
+    {Topic: "orders", Partition: 3},
+})
+```
+
+
+### Key points interviewers expect
+* Pause/resume is per partition
+* Does not affect other consumers
+* Does not revoke partitions
+* Lag will grow while paused (that’s OK)
+
+
+### What not to do
+* Don’t stop polling completely (can trigger rebalance)
+* Don’t pause forever without monitoring lag
+
+
+### One-liner to remember
+> Pause/resume applies backpressure without rebalancing.

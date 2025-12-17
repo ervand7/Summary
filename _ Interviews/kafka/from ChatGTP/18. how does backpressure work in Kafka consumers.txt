@@ -1,0 +1,21 @@
+Kafka consumers apply backpressure by controlling how fast they poll and commit
+offsets, not by Kafka pushing fewer messages.
+
+
+Kafka uses a pull-based model.
+A consumer slows down by:
+* Polling less frequently
+* Pausing partitions
+* Processing messages slower and delaying commits
+
+Kafka simply retains data on disk while the consumer catches up.
+
+
+### Key points interviewers expect
+* Kafka does not push messages
+* Backpressure is handled client-side
+* Lag is the natural buffer
+
+
+### One-liner to remember
+> In Kafka, backpressure is consumer-controlled via pull and lag.

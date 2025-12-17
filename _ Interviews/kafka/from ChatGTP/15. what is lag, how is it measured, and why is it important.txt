@@ -1,0 +1,33 @@
+Lag is the difference between the latest offset in a partition and the offset
+a consumer has processed. It is measured as `log_end_offset − committed_offset` and
+shows how far behind a consumer is.
+
+
+Each partition has a high watermark (or end offset).
+Kafka tracks the committed offset for each consumer group.
+The gap between them is the consumer lag.
+
+
+### Why lag is important
+* Indicates processing speed vs input rate
+* Early signal of performance problems
+* Helps detect stuck or slow consumers
+* Used for autoscaling decisions
+
+
+### Common causes of lag
+* Slow message processing
+* Insufficient consumers
+* Hot partitions
+* Downstream dependencies (DB, API)
+* Rebalancing events
+
+
+### Key points interviewers expect
+* Lag is per partition
+* Zero lag ≠ system is healthy (processing might be slow but caught up)
+* Growing lag = system is falling behind
+
+
+### One-liner to remember
+> Lag measures how far consumers are behind the log.

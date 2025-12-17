@@ -1,0 +1,18 @@
+### Producer (critical)
+* acks
+* enable.idempotence
+
+
+### Consumer (critical)
+* manual commits (`enable.auto.commit=false`)
+* max.poll.records
+* max.poll.interval.ms
+* session.timeout.ms
+* heartbeat.interval.ms
+
+
+### Operational / cross-cutting
+* compression
+* timeouts
+* consumer lag monitoring
+* graceful shutdown

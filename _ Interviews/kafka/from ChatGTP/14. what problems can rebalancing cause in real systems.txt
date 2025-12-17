@@ -1,0 +1,19 @@
+Rebalancing can cause temporary pauses in consumption, increased latency, and
+duplicate message processing if offsets are not managed correctly.
+
+
+During a rebalance, consumers stop processing, partitions are revoked and reassigned,
+and work may be interrupted. In real systems, frequent rebalances can seriously hurt
+throughput and stability.
+
+
+### Main problems rebalancing causes
+* Processing pauses → higher end-to-end latency
+* Duplicate processing → offsets committed too late
+* Lost in-flight work → long-running handlers get interrupted
+* Lag spikes → consumers restart from older offsets
+* Rebalance storms → cascading failures under load
+
+
+### One-liner to remember
+> Rebalancing is necessary, but frequent rebalances are a production smell.

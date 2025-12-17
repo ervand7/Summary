@@ -1,0 +1,29 @@
+Kafka replicates each partition across multiple brokers.
+One broker is the leader, others are followers.
+ISR (In-Sync Replicas) is the set of replicas that are fully caught up with the leader.
+
+
+* Producers write only to the leader
+* Followers replicate data from the leader
+* A replica is in ISR if it:
+  * Is alive
+  * Has replicated all messages within a configured lag
+
+Only ISR replicas are considered safe for acknowledgments and leader election.
+
+
+### Key points interviewers expect
+* Replication factor ≥ 3 in production
+* `acks=all` waits for all ISR replicas
+* If a follower falls behind → removed from ISR
+* New leader is elected from ISR only
+
+
+### Why ISR matters
+* Prevents data loss
+* Guarantees durability
+* Enables safe failover
+
+
+### One-liner to remember
+> ISR = replicas that are caught up and safe to trust.

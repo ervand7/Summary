@@ -1,26 +1,6 @@
 An idempotent producer guarantees that each message is written exactly once
 per partition, even if retries happen, by using producer IDs and sequence numbers.
 
-
-When idempotence is enabled, Kafka assigns the producer a Producer ID (PID).
-For each partition, the producer attaches a monotonically increasing sequence number
-to every batch. The broker tracks the last seen sequence number per PID + partition
-and rejects duplicates or out-of-order writes.
-
-
-### What happens internally (step-by-step)
-1. Producer gets a PID from the broker
-2. Each record batch includes:
-   * PID
-   * Partition
-   * Sequence number
-3. Broker checks:
-   * If sequence == expected → accept
-   * If sequence < expected → duplicate → drop
-   * If sequence > expected → out-of-order → error
-4. Producer retries safely without duplication
-
-
 ### Key guarantees and limits
 * Guarantees no duplicates on retries
 * Works per partition

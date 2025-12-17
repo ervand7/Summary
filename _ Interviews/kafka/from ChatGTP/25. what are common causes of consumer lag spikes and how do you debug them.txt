@@ -1,0 +1,59 @@
+Consumer lag spikes happen when consumers process messages slower than producers 
+produce them. Debugging starts by checking which partitions are lagging and why.
+
+
+Common causes of lag spikes:
+#### Consumer-side
+* Slow message processing
+* Blocking I/O (DB, HTTP, external APIs)
+* Too large `max.poll.records`
+* Long GC pauses
+* Rebalancing events
+* Single-threaded processing per partition
+
+#### Partitioning / scaling
+* Hot partitions (bad key distribution)
+* Too few partitions for consumer count
+* One slow consumer blocking a partition
+
+#### Infrastructure
+* Broker overload
+* Network latency
+* Disk I/O saturation
+* CPU throttling (Kubernetes)
+
+
+### How to debug (systematic approach)
+1. Check lag per partition
+   * Identify hot partitions
+
+2. Check rebalance frequency
+   * Frequent rebalances = misconfigured timeouts or slow processing
+
+3. Inspect processing time
+   * Compare with `max.poll.interval.ms`
+
+4. Check downstream dependencies
+   * DB/API latency, retries
+
+5. Inspect consumer metrics
+   * Poll rate
+   * Commit latency
+   * Processing duration
+
+6. Check broker health
+   * ISR size
+   * Under-replicated partitions
+
+
+### Senior-level fixes
+* Fix partition key skew
+* Increase partitions
+* Scale consumer group
+* Add backpressure (pause/resume)
+* Optimize downstream calls
+* Separate heavy processing from polling loop
+
+
+### One-liner to remember
+> Lag grows when consumption can’t keep up with production.

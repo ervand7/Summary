@@ -1,0 +1,35 @@
+### 0) Зачем
+Чтобы сделать exactly-once в цепочке *consume → process → produce* (без дублей и
+без “потерял/перепроцессил”).
+
+
+### 1) Настраиваем producer
+* `transactional.id = "..."` (уникальный и стабильный)
+* (обычно Kafka сама выставит нужное) `enable.idempotence=true`, `acks=all`
+
+### 2) Инициализация
+* `producer.initTransactions()`
+
+### 3) Начинаем транзакцию
+* `producer.beginTransaction()`
+
+### 4) Пишем результаты
+* `producer.send(...)` (можно в несколько топиков)
+
+### 5) “Привязываем” offsets (если это consume→produce)
+* `producer.sendOffsetsToTransaction(offsets, groupId)`
+  То есть: *“я считаю эти сообщения обработанными, но только если транзакция закоммитится”*
+
+### 6) Завершаем
+* успех → `producer.commitTransaction()`
+* ошибка → `producer.abortTransaction()`
+
+
+## Что делает consumer
+* Чтобы не видеть “незавершённые” записи:
+  * `isolation.level=read_committed`
+
+
+## Одна фраза
+> Транзакции в Kafka = атомарно записать результаты и зафиксировать offsets (или
+откатить всё).

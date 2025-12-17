@@ -1,0 +1,24 @@
+A Kafka producer can automatically retry sending a record if the send fails.
+
+### How it works:
+* The producer sends a record to the leader broker
+* If the send fails (temporary error, network issue, leader change):
+  * the producer retries sending the same record
+
+### Key producer settings
+* `retries` — how many times to retry (`0`, `3`, `Integer.MAX_VALUE`, etc.)
+* `retry.backoff.ms` — delay between retries
+* `delivery.timeout.ms` — total time allowed for all retries
+
+### Important consequence (interview-critical)
+Retries can cause duplicate messages.
+
+That’s why:
+* With retries + `acks=all` → you get at-least-once delivery
+* To avoid duplicates, you need:
+  * Idempotent producer (`enable.idempotence=true`)
+  * or transactions (for exactly-once)
+
+### One-liner to remember
+> Kafka producers retry failed sends, but retries may cause duplicates unless idempotence
+is enabled.

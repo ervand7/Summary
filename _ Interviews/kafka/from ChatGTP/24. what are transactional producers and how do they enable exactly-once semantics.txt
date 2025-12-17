@@ -1,0 +1,39 @@
+Transactional producers allow Kafka to atomically write messages to multiple
+partitions and commit consumer offsets together, enabling exactly-once semantics (EOS).
+
+
+Kafka transactions extend idempotent producers with begin/commit/abort semantics.
+Either all messages and offsets are committed, or none are, even in the presence
+of failures.
+
+
+### How exactly-once works (internally, high level)
+1. Producer uses a `transactional.id`
+2. Kafka assigns a PID and tracks transaction state
+3. Producer:
+   * `beginTransaction()`
+   * writes records
+   * optionally sends consumer offsets (`sendOffsetsToTransaction`)
+4. `commitTransaction()` → all writes become visible
+   `abortTransaction()` → all writes are discarded
+
+Consumers with `isolation.level=read_committed` only see committed data.
+
+
+### What EOS guarantees (and what it doesn’t)
+✅ No duplicates on retries
+✅ Atomic writes + offset commits
+✅ Exactly-once between Kafka topics
+
+❌ Not end-to-end exactly-once with external systems (DBs, APIs) without extra patterns
+
+
+### When you use transactional producers
+* Kafka Streams
+* Read-process-write pipelines
+* Financial/stateful workflows
+
+
+### One-liner to remember
+> Transactions make writes and offset commits atomic, enabling exactly-once semantics
+in Kafka.

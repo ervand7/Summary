@@ -1,0 +1,24 @@
+Consumer rebalancing is the process of redistributing partitions among consumers
+in a consumer group. It happens when the group membership or partition count changes.
+
+During a rebalance, Kafka pauses consumption, revokes partitions from some consumers,
+and assigns them to others so that each partition is owned by exactly one consumer
+in the group.
+
+### When rebalancing happens
+* A consumer joins the group
+* A consumer leaves or crashes
+* A consumer times out (misses heartbeats)
+* Topic partitions are added or removed
+
+### Key points interviewers expect
+* Rebalancing causes a temporary stop in consumption
+* Poorly tuned timeouts → frequent rebalances
+* Long message processing can trigger rebalances
+* Proper offset commits are critical
+
+### One-liner to remember
+> Rebalancing keeps partitions evenly assigned, but it briefly stops consumers.
+
+Very common follow-up:
+“What problems can rebalancing cause in production?”

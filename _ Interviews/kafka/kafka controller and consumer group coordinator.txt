@@ -1,0 +1,51 @@
+Kafka has two different broker roles:
+
+Kafka Controller
+- One broker per cluster
+- Manages cluster state
+- Tracks brokers and partitions
+- Elects partition leaders
+- Handles broker failures
+- Does NOT manage consumers or rebalancing
+
+Schema:
+Kafka Cluster
+│
+├─ Broker 1  ← Controller
+│    ├─ Knows all brokers
+│    ├─ Knows all partitions
+│    ├─ Elects leaders
+│    └─ Handles broker failures
+│
+├─ Broker 2
+├─ Broker 3
+└─ Broker 4
+
+
+Consumer Group Coordinator
+- One broker per consumer group
+- Manages consumer group state
+- Triggers consumer rebalance
+- Assigns partitions to consumers
+- Stores and manages offsets
+- Does NOT manage brokers or cluster topology
+
+Schema:
+Consumer Group A
+│
+├─ Consumer 1 ──┐
+├─ Consumer 2 ──┼── Coordinator (Broker 3)
+├─ Consumer 3 ──┘
+│
+└─ Partitions:
+    P0 → Consumer 1
+    P1 → Consumer 2
+    P2 → Consumer 3
+
+
+Key distinction
+- Controller = cluster & partitions
+- Coordinator = consumers & rebalance
+
+One-liner
+> Controller manages the Kafka cluster; Coordinator manages consumer groups.

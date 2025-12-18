@@ -1,0 +1,31 @@
+## How do you estimate the maximum RPS a Go HTTP service can handle?
+
+👉 There is no fixed number — max RPS depends on request cost and system limits.
+
+Step 1: Define the request profile
+* What does one request do? (CPU, DB, cache, external calls)
+* Average and p99 latency
+* Allocation and memory behavior
+
+Step 2: Use Little’s Law
+* Concurrency ≈ RPS × latency
+* Check if memory, goroutines, and pools can handle that concurrency
+
+Step 3: Identify hard limits
+* CPU cores (CPU-bound handlers)
+* DB / Redis connection pool sizes
+* HTTP client and server limits
+* OS limits (FDs, ports)
+
+Step 4: Load test
+* Increase RPS gradually
+* Watch latency percentiles, error rate, GC, memory
+* Max RPS is where latency spikes or errors start
+
+Key insight:
+* Max RPS is reached when latency or errors grow non-linearly, not when CPU hits 100%
+
+One-line interview answer:
+> I estimate max RPS by defining request cost, applying RPS × latency to understand
+concurrency, identifying pool and CPU limits, and validating with load testing until
+latency or error rates degrade.

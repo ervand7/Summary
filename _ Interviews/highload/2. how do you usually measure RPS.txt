@@ -1,0 +1,55 @@
+Usually RPS is measured as a rate over time, not as an instantaneous value.
+
+## Standard definition
+RPS = number of completed requests / time window
+
+Example:
+```
+RPS = 10 000 requests / 1 second
+```
+
+
+## How it’s measured in practice
+### 1) Sliding time window (most common)
+Count requests over a short interval and divide by its length.
+
+Examples:
+* 1s window → very noisy
+* 5s / 10s window → common
+* 1m window → stable, good for dashboards
+
+
+### 2) Server-side counters (Prometheus-style)
+Increment a counter per request:
+http_requests_total{route="/users"}
+
+Then compute RPS as:
+rate(http_requests_total[1m])
+
+➡️ This gives average RPS over the last minute.
+
+
+### 3) Client-side measurement
+* Load generators (k6, JMeter, Locust)
+* Measure how many requests were actually sent or completed
+
+Used mainly for testing, not production truth.
+
+
+## Important details
+* Usually measure completed requests, not started
+* Often split by:
+  * route / RPC method
+  * status code (2xx / 5xx)
+  * success vs failure
+
+
+## Common mistakes
+❌ Using a single instant value
+❌ Ignoring time window size
+❌ Mixing sent vs completed requests
+❌ Comparing RPS without latency context
+
+
+## Short rule of thumb
+> RPS = rate(counter) over a defined window

@@ -1,0 +1,23 @@
+👉 When RPS increases 10×, systems usually fail due to waiting and resource 
+exhaustion, not CPU.
+
+What appears first:
+* Latency increases before errors
+* Number of concurrent in-flight requests grows
+* Downstream services (DB, cache, APIs) become bottlenecks
+
+Typical technical limits hit:
+* Database / Redis connection pools are exhausted
+* Goroutines pile up while waiting on I/O
+* Memory usage and GC pressure increase
+* Lock contention appears on shared resources
+
+Why this is dangerous:
+* Higher latency increases concurrency (`RPS × latency`)
+* Concurrency amplifies memory and pool usage
+* Errors appear last, often triggering retries and cascading failures
+
+One-line interview answer:
+> When RPS grows 10×, latency and downstream dependencies become bottlenecks first, 
+leading to increased concurrency, pool exhaustion, and memory pressure long before 
+CPU limits are reached.

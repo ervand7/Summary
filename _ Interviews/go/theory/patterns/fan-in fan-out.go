@@ -35,6 +35,7 @@ func main() {
 		close(out)
 	}()
 
+	// fanIn
 	go func() {
 		for j := 0; j < jobsCount; j++ {
 			in <- j

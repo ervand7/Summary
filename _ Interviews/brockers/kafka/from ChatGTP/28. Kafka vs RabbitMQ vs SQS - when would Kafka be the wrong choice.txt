@@ -1,0 +1,30 @@
+Kafka is the wrong choice when you need low-latency request/response, simple 
+task queues, or fully managed infrastructure with minimal ops.
+
+
+### When not to use Kafka
+* Simple job queues
+  * RabbitMQ / SQS are simpler and cheaper
+
+* Per-message acknowledgments & routing
+  * RabbitMQ excels at complex routing, priorities, TTL
+
+* Very low latency (< milliseconds)
+  * Kafka favors throughput over latency
+
+* No ops / serverless environments
+  * SQS requires almost zero operational effort
+
+* Strict FIFO across all messages
+  * Kafka only guarantees ordering per partition
+
+
+### When Kafka *is* the right choice (contrast)
+* High throughput event streams
+* Replay & time travel
+* Multiple independent consumers
+* Event-driven architectures
+
+
+### One-liner to remember
+> Kafka is a log for streams, not a queue for tasks.

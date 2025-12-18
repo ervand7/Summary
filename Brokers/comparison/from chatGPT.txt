@@ -1,119 +1,51 @@
-English:
-Kafka and RabbitMQ are both popular message brokers used for building distributed systems
-and implementing messaging architectures. While they serve similar purposes, they have
-distinct features and are designed to handle different use cases. Here are the key
-differences between Kafka and RabbitMQ:
+## Kafka vs RabbitMQ — краткий конспект
 
-1. Messaging Model:
- - RabbitMQ: RabbitMQ is based on the Advanced Message Queuing Protocol (AMQP). It follows
- the traditional message queueing model, where messages are sent to a queue by producers
- and consumed from the queue by consumers. RabbitMQ supports multiple messaging patterns,
- including point-to-point (queues) and publish-subscribe (exchanges).
+### 1. Модель сообщений
+* RabbitMQ — классические очереди (AMQP):
+  producer → queue → consumer
+  Поддерживает point-to-point и pub/sub через exchanges.
+* Kafka — publish/subscribe + log:
+  producer → topic (log) → consumers
+  Сообщения хранятся как неизменяемый лог.
 
- - Kafka: Kafka follows the publish-subscribe messaging model. It is designed as a distributed
- streaming platform, where messages are published to topics and then stored in a
- log-like structure. Consumers can subscribe to topics and receive messages in real-time.
- Kafka does not use traditional queues and provides a more flexible and scalable messaging system.
 
-2. Persistence:
- - RabbitMQ: By default, RabbitMQ stores messages in memory, which means messages may be lost
- in case of broker failure unless they are explicitly marked as durable. However, you can
- configure RabbitMQ to store messages on disk to ensure durability.
+### 2. Хранение данных
+* RabbitMQ — по умолчанию в памяти, durability нужно включать явно.
+* Kafka — всегда пишет на диск, хранит данные по retention-политике.
 
- - Kafka: Kafka is built for durability. Messages in Kafka topics are persisted on disk
- for a configurable period, even after they are consumed. This makes Kafka suitable for use
- cases where data retention is critical.
 
-3. Scalability:
- - RabbitMQ: RabbitMQ is designed to be highly available and can be deployed in a clustered
- mode to handle high loads and provide fault tolerance. However, scaling RabbitMQ may require
- additional configurations and management.
+### 3. Масштабирование
+* RabbitMQ — масштабируется, но требует ручной настройки и осторожности.
+* Kafka — масштабирование «по дизайну»: партиции, репликация, горизонтальный рост.
 
- - Kafka: Kafka is highly scalable by design and can handle a massive amount of data and
- traffic. It is built to be distributed, partitioned, and replicated, making it ideal
- for handling large-scale data streams.
 
-4. Use Cases:
- - RabbitMQ: RabbitMQ is well-suited for traditional messaging scenarios, especially
- when strict message ordering is required, and when you have a mix of short-lived
- and long-lived consumers. It is commonly used in enterprise applications, task
- distribution, and RPC-style communication.
+### 4. Консумеры
+* RabbitMQ — сообщение из очереди получает один consumer.
+* Kafka — consumer groups:
+  одно сообщение → один consumer внутри группы,
+  но разные группы читают одно и то же сообщение независимо.
 
- - Kafka: Kafka is best suited for scenarios where real-time event streaming,
- data pipelines, and high-throughput data processing are needed. It is commonly
- used for log aggregation, stream processing, event sourcing, and building
- real-time data processing systems.
 
-5. Consumer Grouping:
- - RabbitMQ: In RabbitMQ, consumers are grouped around queues. Each message
- is delivered to one consumer in the consumer group (point-to-point pattern).
+### 5. Типичные use cases
 
- - Kafka: Kafka introduces the concept of consumer groups. A consumer group
- allows multiple consumers to read from a topic simultaneously, and each message
- in the topic is consumed by one member of the group, enabling parallel processing
- and load balancing.
+* RabbitMQ
+  * Task queues
+  * RPC
+  * Enterprise-интеграции
+  * Низкая задержка, сложная маршрутизация
 
-In summary, RabbitMQ is a traditional message broker with a focus on queuing
-and point-to-point messaging, while Kafka is a distributed streaming platform
-designed for high-throughput, real-time data processing and event streaming.
-The choice between Kafka and RabbitMQ depends on the specific requirements
-of your application and the nature of your messaging needs.
+* Kafka
+  * Event streaming
+  * Data pipelines
+  * Log aggregation
+  * Event sourcing
+  * Высокий throughput
 
-============================================================================
-Русский:
-Kafka и RabbitMQ - это две популярные системы обмена сообщениями (message brokers), используемые для
-создания распределенных систем и реализации архитектуры сообщений. Несмотря на то, что они
-выполняют схожие задачи, у них есть свои особенности и они предназначены для обработки
-разных сценариев. Вот основные различия между Kafka и RabbitMQ:
 
-1. Модель обмена сообщениями:
- - RabbitMQ: RabbitMQ базируется на протоколе AMQP (Advanced Message Queuing Protocol). Он
- следует традиционной модели обмена сообщениями, когда производители отправляют сообщения в
- очередь, а потребители извлекают их из очереди для обработки. RabbitMQ поддерживает
- несколько типов обмена сообщениями, включая point-to-point (queues) и publish-subscribe (exchanges).
+### Короткий вывод
+* RabbitMQ — «умная очередь сообщений»
+* Kafka — «распределённый commit log / streaming-платформа»
 
- - Kafka: Kafka следует модели публикация-подписка. Он представляет собой распределенную
- потоковую платформу, в которой сообщения публикуются в топиках и затем сохраняются в виде
- log-файлов. Консумеры могут подписаться на топики и получать сообщения в реальном времени.
- Kafka не использует традиционные очереди и предоставляет более гибкую и масштабируемую
- систему обмена сообщениями.
-
-2. Устойчивость данных:
- - RabbitMQ: По умолчанию RabbitMQ хранит сообщения в памяти, что означает, что сообщения могут
- быть потеряны в случае отказа брокера, если они не были явно помечены как сохраняемые (durable).
- Однако можно настроить RabbitMQ для хранения сообщений на диске, чтобы обеспечить их устойчивость.
-
- - Kafka: Kafka создана для обеспечения устойчивости данных. Сообщения в топиках сохраняются
- на диске в течение заданного периода, даже после того, как они были обработаны. Это делает
- Kafka подходящим для сценариев, где сохранение данных критично.
-
-3. Масштабируемость:
- - RabbitMQ: RabbitMQ разработан с учетом высокой доступности и может быть развернут в кластерном
- режиме для обработки больших нагрузок и обеспечения отказоустойчивости. Однако масштабирование
- RabbitMQ может потребовать дополнительной настройки и управления.
-
- - Kafka: Kafka является высокомасштабируемой системой по своей природе и может обрабатывать
- огромные объемы данных и трафика. Она построена для распределения, разделения и репликации данных,
- что делает ее идеальной для обработки данных в реальном времени.
-
-4. Сферы применения:
- - RabbitMQ: RabbitMQ отлично подходит для традиционных сценариев обмена сообщениями,
- особенно когда требуется строгое упорядочивание сообщений, и когда есть комбинация кратковременных и
- долгоживущих потребителей. Он часто используется в enterprise, распределении задач и коммуникации по RPC.
-
- - Kafka: Kafka наиболее подходит для сценариев реального времени, потоковой обработки данных
- и обработки высокого объема данных. Обычно она применяется для агрегации журналов, потоковой обработки
- данных, и построения real-time data processing стиля.
-
-5. Группировка потребителей:
- - RabbitMQ: В RabbitMQ консумеры группируются вокруг очередей. Каждое сообщение доставляется одному
- консумеру в группе (паттерн "point-to-point").
-
- - Kafka: Kafka представляет концепцию групп консумеров. Группа консумеров позволяет нескольким потребителям
- одновременно читать данные из одной темы, и каждое сообщение в теме обрабатывается одним участником группы,
- что обеспечивает параллельную обработку и балансировку нагрузки.
-
-В итоге, RabbitMQ - это традиционный брокер сообщений с упором на очереди и point-to-point обмен
-сообщениями, в то время как Kafka - это распределенная потоковая платформа, разработанная для
-обработки данных в реальном времени и потоковой обработки событий. Выбор между Kafka и RabbitMQ
-зависит от конкретных требований вашего приложения и характера ваших потребностей в обмене сообщениями.
+Правило выбора:
+* Нужны очереди и сложная маршрутизация → RabbitMQ
+* Нужен поток событий, масштаб и хранение → Kafka

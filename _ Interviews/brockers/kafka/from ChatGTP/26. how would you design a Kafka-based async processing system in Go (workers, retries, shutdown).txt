@@ -1,0 +1,12 @@
+* Consumer group + manual commits (`enable.auto.commit=false`)
+* Ordering strategy: process sequentially per partition (one goroutine per assigned partition)
+  * parallelism comes from many partitions, not concurrent work inside one partition
+* Retries: classify errors
+  * transient → in-place retry with exponential backoff + max attempts
+  * permanent / exhausted → publish to DLQ with context, then move on
+* Offset rule: commit only after success (or after DLQ publish). Never commit past a
+ failed message.
+* Backpressure: bounded queues + `pause()/resume()` when downstream is slow
+* Graceful shutdown: stop polling/assigning work → drain in-flight (with timeout) →
+ commit safe offsets → close consumer/producer
+* Observability: lag per partition, processing latency, retry/DLQ counters, rebalance count

@@ -1,0 +1,22 @@
+Handle graceful shutdown by stopping intake, finishing in-flight processing, committing
+safe offsets, and then closing the consumer, all within a bounded timeout.
+
+
+* Catch SIGTERM / context cancellation
+* Stop consuming new messages (pause partitions or exit consume loop)
+* Drain in-flight work (wait for workers to finish)
+* Commit offsets only for successfully processed messages
+* Close consumer cleanly
+
+If the timeout is exceeded, exit and rely on at-least-once reprocessing.
+
+
+### Key points interviewers expect
+* Manual commits
+* No committing before processing
+* Time-bounded shutdown
+* Rebalance-safe behavior
+
+
+### One-liner to remember
+> Stop intake → drain work → commit → close.

@@ -1,0 +1,31 @@
+👉 Goroutines scale much better than OS threads, but they are not free.
+
+Goroutines
+* Managed by the Go runtime, not the OS
+* Start with a small stack (a few KB) that grows dynamically
+* Very cheap to create and context-switch
+* Designed for high-concurrency workloads
+
+OS threads
+* Managed by the operating system
+* Large fixed stack (often ~1–8 MB)
+* Expensive to create and context-switch
+* Limited in number before the system degrades
+
+Why goroutines scale better:
+* Millions of goroutines can exist, while thousands of OS threads cannot
+* Go scheduler multiplexes goroutines onto a small number of OS threads
+* Blocking I/O does not block an OS thread
+
+Under high load, the catch:
+* Goroutines that block on I/O still consume memory
+* Excessive goroutines increase GC pressure
+* Goroutine buildup is a common failure mode
+
+Important clarification:
+* Goroutines are cheap, but unbounded goroutines are dangerous
+
+One-line interview answer:
+> Goroutines scale better than OS threads because they’re lightweight and scheduled
+by the Go runtime, but under high load too many blocked goroutines still cause
+memory and GC pressure.

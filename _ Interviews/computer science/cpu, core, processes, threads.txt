@@ -1,0 +1,26 @@
+PHYSICAL MACHINE
+└── CPU
+    ├── Physical cores: 8
+    │   └── Hyper-Threading → 2 virtual cores per core
+    │
+    └── Logical (virtual) cores: 16
+         ↓
+OPERATING SYSTEM
+└── Schedules work on 16 logical cores
+     ↓
+PROCESSES
+└── e.g. 200 processes
+     ├── Process 1
+     │   ├── Thread 1
+     │   ├── Thread 2
+     │   └── ...
+     │
+     ├── Process 2
+     │   ├── Thread 1
+     │   └── ...
+     │
+     └── Process N
+         ├── Thread 1
+         ├── Thread 2
+         └── ...
+     (total threads: e.g. 10 000)

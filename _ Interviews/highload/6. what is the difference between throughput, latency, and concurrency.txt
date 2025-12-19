@@ -1,0 +1,34 @@
+👉 These three describe different dimensions of system performance.
+
+Latency
+* Time it takes to process one request
+* Measured in milliseconds (p50 / p95 / p99)
+* Affects user experience directly
+
+Throughput
+* How many requests the system completes per second
+* Measured as RPS
+* Indicates overall processing capacity
+
+Concurrency
+* Number of requests being processed at the same time
+* Depends on both throughput and latency
+
+Key relationship (very important):
+```
+Concurrency ≈ Throughput × Latency
+```
+
+Why this matters:
+* Throughput can stay constant while latency grows
+* Higher latency increases concurrency
+* High concurrency increases memory, goroutine, and pool pressure
+
+Common mistake:
+* Confusing high throughput with good latency
+* A system can handle high RPS but still be slow or unstable
+
+One-line interview answer:
+> Latency is how long one request takes, throughput is how many requests are handled
+per second, and concurrency is how many requests are in-flight at once, roughly equal
+to throughput multiplied by latency.

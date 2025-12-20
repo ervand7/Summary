@@ -1,0 +1,3 @@
+A single Go HTTP instance is limited by CPU, memory/GC, and especially downstream I/O
+like database and external calls, with OS and connection pool limits often capping
+RPS before the HTTP server itself does.

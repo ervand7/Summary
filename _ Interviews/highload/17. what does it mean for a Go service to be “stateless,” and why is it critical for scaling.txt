@@ -1,0 +1,7 @@
+ A stateless Go service keeps no per-user state in memory, allowing any instance to 
+handle any request, which makes horizontal scaling, load balancing, and fault tolerance 
+simple and reliable.
+
+In contrast, a stateful service keeps user/session state in memory, which requires
+sticky sessions or external state storage and complicates scaling, failover, and
+instance restarts.

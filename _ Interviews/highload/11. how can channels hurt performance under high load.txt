@@ -1,0 +1,75 @@
+👉 Channels can become a bottleneck when they introduce contention, blocking, or 
+excessive coordination.
+
+What channels do well:
+* Safe communication between goroutines
+* Clear ownership and synchronization
+* Great for moderate concurrency
+
+Where problems appear under high RPS:
+* Many goroutines send/receive on the same channel
+* Unbuffered or small-buffer channels cause blocking
+* Channel operations involve locks and scheduler interaction
+
+Typical problematic patterns:
+* Single shared channel used by many producers/consumers
+* Channels on hot paths (per-request processing)
+* Using channels instead of simple function calls or mutexes
+* Large fan-in / fan-out through one channel
+
+Why this hurts scalability:
+* Sends/receives may block, increasing latency
+* Contention on channel internals increases scheduler overhead
+* Goroutines pile up waiting on channels
+* Throughput stops scaling with added goroutines
+
+Important clarification:
+* Channels are about coordination, not raw performance
+* They are slower than mutexes or atomics in hot paths
+
+One-line interview answer:
+> Channels can hurt performance under high load when many goroutines contend on them,
+causing blocking and scheduler overhead, especially if they’re used on hot paths or as
+shared fan-in/fan-out points.
+
+```
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func main() {
+	ch := make(chan int) // unbuffered → maximum contention
+
+	var wg sync.WaitGroup
+
+	// 10_000 goroutines trying to send at the same time
+	for i := 0; i < 10_000; i++ {
+		wg.Add(1)
+		go func(v int) {
+			defer wg.Done()
+			ch <- v // BLOCKS until receiver is ready
+		}(i)
+	}
+
+	// single consumer
+	go func() {
+		for v := range ch {
+			_ = v // simulate work
+		}
+	}()
+
+	wg.Wait()
+	close(ch)
+
+	fmt.Println("done")
+}
+```
+
+10,000 goroutines
+        ↓
+   single channel
+        ↓
+   one receiver

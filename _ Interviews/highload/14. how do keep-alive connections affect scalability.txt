@@ -1,0 +1,3 @@
+Keep-alive improves scalability by reusing TCP connections and reducing per-request
+overhead, but too many long-lived connections can exhaust resources (file descriptors,
+memory, goroutines) if timeouts and limits aren’t configured properly.

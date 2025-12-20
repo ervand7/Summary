@@ -1,0 +1,3 @@
+Increasing timeouts under load makes systems less stable because requests wait
+longer, increasing concurrency and resource usage, which amplifies overload instead
+of relieving it.

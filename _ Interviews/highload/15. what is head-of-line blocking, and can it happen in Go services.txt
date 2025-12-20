@@ -1,0 +1,31 @@
+👉 Head-of-line blocking happens when one slow request prevents others from 
+being processed, even if they are independent.
+
+What HoL blocking means:
+* Requests are queued behind a slow operation
+* Faster requests are forced to wait
+* Overall latency increases even though resources exist
+
+Where HoL blocking appears:
+* HTTP/1.1 — one request at a time per connection
+* Shared queues or channels
+* Mutex-protected critical sections
+* Limited worker pools
+
+In Go HTTP services:
+* HTTP/1.1 can suffer HoL blocking on a single keep-alive connection
+* Slow handlers can block shared resources
+* A blocked goroutine holding a lock can delay many others
+
+HTTP/2 difference:
+* Multiple concurrent streams over one connection
+* Eliminates HoL blocking at the application layer
+* Still possible at lower layers (CPU, locks, DB)
+
+Key insight:
+* HoL blocking is usually caused by shared bottlenecks, not the language itself
+
+One-line interview answer:
+> Head-of-line blocking occurs when a slow request blocks others behind it, and in Go
+it can happen via HTTP/1.1 connections, shared locks, channels, or limited worker pools,
+even though HTTP/2 reduces it at the protocol level.

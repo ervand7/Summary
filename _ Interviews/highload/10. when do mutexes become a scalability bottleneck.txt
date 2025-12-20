@@ -1,0 +1,65 @@
+👉 Mutexes become a bottleneck when many goroutines frequently contend for the same lock.
+
+At low load:
+* Lock is acquired quickly
+* Contention is rare
+* Overhead is negligible
+
+Under high RPS:
+* Many goroutines try to acquire the same mutex
+* Goroutines block and wait
+* CPU time is wasted on scheduling instead of work
+* Throughput plateaus or even decreases
+
+Typical problematic patterns:
+* Global shared state protected by one mutex
+* Hot paths with frequent lock/unlock
+* Shared maps, caches, counters
+* Long critical sections (doing I/O or heavy work under lock)
+
+Why this hurts scalability:
+* Only one goroutine can hold the lock at a time
+* More goroutines ≠ more parallelism
+* Increased contention increases latency and reduces throughput
+
+Key insight:
+* Mutexes don’t scale linearly with concurrency
+* Contention grows faster than RPS
+
+One-line interview answer:
+> Mutexes become a scalability bottleneck when many goroutines contend for the same
+lock on hot paths, causing blocking, increased latency, and reduced throughput under
+high load.
+
+```
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+var (
+	mu    sync.Mutex
+	count int
+)
+
+func main() {
+	var wg sync.WaitGroup
+
+	// 10_000 goroutines hitting the same mutex
+	for i := 0; i < 10_000; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+
+			mu.Lock()
+			count++ // very small critical section, but very frequent
+			mu.Unlock()
+		}()
+	}
+
+	wg.Wait()
+	fmt.Println(count)
+}
+```

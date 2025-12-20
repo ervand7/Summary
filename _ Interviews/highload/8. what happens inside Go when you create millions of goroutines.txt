@@ -1,0 +1,32 @@
+👉 Go allows millions of goroutines, but the runtime pays real costs for each one.
+
+What the runtime does:
+* Each goroutine gets its own stack (starts small, grows dynamically)
+* Goroutines are scheduled onto OS threads by the Go scheduler (GMP model)
+* Goroutines waiting on I/O or locks are parked, not running
+
+What works well:
+* Creation is cheap compared to OS threads
+* Context switching between goroutines is fast
+* Blocking I/O does not block OS threads
+
+What starts to hurt under millions:
+* Memory usage grows due to stacks and metadata
+* GC must scan all goroutine stacks
+* Scheduler overhead increases
+* Many goroutines are often blocked, not doing useful work
+
+Typical failure pattern:
+* Goroutines accumulate faster than they complete
+* Memory usage increases steadily
+* GC frequency and pause time increase
+* Latency spikes, then timeouts and crashes
+
+Key insight:
+* Go can handle millions of goroutines only if they are short-lived or bounded
+* Unbounded goroutine creation is a common high-load bug
+
+One-line interview answer:
+> Creating millions of goroutines works initially because they’re lightweight, but
+it increases memory usage, GC pressure, and scheduler overhead, often leading to
+latency spikes or OOM if goroutines are not bounded.

@@ -1,0 +1,28 @@
+Why DBs hit limits early:
+* Many operations require locks, transactions, or coordination
+* Writes are harder to scale than reads
+
+Connection and concurrency limits:
+* Databases support far fewer concurrent connections than app servers
+* Each connection consumes significant memory and CPU
+* Connection pools cap throughput quickly
+
+Latency amplification:
+* Slow queries increase request latency
+* Higher latency increases concurrency (`RPS × latency`)
+* App servers accumulate waiting goroutines
+
+Shared resource effect:
+* All service instances hit the same database
+* Adding more instances increases DB contention
+* Scaling the app does not scale the DB
+
+Typical symptoms:
+* Connection pool exhaustion
+* Query queues grow
+* Lock contention and slow transactions
+* System-wide latency spikes
+
+Key insight:
+* Databases are the hardest component to scale horizontally
+* Most high-RPS architectures exist to protect the database

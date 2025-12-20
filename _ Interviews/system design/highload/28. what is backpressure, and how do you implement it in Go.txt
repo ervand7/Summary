@@ -1,0 +1,31 @@
+👉 Backpressure is a mechanism that prevents a system from accepting more work than it
+can handle.
+
+Why backpressure is needed:
+* Go servers accept requests very fast
+* Downstream systems (DB, APIs) are slower
+* Without backpressure, requests pile up in memory
+
+What backpressure does:
+* Slows down or rejects incoming work
+* Keeps concurrency within safe limits
+* Prevents memory and goroutine explosions
+
+Common backpressure techniques in Go:
+* Bounded worker pools (fixed number of goroutines)
+* Buffered channels with size limits
+* Semaphores (`chan struct{}` or `x/sync/semaphore`)
+* Connection pool limits (`MaxOpenConns`)
+* HTTP 429 / fail-fast responses
+
+Typical Go pattern:
+* Try to acquire capacity
+* If capacity is unavailable → reject or queue briefly
+* Never spawn unbounded goroutines
+
+Key insight:
+* Backpressure protects the system by turning overload into controlled failure
+
+One-line interview answer:
+> Backpressure limits how much work a system accepts at once, and in Go it’s implemented using
+bounded goroutines, limited channels, semaphores, and fail-fast behavior to prevent overload.

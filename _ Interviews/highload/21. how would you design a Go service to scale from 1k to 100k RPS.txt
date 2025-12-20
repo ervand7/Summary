@@ -1,0 +1,35 @@
+👉 The key is to remove shared bottlenecks and control concurrency.
+
+Service design:
+* Make the service fully stateless
+* Keep handlers small and non-blocking
+* Avoid global locks and shared mutable state
+
+Concurrency control:
+* Bound goroutines (worker pools, semaphores)
+* Apply backpressure instead of spawning unbounded goroutines
+* Fail fast under overload
+
+I/O and dependencies:
+* Minimize synchronous DB and external calls
+* Use connection pools with strict limits
+* Cache aggressively for read-heavy paths
+* Offload heavy work to async queues (Kafka, RabbitMQ)
+
+HTTP & networking:
+* Use keep-alive and HTTP/2 where possible
+* Set sane timeouts on server and clients
+* Tune OS limits (FDs, ports)
+
+Scaling strategy:
+* Scale horizontally behind a load balancer
+* Monitor latency percentiles, not just RPS
+* Load test continuously and watch where latency spikes
+
+Key insight:
+* High RPS is achieved by controlling latency and concurrency, not by adding goroutines
+
+One-line interview answer:
+> I would design a stateless Go service with bounded concurrency, minimal synchronous I/O,
+aggressive caching, async processing for heavy work, and horizontal scaling while monitoring
+latency and backpressure.

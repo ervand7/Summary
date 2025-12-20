@@ -1,0 +1,41 @@
+👉 Kubernetes autoscaling настраивается по метрикам.
+
+* CPU utilization
+* Memory utilization
+* Custom metrics (через Prometheus / Metrics API):
+  * RPS / QPS
+  * Request latency
+  * Queue length / backlog
+  * In-flight requests
+  * Kafka lag / SQS depth
+
+Дополнительно:
+* minReplicas / maxReplicas
+* Target value (например, 70% CPU)
+* Scaling policies (скорость scale up / scale down)
+
+Одна строка:
+> Kubernetes autoscaling reacts to chosen metrics (CPU, memory, or custom signals),
+so the metric choice defines scaling behavior.
+
+
+Пример:
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: app
+  minReplicas: 3
+  maxReplicas: 30
+  metrics:
+    - type: Pods
+      pods:
+        metric:
+          name: http_requests_per_second
+        target:
+          type: AverageValue
+          averageValue: "100"

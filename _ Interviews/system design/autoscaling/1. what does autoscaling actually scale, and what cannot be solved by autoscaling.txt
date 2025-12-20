@@ -1,0 +1,3 @@
+Autoscaling scales service replicas and their CPU/memory, but it cannot fix shared
+bottlenecks like databases, external APIs, or serialized logic, and can even worsen
+overload if those limits aren’t controlled.

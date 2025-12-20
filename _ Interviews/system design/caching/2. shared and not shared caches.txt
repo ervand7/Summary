@@ -1,0 +1,101 @@
+1️⃣ Local cache per replica
+
+Each replica (pod / instance) has its own in-memory cache.
+```
+Load Balancer
+   ├── Replica A (Go service)
+   │      └── in-memory map / LRU cache
+   ├── Replica B (Go service)
+   │      └── in-memory map / LRU cache
+   └── Replica C (Go service)
+          └── in-memory map / LRU cache
+```
+
+### How it works
+* Request hits Replica A
+* Data cached only in A
+* Next request hits Replica B
+  → cache miss → DB call again
+
+### Pros
+✅ Fastest possible (RAM, no network)
+✅ Simple
+✅ No extra infrastructure
+
+### Cons
+❌ Cache duplication
+❌ Low hit rate with many replicas
+❌ Cold caches after scaling
+❌ Harder to keep data consistent
+
+### When this is used
+* Small systems
+* Read-heavy but low scale
+* Per-request short-lived data
+* Go in-process caches (LRU, ristretto)
+---
+
+
+2️⃣ Shared (centralized) cache — very common in production
+
+All replicas use one shared cache (Redis / Memcached).
+```
+Load Balancer
+   ├── Replica A ──┐
+   ├── Replica B ──┼──► Redis / Memcached
+   └── Replica C ──┘
+                     │
+                     ▼
+                    DB
+```
+
+### How it works
+* Replica A reads → cache miss → DB → stores in Redis
+* Replica B reads same key → cache hit
+* Replica C reads → cache hit
+
+### Pros
+✅ High cache hit ratio
+✅ No duplication
+✅ Survives pod restarts
+✅ Works well with autoscaling
+
+### Cons
+❌ Network hop
+❌ Cache can become a bottleneck
+❌ Needs eviction & TTL tuning
+
+### When this is used
+
+* Almost all serious high-load systems
+* Microservices
+* Kubernetes + HPA
+* Large replica counts
+
+
+3️⃣ Hybrid: local cache + shared cache (best of both worlds)
+This is very common in high-performance Go services.
+```
+Replica A:
+  └── local LRU
+        ↓ miss
+        Redis
+        ↓ miss
+        DB
+```
+
+### Read flow
+
+1. Check local cache
+2. If miss → check Redis
+3. If miss → go to DB
+4. Fill both caches
+
+### Pros
+✅ Very fast hot reads
+✅ Redis protected from overload
+✅ DB protected even more
+
+### Cons
+❌ More complexity
+❌ Needs careful TTLs

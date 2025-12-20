@@ -1,0 +1,3 @@
+Caching improves latency and scalability by serving repeated reads from fast storage,
+but it introduces stale data, invalidation complexity, and new failure modes that must
+be carefully designed and monitored.

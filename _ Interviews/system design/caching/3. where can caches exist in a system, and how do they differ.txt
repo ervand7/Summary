@@ -1,0 +1,41 @@
+👉 A cache can exist at multiple layers of a system, from the client to the database,
+each with different trade-offs in latency, consistency, scope, and complexity.
+
+Why multiple cache layers exist:
+* Data can be reused at different points in the request path
+* Earlier caches reduce load on all downstream components
+* Different layers require different consistency guarantees
+
+Main cache locations and how they differ:
+
+1️⃣ Client-side cache (browser / mobile app)
+* Stores data locally on the client
+* Suitable for static or user-specific data
+
+2️⃣ CDN / Edge cache
+* Located geographically close to users
+* Caches static assets or HTTP responses
+* Best for images, JS, CSS, public APIs
+
+3️⃣ Load balancer / reverse proxy cache (Nginx, Envoy)
+* Caches HTTP responses before hitting app servers
+* Limited awareness of business logic
+
+4️⃣ Application in-memory cache (per instance)
+* Stored inside the application process (maps, LRU)
+* Fastest server-side access
+* Risk of inconsistency across pods
+
+5️⃣ Distributed cache (Redis / Memcached)
+* Shared cache across all application instances
+* Good balance of speed and consistency
+* Survives app restarts
+* Extra network hop and operational cost
+* Becomes a critical dependency
+
+6️⃣ Database cache (buffer pool, query cache)
+* Managed by the database itself
+* Transparent to the application
+* Strong consistency with stored data
+* Limited control from application side
+* Still bounded by DB scalability

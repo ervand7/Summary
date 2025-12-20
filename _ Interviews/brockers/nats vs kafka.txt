@@ -1,0 +1,17 @@
+| Критерий               | **NATS (JetStream)**       | **Kafka**                       |
+| ---------------------- | -------------------------- | ------------------------------- |
+| Тип                    | Messaging / Event bus      | Event streaming platform        |
+| Модель                 | Pub/Sub + stream           | Append-only log                 |
+| Latency                | **Очень низкая** (мс → µs) | Выше (мс–десятки мс)            |
+| Throughput             | Высокий                    | **Очень высокий**               |
+| Хранение сообщений     | ✅ (JetStream)             | ✅                              |
+| Replay сообщений       | ✅                         | ✅                              |
+| Consumer offsets       | ✅ (managed)               | ✅ (consumer-managed)           |
+| Consumer groups        | ✅                         | ✅                              |
+| Exactly-once           | ❌ (at-least-once)         | ⚠️ Частично (transactions)      |
+| Ordering               | Per subject                | Per partition                   |
+| Retention              | Time / size                | Time / size                     |
+| Экосистема             | Лёгкая                     | **Огромная** (Streams, Connect) |
+| Операционная сложность | **Низкая**                 | **Высокая**                     |
+| Типичный use-case      | Fast events, control-plane | Event pipelines, analytics      |
+

@@ -1,4 +1,3 @@
 I make the service stateless and idempotent, bound concurrency and connection pools
-per pod, implement timeouts/bulkheads/circuit breakers, use readiness-based shedding
-and graceful shutdown—so scaling replicas increases capacity without melting
-databases or external dependencies.
+per pod, implement timeouts/bulkheads/circuit breakers, use graceful shutdown—so scaling
+replicas increases capacity without melting databases or external dependencies.

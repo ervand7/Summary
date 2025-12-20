@@ -1,0 +1,29 @@
+👉 Graceful degradation means the system continues to work in a limited but controlled
+way instead of failing completely.
+
+What graceful degradation looks like:
+* Core functionality remains available
+* Non-critical features are disabled
+* Responses may be partial, cached, or less fresh
+* System stays responsive under overload
+
+How to design it:
+* Identify critical vs optional paths (payments vs analytics, core data vs recommendations)
+* Use timeouts and fail-fast behavior on non-critical dependencies
+* Fallbacks — cached data, defaults, or simplified responses
+* Feature flags — dynamically disable expensive features
+* Rate limiting — shed excess traffic early
+
+Under high RPS or partial failures:
+* Expensive calls are skipped
+* Background work is delayed or dropped
+* System prioritizes availability over completeness
+
+Key insight:
+* Users prefer a degraded response over a timeout
+* Degradation must be intentional, not accidental
+
+One-line interview answer:
+> Graceful degradation is designed by identifying critical paths, failing fast on
+non-essential work, using fallbacks and caching, and shedding load so the system
+remains responsive under high RPS.

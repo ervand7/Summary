@@ -1,0 +1,6 @@
+A cascading failure occurs when a slow or failing component causes overload in other
+parts of the system, and it’s prevented by isolation techniques like
+ - timeouts
+ - backpressure
+ - circuit breakers (не бьём в мёртвый сервис)
+ - bulkheads (один сервис не топит весь корабль)

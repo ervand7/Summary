@@ -1,0 +1,33 @@
+👉 A sudden spike causes instant overload before autoscaling or humans can react.
+
+What happens first:
+* Incoming requests increase sharply
+* Latency starts growing immediately
+* Number of in-flight requests explodes (`RPS × latency`)
+
+Then internal limits are hit:
+* DB / Redis connection pools saturate
+* Goroutines block waiting on I/O
+* Memory usage increases rapidly
+* GC pressure grows
+
+If there is no protection:
+* Timeouts start firing
+* Retries amplify traffic
+* Load spreads to downstream services
+* Cascading failures occur
+
+With proper safeguards:
+* Backpressure limits accepted work
+* Excess traffic is rejected or queued
+* System remains slow but alive
+* Recovery is possible after the spike
+
+Key insight:
+* Spikes kill systems through accumulated waiting, not raw traffic volume
+* Systems must be designed to shed load immediately
+
+One-line interview answer:
+> During a traffic spike, latency and concurrency grow rapidly, exhausting pools and
+memory; without backpressure the system collapses, while proper load shedding keeps
+it slow but stable.

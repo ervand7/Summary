@@ -1,0 +1,3 @@
+Queues are used in high-load architectures to decouple components, absorb traffic
+spikes, apply backpressure, and allow systems to process work at a sustainable rate
+instead of overloading downstream services.

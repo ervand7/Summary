@@ -1,0 +1,3 @@
+In Go, connection pools limit scalability because once the pool is exhausted, goroutines
+block waiting for connections, increasing latency and concurrency, while increasing pool
+size often overloads the database instead of increasing throughput.

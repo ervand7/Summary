@@ -1,0 +1,2 @@
+When the DB is slower than the HTTP layer, requests pile up waiting for DB connections,
+increasing latency, concurrency, and memory usage until timeouts and cascading failures occur.

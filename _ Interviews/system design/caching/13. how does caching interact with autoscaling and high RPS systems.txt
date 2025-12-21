@@ -1,0 +1,78 @@
+👉 In high-RPS systems, caching and autoscaling strongly interact: scaling increases
+cache capacity and throughput, but can also amplify load and failures if caches are
+cold, local, or poorly coordinated.
+
+Why this interaction matters:
+* Autoscaling multiplies application instances
+* Each instance often has its own cache
+* Cache misses scale linearly with pod count
+* Databases do NOT scale linearly
+
+What happens during autoscaling with caching:
+
+1️⃣ Cold cache amplification
+* New pods start with empty in-memory caches
+* All requests miss and hit DB
+* More pods → more DB load
+* Scaling makes things worse instead of better
+
+---
+
+2️⃣ Local vs shared cache effects
+* Per-pod in-memory caches:
+  * Very fast
+  * Not shared
+  * Inconsistent across pods
+* Distributed cache (Redis):
+  * Shared across pods
+  * Better hit ratio
+  * Extra network hop
+
+Typical outcome:
+* Local cache + autoscaling → low hit ratio
+* Shared cache → stable behavior under scale
+
+---
+
+3️⃣ Cache stampedes multiplied by scaling
+* TTL expiration affects all pods
+* Many pods refresh the same hot key
+* Massive concurrent DB hits
+
+Autoscaling increases stampede blast radius.
+
+---
+
+4️⃣ Cache eviction under memory pressure
+* More pods → less memory per pod
+* Smaller caches → more evictions
+* Miss rate increases as system scales
+
+---
+
+5️⃣ Scaling Redis is not free
+* Redis becomes a shared bottleneck
+* Connection limits and CPU saturation
+* Redis failure affects all pods
+
+---
+
+How to design caching safely for autoscaling systems:
+
+* Prefer shared distributed caches for hot data
+* Limit per-pod in-memory cache size
+* Use request coalescing (singleflight)
+* Add TTL jitter to avoid synchronized expiry
+* Serve stale data during refresh
+* Pre-warm caches on startup
+* Protect DB with rate limits on cache misses
+* Monitor hit ratio, latency, and miss spikes
+
+Key insight:
+* Autoscaling multiplies both good and bad cache behavior.
+* Without careful cache design, scaling can amplify load and cause outages.
+
+One-line interview answer:
+> Autoscaling multiplies cache misses and refreshes, so cold caches, local caches,
+and synchronized TTLs can overload databases; shared caches, stampede protection,
+and controlled refresh are essential in high-RPS systems.

@@ -1,0 +1,49 @@
+👉 TTL (Time To Live) defines how long a cached entry is considered valid, after
+which it expires and is removed or treated as a cache miss.
+
+What goes wrong with naive TTL usage:
+
+1️⃣ Synchronized expirations
+* Many hot keys expire at the same time
+* Causes cache stampedes
+* Massive DB traffic spikes
+
+Example:
+* TTL = 60s for all keys
+* Every minute → DB overload
+
+
+2️⃣ Cold cache after deploy or scaling
+* New instances start with empty cache
+* All requests hit DB
+* Autoscaling multiplies the problem
+
+
+3️⃣ TTL too short
+* Frequent expirations
+* High cache miss rate
+* Cache adds overhead instead of benefit
+
+
+4️⃣ TTL too long
+* Data stays stale for too long
+* Incorrect behavior visible to users
+* Harder to invalidate manually
+
+
+5️⃣ TTL does not guarantee freshness
+* Data may change before TTL expires
+* Cache can still serve outdated values
+* TTL ≠ consistency
+
+
+6️⃣ Eviction under memory pressure
+* Cache evicts entries before TTL
+* Unexpected misses
+* Hard to predict behavior
+
+
+7️⃣ Hidden coupling to traffic patterns
+* Cache effectiveness depends on access frequency
+* Low-traffic keys may never refresh
+* Hot keys dominate memory

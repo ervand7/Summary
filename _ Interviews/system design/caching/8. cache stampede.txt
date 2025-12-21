@@ -1,0 +1,49 @@
+👉 Cache stampede — это когда много запросов одновременно промахиваются по 
+кэшу и все идут в БД.
+
+Коротко:
+* Ключ в кэше истёк или отсутствует
+* Тысячи запросов приходят одновременно
+* Все делают запрос к БД
+* БД перегружается
+
+👉 A cache stampede (thundering herd) happens when many concurrent requests
+miss the cache at the same time and all hit the database or downstream service
+simultaneously, causing overload.
+
+Why cache stampedes happen:
+* Cache entry expires (TTL) for a hot key
+* Cache is cold after deploy or autoscaling
+* Cache eviction under memory pressure
+* Popular data accessed by many clients at once
+
+What goes wrong during a stampede:
+* Hundreds or thousands of requests hit DB at once
+* DB latency spikes or connections are exhausted
+* Requests pile up in memory
+* Cascading failures across services
+* System becomes unstable instead of faster
+
+Typical real-world scenario:
+* Hot key expires at time T
+* 1,000 requests arrive at time T+ε
+* All miss cache
+* All query DB
+* DB collapses
+
+Common stampede prevention techniques:
+1️⃣ Request coalescing - касательно одного и того же ключа
+* Only one request recomputes the value
+* Other requests wait for the result
+
+Pros:
+* Simple and effective
+* No DB overload
+
+Cons:
+* Waiting requests add latency
+
+
+2️⃣ Explicit invalidation
+3️⃣ TTL jitter (randomized expiration) - касательно разных ключей
+4️⃣ Background refresh

@@ -1,0 +1,106 @@
+👉 A caching strategy defines how reads and writes interact with the cache and the
+source of truth (usually a database), and determines consistency, latency, and
+failure behavior.
+
+Why caching strategies matter:
+* Reads and writes have different performance and correctness requirements
+* Different workloads need different trade-offs
+* The wrong strategy can cause stale data or overload databases
+
+Main caching strategies and when to use them:
+
+1️⃣ Cache-aside (lazy loading)
+* Application checks cache first
+* On miss → reads from DB → stores result in cache
+* Cache is not part of write path
+
+When to use:
+* Most common strategy
+* Read-heavy workloads
+* When occasional stale reads are acceptable
+
+Pros:
+* Simple and flexible
+* Cache can fail without breaking writes
+
+Cons:
+* Cache misses hit DB directly
+* Risk of cache stampedes
+* Stale data until invalidation or TTL expiry
+
+
+2️⃣ Write-through cache
+* Application writes to cache
+* Cache synchronously writes to DB
+* Cache always contains fresh data
+
+When to use:
+* Strong read-after-write consistency required
+* Reads must always hit cache
+
+Pros:
+* Cache always up-to-date
+* No cold cache for written data
+
+Cons:
+* Higher write latency
+* Cache becomes critical dependency
+
+
+3️⃣ Write-behind (write-back) cache
+* Application writes only to cache
+* Cache asynchronously writes to DB
+
+When to use:
+* High write throughput
+* Eventual consistency acceptable
+
+Pros:
+* Very fast writes
+* Smooths write bursts
+
+Cons:
+* Risk of data loss if cache fails
+* Complex recovery logic
+
+
+4️⃣ Read-through cache
+* Application always reads from cache
+* Cache fetches from DB on miss
+
+When to use:
+* Want to centralize caching logic
+* Simple application code
+
+Pros:
+* Cleaner app logic
+* Cache controls load behavior
+
+Cons:
+* Cache hides DB load patterns
+* Cache failure blocks reads
+
+
+5️⃣ Explicit invalidation (hybrid approach)
+* Cache-aside + invalidation on writes
+* Often combined with TTLs
+
+When to use:
+* Balance between performance and correctness
+* Common in real systems
+
+Pros:
+* Reduced staleness
+* Flexible control
+
+Cons:
+* Easy to miss invalidation paths
+
+
+6️⃣ Two-level cache (local + shared)
+```
+local cache → Redis → DB
+```
+
+👉 Очень быстро
+👉 Сложнее в поддержке

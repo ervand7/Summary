@@ -1,10 +1,16 @@
-### 🧠 **CAP Theorem** (in distributed systems):
+### 🧠 CAP Theorem
 
-A system can guarantee **only two of these three** at the same time:
-1. **C – Consistency**: All nodes see the same data at the same time
-2. **A – Availability**: Every request gets a (non-error) response
-3. **P – Partition Tolerance**: The system keeps working even if network fails between nodes
+In the presence of a network partition, a distributed system must choose
+between Consistency and Availability.
 
+C – Consistency:
+Every read sees the most recent write (linearizability)
 
-### 💡 Rule:
-> **You must choose 2 out of 3: CA, CP, or AP** — never all 3.
+A – Availability:
+Every request to a non-failed node receives a response
+
+P – Partition Tolerance:
+The system continues operating despite network partitions
+
+Rule:
+> When a partition occurs, you must choose: CP or AP

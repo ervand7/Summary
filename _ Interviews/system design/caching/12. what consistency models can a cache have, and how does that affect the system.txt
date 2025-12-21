@@ -1,0 +1,7 @@
+👉 Cache consistency describes how closely cached data matches the source of truth
+and how updates become visible to readers across the system.
+
+One-line interview answer:
+> Caches range from strong consistency to eventual consistency, and choosing weaker
+models improves latency and availability at the cost of temporary staleness, which
+must match business correctness requirements.

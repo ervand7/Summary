@@ -1,0 +1,24 @@
+👉 Correctness-critical data (money, permissions, inventory) must be fresh and consistent,
+while performance-critical data (feeds, recommendations, counters) can tolerate staleness.
+Design caching differently based on how much incorrectness you can accept.
+
+Why this matters:
+* Caching trades correctness for speed
+* If you cache the wrong things, you ship bugs (or lose money)
+* Senior-level design is knowing when NOT to cache
+
+Correctness-critical data (examples):
+* Account balances, payments, card limits
+* Auth/session/permissions
+* Inventory/availability
+* KYC status used for gating actions
+
+Key insight:
+* Seniors don’t “cache everything”.
+* Seniors cache the right layer: cache reads aggressively, but keep critical decisions
+  anchored to the source of truth.
+
+One-line interview answer:
+> For correctness-critical data, I avoid relying on cache for decisions and use explicit
+invalidation/short TTLs or DB checks; for performance-critical data, I accept staleness
+and use TTL + cache-aside, stale-while-revalidate, and stampede protection.

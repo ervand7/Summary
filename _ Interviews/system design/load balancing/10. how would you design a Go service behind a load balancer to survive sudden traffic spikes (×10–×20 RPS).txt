@@ -1,0 +1,37 @@
+👉 To survive a ×10–×20 spike, your Go service must shed load early, cap
+concurrency, and protect downstreams—because autoscaling and load balancers react
+slower than spikes.
+
+### What I’d design in practice
+
+1) Hard limits inside the service (backpressure)
+* Limit in-flight requests (semaphore / worker pool)
+* Bound queues (no unbounded buffering)
+* When full → fail fast (HTTP 429/503)
+
+2) Timeouts everywhere
+* Short server timeouts + per-downstream timeouts (DB/HTTP)
+* Prevent goroutines hanging and piling up
+
+3) Protect downstream systems
+* Strict DB pool sizing (`MaxOpenConns`, `MaxIdleConns`)
+* Bulkheads: separate limits per dependency/endpoint
+* Circuit breaker for flaky downstreams
+
+4) Degrade gracefully
+* Return cached/stale data if acceptable
+* Disable non-critical features under load (feature flags)
+* Rate limit expensive endpoints first
+
+5) Load balancer + rollout safety
+* Readiness checks that reflect real ability to serve (e.g., DB reachable/pool not saturated)
+* Slow start / warm-up so new pods don’t get full traffic immediately
+
+6) Observability to react
+* p95/p99 latency, in-flight requests, queue depth, error rate, saturation
+* Alerts on “saturation signals”, not only CPU
+
+### One-liner interview answer
+> I cap concurrency, set strict timeouts, protect downstreams with pools/bulkheads/circuit
+breakers, fail fast with 429/503 when saturated, and use readiness + slow start so the
+LB doesn’t feed cold pods during spikes.

@@ -1,0 +1,21 @@
+👉 Health checks are periodic probes a load balancer uses to decide whether an
+instance should receive traffic.
+
+
+### How health checks work
+* LB sends regular requests to a health endpoint (e.g. `/health`)
+* Instance replies healthy / unhealthy
+* Unhealthy instances are removed from routing
+* Healthy ones receive traffic again
+
+```
+LB → /health → Service
+```
+
+
+> Health checks нужны, чтобы LB понимал, кому слать трафик, но наивные health checks 
+могут врать, дергать зависимости и сами усиливать аварии, если они тяжелые или плохо 
+продуманы.
+
+Еще короче, совсем по-интервьюшному:
+> Health checks должны быть простыми и умными, иначе вместо защиты они усугубляют сбои.

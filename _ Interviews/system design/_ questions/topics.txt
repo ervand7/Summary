@@ -1,0 +1,228 @@
+## 1️⃣ Foundations of System Design (must-have)
+
+These are always assumed.
+
+* What is scalability (vertical vs horizontal)
+* Throughput vs latency
+* Availability vs reliability
+* SPOF (single point of failure)
+* Stateless vs stateful services
+* Idempotency
+* Backpressure (conceptually)
+* Fail-fast vs retry
+* Graceful degradation
+
+---
+
+## 2️⃣ Load Balancing
+
+Very common for Go backend interviews.
+
+* L4 vs L7 load balancing
+* Load balancing algorithms (RR, least-connections, hashing)
+* Health checks (active vs passive)
+* Sticky sessions (pros / cons)
+* Load balancer as a bottleneck
+* How load balancing interacts with caches
+* Client-side vs server-side load balancing
+
+---
+
+## 3️⃣ Caching (almost guaranteed topic)
+
+Interviewers love this.
+
+* Where caches live (client, CDN, LB, service, DB)
+* Local cache vs shared cache
+* Cache eviction strategies (LRU, LFU, FIFO)
+* TTLs and expiration
+* Cache invalidation strategies
+* Cold cache
+* Cache stampede / thundering herd
+* Request coalescing
+* TTL jitter
+* Read-through vs write-through vs write-back
+* Redis vs Memcached
+* Cache consistency models
+
+---
+
+## 4️⃣ Databases & Storage
+
+They expect *practical* understanding.
+
+* SQL vs NoSQL trade-offs
+* When relational DBs break under load
+* Indexes and their cost
+* Read replicas
+* Write bottlenecks
+* Sharding (range, hash)
+* Consistent hashing
+* Transactions and isolation levels (high-level)
+* OLTP vs OLAP
+* Connection pools (very important in Go)
+
+---
+
+## 5️⃣ Distributed Systems Basics
+
+Senior-level expectation.
+
+* CAP theorem (correct understanding)
+* Consistency models (strong, eventual)
+* Leader election (conceptually)
+* Replication vs partitioning
+* Quorums
+* Clock issues (logical vs physical, very high level)
+* Why distributed systems fail in unexpected ways
+
+---
+
+## 6️⃣ Messaging & Asynchronous Processing
+
+Extremely relevant for Go.
+
+* Why queues are used
+* Kafka vs RabbitMQ vs SQS (when *not* to use Kafka)
+* At-least-once vs at-most-once vs exactly-once
+* Ordering guarantees
+* Consumer groups
+* Backpressure in async systems
+* Retry strategies
+* Dead-letter queues
+* Poison messages
+* Idempotent consumers
+
+---
+
+## 7️⃣ High Load & Traffic Spikes
+
+Classic senior topic.
+
+* What happens during traffic spikes
+* Why autoscaling is often too slow
+* Load shedding
+* Rate limiting
+* Burst handling
+* Queues as shock absorbers
+* Cascading failures
+* Bulkheads
+* Circuit breakers
+* Timeouts (why increasing them is dangerous)
+
+---
+
+## 8️⃣ Autoscaling & Kubernetes (if K8s is on your CV)
+
+Very common now.
+
+* Horizontal vs vertical scaling
+* How HPA works
+* CPU vs memory vs custom metrics
+* Why CPU-based scaling is often misleading for Go
+* Cold start issues
+* Scaling and connection pools
+* Pod startup latency
+* Thundering herd during scale-up
+
+---
+
+## 9️⃣ Go-Specific System Design Topics (very important)
+
+This is where you stand out as *Go senior*.
+
+* Goroutines are cheap but not free
+* Unbounded goroutine creation
+* Worker pools
+* Context cancellation
+* Graceful shutdown
+* Connection pool limits
+* Memory pressure & GC under load
+* HTTP keep-alive behavior
+* Head-of-line blocking
+* Blocking I/O vs async behavior in Go
+
+---
+
+## 🔟 Observability & Operations
+
+Often underestimated but senior-level.
+
+* Metrics vs logs vs traces
+* Golden signals (latency, traffic, errors, saturation)
+* SLIs / SLOs / SLAs
+* Alert fatigue
+* What to alert on (and what NOT to)
+* “No data” vs “zero”
+* Debugging latency spikes
+* Debugging memory leaks
+* Debugging high GC
+
+---
+
+## 1️⃣1️⃣ API Design & Contracts
+
+System design is not only infra.
+
+* REST vs gRPC
+* Versioning APIs
+* Backward compatibility
+* Pagination strategies
+* Rate limiting at API level
+* Idempotency keys
+* Timeouts and retries between services
+
+---
+
+## 1️⃣2️⃣ Security (high-level, not crypto)
+
+Expected but not deep.
+
+* Authentication vs authorization
+* JWT trade-offs
+* Service-to-service auth
+* Secrets management
+* Rate limiting as protection
+* Replay attacks (conceptually)
+
+---
+
+## 1️⃣3️⃣ Data Consistency & Correctness
+
+For real senior candidates.
+
+* Eventual consistency trade-offs
+* Exactly-once is an illusion
+* Deduplication strategies
+* Idempotent writes
+* Compensating transactions
+* Sagas (high-level)
+
+---
+
+## 1️⃣4️⃣ System Design Thinking & Trade-offs
+
+Interviewers *love* this.
+
+* How to ask clarifying questions
+* Choosing trade-offs explicitly
+* Designing for failure
+* Overengineering vs simplicity
+* When NOT to scale
+* Cost vs performance
+* Build vs buy decisions
+
+---
+
+## 1️⃣5️⃣ Common System Design Case Studies
+
+They may appear explicitly or implicitly.
+
+* URL shortener
+* Rate limiter
+* News feed
+* Payment processing
+* Notification system
+* File upload service
+* Metrics collection system
+* Chat system

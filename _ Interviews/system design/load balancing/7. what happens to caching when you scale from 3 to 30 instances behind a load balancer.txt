@@ -1,0 +1,39 @@
+👉 When you scale from 3 to 30 instances, per-instance caches become fragmented and
+inefficient, while shared caches scale much better.
+
+
+### What happens with per-instance (local) caches
+* Each instance has its own cache
+* Same data is cached 30 times
+* Cache hit rate drops due to random routing
+* Memory usage multiplies
+* Cold starts increase after scaling
+
+```
+30 instances × same cached data
+→ wasted memory
+→ more DB hits
+```
+
+
+### What happens with shared caches (Redis / Memcached)
+* One logical cache for all instances
+* Cache is reused across scaling
+* High and stable hit rate
+* Scaling instances does not duplicate cached data
+
+
+### Load balancer effect
+* Random routing + local cache → poor hit rate
+* Sticky sessions improve hit rate but break scalability
+* Shared cache works best with stateless services
+
+
+### Key insight (interview gold)
+> Horizontal scaling multiplies not only compute, but also cache fragmentation and
+downstream load if caching is done per instance.
+
+
+### One-liner interview answer
+> Scaling from 3 to 30 instances fragments local caches and increases memory and DB
+load, while shared caches maintain efficiency and consistency.

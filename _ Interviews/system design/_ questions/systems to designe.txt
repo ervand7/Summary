@@ -1,0 +1,217 @@
+# 🔹 1. Traffic & Request Handling Systems
+
+Very common, fundamental.
+
+* Design a **URL shortener** (bit.ly)
+* Design a **rate limiter**
+* Design an **API gateway**
+* Design a **load balancer**
+* Design a **reverse proxy**
+* Design a **request throttling system**
+
+---
+
+# 🔹 2. Data Storage & Key-Value Systems
+
+Classic building blocks.
+
+* Design a **key-value store**
+* Design a **distributed cache**
+* Design **Redis-like cache**
+* Design **session storage**
+* Design **configuration service** (feature flags)
+* Design a **metadata service**
+
+---
+
+# 🔹 3. Social & Feed Systems
+
+Very popular in interviews.
+
+* Design a **news feed**
+* Design a **timeline (fanout-on-write vs read)**
+* Design a **like / reaction system**
+* Design a **comment system**
+* Design a **follow / friendship graph**
+* Design a **notification system**
+
+---
+
+# 🔹 4. Messaging & Real-Time Systems
+
+Often appears if Kafka / queues are on CV.
+
+* Design a **message queue**
+* Design **Kafka-like log system**
+* Design a **pub/sub system**
+* Design a **chat system**
+* Design **real-time notifications**
+* Design a **WebSocket service**
+
+---
+
+# 🔹 5. File & Media Systems
+
+Extremely common.
+
+* Design a **file upload service**
+* Design an **object storage system**
+* Design **image hosting**
+* Design **video streaming service**
+* Design a **CDN**
+* Design a **media processing pipeline**
+
+---
+
+# 🔹 6. Analytics & Metrics Systems
+
+Senior-level topic.
+
+* Design a **metrics collection system**
+* Design a **logging system**
+* Design a **distributed tracing system**
+* Design an **event tracking system**
+* Design a **clickstream analytics system**
+
+---
+
+# 🔹 7. Search & Discovery Systems
+
+Often tricky, very interview-ish.
+
+* Design a **search engine**
+* Design **autocomplete**
+* Design **full-text search**
+* Design **recommendation system**
+* Design **ranking system**
+* Design **tagging system**
+
+---
+
+# 🔹 8. E-Commerce & Payments
+
+High-signal senior topics.
+
+* Design a **payment system**
+* Design a **shopping cart**
+* Design **order processing system**
+* Design **inventory system**
+* Design **pricing system**
+* Design **refund system**
+
+---
+
+# 🔹 9. User & Identity Systems
+
+Frequently asked, deceptively simple.
+
+* Design a **user authentication system**
+* Design **authorization / RBAC**
+* Design **session management**
+* Design **OAuth system**
+* Design **user profile service**
+
+---
+
+# 🔹 10. Scheduling & Background Processing
+
+Very common for Go backends.
+
+* Design a **job scheduler**
+* Design a **cron service**
+* Design a **task queue**
+* Design a **worker pool system**
+* Design **retry & backoff system**
+
+---
+
+# 🔹 11. Consistency & Coordination Systems
+
+Advanced senior tasks.
+
+* Design a **distributed lock**
+* Design a **leader election system**
+* Design a **configuration consistency system**
+* Design **feature flag system**
+* Design a **service discovery system**
+
+---
+
+# 🔹 12. Security & Abuse Prevention Systems
+
+Often added as constraints.
+
+* Design **rate limiting for abuse prevention**
+* Design **DDOS protection**
+* Design **fraud detection system**
+* Design **API key management**
+* Design **audit logging system**
+
+---
+
+# 🔹 13. Infrastructure & Platform Systems
+
+If DevOps / K8s is relevant.
+
+* Design a **service mesh**
+* Design **deployment system**
+* Design **CI/CD pipeline**
+* Design **autoscaling system**
+* Design **health check system**
+
+---
+
+# 🔹 14. Data Pipelines & Streaming
+
+Strong signal if handled well.
+
+* Design a **data ingestion pipeline**
+* Design **ETL pipeline**
+* Design **stream processing system**
+* Design **event-driven architecture**
+* Design **CDC pipeline**
+
+---
+
+# 🔹 15. Classic “Open-Ended” Interview Tasks
+
+These appear without category names.
+
+* Design **Twitter**
+* Design **Instagram**
+* Design **YouTube**
+* Design **Uber**
+* Design **WhatsApp**
+* Design **Netflix**
+* Design **Dropbox**
+* Design **Google Drive**
+
+---
+
+# ✅ Important interview truth
+
+Interviewers **do NOT expect implementation**.
+
+They expect:
+
+* Clear **requirements clarification**
+* Correct **high-level architecture**
+* Identification of **bottlenecks**
+* Explicit **trade-offs**
+* Failure handling
+* Scaling strategy
+
+---
+
+# 🧭 How we should explore each system (recommended format)
+
+For **each system**, we can follow a repeatable structure:
+
+1. Clarify requirements
+2. Define scale (RPS, data size)
+3. High-level architecture (boxes & arrows)
+4. Data model
+5. Caching strategy
+6. Scaling strategy
+7. Failure modes
+8. Go-specific considerations

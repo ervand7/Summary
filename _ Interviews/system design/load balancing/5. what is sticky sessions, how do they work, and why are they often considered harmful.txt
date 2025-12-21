@@ -1,0 +1,32 @@
+👉 Sticky sessions (session affinity) mean that all requests from a client are
+consistently routed to the same backend instance.
+
+
+### How they work
+* First request is routed to an instance
+* Load balancer remembers this mapping using:
+  * Cookies
+  * Client IP hashing
+* All next requests go to the same instance
+
+```
+Client → LB → Service A (always)
+```
+
+
+### Why they’re often harmful
+* Break load balancing — traffic becomes uneven
+* Reduce fault tolerance — instance crash = lost session
+* Prevent effective scaling — new instances get little traffic
+* Encourage stateful services — hidden technical debt
+
+
+### When they’re acceptable
+* WebSockets
+* Legacy systems
+* Short-lived sessions with controlled load
+
+
+### One-liner interview answer
+> Sticky sessions bind a client to one instance, simplifying state management but
+hurting scalability, resilience, and true load balancing.

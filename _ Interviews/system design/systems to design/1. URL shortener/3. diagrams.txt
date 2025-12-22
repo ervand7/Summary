@@ -126,7 +126,7 @@ Client
 | Code Generator     |
 |--------------------|
 | - Base62(ID) OR    |
-| - Random string   |
+| - Random string    |
 +----------+---------+
            |
            v
@@ -212,15 +212,3 @@ Redis:
   key:  u:{code}
   val:  { long_url, expires_at, redirect_type }
 ```
-
----
-
-## How to use this in an interview
-
-You can say:
-
-> “I’ll first draw the redirect path because it’s the hottest one.
-> Then I’ll briefly explain the write path and how we generate codes.
-> Analytics is async so it never slows redirects.”
-
-This ordering alone signals seniority.

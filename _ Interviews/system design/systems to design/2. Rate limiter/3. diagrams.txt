@@ -1,0 +1,109 @@
+### 1️⃣ High-level architecture (two-plane)
+
+```
+                  (CONTROL PLANE)                   (DATA PLANE / HOT PATH)
++-------------------------------+          +--------------------------------------+
+| Admin / Config Service        |          | Clients                              |
+| - define rules per endpoint   |          +------------------+-------------------+
+| - plan tiers, allowlists      |                             |
+| - rollout: shadow mode        |                             | HTTP/gRPC
++---------------+---------------+                             v
+                |                                         +---+---+
+                | config push/pull                         |  LB   |
+                v                                         +---+---+
++-------------------------------+                             |
+| Config Cache (CDN / Gateway)  |<----------------------------+
+| - rules cached with TTL       |    reads configs locally
++-------------------------------+                             |
+                                                              v
+                                                     +--------+---------+
+                                                     | API Gateway /     |
+                                                     | Envoy / Ingress   |
+                                                     |-------------------|
+                                                     | - extract key     |
+                                                     | - pick rules      |
+                                                     | - check limiter   |
+                                                     +---+----------+----+
+                                                         |          |
+                                                         | allow    | reject
+                                                         v          v
+                                                +--------+--+   +---+------------------+
+                                                | Backend    |   | 429 Too Many Req   |
+                                                | Services   |   | Retry-After: ...   |
+                                                +-----------+   +----------------------+
+
+                             +--------------------------------------+
+                             | Redis Cluster (atomic counters/state)|
+                             +--------------------------------------+
+```
+
+---
+
+### 2️⃣ Request path (strict global token bucket with Redis Lua)
+
+```
+Client
+  |
+  |  Request to /v1/payments (key = org:123:user:456)
+  v
++---------------------------+
+| Gateway / Sidecar         |
+|---------------------------|
+| 1) Load rules for route   |
+| 2) Build limiter keys     |
+| 3) Call Redis (Lua)       |
++-------------+-------------+
+              |
+              | EVAL token_bucket.lua
+              v
++---------------------------+
+| Redis (atomic)            |
+|---------------------------|
+| For each (rule,key):      |
+| - refill tokens           |
+| - if tokens >= cost       |
+|     decrement, allow      |
+|   else reject + retryAfter|
++-------------+-------------+
+              |
+              v
++---------------------------+
+| Gateway decision          |
+|---------------------------|
+| If ANY rule rejects -> 429|
+| else forward -> backend   |
++---------------------------+
+```
+
+---
+
+### 3️⃣ Multi-rule evaluation (per-user + per-org + per-IP)
+
+```
+Request:  org:123 user:456 ip:1.2.3.4  route:/login
+
+Rules checked (all must pass):
+  A) per_ip_login     = 10 / min  burst 10
+  B) per_user_login   = 5  / min  burst 5
+  C) per_org_global   = 5000 / min burst 200
+
+Decision:
+  allow only if A && B && C
+```
+
+---
+
+### 4️⃣ Optimization path (token leasing: fewer Redis calls)
+
+```
++-------------------+           occasionally           +----------------------+
+| Gateway instance  |  ----------------------------->   | Redis Cluster        |
+|-------------------|                                   |----------------------|
+| Local bucket:     |  lease 100 tokens for (rule,key)  | decrement 100 once   |
+| spends tokens     |  <-----------------------------   | return lease grant   |
+| without Redis     |                                   +----------------------+
++-------------------+
+
+Hot path:
+  if local_tokens > 0 -> allow immediately (no Redis)
+  else -> refill lease from Redis

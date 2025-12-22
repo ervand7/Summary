@@ -1,0 +1,77 @@
+### Product / scope (what are we limiting and why?)
+
+* What are we protecting: public API, internal services, login/signup,
+expensive endpoints, DDoS, or fairness per customer?
+* Do we limit requests only, or also bytes, CPU-cost, DB-cost,
+“tokens” (e.g., LLM usage)?
+* Should the limiter work for:
+  * HTTP only, or also gRPC, WebSocket, background jobs?
+* Do we need multiple rules per request (e.g., per-user + per-IP + per-org + per-endpoint)?
+* Should it support tiered plans (free/pro/enterprise) and dynamic updates to limits?
+
+---
+
+### Enforcement point (where does it sit?)
+* Should limiting happen at:
+  * API Gateway / Ingress (preferred),
+  * Service sidecar (Envoy),
+  * Inside each service (library),
+  * Or a central service called on every request?
+* Do we need a single shared limiter for many services, or per-service configurations?
+
+---
+
+### Identity / keying (what is the “client”)
+* What is the primary key:
+  * API key, user_id, org_id, IP, device_id, session, JWT claim?
+* If IP-based: do we trust `X-Forwarded-For` / proxy chain?
+* For multi-tenant: do we limit by org with burst per user?
+
+---
+
+### Limit semantics (this drives the algorithm)
+* What does “100 req/min” mean exactly:
+  * Fixed window (resets at minute boundary) acceptable?
+  * Or must be smoother: sliding window semantics?
+* Do we need burst behavior (allow spikes) or strict uniform spacing?
+  * If burst is needed → token bucket is usually best.
+* What happens on limit exceeded:
+  * Hard reject (HTTP 429),
+  * Or queue/delay (rare for user-facing HTTP),
+  * Or degrade (serve cached / partial response)?
+
+---
+
+### Consistency & correctness (central vs distributed tradeoff)
+* If the client hits different replicas, must the limit be globally enforced (strong-ish),
+ or is approximate OK?
+* Is it acceptable that under failures we:
+  * become more strict (false rejects), or
+  * become more permissive (some requests slip through)?
+* Do we need exact once accounting (rare), or “close enough” (common)?
+
+---
+
+### Scale (numbers → architecture)
+* Expected peak RPS through the limiter?
+* Number of unique keys (users/API keys/IPs) in a time window?
+* How many rules/configs? (per endpoint, per tenant, per method?)
+* Latency budget for the limiter check (p99 target: 1–5ms? 10ms?)
+* Availability target (99.9 / 99.99)? Multi-region?
+
+---
+
+### Operational concerns
+* Do we need audit logs: who got limited and why?
+* Do we need real-time metrics: allowed/blocked per rule, top offenders?
+* Do we need shadow mode (observe only, don’t block) for rollout?
+* How quickly must config changes propagate (seconds vs minutes)?
+
+---
+
+### Security / abuse / edge cases
+* Should we detect distributed attacks (many IPs) vs per-IP only?
+* Any requirement for bot detection, CAPTCHA triggers, or WAF integration?
+* Should we whitelist internal networks / trusted clients?
+* Clock requirements: are we OK with relying on wall clock, or should we avoid clock
+ sensitivity?

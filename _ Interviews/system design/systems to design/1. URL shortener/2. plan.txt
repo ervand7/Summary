@@ -1,0 +1,169 @@
+A detailed system design you should suggest
+### Core requirements (what you restate back)
+
+Functional
+* Create short URL → returns `short_code` and full short URL
+* Redirect: `/{short_code}` → 301/302 to long URL
+* Optional: custom alias, expiration, basic analytics
+
+Non-functional
+* Very low latency for redirects
+* High availability
+* Scales to large reads
+* Prevent abuse
+
+
+### APIs (simple, interview-friendly)
+Create short URL
+* `POST /v1/urls`
+
+  * body: `{ "long_url": "...", "custom_alias": "foo"?, "expires_at": "...?" }`
+  * returns: `{ "short_url": "https://sho.rt/abc123", "code": "abc123" }`
+
+Redirect
+* `GET /{code}`
+  * returns: `301/302 Location: <long_url>`
+
+Optional
+* `GET /v1/urls/{code}` (metadata)
+* `DELETE /v1/urls/{code}`
+* `GET /v1/urls/{code}/stats` (analytics)
+
+---
+
+### High-level architecture
+
+Read path (most important)
+
+1. Client hits `https://sho.rt/{code}`
+2. CDN / Edge (optional) forwards to LB
+3. Redirect service checks cache (Redis / in-memory LRU)
+4. If cache miss → query persistent store by `code`
+5. Return redirect response
+6. Emit an async event for analytics (do not block redirect)
+
+Write path
+
+1. `POST /v1/urls` arrives
+2. Validate URL + abuse checks + rate limit
+3. Generate `code` (or verify custom alias)
+4. Write mapping to DB
+5. Populate cache
+6. Return result
+
+---
+
+### Key design choices (what interviewers look for)
+
+#### A) Code generation strategy
+
+You have 3 common approaches; pick one confidently and mention alternatives:
+
+Option 1 (most common): ID allocation + Base62
+
+* Store a row with auto-increment / sequence ID (or distributed ID)
+* Encode numeric ID into Base62 → short string (e.g., `aZ3f`)
+* Pros: compact, ordered, fast
+* Cons: if global sequence, needs careful scaling (but solvable)
+
+Option 2: Random code (e.g., 7–10 chars Base62)
+
+* Generate random string, check collision, retry
+* Pros: no central ID generator
+* Cons: collisions at huge scale (manageable with length + retries)
+
+Option 3: Hash(long_url)
+
+* Pros: deterministic
+* Cons: hard with custom alias & you may want multiple shorts per same long URL
+
+Good default for interviews: Option 1 or Option 2.
+
+---
+
+#### B) Storage model
+
+Redirect needs O(1) lookup by code, so model it as:
+
+* `code -> long_url (+ metadata)`
+
+DB choices
+
+* For huge scale: a key-value / wide-column store (Cassandra/DynamoDB) is great.
+* For moderate scale: PostgreSQL/MySQL works fine with proper indexing + partitioning.
+* Interview-safe: say “persistent store with primary key on code, horizontally scalable”.
+
+---
+
+#### C) Caching strategy (critical because reads dominate)
+
+* Use Redis (or Memcached) as:
+  * `GET code -> long_url`
+* TTL:
+  * Either no TTL (cache as long as memory allows) or TTL aligned with expiration
+* Use negative caching for “not found” to prevent DB hammering (`code -> 404`, short TTL)
+
+Cache stampede protection
+
+* Request coalescing / singleflight per code for hot misses
+
+---
+
+#### D) Partitioning / sharding
+
+If DB becomes large:
+
+* Shard by `hash(code)` so reads are evenly distributed
+* Add replication for HA
+
+---
+
+#### E) Analytics without hurting redirect latency
+
+Redirect endpoint must stay fast:
+
+* On every redirect, push a lightweight event to a queue:
+
+  * Kafka / NATS JetStream / SQS (depending on stack)
+* Consumers aggregate into:
+
+  * OLAP store (ClickHouse/BigQuery) or time-series DB
+* Keep redirect response path synchronous only for cache/DB lookup.
+
+---
+
+#### F) Reliability & correctness
+
+* Ensure unique codes:
+
+  * If random: enforce uniqueness via DB primary key; retry on conflict
+  * If sequence: uniqueness is guaranteed by ID generator
+* Handle “not found” reliably (404 or custom page)
+* Backups and replication
+
+---
+
+#### G) Abuse prevention
+
+* Rate-limit:
+
+  * `POST /v1/urls` per IP/user
+* Optional safe browsing:
+
+  * async scanning + flag links
+* Block known bad domains
+* Add CAPTCHA for anonymous creation (product decision)
+
+---
+
+### Capacity planning (what you roughly estimate)
+
+You can say something like:
+
+* Redirects are read-heavy: cache hit rate should be high (e.g., 90–99% for popular links)
+* DB QPS should be far smaller than redirect QPS due to caching
+* Storage size:
+
+  * Each mapping might be ~200–500 bytes including metadata → 1B links = hundreds of GBs (needs sharding)
+
+(You don’t need perfect math; show you reason about it.)

@@ -1,0 +1,43 @@
+### Product / scope
+
+* What’s the main goal: just redirect, or also analytics (clicks, geo, referrer, device)?
+* Do we need custom aliases (e.g., `mybrand/hello`)?
+* Do we need link expiration / TTL? Can users edit/delete links?
+* Public service or authenticated users only? Any API keys?
+* Do we need user-owned namespaces / teams / orgs?
+
+
+### Traffic / scale (numbers drive architecture)
+
+* Expected writes (new short URLs) per second? Peak?
+* Expected reads (redirects) per second? Peak?
+* Expected total URLs stored (10M? 1B?) and growth rate?
+* Expected read/write ratio? (Typically reads >> writes)
+* Latency targets for redirect (p50/p99)? (e.g., p99 < 50–100ms)
+* Availability target (99.9 / 99.99)?
+
+
+### Redirect behavior
+
+* Must be 301 (permanent) or 302 (temporary) by default?
+* Should we support UTM passthrough and keep query params?
+* Do we need preview page / malware warning / safe browsing checks?
+
+
+### Security / abuse
+
+* Should we block/limit spam, phishing, malware?
+* Rate limiting requirements per IP/user?
+* Are links private (only accessible with auth) or always public?
+
+
+### Data correctness & consistency
+
+* Is it acceptable that a newly created link may not work for a few seconds (eventual consistency)?
+* Must custom aliases be strictly unique globally?
+
+
+### Multi-region / deployment
+
+* Single region or multi-region?
+* Any constraints: cloud provider, using managed DB/Redis/Kafka, etc.?

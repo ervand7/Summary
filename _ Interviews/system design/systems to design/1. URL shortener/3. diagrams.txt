@@ -1,0 +1,226 @@
+1. High-level system
+2. Read (redirect) path
+3. Write (create short URL) path
+4. Analytics async path
+
+You can draw any one of these on a whiteboard and explain it calmly.
+
+---
+
+## 1️⃣ High-level URL shortener architecture
+
+```
+                        +--------------------+
+                        |       Clients      |
+                        | (Browser / Mobile) |
+                        +----------+---------+
+                                   |
+                                   | HTTPS Requests
+                                   v
+                        +----------+---------+
+                        |   Load Balancer    |
+                        |  (L4 / L7, CDN)    |
+                        +----------+---------+
+                                   |
+                +------------------+------------------+
+                |                                     |
+                v                                     v
+      +---------+----------+               +----------+---------+
+      |  Redirect Service  |               |  URL API Service   |
+      |  (GET /{code})     |               | (POST /v1/urls)   |
+      +---------+----------+               +----------+---------+
+                |                                     |
+                |                                     |
+        +-------+-------+                     +-------+-------+
+        |    Cache      |                     |  ID / Code     |
+        |  (Redis)      |                     |  Generator     |
+        +-------+-------+                     +-------+-------+
+                |                                     |
+                |                                     |
+        +-------+-------+                     +-------+-------+
+        | Persistent DB |<------------------->| Persistent DB |
+        | (code → URL)  |                     | (write path)  |
+        +---------------+                     +---------------+
+```
+
+---
+
+## 2️⃣ Redirect (READ) path – most important
+
+This is the hot path. Interviewers care a lot about this.
+
+```
+Client
+  |
+  |  GET /abc123
+  v
++--------------------+
+| Load Balancer      |
++----------+---------+
+           |
+           v
++----------+---------+
+| Redirect Service   |
+|--------------------|
+| - Validate code    |
+| - Check expiration |
++----------+---------+
+           |
+     +-----+-----+
+     |           |
+     | Cache HIT | Cache MISS
+     |           |
+     v           v
++----+----+   +--+----------------+
+| Redis   |   | Persistent Store  |
+|---------|   |-------------------|
+| code -> |   | PK lookup by code |
+| URL     |   +--+----------------+
++----+----+      |
+     |            |
+     +------------+
+           |
+           v
++--------------------+
+| 301 / 302 Redirect |
+| Location: long URL |
++--------------------+
+           |
+           v
+        Client
+```
+
+Important interview notes you can say:
+
+* Redirect path is cache-first
+* DB lookup only on cache miss
+* Redirect response is extremely cheap
+* Analytics is not blocking
+
+---
+
+## 3️⃣ Create short URL (WRITE) path
+
+Writes are much rarer, but correctness matters.
+
+```
+Client
+  |
+  | POST /v1/urls
+  v
++--------------------+
+| Load Balancer      |
++----------+---------+
+           |
+           v
++----------+---------+
+| URL API Service    |
+|--------------------|
+| - Validate URL     |
+| - Rate limit       |
+| - Auth / abuse     |
++----------+---------+
+           |
+           v
++----------+---------+
+| Code Generator     |
+|--------------------|
+| - Base62(ID) OR    |
+| - Random string   |
++----------+---------+
+           |
+           v
++----------+---------+
+| Persistent DB     |
+|-------------------|
+| INSERT code->URL  |
+| UNIQUE(code)      |
++----------+---------+
+           |
+           v
++----------+---------+
+| Cache (Redis)     |
+|-------------------|
+| Warm cache entry  |
++----------+---------+
+           |
+           v
+Client gets:
+https://sho.rt/abc123
+```
+
+---
+
+## 4️⃣ Async analytics (non-blocking, interview bonus)
+
+This shows you understand performance isolation.
+
+```
+           +--------------------+
+           | Redirect Service   |
+           |--------------------|
+           | After redirect     |
+           | emits event        |
+           +----------+---------+
+                      |
+                      | Fire-and-forget
+                      v
+            +---------+----------+
+            | Message Queue     |
+            | (Kafka / NATS)    |
+            +---------+----------+
+                      |
+              +-------+-------+
+              |               |
+              v               v
+    +---------+------+   +----+----------+
+    | Stats Consumer |   | Geo / UA Enr. |
+    +---------+------+   +----+----------+
+              |               |
+              +-------+-------+
+                      |
+                      v
+            +---------+----------+
+            | Analytics Store   |
+            | (ClickHouse /    |
+            | BigQuery / OLAP) |
+            +------------------+
+```
+
+---
+
+## 5️⃣ Data model (textual schema diagram)
+
+```
++-----------------------------+
+|        short_urls           |
+|-----------------------------|
+| code (PK)                   |
+| long_url                    |
+| created_at                  |
+| expires_at                  |
+| redirect_type (301/302)     |
+| is_disabled                 |
+| created_by_user_id          |
++-----------------------------+
+```
+
+Cache view:
+
+```
+Redis:
+  key:  u:{code}
+  val:  { long_url, expires_at, redirect_type }
+```
+
+---
+
+## How to use this in an interview
+
+You can say:
+
+> “I’ll first draw the redirect path because it’s the hottest one.
+> Then I’ll briefly explain the write path and how we generate codes.
+> Analytics is async so it never slows redirects.”
+
+This ordering alone signals seniority.

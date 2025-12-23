@@ -1,0 +1,15 @@
+POST /v1/ratelimit/check
+
+Checks whether a request is allowed under configured rate-limit rules.
+
+**Request**
+
+* Key (user / API key / IP / org)
+* Applied rules (limits, windows, burst)
+* Optional cost
+
+**Response**
+
+* `allowed: true|false`
+* Remaining quota
+* `retry_after` when blocked (HTTP 429)

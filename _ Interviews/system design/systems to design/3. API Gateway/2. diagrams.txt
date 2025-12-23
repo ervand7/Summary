@@ -1,0 +1,75 @@
+### 1️⃣ High-level architecture (two-plane)
+
+```
+                 (CONTROL PLANE)                          (DATA PLANE / HOT PATH)
++----------------------------------+            +--------------------------------------+
+| Admin UI / CI / Operators        |            | Clients (Web/Mobile/Services)        |
++------------------+---------------+            +--------------------+-----------------+
+                   |                                             HTTPS/gRPC
+                   v                                                requests
++----------------------------------+                                    |
+| Config & Policy Service          |                                    v
+| - routes, upstreams, retries     |                           +--------+--------+
+| - auth rules (JWT/scopes/RBAC)   |                           | Global/L7 LB     |
+| - rate limit quotas              |                           +--------+--------+
+| - validation + versioning        |                                    |
++------------------+---------------+                                    v
+                   | push/pull config (xDS / long-poll)       +---------+---------+
+                   v                                         | API Gateway Fleet  |
++----------------------------------+                         | (N instances)      |
+| Config Store (DB)                |                         |--------------------|
+| - versioned snapshots            |                         | - route match      |
+| - audit history                  |                         | - authN/authZ      |
++----------------------------------+                         | - rate limit       |
+                                                             | - retries/timeouts |
+                                                             | - proxy/LB         |
+                                                             +----+----------+----+
+                                                                  |          |
+                                                                  |          |
+                                       +--------------------------+          +------------------+
+                                       v                                                v
+                           +------------------------+                        +------------------------+
+                           | Upstream Services A... |                        | Observability Stack    |
+                           | (K8s/VM clusters)      |                        | logs/metrics/traces    |
+                           +------------------------+                        +------------------------+
+```
+
+---
+
+### 2️⃣ Request (hot path) sequence
+
+```
+Client
+  |
+  | 1) HTTPS request
+  v
++------------------------+
+| API Gateway            |
+|------------------------|
+| 2) Route match         |
+| 3) AuthN (JWT/JWKS)    |
+| 4) AuthZ (policy)      |
+| 5) Rate limit (bucket) |
+| 6) Proxy + LB          |
+| 7) Log/metrics/trace   |
++-----------+------------+
+            |
+            | upstream request (with timeouts)
+            v
++------------------------+
+| Upstream Service       |
++------------------------+
+            |
+            v
+         Response
+```
+
+Decision points (explicitly call them out):
+
+```
+Auth failed      -> 401
+Forbidden        -> 403
+Rate limit hit   -> 429
+Upstream down    -> 503 (and open circuit)
+Timeout          -> 504
+```

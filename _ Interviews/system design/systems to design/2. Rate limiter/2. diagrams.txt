@@ -9,11 +9,11 @@
 | - rollout: shadow mode        |                             | HTTP/gRPC
 +---------------+---------------+                             v
                 |                                         +---+---+
-                | config push/pull                         |  LB   |
+                | config push/pull                        |  LB   |
                 v                                         +---+---+
 +-------------------------------+                             |
 | Config Cache (CDN / Gateway)  |<----------------------------+
-| - rules cached with TTL       |    reads configs locally
+| - rules cached with TTL       |    reads configs locally    |
 +-------------------------------+                             |
                                                               v
                                                      +--------+---------+
@@ -28,8 +28,8 @@
                                                          | allow    | reject
                                                          v          v
                                                 +--------+--+   +---+------------------+
-                                                | Backend    |   | 429 Too Many Req   |
-                                                | Services   |   | Retry-After: ...   |
+                                                | Backend   |   | 429 Too Many Req     |
+                                                | Services  |   | Retry-After: ...     |
                                                 +-----------+   +----------------------+
 
                              +--------------------------------------+

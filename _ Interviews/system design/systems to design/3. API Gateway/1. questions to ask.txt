@@ -1,0 +1,58 @@
+### Product / scope (what “gateway” means here)
+
+* Is this gateway mainly routing (edge proxy), or also auth + rate limiting + policy?
+* Is it for internal microservices, public APIs, or both?
+* Do we need request/response transformation (JSON ↔ gRPC, headers/body mapping)?
+* Do we need API versioning (`/v1`, `/v2`) and backward compatibility?
+* Do we support multi-tenant (different customers / orgs) with different policies?
+* Any monetization / plans (free/pro/enterprise quotas)?
+* Do we need developer portal features (API keys, docs, usage stats)?
+
+### Clients / protocols
+
+* What protocols: HTTP/1.1, HTTP/2, gRPC, WebSockets, SSE?
+* Do we terminate TLS at the gateway? Mutual TLS (mTLS) to upstream?
+* Do we need CORS handling for browsers?
+
+### Traffic / scale (numbers drive design)
+
+* Expected RPS (average and peak)? Burstiness (x10 spikes)?
+* Number of routes/services behind it (10 / 100 / 1000)?
+* Latency target for gateway overhead (p99 budget)? e.g. “gateway adds < 5–10ms”
+* Availability target (99.9 / 99.99)? Multi-region required?
+* Typical payload sizes (small JSON vs large uploads)?
+* Are there long-lived connections (SSE/WebSockets)? How many concurrent?
+
+### Routing / discovery
+
+* How do we route: path-based, host-based, method, headers?
+* How do services register: Kubernetes service discovery, Consul, static config?
+* Do we need canary / blue-green routing and traffic splitting by %?
+* Do we need A/B testing or header-based routing?
+
+### Security / authn / authz
+
+* What auth types: JWT, opaque tokens (introspection), API keys, OAuth2?
+* Where is authorization decided: gateway only, or also service-level checks?
+* Need RBAC/ABAC policies? (per route, per tenant, per method)
+* DDoS/WAF needs? IP allow/deny lists? Geo blocking?
+
+### Reliability / resilience
+
+* Rate limiting: per IP, per user, per API key, per tenant, per route?
+* Need timeouts, retries, circuit breakers, bulkheads at gateway?
+* Idempotency requirements for retries (e.g., POST)?
+* Backpressure behavior: when overloaded do we return 429/503?
+
+### Observability / operations
+
+* Required logs: access logs, audit logs, request/trace IDs?
+* Metrics: RPS, latency, error rates, upstream timeouts, rate-limit drops?
+* Tracing: OpenTelemetry? propagate `traceparent`?
+* Compliance: retain logs how long? PII redaction?
+
+### Deployment constraints
+
+* Cloud provider / Kubernetes? Allowed components: Envoy, NGINX, Kong, custom Go?
+* Managed Redis? Kafka? External auth service already exists?
+* Any constraints on languages / libraries / “must use existing LB”?

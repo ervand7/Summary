@@ -1,0 +1,33 @@
+### Data plane (client-facing)
+
+* ANY /*
+  Routes incoming HTTP/gRPC requests to upstream services according to routing rules.
+
+---
+
+### Control plane (admin)
+
+* POST /admin/routes
+  Create or update routing rules (host, path, method → upstream).
+
+* POST /admin/policies
+  Configure auth (JWT/scopes), rate limits, retries, timeouts.
+
+* POST /admin/traffic
+  Configure canary / blue-green routing and traffic split percentages.
+
+* POST /admin/config/apply
+  Validate and publish a new configuration snapshot.
+
+* GET /admin/config/active
+  Get currently active configuration version.
+
+---
+
+### What the gateway enforces (implicitly)
+
+* Authentication (JWT / API key / mTLS)
+* Authorization (RBAC / scopes)
+* Rate limiting and quotas
+* Timeouts, retries, circuit breakers
+* Access logs, metrics, tracing

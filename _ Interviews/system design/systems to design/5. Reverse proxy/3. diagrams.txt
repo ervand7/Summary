@@ -1,0 +1,97 @@
+# 🌍 Full picture: Reverse Proxy (interview-ready)
+
+                              CONTROL PLANE
+                 (slow path: safe config, validation, rollout)
+
++-------------------------------------------------------------------+
+| Admin UI / GitOps / CI / Operators                                |
+| - edit routes/upstreams/policies                                  |
+| - review + approve changes                                        |
++---------------------------+---------------------------------------+
+                            | REST/gRPC (config changes)
+                            v
++-------------------------------------------------------------------+
+| Reverse Proxy Control Plane Service                               |
+|-------------------------------------------------------------------|
+| - schema validation, versioning, rollback                         |
+| - compiles config -> immutable snapshot                           |
+| - distributes config to proxy instances                           |
++---------------------------+---------------------------------------+
+                            |
+                            | publish config snapshot
+                            v
++-------------------------------------------------------------------+
+| Config Store (etcd/Consul/Git + controller)                       |
+| - versioned snapshots                                             |
+| - watch/notify                                                    |
++-------------------------------------------------------------------+
+
+
+
+                               DATA PLANE (HOT PATH)
+                     (ultra-fast: no DB calls, local in-memory)
+
+Clients (Browser / Mobile / Other Services)
+         |
+         | HTTPS / HTTP / gRPC / WebSocket
+         v
++-------------------------------------------------------------------+
+| DNS / Edge Routing (optional)                                       |
+| - chooses region / nearest POP                                      |
++-------------------------------------------------------------------+
+         |
+         v
++-------------------------------------------------------------------+
+| Reverse Proxy Cluster (active-active, stateless)                    |
+|-------------------------------------------------------------------|
+|  +-------------------+   +-------------------+   +----------------+ |
+|  | Proxy #1          |   | Proxy #2          |   | Proxy #3       | |
+|  |-------------------|   |-------------------|   |----------------| |
+|  | Listener(s):      |   | Listener(s):      |   | Listener(s):   | |
+|  | - :443 TLS        |   | - :443 TLS        |   | - :443 TLS     | |
+|  | - :80 redirect    |   | - :80 redirect    |   | - :80 redirect | |
+|  |                   |   |                   |   |                | |
+|  | In-memory tables: |   | In-memory tables: |   | In-memory:     | |
+|  | - route matcher   |   | - route matcher   |   | - route matcher| |
+|  | - policy engine   |   | - policy engine   |   | - policy engine| |
+|  | - upstream pools  |   | - upstream pools  |   | - upstream pools |
+|  | - conn pools      |   | - conn pools      |   | - conn pools   | |
+|  |                   |   |                   |   |                | |
+|  | Request pipeline: |   | Request pipeline: |   | Request pipe:  | |
+|  | 1) accept conn    |   | 1) accept conn    |   | 1) accept conn | |
+|  | 2) TLS terminate  |   | 2) TLS terminate  |   | 2) TLS term    | |
+|  | 3) match route    |   | 3) match route    |   | 3) match route | |
+|  | 4) auth (opt)     |   | 4) auth (opt)     |   | 4) auth (opt)  | |
+|  | 5) rate limit     |   | 5) rate limit     |   | 5) rate limit  | |
+|  | 6) rewrite hdrs   |   | 6) rewrite hdrs   |   | 6) rewrite     | |
+|  | 7) pick upstream  |   | 7) pick upstream  |   | 7) pick upstr  | |
+|  | 8) forward        |   | 8) forward        |   | 8) forward     | |
+|  | 9) retries/cb     |   | 9) retries/cb     |   | 9) retries/cb  | |
+|  | 10) log/metrics   |   | 10) log/metrics   |   | 10) log/metrics| |
+|  +---------+---------+   +---------+---------+   +--------+--------+ |
+|            |                       |                      |          |
++------------+-----------------------+----------------------+----------+
+             |                       |                      |
+             v                       v                      v
+
+                    (UPSTREAMS / ORIGIN SERVICES)
++-------------------+     +-------------------+     +-------------------+
+| users-service     |     | payments-service  |     | content-service   |
+| pods/VMs behind   |     | pods/VMs behind   |     | pods/VMs behind   |
+| an upstream pool  |     | an upstream pool  |     | an upstream pool  |
++-------------------+     +-------------------+     +-------------------+
+
+             ^
+             |
++-------------------------------------------------------------------+
+| Health checking & outlier detection                               |
+|-------------------------------------------------------------------|
+| Active: periodic /ready probes                                    |
+| Passive: eject instance on high 5xx / timeouts                    |
+| Result: update in-memory "healthy set" used by picker             |
++-------------------------------------------------------------------+
+
+
+# 🔁 Config update (hot reload, no restart)
+Control Plane -> Config Store -> Proxies watch -> apply new snapshot atomically
+(no per-request DB calls; request path always uses local snapshot)

@@ -1,0 +1,18 @@
+| Aspect          | **WebSocket**          | **gRPC Streams**                        |
+| --------------- | ---------------------- | --------------------------------------- |
+| Protocol        | HTTP/1.1 (upgrade)     | HTTP/2                                  |
+| Direction       | Full-duplex            | Full-duplex                             |
+| Message format  | Text / Binary (custom) | Protobuf (binary)                       |
+| Schema          | No schema              | Strict schema (IDL)                     |
+| Typing          | Weak / manual          | Strongly typed                          |
+| Multiplexing    | ❌ No                  | ✅ Yes (multiple streams per connection)|
+| Flow control    | App-level              | Built-in (HTTP/2)                       |
+| Backpressure    | Manual                 | Built-in                                |
+| Browser support | ✅ Native              | ❌ (needs gRPC-Web)                     |
+| Typical use     | Browsers, realtime UI  | Service-to-service                      |
+| Observability   | Harder                 | Easier (metrics, tracing)               |
+
+**One-liner (interview):**
+
+> *WebSocket is flexible and browser-friendly; gRPC streams are structured, typed, and
+better for backend systems.*

@@ -1,0 +1,158 @@
+# 1️⃣ Backend management
+
+### `POST /backends`
+
+What it does:
+👉 Registers a new backend instance in the load balancer.
+
+In real life:
+
+* a new pod/VM starts
+* it announces itself to the LB (or automation does)
+
+```json
+{
+  "id": "users-v1",
+  "address": "10.0.1.15:8080",
+  "weight": 3
+}
+```
+
+Meaning of fields:
+
+* `id` — unique backend identifier
+* `address` — where LB sends traffic
+* `weight` — how much traffic it should get (relative)
+
+Why needed:
+LB must know where it’s allowed to send requests.
+
+---
+
+### `GET /backends`
+
+What it does:
+👉 Lists all registered backends.
+
+Used by:
+
+* operators
+* automation
+* debugging
+
+Example question it answers:
+
+> “Which instances are currently part of the pool?”
+
+---
+
+### `DELETE /backends/{id}`
+
+What it does:
+👉 Removes a backend from rotation.
+
+Used when:
+
+* instance is shutting down
+* deployment rollout
+* manual mitigation
+
+Important:
+Usually traffic is drained first, not cut instantly.
+
+---
+
+# 2️⃣ Health status
+
+### `GET /backends/health`
+
+What it does:
+👉 Shows LB’s current opinion about backend health.
+
+```json
+{
+  "users-v1": "healthy",
+  "users-v2": "unhealthy"
+}
+```
+
+Important:
+This is NOT what backend *claims* —
+this is what LB has observed.
+
+Used by:
+
+* dashboards
+* alerting
+* incident response
+
+---
+
+# 3️⃣ Routing rules
+
+### `POST /routes`
+
+What it does:
+👉 Defines how requests are matched and routed.
+
+```json
+{
+  "match": {
+    "path": "/users",
+    "method": "GET"
+  },
+  "backend_pool": "users-service",
+  "algorithm": "least_connections"
+}
+```
+
+Meaning:
+
+* `match` — which requests this rule applies to
+* `backend_pool` — group of backends to send traffic to
+* `algorithm` — how to choose one backend
+
+Example in words:
+
+> “All GET /users requests go to users-service using least-connections.”
+
+Why needed:
+This is the core logic of the load balancer.
+
+---
+
+# 4️⃣ Runtime stats
+
+### `GET /stats`
+
+What it does:
+👉 Exposes live metrics of the LB itself.
+
+```json
+{
+  "rps": 12000,
+  "active_connections": 830,
+  "p95_latency_ms": 18
+}
+```
+
+Why this matters:
+
+* capacity planning
+* autoscaling
+* alerting
+* debugging slowdowns
+
+Important:
+This is observability, not control.
+
+---
+
+# 🧠 Big picture (connect everything)
+
+```
+POST /backends   → tells LB where traffic MAY go
+POST /routes     → tells LB how to route traffic
+Health checks    → decide where traffic SHOULD go
+GET /stats       → tells humans how LB is behaving
+```

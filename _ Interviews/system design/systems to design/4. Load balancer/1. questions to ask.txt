@@ -1,0 +1,43 @@
+## A. Scope & responsibility
+
+1. Is this an L4 (TCP/UDP) or L7 (HTTP/gRPC) load balancer?
+2. Is this internal (between services) or external (client-facing)?
+3. Should it terminate TLS, or just pass it through?
+4. Is this a managed service replacement (like ELB) or a custom LB?
+
+## B. Traffic characteristics
+
+5. What protocol: HTTP, HTTPS, gRPC, WebSocket?
+6. Expected RPS / QPS?
+7. Request size and response size (small JSON vs large payloads)?
+8. Is traffic bursty or mostly stable?
+
+## C. Routing & balancing logic
+
+9. Which algorithms are required?
+
+   * Round-robin
+   * Least connections
+   * Weighted
+   * Hash-based
+10. Do we need sticky sessions?
+11. Routing only by IP, or also by path / header / host?
+
+## D. Health & resilience
+
+12. How should health checks work?
+13. Do we need active or passive health checks?
+14. What happens when *all* backends are unhealthy?
+15. How fast must failures be detected?
+
+## E. Scaling & availability
+
+16. Should the LB itself be highly available?
+17. Active-active or active-passive?
+18. Do we expect multi-region traffic?
+
+## F. Observability & control
+
+19. What metrics are required?
+20. Do we need rate limiting or circuit breaking?
+21. Is there a control plane (dynamic config updates)?

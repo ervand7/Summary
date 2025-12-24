@@ -1,0 +1,63 @@
+## A. Goal & scope
+
+1. What is this reverse proxy for: edge (internet-facing) or internal (service-to-service)?
+2. Is it a pure reverse proxy, or also an API Gateway (auth/rate-limit/quotas)?
+3. Which protocols must be supported: HTTP/1.1, HTTP/2, gRPC, WebSocket?
+4. Is it intended to be a “simple Nginx-like” proxy or a programmable proxy (Envoy-like)?
+5. Are we replacing an existing product (Nginx/Envoy/Ingress/Cloudflare) or building minimal custom?
+
+## B. Traffic & performance
+
+6. Expected RPS/QPS and peak burst size (x10 spikes)?
+7. Typical payload sizes (small JSON vs large uploads/downloads)?
+8. Latency targets (p50/p95/p99) and tail-latency constraints?
+9. Keep-alive behavior: long-lived connections (WebSocket/gRPC streams) or mostly short requests?
+10. Any special requirements for uploads (streaming, max body size, buffering to disk)?
+
+## C. Routing & request transformation
+
+11. How do we route: by Host, path, method, headers, query params, SNI?
+12. Do we need path rewriting (e.g., /api/v1 → /), header injection, or header stripping?
+13. Need canary / blue-green routing (percentage-based, header-based, user-based)?
+14. Do we need sticky sessions (cookie-based affinity) or should we avoid it?
+
+## D. TLS, security, identity
+
+15. Should the reverse proxy terminate TLS or pass-through?
+16. Who manages certificates (ACME/Let’s Encrypt, internal PKI, manual)?
+17. Do we need mTLS to upstreams?
+18. Any auth at the proxy: JWT validation, API keys, OAuth2/OIDC integration?
+19. WAF / IP allowlists / geo restrictions / bot protection required?
+20. Any compliance: audit logs, PII masking, header scrubbing?
+
+## E. Upstreams, health, resilience
+
+21. What are upstreams: static list, service discovery (K8s, Consul), DNS-based?
+22. Do upstreams have multiple instances (pool)? Which load-balancing algorithm is needed?
+23. Health checks: active (/health) vs passive (error-rate), readiness vs liveness?
+24. Timeouts: connect timeout, request timeout, idle timeout? Any per-route overrides?
+25. Retries allowed? Which methods are safe to retry (GET only vs idempotency keys)?
+26. Circuit breaking / bulkheads needed to avoid cascading failures?
+27. What should happen when all upstreams are down (fail fast, fallback, cached response)?
+
+## F. Caching & content features (optional)
+
+28. Do we need caching (static assets, GET responses) or must it be transparent?
+29. Compression (gzip/br), request/response buffering, request body size limits?
+30. Support for HTTP range requests, streaming, chunked responses?
+
+## G. Observability & operations
+
+31. Required metrics: RPS, active conns, upstream latency, error rates, retries, cache hit ratio?
+32. Logging format: access logs, structured logs, correlation IDs, trace propagation?
+33. Tracing: OpenTelemetry? Must we create spans or just propagate headers?
+34. Admin/control plane: dynamic config reload? hot reload vs restart?
+35. Configuration source: file, DB, GitOps, API? Need validation + versioning + rollback?
+
+## H. Availability, scaling, deployment
+
+36. HA requirement: single node ok, or multi-instance active-active?
+37. How is it deployed: Kubernetes Ingress, sidecar, standalone edge cluster?
+38. Multi-region? If yes: global routing handled by DNS/anycast or by our system?
+39. Rate limiting: per-IP, per-user, per-route? local vs shared (Redis) counters?
+40. Any constraints: “no external deps in hot path”, “no DB calls”, “must survive config churn”?

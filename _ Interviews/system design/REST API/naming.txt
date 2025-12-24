@@ -1,0 +1,461 @@
+## 1️⃣ Core Philosophy
+> APIs are contracts, not implementations.
+
+Good naming means:
+* Your API can survive 5–10 years
+* Your clients don’t care how it’s implemented
+* You can change internals without breaking users
+
+Bad naming leaks internals.
+Good naming describes business meaning.
+
+---
+
+## 2️⃣ Resource-Oriented Thinking (The Foundation)
+
+Modern APIs are about resources, not actions.
+
+### ❌ Wrong (action-based)
+
+```
+/getUser
+/createOrder
+/deletePayment
+```
+
+### ✅ Correct (resource-based)
+
+```
+/users
+/orders
+/payments
+```
+
+Rule:
+
+> URLs are nouns. HTTP methods are verbs.
+
+| HTTP Method | Meaning        |
+| ----------- | -------------- |
+| GET         | Read           |
+| POST        | Create         |
+| PUT         | Replace        |
+| PATCH       | Partial update |
+| DELETE      | Remove         |
+
+---
+
+## 3️⃣ Naming Resources (URLs)
+
+### 3.1 Use plural nouns
+
+```
+/users
+/orders
+/cards
+/transactions
+```
+
+Why?
+
+* Consistent
+* Works naturally with collections
+* Avoids edge cases (`/user/123` looks odd)
+
+---
+
+### 3.2 Use lowercase + kebab-case
+
+```
+/user-profiles
+/payment-methods
+/card-transactions
+```
+
+❌ Avoid:
+
+```
+/UserProfiles
+/user_profiles
+/userProfiles
+```
+
+---
+
+### 3.3 Avoid verbs in URLs
+
+❌
+
+```
+/create-user
+/get-transactions
+/update-card
+```
+
+✅
+
+```
+POST   /users
+GET    /transactions
+PATCH  /cards/{cardId}
+```
+
+---
+
+## 4️⃣ Hierarchies & Relationships
+
+### 4.1 Parent → Child relationships
+
+```
+/users/{userId}/cards
+/users/{userId}/transactions
+/orders/{orderId}/items
+```
+
+Rule:
+
+> Use nesting only when the child cannot exist without the parent
+
+❌ Bad deep nesting
+
+```
+/users/{id}/accounts/{id}/cards/{id}/transactions
+```
+
+✅ Flatten when needed
+
+```
+/transactions?card_id=123
+```
+
+---
+
+### 4.2 Many-to-many? Use a top-level resource
+
+```
+/memberships
+/user-roles
+```
+
+---
+
+## 5️⃣ Naming Actions (When You Really Need Them)
+
+Sometimes pure REST is not enough.
+
+### 5.1 Use sub-resources or verbs as nouns
+
+❌
+
+```
+POST /cards/activate
+```
+
+✅
+
+```
+POST /cards/{id}/activation
+DELETE /cards/{id}/activation
+```
+
+or
+
+```
+POST /cards/{id}:activate
+```
+
+👉 `:` is common in Google-style APIs.
+
+---
+
+### 5.2 Long-running operations
+
+```
+POST /cards/{id}/verification
+GET  /operations/{operationId}
+```
+
+---
+
+## 6️⃣ Query Parameters (Filtering, Sorting, Pagination)
+
+### 6.1 Filtering
+
+```
+GET /transactions?status=approved
+GET /cards?type=virtual
+```
+
+### 6.2 Time ranges
+
+```
+?from=2025-01-01
+?to=2025-01-31
+```
+
+or
+
+```
+?created_at_gte=...
+?created_at_lte=...
+```
+
+---
+
+### 6.3 Pagination (pick one style and stick to it)
+
+#### Offset-based
+
+```
+?limit=50&offset=100
+```
+
+#### Cursor-based (preferred for large systems)
+
+```
+?limit=50&cursor=eyJpZCI6...
+```
+
+---
+
+### 6.4 Sorting
+
+```
+?sort=created_at
+?sort=-created_at   // descending
+```
+
+---
+
+## 7️⃣ Field Naming (JSON Body)
+
+### 7.1 Use snake_case OR camelCase — never both
+
+Choose once.
+
+Recommended:
+
+```json
+{
+  "user_id": "123",
+  "created_at": "2025-01-01T12:00:00Z"
+}
+```
+
+or
+
+```json
+{
+  "userId": "123",
+  "createdAt": "2025-01-01T12:00:00Z"
+}
+```
+
+---
+
+### 7.2 Be explicit
+
+❌
+
+```json
+{ "status": "ok" }
+```
+
+✅
+
+```json
+{ "payment_status": "approved" }
+```
+
+---
+
+### 7.3 Booleans must read naturally
+
+✅
+
+```json
+"is_active": true
+"has_3ds": false
+```
+
+❌
+
+```json
+"active": "yes"
+"3ds": 1
+```
+
+---
+
+## 8️⃣ Naming Enums
+
+Enums should be:
+
+* lowercase
+* stable
+* descriptive
+
+```json
+"status": "pending"
+"status": "approved"
+"status": "declined"
+```
+
+❌ Never expose internal states:
+
+```
+WAITING_FOR_PROVIDER_CALLBACK
+```
+
+---
+
+## 9️⃣ Error Naming & Structure
+
+### 9.1 Error codes are part of the API contract
+
+```json
+{
+  "error_code": "card_not_found",
+  "message": "Card does not exist"
+}
+```
+
+✅ Good:
+
+* snake_case
+* stable
+* machine-readable
+
+❌ Bad:
+
+```
+ERR_10239
+```
+
+---
+
+### 9.2 HTTP status codes must match semantics
+
+| Status | Meaning                     |
+| ------ | --------------------------- |
+| 400    | Client error                |
+| 401    | Not authenticated           |
+| 403    | Authenticated but forbidden |
+| 404    | Resource not found          |
+| 409    | Conflict                    |
+| 422    | Validation error            |
+| 500    | Server error                |
+
+---
+
+## 🔟 Versioning
+
+### 10.1 Prefer URL versioning
+
+```
+/v1/cards
+/v2/cards
+```
+
+### 10.2 Never version fields
+
+❌
+
+```json
+"user_name_v2"
+```
+
+---
+
+## 1️⃣1️⃣ Naming Across Protocols (HTTP ↔ gRPC)
+
+### REST
+
+```
+POST /cards/{id}/freeze
+```
+
+### gRPC
+
+```proto
+rpc FreezeCard(FreezeCardRequest) returns (FreezeCardResponse);
+```
+
+Rule:
+
+> REST = resources
+> gRPC = actions
+
+---
+
+## 1️⃣2️⃣ What NOT to Expose
+
+❌ Internal tech:
+
+```
+/redis-cache
+/kafka-events
+/sql-users
+```
+
+❌ Provider-specific:
+
+```
+/stripe-payment
+/visa-card
+```
+
+✅ Abstract:
+
+```
+/payments
+/cards
+```
+
+---
+
+## 1️⃣3️⃣ Common Naming Mistakes (Real-World)
+
+❌ Mixing styles
+
+```
+/getUsers
+/cards/{card_id}/Activate
+```
+
+❌ Encoding logic in URLs
+
+```
+/users-with-active-cards
+```
+
+❌ Ambiguous naming
+
+```
+/data
+/info
+/details
+```
+
+---
+
+## 1️⃣4️⃣ Interview-Ready Rules (Memorize These)
+
+> 1. URLs are nouns, methods are verbs
+> 2. Names reflect business meaning, not implementation
+> 3. Plural resources, consistent casing
+> 4. Stable enums & error codes
+> 5. Flat over deeply nested
+> 6. Version APIs, not fields
+
+---
+
+## 1️⃣5️⃣ Final API Naming Checklist
+
+Before approving any API:
+
+✅ Can I change DB without breaking clients?
+✅ Can I add fields without version bump?
+✅ Does naming match business language?
+✅ Are errors machine-readable?
+✅ Is it obvious what each endpoint does?

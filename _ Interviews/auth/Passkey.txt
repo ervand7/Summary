@@ -1,32 +1,32 @@
-A **passkey** is a modern, passwordless authentication method that uses
-**public key cryptography**. Instead of typing a password, users log in by
-verifying themselves with **biometrics** (like Face ID or Touch ID) or a device PIN.
+A passkey is a modern, passwordless authentication method that uses
+public key cryptography. Instead of typing a password, users log in by
+verifying themselves with biometrics (like Face ID or Touch ID) or a device PIN.
 
 ### ✅ How does a Passkey work?
-#### 1. **Registration (first-time setup):**
-* Your device (e.g., iPhone) **generates a key pair**:
-  * 🔐 A **private key** (stored **only on your device**, inside the secure enclave)
-  * 🔓 A **public key** (sent to and stored on the server)
+#### 1. Registration (first-time setup):
+* Your device (e.g., iPhone) generates a key pair:
+  * 🔐 A private key (stored only on your device, inside the secure enclave)
+  * 🔓 A public key (sent to and stored on the server)
 
-#### 2. **Login:**
-* The server sends a **challenge** (random data).
+#### 2. Login:
+* The server sends a challenge (random data).
 * Your device:
-  * Uses **Face ID / Touch ID / PIN** to unlock the private key.
+  * Uses Face ID / Touch ID / PIN to unlock the private key.
   * Signs the challenge with the private key.
 * The server:
-  * Verifies the signature using the previously stored **public key**.
+  * Verifies the signature using the previously stored public key.
   * If the signature is valid, authentication succeeds.
 
 
 ### 🧠 Why is it better?
-* ✅ **No password to steal or forget**
-* ✅ **Phishing-resistant** (cannot be tricked into sending credentials to a fake site)
-* ✅ **User-friendly** (biometric login)
-* ✅ **Secure** (private key never leaves your device)
+* ✅ No password to steal or forget
+* ✅ Phishing-resistant (cannot be tricked into sending credentials to a fake site)
+* ✅ User-friendly (biometric login)
+* ✅ Secure (private key never leaves your device)
 
 
 ### 💡 Where is the private key stored?
-On an iPhone, the private key is stored in the **Secure Enclave** — a protected
+On an iPhone, the private key is stored in the Secure Enclave — a protected
 hardware area that apps cannot access directly. It's used internally when you
 approve with Face ID or Touch ID.
 

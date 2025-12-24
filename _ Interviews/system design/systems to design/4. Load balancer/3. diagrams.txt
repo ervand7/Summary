@@ -1,0 +1,148 @@
+# 🌍 Full picture: Load Balancer (maximum-complexity, readable)
+
+```
+                             CONTROL PLANE
+              (slow, reliable, configuration & automation)
+
++---------------------------------------------------------------+    Admin UI — web interface to view/edit routes, backends, limits
+| Admin UI / CI / GitOps / Operators                            |    CI — pipelines that validate and deploy config changes
++----------------------+----------------------------------------+    GitOps — configs stored in Git, changes via pull requests
+                       |                                             Operators — humans who approve, debug, rollback
+                       | REST / gRPC (configs, rollout, flags)
+                       v
++---------------------------------------------------------------+
+| LB Control Plane Service                                      |
+|---------------------------------------------------------------|
+| - routes (host, path, headers)                                |
+| - backend pools                                               |
+| - weights & algorithms                                        |
+| - rate limits / timeouts                                      |
+| - health-check policy                                         |
++----------------------+----------------------------------------+
+                       |
+                       | config distribution
+                       v
++---------------------------------------------------------------+
+| Config Store / Cache                                          |
+| (etcd / Consul / Zookeeper / in-memory snapshots)             |
++---------------------------------------------------------------+
+
+
+                             DATA PLANE (HOT PATH)
+                    (ultra-fast, stateless, no DB calls)
+
+Clients (Web / Mobile / Services)
+        |
+        | HTTPS
+        v
++---------------------------------------------------------------+
+| DNS (Geo / Latency-based routing)                             |
++---------------------------------------------------------------+
+        |
+        v
++---------------------------------------------------------------+
+| CDN (optional)                                                |
+|---------------------------------------------------------------|
+| - TLS termination (often)                                     |
+| - caching static / semi-static responses                      |
+| - DDoS absorption                                             |
++---------------------------------------------------------------+
+        |
+        | HTTPS / HTTP
+        v
++---------------------------------------------------------------+
+| Global Load Balancer (Anycast / Cloud Edge)                   | // Global load balancing is typically handled by managed
+|---------------------------------------------------------------| // edge services like Cloudflare, AWS Global Accelerator, or DNS-based routing, not built in-house.
+| - region selection                                            |
+| - failover between regions                                    |
++---------------------------------------------------------------+
+        |
+        v
++---------------------------------------------------------------+
+| Regional Load Balancer Cluster (active-active)                | // Our solution
+|---------------------------------------------------------------|
+|  +-------------+   +-------------+   +-------------+          |
+|  |   LB #1     |   |   LB #2     |   |   LB #3     |          |
+|  | (stateless) |   | (stateless) |   | (stateless) |          |
+|  +------+------+   +------+------+   +------+------+          |
+|         |                  |                  |               |
+|         | shared config    |                  |               |
++---------+------------------+------------------+-------------+
+          |                  |                  |
+          v                  v                  v
++-------------------+  +-------------------+  +-------------------+
+| Service Instance  |  | Service Instance  |  | Service Instance  |
+| A (pod / VM)      |  | B (pod / VM)      |  | C (pod / VM)      |
++-------------------+  +-------------------+  +-------------------+
+
+          ▲
+          |
++---------------------------------------------------------------+
+| Health Checking & Observability                               |
+|---------------------------------------------------------------|
+| - active probes (/health, /ready)                             |
+| - passive error tracking                                      |
+| - metrics, logs, traces                                       |
++---------------------------------------------------------------+
+```
+
+---
+
+## 🧠 Как “читать” эту схему на интервью
+
+### 1️⃣ Control plane — медленно, безопасно
+
+* конфиги
+* правила
+* rollout
+* versioning
+* никогда не в hot path
+
+> *“All configuration changes are decoupled from request handling.”*
+
+---
+
+### 2️⃣ Data plane — минимализм
+
+* никакого DB
+* никакого блокинга
+* локальные in-memory структуры
+* O(1) или O(log N) операции
+
+> *“The data plane must stay fast even during config churn.”*
+
+---
+
+### 3️⃣ Почему несколько LB-инстансов
+
+* нет single point of failure
+* масштабирование по CPU / connections
+* быстрый restart без потери трафика
+
+> *“LB instances are stateless and horizontally scalable.”*
+
+---
+
+### 4️⃣ Зачем CDN ДО LB
+
+* защита от DDoS
+* кэш
+* TLS offload
+* уменьшение нагрузки на LB
+
+---
+
+### 5️⃣ Где TLS может завершаться
+
+* CDN
+* Global LB
+* Regional LB
+
+👉 Зависит от требований безопасности
+
+---
+
+## 🔑 Ключевая фраза, которая закрывает дизайн
+
+> “This architecture separates control and data planes, uses stateless active-active load
+balancers, and pushes complexity to the edge while keeping the hot path minimal.”

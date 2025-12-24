@@ -1,0 +1,174 @@
+# 1️⃣ Upstream management (where traffic CAN go)
+
+### `POST /upstreams`
+
+👉 Create an upstream pool (a logical backend service).
+
+```json
+{
+  "name": "users-service",
+  "discovery": {
+    "type": "static",
+    "targets": [
+      {"address": "10.0.1.10:8080", "weight": 1},
+      {"address": "10.0.1.11:8080", "weight": 2}
+    ]
+  },
+  "lb_policy": "round_robin",
+  "health_check": {
+    "type": "http",
+    "path": "/ready",
+    "interval_ms": 1000,
+    "timeout_ms": 300,
+    "unhealthy_threshold": 3,
+    "healthy_threshold": 2
+  }
+}
+````
+
+Meaning:
+
+* `name` — upstream pool id
+* `targets` — instances inside the pool
+* `lb_policy` — how we pick an instance
+* `health_check` — how we decide if an instance SHOULD receive traffic
+
+---
+
+### `GET /upstreams`
+
+👉 List upstream pools and their config (for ops/debugging).
+
+---
+
+### `PUT /upstreams/{name}`
+
+👉 Update pool settings: targets, weights, health checks, policies.
+
+---
+
+### `DELETE /upstreams/{name}`
+
+👉 Remove an upstream pool (usually after draining / route migration).
+
+---
+
+# 2️⃣ Route management (how requests ARE matched)
+
+### `POST /routes`
+
+👉 Add a routing rule: match request → send to upstream.
+
+```json
+{
+  "id": "route-users-get",
+  "match": {
+    "host": "api.company.com",
+    "path_prefix": "/users",
+    "methods": ["GET"]
+  },
+  "action": {
+    "upstream": "users-service",
+    "rewrite": {"strip_prefix": "/users"},
+    "timeouts_ms": {"connect": 200, "request": 2000}
+  }
+}
+```
+
+Key ideas:
+
+* `match` can use host/path/method/headers/query (as required)
+* `action` chooses upstream + transforms request + sets per-route policies
+
+---
+
+### `GET /routes`
+
+👉 List routing table (what goes where).
+
+---
+
+### `DELETE /routes/{id}`
+
+👉 Remove a route rule.
+
+---
+
+# 3️⃣ Policies (auth, rate limit, retries, circuit breaking)
+
+### `POST /policies`
+
+👉 Attach policies to routes or upstreams.
+
+```json
+{
+  "target": {"route_id": "route-users-get"},
+  "policies": {
+    "rate_limit": {"rps": 100, "burst": 50, "key": "ip"},
+    "retries": {"max": 2, "retry_on": ["5xx", "connect-failure"]},
+    "circuit_breaker": {"max_conns": 2000, "max_pending": 500}
+  }
+}
+```
+
+Notes:
+
+* retries should be limited to safe/idempotent cases
+* circuit breaker prevents upstream meltdown
+* rate limit might be local-only or shared via Redis (if required)
+
+---
+
+# 4️⃣ TLS & certificates (if proxy terminates TLS)
+
+### `PUT /tls/certificates`
+
+👉 Upload or reference certificates per domain/SNI.
+
+```json
+{
+  "sni": "api.company.com",
+  "cert_ref": "secret://k8s/prod/api-cert"
+}
+```
+
+---
+
+# 5️⃣ Runtime status & observability
+
+### `GET /health`
+
+👉 Proxy instance liveness (cheap, internal).
+
+### `GET /ready`
+
+👉 Readiness (config loaded, listeners open, can serve traffic).
+
+### `GET /stats`
+
+👉 Live metrics snapshot (humans/monitoring).
+
+```json
+{
+  "rps": 12500,
+  "active_connections": 910,
+  "p95_latency_ms": 21,
+  "upstreams": {
+    "users-service": {"p95_upstream_ms": 12, "5xx_rate": 0.002}
+  }
+}
+```
+
+### `GET /config/version`
+
+👉 Current applied config version (for rollouts/debug).
+
+---
+
+# 🧠 Big picture (connect everything)
+
+* `/upstreams` → defines where traffic MAY go
+* `/routes`    → defines how to map requests to upstreams
+* `/policies`  → defines what to enforce (auth/limits/retries/etc.)
+* health checks → decide where traffic SHOULD go
+* `/stats`     → tells humans how the proxy behaves

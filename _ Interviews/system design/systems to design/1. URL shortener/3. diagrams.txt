@@ -27,7 +27,7 @@ You can draw any one of these on a whiteboard and explain it calmly.
                 v                                     v
       +---------+----------+               +----------+---------+
       |  Redirect Service  |               |  URL API Service   |
-      |  (GET /{code})     |               | (POST /v1/urls)   |
+      |  (GET /{code})     |               | (POST /v1/urls)    |
       +---------+----------+               +----------+---------+
                 |                                     |
                 |                                     |
@@ -76,7 +76,7 @@ Client
 |---------|   |-------------------|
 | code -> |   | PK lookup by code |
 | URL     |   +--+----------------+
-+----+----+      |
++----+----+       |
      |            |
      +------------+
            |

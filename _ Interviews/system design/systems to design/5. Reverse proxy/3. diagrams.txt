@@ -21,7 +21,7 @@
                             | publish config snapshot
                             v
 +-------------------------------------------------------------------+
-| Config Store (etcd/Consul/Git + controller)                       |
+| Config Store etcd                                                 |
 | - versioned snapshots                                             |
 | - watch/notify                                                    |
 +-------------------------------------------------------------------+
@@ -36,8 +36,8 @@ Clients (Browser / Mobile / Other Services)
          | HTTPS / HTTP / gRPC / WebSocket
          v
 +-------------------------------------------------------------------+
-| DNS / Edge Routing (optional)                                       |
-| - chooses region / nearest POP                                      |
+| DNS / Edge Routing (optional)                                      |
+| - chooses region / nearest POP                                     |
 +-------------------------------------------------------------------+
          |
          v
@@ -95,3 +95,24 @@ Clients (Browser / Mobile / Other Services)
 # 🔁 Config update (hot reload, no restart)
 Control Plane -> Config Store -> Proxies watch -> apply new snapshot atomically
 (no per-request DB calls; request path always uses local snapshot)
+
+
+# 🔁 Very simple: etcd + Reverse Proxy
+
+[ Human / CI ]
+      |
+      | 1) change config
+      v
+[ Control Plane ]
+      |
+      | 2) write config
+      v
+[ etcd ]
+      |
+      | 3) notify about change (watch)
+      v
+[ Reverse Proxy ]
+      |
+      | 4) keep config in memory
+      v
+[ Handle requests ]

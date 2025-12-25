@@ -23,8 +23,7 @@
                        | config distribution
                        v
 +---------------------------------------------------------------+
-| Config Store / Cache                                          |
-| (etcd / Consul / Zookeeper / in-memory snapshots)             |
+| Config Store / Cache etcd                                     |                                                       |
 +---------------------------------------------------------------+
 
 

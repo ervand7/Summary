@@ -28,10 +28,13 @@
 
 Meaning:
 
-* `name` — upstream pool id
-* `targets` — instances inside the pool
-* `lb_policy` — how we pick an instance
-* `health_check` — how we decide if an instance SHOULD receive traffic
+* name: "users-service" — logical name of the backend service
+* targets — concrete service instances (IPs/ports)
+* weight — how often an instance is picked (2 = twice as often as 1)
+* lb_policy: round_robin — rotate requests between healthy instances
+* health_check — periodically call /ready to decide if an instance is usable
+    * fail 3 times → mark unhealthy
+    * succeed 2 times → mark healthy again
 
 ---
 

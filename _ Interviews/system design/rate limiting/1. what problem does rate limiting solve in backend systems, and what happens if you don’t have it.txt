@@ -1,0 +1,34 @@
+👉 Rate limiting protects backend systems by bounding concurrency and load on
+downstream dependencies before they are overwhelmed.
+
+What happens without rate limiting:
+* Traffic spikes are accepted without control
+* In-flight requests accumulate
+* Slow dependencies become bottlenecks
+
+What appears first:
+* Latency increases before error rates
+* Number of concurrent goroutines grows
+* DB / Redis / external API calls start queueing
+
+Typical technical limits hit:
+* Database and Redis connection pools are exhausted
+* Goroutines block on I/O and pile up
+* Memory usage grows due to request buffers and stacks
+* GC pressure increases
+
+Why this is dangerous:
+* Higher latency increases concurrency (`RPS × latency`)
+* Concurrency multiplies memory and connection usage
+* Timeouts trigger retries, amplifying load
+* Failures cascade to otherwise healthy services
+
+What rate limiting changes:
+* Excess load is rejected early and cheaply
+* Downstream systems remain stable
+* System fails fast instead of degrading slowly
+
+One-line interview answer:
+> Rate limiting bounds concurrency and protects downstream dependencies by
+rejecting excess load early, preventing latency amplification, resource
+exhaustion, and cascading failures.

@@ -1,0 +1,7 @@
+* CI (Continuous Integration) – automatically builds and tests code on every commit
+ to catch bugs early.
+* CD (Continuous Delivery/Deployment) – automatically delivers tested code to staging or
+ production.
+
+👉 CI = verify code
+👉 CD = release code

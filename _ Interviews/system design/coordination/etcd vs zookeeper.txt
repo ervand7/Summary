@@ -1,0 +1,16 @@
+| Aspect                 | etcd                       | ZooKeeper                  |
+| ---------------------- | -------------------------- | ------------------------------ |
+| Primary use            | Config & service discovery | Coordination & leader election |
+| API                    | gRPC / HTTP                | Custom TCP protocol            |
+| Data model             | Key–value                  | Hierarchical (znodes)          |
+| Consistency            | Strong (Raft)              | Strong (ZAB)                   |
+| Watch mechanism        | Native, simple             | Native, more complex           |
+| Operational complexity | Simple                     | Harder to operate              |
+| Typical ecosystem      | Kubernetes (native)        | Hadoop, Kafka (legacy)         |
+| Client simplicity      | Easy                       | More complex                   |
+| Current trend          | Modern default             | Legacy / declining         |
+
+### One-liner for interview
+
+> “etcd is simpler and Kubernetes-native; ZooKeeper is older and mainly used by legacy 
+systems like Kafka.”

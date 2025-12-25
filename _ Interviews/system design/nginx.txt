@@ -1,0 +1,41 @@
+NGINX is a high-performance web server and reverse proxy commonly used as the front
+door of modern web and microservice architectures.
+
+### Why NGINX is widely used
+
+### 1️⃣ Reverse proxy & traffic control
+* Routes client requests to backend services and hides internal infrastructure.
+* Centralizes concerns like TLS termination, authentication, caching, and headers.
+
+### 2️⃣ Load balancing
+* Distributes traffic across multiple backends to improve availability and throughput.
+* Supports algorithms such as round-robin, least connections, and IP hash.
+
+### 3️⃣ High concurrency & performance
+* Built on an event-driven, non-blocking architecture, allowing it to handle tens of
+  thousands of concurrent connections efficiently.
+* Very low memory and CPU overhead compared to thread-based servers.
+
+### 4️⃣ Static content serving
+* Serves static assets (CSS, JS, images) directly, reducing load on application servers
+  and improving response times.
+
+### 5️⃣ SSL/TLS termination
+* Handles encryption at the edge, simplifying certificate management and reducing
+  CPU load on backend services.
+
+### 6️⃣ Caching
+* Caches frequently requested responses to reduce backend load, improve latency,
+  and increase resilience during partial outages.
+
+### 7️⃣ Security & traffic protection
+* Provides built-in rate limiting, connection limiting, IP filtering, and header controls.
+* Often used as the first protection layer against abuse and DDoS-like traffic patterns.
+
+### 8️⃣ Modern protocol support
+* Supports HTTP/2 and WebSocket, enabling efficient multiplexing and real-time
+  communication.
+
+### 9️⃣ Observability & debugging
+* Offers detailed access and error logs, including upstream status and timing, which are
+  critical for debugging production issues.

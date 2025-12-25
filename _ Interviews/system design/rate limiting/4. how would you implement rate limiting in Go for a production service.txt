@@ -1,0 +1,74 @@
+👉 In production Go services, rate limiting is usually a combination of:
+(1) per-endpoint or per-user rate limits,
+(2) per-instance concurrency caps,
+and optionally (3) a shared store for global fairness.
+
+What you typically implement (production baseline):
+
+1️⃣ Service middleware / gRPC interceptor
+* HTTP: middleware around handlers
+* gRPC: unary interceptor
+* Extract key: userID / apiKey / IP / orgID
+* Choose policy by route: /cards/issue stricter than /cards/list
+
+
+2️⃣ Worker pool / semaphore (per-instance, in-memory)
+Example:
+* Max 200 concurrent requests per pod
+
+Why:
+* Fastest possible protection
+* Prevents goroutine, memory, and connection pool exhaustion
+
+
+3️⃣ Global fairness (shared store, e.g. Redis) — only if required
+Example:
+* “100 req/min per apiKey across all pods”
+
+How:
+* Use atomic operations in a shared store to ensure consistent limits
+  across instances
+
+Why:
+* Prevents a single client from bypassing limits by hitting multiple pods
+* Required for multi-tenant or paid APIs
+
+
+What production-grade behavior includes:
+
+✅ Correct response semantics
+* Return 429 Too Many Requests for rate limits
+* Add headers: Retry-After, X-RateLimit-Limit/Remaining/Reset (optional)
+
+✅ Failure policy
+* If the shared store is unavailable:
+  - fail-open for non-critical endpoints
+  - fail-closed for expensive or abuse-sensitive operations
+
+✅ Observability
+* metrics: allowed_total, denied_total, limiter_errors_total, limiter_latency_ms
+* logs: include key type (user/apiKey/IP), route, and limit tier
+
+✅ Config & rollout
+* Config-driven limits (per route / per tier)
+* Ability to adjust limits without redeploys (optional but common)
+
+
+Minimal Go implementation shape (physically):
+
+* HTTP:
+  handler → middleware → (local concurrency limiter)
+           → (optional shared-store limiter) → handler
+
+* gRPC:
+  unary interceptor → same checks → handler
+
+
+One-line interview answer:
+> I’d implement rate limiting as middleware or interceptors with a fast
+in-memory concurrency cap and per-key rate limits, and only add a shared
+store when true global fairness across instances is required, returning 429
+with proper headers and monitoring allow/deny behavior.
+
+> Rate-based limiters return 429 when requests are rejected, while
+concurrency or queue-based limiters usually return 503 or delay requests.

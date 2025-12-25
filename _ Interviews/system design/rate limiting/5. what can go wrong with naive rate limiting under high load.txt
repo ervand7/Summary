@@ -1,0 +1,82 @@
+1️⃣ Starvation (unfairness)
+* One noisy client consumes the entire limit
+* Other clients get 0 capacity
+
+Why:
+* Global limits without per-key buckets
+
+Result:
+* Legit users are blocked despite low traffic
+
+
+2️⃣ Latency amplification
+* Requests queue or wait instead of failing fast
+* Latency increases before errors
+
+Why:
+* Queue-based or blocking limiters
+* No concurrency cap
+
+Result:
+* Concurrency explodes (`RPS × latency`)
+* Memory and goroutines grow
+
+
+3️⃣ Cascading failures
+* Downstream (DB, Redis, APIs) slow down
+* Rate limiter keeps letting requests through
+
+Why:
+* Limiter checks only RPS, not dependency health
+
+Result:
+* Entire system degrades, not just one endpoint
+
+
+4️⃣ Central bottleneck
+* Shared limiter (e.g., Redis) becomes hot
+* Limiter itself limits throughput
+
+Why:
+* Every request hits the same key/store
+* No local fast path
+
+Result:
+* Limiter causes outages instead of preventing them
+
+
+5️⃣ Retry storms
+* Clients retry immediately after 429/503
+* Traffic multiplies under load
+
+Why:
+* No Retry-After
+* No client backoff
+
+Result:
+* System never recovers
+
+
+6️⃣ Incorrect behavior in distributed systems
+* Multiple instances allow more than intended
+* Limits change when scaling pods
+
+Why:
+* Per-instance-only limits
+* No global coordination when needed
+
+Result:
+* Limits are violated or unpredictable
+
+
+What naive designs usually miss:
+* Per-key fairness
+* Fast rejection vs queuing
+* Concurrency limits
+* Dependency-aware limits
+* Observability and tuning
+
+One-line interview answer:
+> Naive rate limiting fails under high load due to unfairness, latency
+amplification, central bottlenecks, and retry storms, often causing cascading
+failures instead of protecting downstream systems.

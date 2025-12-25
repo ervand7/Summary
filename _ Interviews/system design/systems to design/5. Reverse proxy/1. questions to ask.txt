@@ -48,7 +48,8 @@
 
 ## G. Observability & operations
 
-31. Required metrics: RPS, active conns, upstream latency, error rates, retries, cache hit ratio?
+31. Required metrics: RPS, active conns, upstream latency, error rates, retries,
+cache hit ratio?
 32. Logging format: access logs, structured logs, correlation IDs, trace propagation?
 33. Tracing: OpenTelemetry? Must we create spans or just propagate headers?
 34. Admin/control plane: dynamic config reload? hot reload vs restart?
@@ -60,4 +61,5 @@
 37. How is it deployed: Kubernetes Ingress, sidecar, standalone edge cluster?
 38. Multi-region? If yes: global routing handled by DNS/anycast or by our system?
 39. Rate limiting: per-IP, per-user, per-route? local vs shared (Redis) counters?
-40. Any constraints: “no external deps in hot path”, “no DB calls”, “must survive config churn”?
+40. Any constraints: “no external deps in hot path”, “no DB calls”, “must survive
+config churn”?

@@ -1,0 +1,101 @@
+👉 Rate limiting algorithms differ mainly in how they handle bursts,
+fairness over time, and implementation cost.
+
+1️⃣ Fixed window counter
+What it does:
+* Counts requests in a fixed time window (e.g. 100 req / minute)
+* Resets counter at window boundary
+
+Behavior:
+* Allows bursts at window edges
+* Simple but inaccurate under spikes
+
+Pros:
+* Very easy to implement
+* Low overhead
+
+Cons:
+* Burst amplification at window reset
+* Poor fairness
+
+Typical use:
+* Simple internal limits, low-risk endpoints
+
+
+2️⃣ Sliding window
+What it does:
+* Calculates rate over a moving time window
+* Uses timestamps or sub-windows
+1) Приходит запрос в момент времени T
+2) Смотрим интервал [T − window … T]
+3) Считаем, сколько запросов было в этом интервале
+4) Если их меньше лимита — пропускаем запрос и добавляем T в список
+   Иначе — отклоняем
+
+Behavior:
+* Smooths traffic over time
+* More accurate than fixed window
+
+Pros:
+* Better fairness
+* Reduced edge bursts
+
+Cons:
+* Higher memory and CPU cost
+* More complex implementation
+
+Typical use:
+* User-facing APIs requiring fairness
+
+
+3️⃣ Token bucket
+What it does:
+* Tokens are added at a fixed rate
+* Each request consumes a token
+* Bucket has a max capacity
+
+Behavior:
+* Allows short bursts
+* Enforces long-term average rate
+
+Pros:
+* Burst-friendly
+* Industry standard (Envoy, NGINX)
+
+Cons:
+* Slightly more complex logic
+
+Typical use:
+* Public APIs, gateways, per-user limits
+
+
+4️⃣ Leaky bucket
+What it does:
+* Requests enter a queue
+* Processed at a constant rate
+
+Behavior:
+* Smooths traffic strictly
+* Bursts are delayed or dropped
+
+Pros:
+* Very stable downstream load
+
+Cons:
+* Adds latency
+* Bursts are not tolerated
+
+Typical use:
+* Protecting sensitive downstream systems
+
+
+Key behavioral differences:
+* Fixed window → bursty and unfair
+* Sliding window → fair but expensive
+* Token bucket → burst-tolerant and practical
+* Leaky bucket → smooth but latency-heavy
+
+One-line interview answer:
+> Fixed and sliding windows control request counts over time, while token and
+leaky buckets control flow; token bucket allows bursts with an average limit,
+and leaky bucket strictly smooths traffic at the cost of latency.

@@ -1,0 +1,64 @@
+👉 In distributed systems, rate limiting is applied at different layers to
+protect the system early, locally, and globally.
+
+1️⃣ Edge (API Gateway / Ingress)
+Example:
+* 1000 req/min per IP at NGINX / Envoy
+
+Why:
+* Blocks traffic spikes before they reach services
+* One rule protects all downstream services
+
+Tradeoff:
+* Effective for abuse and floods
+* Not suitable for business-logic-specific limits
+
+
+2️⃣ Service-level (middleware in Go service)
+Example:
+* /cards/issue → 5 req/min per user
+* /cards/list  → 100 req/min per user
+
+Why:
+* Protects databases and external APIs
+* Limits reflect endpoint cost and business rules
+
+Tradeoff:
+* Rate-limit logic must be implemented per service
+
+
+3️⃣ Per-instance local (semaphore / worker pool)
+Example:
+* Max 200 concurrent requests per pod
+
+Why:
+* Fastest possible protection
+* Prevents goroutine, memory, and connection pool exhaustion
+
+Tradeoff:
+* Effective limit scales with number of instances
+
+
+4️⃣ Shared store (Redis / global limiter)
+Example:
+* 100 req/min per API key across all pods
+
+Why:
+* Enforces true global fairness
+* Required for multi-tenant or paid quotas
+
+Tradeoff:
+* Adds network latency
+* Central store can become a bottleneck
+
+
+Typical senior choice (hybrid):
+* Edge → coarse protection from spikes and abuse
+* Service → limits for expensive business operations
+* Local → concurrency safety per instance
+* Redis → global per-user or per-tenant quotas
+
+
+One-line interview answer:
+> Apply coarse limits at the edge, protect each service and instance locally,
+and use a shared store only when global fairness across instances is required.

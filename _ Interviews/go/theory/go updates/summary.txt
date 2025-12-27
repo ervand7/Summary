@@ -1,0 +1,164 @@
+## 1️⃣ Range loop semantics change (Go 1.22+)
+> Before Go 1.22, `for range` reused the same loop variable so goroutines and closures
+often saw the last value, but since Go 1.22 each iteration gets its own variable, fixing
+this classic bug and making the behavior safe by default.
+
+
+---
+
+## 2️⃣ Standard library HTTP routing (Go 1.22 → 1.25)
+### Before (old Go)
+
+With the standard library, you could only do very simple routing:
+```go
+http.HandleFunc("/users", handler)
+```
+
+If you wanted:
+* `GET /users/123`
+* different handlers for `GET` vs `POST`
+* path parameters like `{id}`
+
+❌ You had to use Gorilla, Chi, etc.
+
+
+### After (new Go 1.22+)
+The standard library can now do this by itself:
+```go
+mux.HandleFunc("GET /users/{id}", handler)
+```
+
+That means:
+* routing by HTTP method
+* extracting path parameters
+* cleaner route definitions
+
+> Go’s standard HTTP router used to be very limited, but since Go 1.22 it can handle
+methods and path parameters, so many projects no longer need external routers.
+
+
+---
+
+## 3️⃣ Error handling maturity (`errors.Join`, `Is`, `As`) (1.20 → 1.25)
+### Before (old Go)
+
+A function could return only one error.
+If you had multiple problems (e.g. validation errors), you usually:
+* returned the first one
+* or built a custom error type
+* or concatenated strings (bad)
+
+```go
+if err1 != nil {
+	return err1
+}
+if err2 != nil {
+	return err2
+}
+```
+
+### After (Go 1.20+)
+Go added native support for multiple errors:
+```go
+return errors.Join(err1, err2)
+```
+
+Callers can still check errors normally:
+```go
+errors.Is(err, ErrInvalidEmail)
+errors.Is(err, ErrInvalidPassword)
+```
+
+> Go used to force you to return a single error, but since Go 1.20 you can return multiple
+errors with `errors.Join` and still inspect them using `errors.Is` and `errors.As`.
+
+
+---
+
+## 4️⃣ Context cancellation with causes (Go 1.21+)
+Here is the same clear “before / after” explanation, very short.
+
+---
+
+### Before (old Go)
+Context cancellation only told you that it was cancelled, not why:
+
+```go
+<-ctx.Done()
+ctx.Err() // just "context canceled"
+```
+
+You couldn’t know:
+* timeout?
+* manual cancel?
+* upstream failure?
+
+### After (Go 1.21+)
+Contexts can carry a reason (cause):
+
+```go
+ctx, cancel := context.WithCancelCause(ctx)
+cancel(errors.New("DB timeout"))
+context.Cause(ctx) // "DB timeout"
+```
+
+> Go contexts used to signal cancellation without explanation, but since Go 1.21 they
+can carry and propagate a cancellation cause, making timeouts and failures much easier to debug.
+
+
+---
+
+## 5️⃣ Generics: post-hype reality (1.20 → 1.25)
+> Generics in Go went from being impressive to being expected, and senior developers
+are judged on knowing when *not* to use them to keep business code simple and readable.
+
+
+---
+
+## 6️⃣ `slices` and `maps` packages (now standard & expected)
+Here is the same **clear “before / after” explanation**, short and concrete.
+
+---
+
+### Before (old Go)
+
+Go had **no standard helpers** for common slice/map operations, so everyone wrote their own:
+
+```go
+b := append([]int(nil), a...)
+```
+
+or custom comparison, sorting, deleting code.
+
+This was:
+
+* correct but unclear
+* easy to get wrong
+* inconsistent across projects
+
+---
+
+### After (Go 1.20+)
+Go added standard, generic helpers:
+```go
+b := slices.Clone(a)
+equal := slices.Equal(a, b)
+```
+
+> Go moved common slice and map operations into standard generic helpers, making code clearer,
+safer, and more consistent than hand-written patterns.
+
+
+---
+
+## 7️⃣ Toolchain evolution (Go 1.20 → 1.25)
+> Go’s toolchain evolved from helpful tooling into an essential correctness layer that
+catches more bugs early through faster builds, stricter vetting, and better diagnostics.
+
+
+---
+
+## 8️⃣ Memory, GC, and allocation behavior (continuous improvement)
+> Go’s GC became faster and smoother over time, but senior developers must still
+control allocations because GC improvements don’t eliminate tail-latency spikes
+caused by excessive memory use.

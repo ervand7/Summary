@@ -1,0 +1,170 @@
+# 🌍 Full picture: Google Drive-like system (readable, interview-grade)
+
+                               CONTROL PLANE
+                (configuration, policies, admin, slow but safe)
+
++-----------------------------------------------------------------------+
+| Admin Console / Security / Compliance                                 |
+| - org policies: link sharing allowed? external share?                 |
+| - retention / legal hold (optional)                                   |
+| - quota plans, rate limits                                            |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Policy Service                                                        |
+| - evaluates org/user policies                                         |
+| - produces decisions used by Permission Service                       |
++-----------------------------------------------------------------------+
+
+
+
+                               DATA PLANE (HOT PATH)
+               (uploads/downloads/listing/sync; must be fast)
+
+Clients:
+- Web (browser)
+- Mobile
+- Desktop Sync Agent
+        |
+        | HTTPS
+        v
++-----------------------------------------------------------------------+
+| Edge / CDN (optional but common)                                      |
+| - caches downloads                                                    |
+| - absorbs traffic                                                     |
+| - can serve signed URLs directly                                      |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| API Gateway / Load Balancer                                           |
+| - authn: verify JWT/OAuth                                             |
+| - routing                                                             |
+| - rate limits / abuse protection                                      |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Drive API Service (stateless)                                         |
+| - folder listing, file metadata                                       |
+| - permission checks (calls Permission Service)                        |
+| - issues upload sessions & signed download URLs                       |
++----------------------+---------------------+--------------------------+
+                       |                     |
+                       |                     |
+                       v                     v
++------------------------------+    +-----------------------------------+
+| Metadata Service             |    | Permission Service                |
+| (strong consistency)         |    | - ACLs, roles, link shares        |
+| - files, folders, parents    |    | - inheritance logic               |
+| - revision pointer (head)    |    | - policy enforcement integration  |
+| - sizes, hashes, timestamps  |    +------------------+----------------+
++---------------+--------------+                       |
+                |                                      |
+                v                                      v
++------------------------------+    +-----------------------------------+
+| Metadata DB (SQL)            |    | Permission DB (SQL/kv)            |
+| - transactions for moves     |    | - user/group memberships          |
+| - uniqueness constraints     |    | - link tokens                     |
++------------------------------+    +-----------------------------------+
+
+
+                        UPLOAD PATH (big files, resumable)
+
+Client
+  |
+  | 1) Start upload session
+  v
+Drive API Service
+  |
+  | 2) create upload session + record intent in Metadata DB
+  v
++-----------------------------------------------------------------------+
+| Upload Orchestrator (stateless)                                       |
+| - session_id, expected offsets, chunk size                            |
+| - optional: pre-signed PUT URLs per chunk                             |
++------------------------------+----------------------------------------+
+                               |
+                               | 3) upload chunks (often directly)
+                               v
++-----------------------------------------------------------------------+
+| Object Storage / Blob Store                                           |
+| - stores chunk objects or final objects                               |
+| - multi-AZ replication                                                |
++------------------------------+----------------------------------------+
+                               |
+                               | 4) complete: assemble/commit revision
+                               v
++-----------------------------------------------------------------------+
+| Commit Worker (async)                                                 |
+| - assembles chunks → final object (or composes)                       |
+| - verifies hash (sha256)                                              |
+| - writes new revision row + updates head pointer                      |
+| - emits events to Event Bus                                           |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Event Bus (Kafka/PubSub)                                              |
+| - file_uploaded, file_moved, perm_changed, deleted                    |
++------------------+-------------------+-------------------------------+
+                   |                   |
+                   v                   v
+     +-------------------------+   +-------------------------------+
+     | Indexing Pipeline       |   | Preview/Thumbnail Pipeline    |
+     | - filename + metadata   |   | - images/video thumbnails     |
+     | - optional full-text    |   | - PDF previews                |
+     +------------+------------+   +---------------+---------------+
+                  |                                |
+                  v                                v
+     +-------------------------+       +----------------------------+
+     | Search Index            |       | Preview Storage/CDN        |
+     | (Elastic/Lucene/etc.)   |       | (small derived artifacts)  |
+     +-------------------------+       +----------------------------+
+
+
+                        DOWNLOAD PATH (fast + cheap)
+
+Client
+  |
+  | 1) GET /files/{id}:download
+  v
+Drive API Service
+  |
+  | 2) permission check (Permission Service) + policy check
+  | 3) returns signed URL (short TTL)
+  v
+Client -----> CDN / Object Storage  (streams bytes, supports range requests)
+
+
+                        SYNC PATH (desktop/mobile)
+
+Desktop Agent
+  |
+  | 1) GET /changes?cursor=...
+  v
+Drive API Service
+  |
+  | 2) reads Change Log (ordered stream per user/drive)
+  v
++-----------------------------------------------------------------------+
+| Change Log Store                                                      |
+| - append-only events per user/drive                                   |
+| - cursors for incremental sync                                        |
++-----------------------------------------------------------------------+
+
+Agent applies:
+- create/update local files
+- handle deletes/trash
+- resolve conflicts (if required by scope)
+
+
+                        OBSERVABILITY & SAFETY
+
++-----------------------------------------------------------------------+
+| Metrics/Logs/Tracing                                                  |
+| - upload success rate, p95/p99 latency, bytes transferred             |
+| - permission check latency                                            |
+| - object storage errors, CDN hit rate                                 |
++-----------------------------------------------------------------------+

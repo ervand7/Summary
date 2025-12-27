@@ -1,0 +1,133 @@
+# 1️⃣ Policy / rule management (control plane)
+
+### `POST /limits`
+
+What it does:
+👉 Creates or updates a throttling rule.
+
+```json
+{
+  "name": "tier-basic-user-rpm",
+  "match": {
+    "route": "/v1/orders",
+    "method": "POST"
+  },
+  "key": {
+    "type": "user_id"
+  },
+  "policy": {
+    "type": "token_bucket",
+    "rate_per_sec": 2,
+    "burst": 10
+  },
+  "scope": "global"
+}
+````
+
+Meaning:
+
+* `match` — which requests the rule applies to
+* `key` — how we identify the caller
+* `policy` — algorithm + parameters
+* `scope` — global vs per-service/per-route
+
+Why needed:
+This is how product/security teams define usage limits.
+
+---
+
+### `GET /limits`
+
+What it does:
+👉 Lists active rules (optionally filtered by route/tier).
+
+Used by:
+
+* operators
+* CI validation
+* debugging “why am I throttled?”
+
+---
+
+### `DELETE /limits/{name}`
+
+What it does:
+👉 Removes a rule.
+
+Used when:
+
+* product changes
+* emergency rollback
+
+Important:
+Typically versioned + audited (don’t mutate silently).
+
+---
+
+# 2️⃣ Allow/deny overrides
+
+### `POST /allowlist`
+
+What it does:
+👉 Adds an exemption (e.g., internal service account or trusted partner).
+
+```json
+{
+  "key": "api_key:PARTNER_X",
+  "reason": "Trusted partner during migration",
+  "expires_at": "2026-01-10T00:00:00Z"
+}
+```
+
+---
+
+### `POST /denylist`
+
+What it does:
+👉 Forces blocking regardless of rate limit (abuse response).
+
+```json
+{
+  "key": "ip:203.0.113.10",
+  "reason": "Credential stuffing",
+  "ttl_sec": 3600
+}
+```
+
+---
+
+# 3️⃣ Quota usage / user-facing visibility (optional)
+
+### `GET /usage?key=user:123`
+
+What it does:
+👉 Returns current counters / remaining quota for dashboards.
+
+---
+
+# 4️⃣ Observability
+
+### `GET /stats`
+
+What it does:
+👉 Exposes limiter health + enforcement metrics snapshot.
+
+```json
+{
+  "rps": 50000,
+  "p95_check_latency_ms": 2,
+  "allowed_per_sec": 47000,
+  "blocked_per_sec": 3000,
+  "backend_errors_per_sec": 5
+}
+```
+
+---
+
+# 🧠 Big picture (connect everything)
+
+```
+POST /limits     → defines rules (“who/what/how much”)
+allow/deny lists → override behavior for ops/security
+GET /usage       → gives visibility to customers/support
+GET /stats       → tells humans how system behaves

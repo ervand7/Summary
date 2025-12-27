@@ -1,0 +1,59 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this Google Drive-like product for consumers, or an enterprise doc platform?
+2. Do we support only file storage + sharing, or also Google Docs-style real-time editing?
+3. Are we designing web only, or also mobile + desktop sync client?
+4. Do we need “shared drives / team drives” (org-owned folders), or only personal drives?
+5. Are folders “real” entities, or just metadata labels (virtual folders)?
+
+## B. Core features (must-haves)
+
+6. What operations are in scope: upload, download, list, move, rename, delete, restore?
+7. Do we need file version history (revisions) and rollback?
+8. Do we need “Trash” (soft delete), and how long to keep it?
+9. Do we need offline access + conflict resolution (“(1) copy”, etc.)?
+10. Do we need “changes feed” / incremental sync (“give me all updates since cursor”)?
+
+## C. Sharing & permissions (hard part)
+
+11. Sharing model: links (“anyone with link”), explicit users, groups, domains?
+12. Permission levels: viewer/commenter/editor/owner? Any custom roles?
+13. Do we need inheritance (folder perms apply to children)?
+14. Do we need “public on the internet” indexing, or strictly authenticated access?
+15. Do we need audit logs (who accessed/downloaded/changed)?
+
+## D. Scale & performance targets
+
+16. Expected number of users (MAU/DAU)? Average files per user?
+17. Expected upload/download QPS? Peak bursts (e.g., Monday mornings)?
+18. Typical file sizes: mostly small docs/photos, or large videos (GBs)?
+19. Latency targets: list folder < 200ms? download start < 300ms?
+20. Multi-region requirement: global product or single region?
+
+## E. Data correctness & reliability
+
+21. Consistency: after upload, should file appear immediately in listing?
+22. Versioning behavior: do we allow concurrent edits and merge, or last-write-wins?
+23. Durability target: “11 9s” like object storage, or simpler?
+24. Disaster recovery: RPO/RTO requirements?
+25. Quotas: per-user storage limit? per-file size limit?
+
+## F. Security & compliance
+
+26. Encryption at rest required? Customer-managed keys (KMS)?
+27. Antivirus / malware scanning required before sharing/downloading?
+28. Data loss prevention (DLP) / sensitive content policies?
+29. Legal holds / retention policies (enterprise)?
+30. Do we need “download disabled” or watermarking for certain shares?
+
+## G. Search & indexing
+
+31. Search scope: by filename only, or full-text (PDF/DOC) search too?
+32. Do we need “type:pdf owner:me modified:today” style filters?
+33. How fresh must search be (seconds vs minutes)?
+
+## H. Observability & ops
+
+34. What metrics matter: upload success rate, p95 latency, error codes, bytes transferred?
+35. Rate limiting / abuse protection needed (hotlinking big files)?
+36. Admin APIs: user suspension, sharing restrictions, quota changes?

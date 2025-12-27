@@ -1,0 +1,117 @@
+# 🌍 Full picture: Request Throttling / Rate Limiting System (maximum-complexity, readable)
+
+                             CONTROL PLANE
+              (slow, reliable, configuration, audit, rollouts)
+
++-------------------------------------------------------------------+
+| Admin UI / GitOps / Security Ops / Product Ops                    |
+| - define tiers: free/basic/pro                                    |
+| - define endpoint-specific rules (login, checkout, search)        |
+| - manage allowlist / denylist                                     |
++-------------------------------+-----------------------------------+
+                                | REST/gRPC (create rules, approvals)
+                                v
++-------------------------------------------------------------------+
+| Rate Limit Control Service                                        |
+|-------------------------------------------------------------------|
+| - validate rules (no conflicts, sane burst/rate, precedence)      |
+| - versioning & audit log                                          |
+| - rollout: shadow mode → enforce                                  |
+| - compile rules into fast matchable snapshots                     |
++-------------------------------+-----------------------------------+
+                                | publish config snapshots
+                                v
++-------------------------------------------------------------------+
+| Config Store / Distribution                                       |
+| (etcd/Consul or DB + cache; plus pubsub/informer/watchers)        |
+| - stores versioned rule sets                                      |
+| - not in hot path                                                 |
++-------------------------------------------------------------------+
+
+
+                             DATA PLANE (HOT PATH)
+                    (ultra-fast decisions: allow / reject)
+
+Clients (Web/Mobile/Partners/Services)
+        |
+        | HTTP/gRPC requests
+        v
++-------------------------------------------------------------------+
+| Edge / API Gateway Fleet (stateless, N instances)                 |
+|-------------------------------------------------------------------|
+| 1) authenticate (JWT/API key)                                     |
+| 2) derive identity key (user_id/api_key/ip/tenant)                |
+| 3) route match (method/path/host)                                 |
+| 4) rate-limit check (local + shared)                              |
+| 5) if allowed → forward to upstream                               |
+|    if blocked → return 429 + Retry-After                          |
++-------------------------+-----------------------------------------+
+                          |
+                          | (A) Fast local decision when possible
+                          |     - local in-memory token buckets
+                          |     - short TTL cache of “allow” verdicts
+                          |
+                          | (B) Shared decision when needed
+                          v
++-------------------------------------------------------------------+
+| Limiter Cluster (active-active)                                   |
+|-------------------------------------------------------------------|
+|  +-----------------+   +-----------------+   +-----------------+  |
+|  | Limiter #1      |   | Limiter #2      |   | Limiter #3      |  |
+|  | - rule snapshot |   | - rule snapshot |   | - rule snapshot |  |
+|  | - check()       |   | - check()       |   | - check()       |  |
+|  +--------+--------+   +--------+--------+   +--------+--------+  |
+|           |                     |                     |           |
+|           | sharded by key (hash) to avoid conflicts  |           |
++-----------+---------------------+---------------------+-----------+
+            |                     |                     |
+            v                     v                     v
++-------------------------------------------------------------------+
+| Counter Store (fast atomic ops)                                   |
+| (Redis / KeyDB / in-memory + replication / KV with atomic incr)   |
+|-------------------------------------------------------------------|
+| - stores per-key state: tokens/counters/window metadata           |
+| - supports atomic update per key                                  |
+| - TTL on keys to auto-expire idle users                           |
++-------------------------------------------------------------------+
+            |
+            |
+            v
++-------------------------------------------------------------------+
+| Upstream Services                                                 |
+| (orders, payments, search, etc.)                                  |
++-------------------------------------------------------------------+
+
+
+                          OBSERVABILITY & ABUSE RESPONSE
++-------------------------------------------------------------------+
+| Metrics/Logs/Tracing                                              |
+| - allowed vs blocked per rule/route/tier                          |
+| - top offenders (keys/IPs)                                        |
+| - limiter latency, store errors, saturation                       |
+| - alerts on sudden spikes (possible attack)                       |
++-------------------------------------------------------------------+
+                                |
+                                v
++-------------------------------------------------------------------+
+| Automated actions (optional)                                      |
+| - temporarily denylist IPs / keys                                 |
+| - require CAPTCHA/challenge at edge                               |
+| - reduce limits during incidents (“brownout mode”)                |
++-------------------------------------------------------------------+
+
+
+# 🔥 Hot-path decision flow (step-by-step)
+
+1) Request hits Gateway
+2) Gateway extracts identity key (e.g., user_id=123)
+3) Gateway matches applicable rule(s) for route + tier
+4) Gateway calls limiter (or uses local bucket if allowed by design)
+5) Limiter performs atomic update in Counter Store:
+   - token bucket: refill by time, then consume “cost”
+   - window: increment counter + compare limit
+   - concurrency: increment in-flight, decrement on finish
+6) Limiter returns:
+   - allowed=true → gateway forwards request
+   - allowed=false → gateway returns 429 + Retry-After
+7) Metrics emitted for every decision

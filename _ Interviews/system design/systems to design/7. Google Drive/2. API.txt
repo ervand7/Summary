@@ -1,0 +1,238 @@
+# 0️⃣ Auth (assumed)
+
+All requests use:
+- OAuth/JWT access token
+- user identity: user_id
+- org/domain (optional)
+
+---
+
+# 1️⃣ Files & folders (metadata)
+
+### `POST /v1/files`
+What it does:
+👉 Creates file metadata entry (and optionally a folder).
+
+Request:
+```json
+{
+  "name": "photo.jpg",
+  "parent_id": "folder_123",
+  "type": "file",
+  "mime": "image/jpeg"
+}
+````
+
+Response:
+
+```json
+{
+  "file_id": "f_abc",
+  "upload": { "mode": "resumable", "session_id": "u_sess_1" }
+}
+```
+
+Why needed:
+Metadata is created first so permissions, ownership, and “where it lives” are defined.
+
+---
+
+### `GET /v1/files/{file_id}`
+
+👉 Returns metadata (name, size, parents, timestamps, permissions summary, revision id).
+
+---
+
+### `GET /v1/folders/{folder_id}/children?limit=50&cursor=...`
+
+👉 Lists folder contents with pagination (stable ordering).
+
+---
+
+### `PATCH /v1/files/{file_id}`
+
+👉 Rename / move / star / change parents.
+
+```json
+{ "name": "new_name.jpg", "parent_id": "folder_999" }
+```
+
+---
+
+### `DELETE /v1/files/{file_id}`
+
+👉 Moves to Trash (soft delete).
+
+---
+
+### `POST /v1/files/{file_id}:restore`
+
+👉 Restores from Trash.
+
+---
+
+# 2️⃣ Upload (resumable chunks)
+
+### `POST /v1/uploads:resumable`
+
+What it does:
+👉 Starts an upload session (for big files + unstable networks).
+
+```json
+{
+  "file_id": "f_abc",
+  "total_bytes": 734003200,
+  "chunk_bytes": 8388608,
+  "content_sha256": "..."
+}
+```
+
+Response:
+
+```json
+{ "session_id": "u_sess_1", "expires_at_ms": 1735200000000 }
+```
+
+---
+
+### `PUT /v1/uploads/{session_id}/chunks?offset=0`
+
+What it does:
+👉 Uploads a single chunk at a byte offset.
+
+Headers:
+
+* `Content-Range: bytes 0-8388607/734003200`
+
+Response:
+
+```json
+{ "received_bytes": 8388608, "next_offset": 8388608 }
+```
+
+---
+
+### `POST /v1/uploads/{session_id}:complete`
+
+What it does:
+👉 Finalizes upload: assembles chunks, verifies hash, creates a new revision.
+
+Response:
+
+```json
+{
+  "file_id": "f_abc",
+  "revision_id": "r_10",
+  "size_bytes": 734003200
+}
+```
+
+Key idea:
+Upload pipeline can be async: complete returns after metadata is committed;
+post-processing (virus scan, thumbnails, indexing) happens in background.
+
+---
+
+# 3️⃣ Download / content access
+
+### `GET /v1/files/{file_id}:download`
+
+What it does:
+👉 Returns a signed URL (or streams bytes) if user is allowed.
+
+Response (common pattern):
+
+```json
+{ "url": "https://cdn...signed...", "expires_in_sec": 300 }
+```
+
+Why:
+We don’t want app servers streaming GBs; CDN/object storage handles bytes.
+
+---
+
+### `GET /v1/files/{file_id}:thumbnail`
+
+👉 Returns a small preview (or signed URL) for UI.
+
+---
+
+# 4️⃣ Sharing & permissions
+
+### `POST /v1/files/{file_id}/permissions`
+
+What it does:
+👉 Grants access to users/groups/link.
+
+```json
+{
+  "principal": { "type": "user", "id": "user_777" },
+  "role": "viewer"
+}
+```
+
+Link sharing:
+
+```json
+{
+  "principal": { "type": "link", "scope": "anyone_with_link" },
+  "role": "viewer"
+}
+```
+
+---
+
+### `GET /v1/files/{file_id}/permissions`
+
+👉 Lists permissions (paginated for big groups).
+
+---
+
+### `DELETE /v1/files/{file_id}/permissions/{perm_id}`
+
+👉 Revokes access.
+
+---
+
+# 5️⃣ Versions (revisions)
+
+### `GET /v1/files/{file_id}/revisions`
+
+👉 Lists revisions (id, timestamp, size, creator).
+
+---
+
+### `POST /v1/files/{file_id}/revisions/{rev_id}:restore`
+
+👉 Roll back to a previous version (creates a new head revision).
+
+---
+
+# 6️⃣ Sync support (critical for desktop/mobile)
+
+### `GET /v1/changes?cursor=...&limit=100`
+
+What it does:
+👉 Incremental feed of changes (created/updated/moved/deleted/permission-changed).
+
+Response:
+
+```json
+{
+  "next_cursor": "c_999",
+  "events": [
+    { "type": "file_updated", "file_id": "f_abc", "revision_id": "r_10", "ts_ms": 1735... }
+  ]
+}
+```
+
+Why:
+Clients avoid full rescans; they keep local state in sync efficiently.
+
+---
+
+# 7️⃣ Search
+
+### `GET /v1/search?q=report owner:me type:pdf modified_after:...`
+
+👉 Returns matching file ids + snippets (optionally).

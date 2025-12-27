@@ -1,0 +1,62 @@
+## A. Scope & responsibility
+
+1. Where is throttling enforced: API Gateway, per-service, or a dedicated throttling service?
+2. Is this for north-south (clients → API) or east-west (service → service) traffic?
+3. L7 only (HTTP/gRPC), or do we also need L4 (TCP) protection?
+4. Is this “abuse protection” (security) or “fair usage” (product tiers) — or both?
+
+## B. Identity & keying
+
+5. What is the key: user_id, API key, IP, device_id, tenant_id, org_id, or “composite”?
+6. If unauthenticated: do we rate-limit by IP, by subnet, by ASN, or via challenge flow?
+7. Do we need separate limits per endpoint (route), per method, per customer tier?
+8. Should limits be shared across all services (“global quota”) or independent per service?
+
+## C. Rules & policies
+
+9. What exact policy is required:
+   - fixed window
+   - sliding window
+   - token bucket
+   - leaky bucket
+   - concurrency limit (max in-flight)
+10. Do we need burst support? (e.g., allow short spikes but cap sustained rate)
+11. Are there multiple dimensions: RPM + RPD + bandwidth (MB/s) + concurrency?
+12. Do we need “priority” or “fairness” between tenants (noisy neighbor problem)?
+
+## D. Accuracy & consistency
+
+13. How accurate must enforcement be: exact, “best-effort”, or approximate is fine?
+14. Is temporary overshoot acceptable during spikes / partial outages?
+15. Strong consistency per key, or eventual consistency is acceptable?
+
+## E. Failure modes & safety
+
+16. Fail-open or fail-closed if the limiter backend is down?
+17. What response should be returned on throttle: 429 always, or sometimes 503?
+18. Do we need Retry-After header? custom error body? localization?
+
+## F. Scale & performance
+
+19. Expected peak RPS? number of unique keys (users/API keys) at peak?
+20. Expected burstiness (10× spikes?) and how quickly must we react?
+21. Latency budget for rate limiting in hot path (e.g., <1ms, <5ms)?
+22. Multi-region? If yes: global quota across regions or per-region quota with sync?
+
+## G. Operations & change management
+
+23. How are rules managed: static config, DB-driven, GitOps, admin UI?
+24. Do we need audit log of rule changes and approvals?
+25. Do we need dry-run / shadow mode (log-only) before enforcing?
+
+## H. Observability & abuse response
+
+26. Required metrics: allowed/blocked counts, top keys, latency, error rates?
+27. Do we need per-customer dashboards / quota usage endpoints?
+28. Should throttling trigger alerts, auto-blocks, or WAF / challenge escalation?
+
+## I. Edge cases & exemptions
+
+29. Allowlists/denylists? internal service accounts exempt?
+30. Different limits for sensitive endpoints (login, OTP, password reset)?
+31. Do we need idempotency handling for retried requests (avoid double-counting)?

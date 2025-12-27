@@ -16,13 +16,13 @@ func fanOut(id int, wg *sync.WaitGroup, in <-chan int, out chan<- int) {
 }
 
 func main() {
-	const workersCount = 3
-	const jobsCount = 10
 
 	var (
-		wg  sync.WaitGroup
-		in  = make(chan int)
-		out = make(chan int)
+		wg           sync.WaitGroup
+		in           = make(chan int)
+		out          = make(chan int)
+		workersCount = 3
+		jobsCount    = 10
 	)
 
 	for i := 0; i < workersCount; i++ {

@@ -14,7 +14,6 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	// Генерация данных
 	go func() {
 		for i := 0; i < 100; i++ {
 			in <- i
@@ -63,7 +62,6 @@ func processInParallel(ctx context.Context, in <-chan int, out chan<- int, worke
 		}()
 	}
 
-	// Закрываем out после завершения всех воркеров
 	go func() {
 		wg.Wait()
 		close(out)
@@ -71,6 +69,6 @@ func processInParallel(ctx context.Context, in <-chan int, out chan<- int, worke
 }
 
 func processData(data int) int {
-	time.Sleep(100 * time.Millisecond) // Эмуляция тяжёлой операции
+	time.Sleep(100 * time.Millisecond)
 	return data * 2
 }

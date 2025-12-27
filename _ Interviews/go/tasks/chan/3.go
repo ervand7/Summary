@@ -5,11 +5,6 @@ import (
 	"sync"
 )
 
-/*
-Если канал будет не буферизированным, то словим deadlock.
-Можно читать из буферизированного канала и когда он не переполнен.
-*/
-
 var balance int
 
 func init() {
@@ -17,9 +12,9 @@ func init() {
 }
 
 func deposit(val int, wg *sync.WaitGroup, ch chan bool) {
-	ch <- true // получили что-то в канал
+	ch <- true
 	balance += val
-	<-ch // тут же и прочли
+	<-ch
 	wg.Done()
 }
 func main() {
@@ -31,5 +26,3 @@ func main() {
 	wg.Wait()
 	fmt.Println("Balance is: ", balance)
 }
-
-// Balance is:  130

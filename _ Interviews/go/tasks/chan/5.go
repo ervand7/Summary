@@ -2,32 +2,23 @@ package main
 
 import "fmt"
 
-func squares(c chan int) {
+func squares(ch chan int) {
 	for i := 0; i <= 3; i++ {
-		num := <-c
+		num := <-ch
 		fmt.Println(num * num)
 	}
 }
 
 func main() {
 	fmt.Println("main() started")
-	c := make(chan int, 3)
+	ch := make(chan int, 3)
 
-	go squares(c)
+	go squares(ch)
 
-	c <- 1
-	c <- 2
-	c <- 3
-	c <- 4 // blocks here
+	ch <- 1
+	ch <- 2
+	ch <- 3
+	ch <- 4 // blocks here
 
 	fmt.Println("main() stopped")
 }
-
-/*
-main() started
-1
-4
-9
-16
-main() stopped
-*/

@@ -5,12 +5,6 @@ import (
 	"sync"
 )
 
-/*
-Принтом выведется только одно число, а потом будет
-fatal error: all goroutines are asleep - deadlock!
-Так как у нас только 1 раз вычитывается значение, а записывается больше 1 раза
-*/
-
 func main() {
 	ch := make(chan int)
 	wg := sync.WaitGroup{}

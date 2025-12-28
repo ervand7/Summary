@@ -10,31 +10,31 @@ import (
 
 func main() {
 	var (
-		semaphore = make(chan int, 10)
-		ch        = make(chan int)
+		wg           sync.WaitGroup
+		workersCount = 10
+		jobsCount    = 100
+		semaphore    = make(chan struct{}, workersCount)
+		jobs         = make(chan int)
 	)
 
-	// reader
+	// single reader
 	go func() {
-		for val := range ch {
-			fmt.Printf("processing value %d\n", val)
+		for val := range jobs {
+			fmt.Printf("got %d\n", val)
 		}
 	}()
 
-	var wg sync.WaitGroup
-	for i := 0; i < 100; i++ {
-		semaphore <- i
-		ch <- i
-
+	for i := 0; i < jobsCount; i++ {
+		semaphore <- struct{}{}
 		wg.Add(1)
-		go func(wg *sync.WaitGroup) {
-			wg.Done()
+		go func(item int) {
+			defer wg.Done()
+			defer func() { <-semaphore }()
+			jobs <- item * item
 			time.Sleep(time.Second)
-			<-semaphore
-		}(&wg)
-
+		}(i)
 	}
 
 	wg.Wait()
-	close(ch)
+	close(jobs)
 }

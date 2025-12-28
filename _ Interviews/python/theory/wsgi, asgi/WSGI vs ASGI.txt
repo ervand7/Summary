@@ -1,0 +1,165 @@
+## 1️⃣ What is WSGI?
+
+WSGI (Web Server Gateway Interface) is the older Python standard for web apps.
+
+### Key properties
+
+* Synchronous
+* One request → one thread/process
+* Designed for classic HTTP
+* Blocking I/O
+
+### Typical stack
+
+```
+Client → Nginx → Gunicorn/uWSGI → Flask/Django
+```
+
+### What WSGI is good at
+
+* Simple REST APIs
+* CRUD apps
+* CPU-bound logic
+* Predictable workloads
+
+### Limitations
+
+* ❌ No WebSockets
+* ❌ No long-lived connections
+* ❌ Inefficient for async I/O (DB, HTTP calls, streaming)
+
+---
+
+## 2️⃣ What is ASGI?
+
+ASGI (Asynchronous Server Gateway Interface) is the modern successor to WSGI.
+
+### Key properties
+
+* Asynchronous (async/await)
+* Event-loop based
+* Supports multiple protocols
+* Non-blocking I/O
+
+### Supported protocols
+
+* HTTP
+* WebSockets
+* Server-Sent Events (SSE)
+* Background tasks
+
+### Typical stack
+
+```
+Client → Nginx → Uvicorn/Hypercorn → FastAPI/Django ASGI
+```
+
+### What ASGI is good at
+
+* WebSockets & real-time apps
+* Streaming responses
+* High-concurrency APIs
+* I/O-bound systems
+
+---
+
+## 3️⃣ Core difference (one sentence)
+
+> WSGI handles one request at a time per worker;
+> ASGI handles many concurrent requests in one worker.
+
+---
+
+## 4️⃣ Execution model comparison
+
+### WSGI (blocking)
+
+```python
+def app(environ, start_response):
+    data = slow_db_call()   # blocks worker
+    return response
+```
+
+### ASGI (non-blocking)
+
+```python
+async def app(scope, receive, send):
+    data = await async_db_call()  # worker continues handling others
+```
+
+---
+
+## 5️⃣ Performance implications
+
+| Aspect         | WSGI                    | ASGI              |
+| -------------- | ----------------------- | ----------------- |
+| Concurrency    | Low (threads/processes) | High (event loop) |
+| WebSockets     | ❌ No                    | ✅ Yes             |
+| Long-polling   | ❌ Poor                  | ✅ Native          |
+| Streaming      | ❌ Hard                  | ✅ Easy            |
+| Resource usage | Heavy                   | Efficient         |
+| Complexity     | Simple                  | Slightly higher   |
+
+---
+
+## 6️⃣ Servers comparison
+
+| WSGI servers | ASGI servers |
+| ------------ | ------------ |
+| Gunicorn     | Uvicorn      |
+| uWSGI        | Hypercorn    |
+| mod_wsgi     | Daphne       |
+
+---
+
+## 7️⃣ Frameworks
+
+### WSGI-only
+
+* Flask
+* Django (classic mode)
+
+### ASGI-native
+
+* FastAPI
+* Starlette
+* Sanic
+
+### Dual-mode
+
+* Django (WSGI + ASGI)
+* Quart
+
+---
+
+## 8️⃣ Can ASGI run WSGI apps?
+
+✅ Yes
+
+* ASGI servers can wrap WSGI apps
+* WSGI servers cannot run ASGI apps
+
+---
+
+## 9️⃣ When to choose what (practical rule)
+
+### Choose WSGI if:
+
+* Simple REST API
+* No real-time features
+* Team wants minimal complexity
+
+### Choose ASGI if:
+
+* WebSockets / SSE
+* High concurrency
+* Streaming
+* Modern microservices
+* You’re using FastAPI
+
+---
+
+## 🔟 Interview one-liner (memorize this)
+
+> “WSGI is synchronous and limited to HTTP; ASGI is asynchronous, event-driven, and
+supports real-time protocols like WebSockets.”

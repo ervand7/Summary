@@ -1,76 +1,65 @@
 package main
 
 import (
-	"context"
 	"fmt"
+	"sync"
 	"time"
 )
 
-// Goal:
-// Process incoming tasks, but at most 3 per second.
-// Unlimited producer.
-// Use rate limiter (token bucket or ticker).
-// Worker pool (3–5 workers).
-// Backpressure must be handled.
-// Graceful shutdown when ctx is cancelled.
-
 func main() {
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-	defer cancel()
+	const workers = 5
+	b := NewBarrier(workers)
 
-	in := make(chan int, 100)
-	out := make(chan int, 100)
+	var wg sync.WaitGroup
+	wg.Add(workers)
 
-	// unlimited producer
-	go func() {
-		defer close(in)
-		for i := 1; ; i++ {
-			select {
-			case <-ctx.Done():
-				return
-			case in <- i:
-				time.Sleep(50 * time.Millisecond)
-			}
-		}
-	}()
+	for i := 0; i < workers; i++ {
+		go func(id int) {
+			defer wg.Done()
 
-	go rateLimitedProcess(ctx, in, out)
+			fmt.Println("worker", id, "reached barrier 1")
+			b.Wait()
+			fmt.Println("worker", id, "passed barrier 1")
 
-	for v := range out {
-		fmt.Println("processed:", v)
+			fmt.Println("worker", id, "reached barrier 2")
+			b.Wait()
+			fmt.Println("worker", id, "passed barrier 2")
+		}(i)
+	}
+
+	wg.Wait()
+}
+
+type Barrier struct {
+	n       int
+	arrive  chan struct{}
+	release chan struct{}
+}
+
+func NewBarrier(n int) *Barrier {
+	return &Barrier{
+		n:       n,
+		arrive:  make(chan struct{}, n),
+		release: make(chan struct{}, n),
 	}
 }
 
-func rateLimitedProcess(ctx context.Context, in <-chan int, out chan<- int) {
-	// Implement:
-	// 1. A token bucket or ticker limiting to 3 ops / second
-	// 2. Workers reading from `in`
-	// 3. Workers wait for a rate limiter permit
-	// 4. Stop when ctx cancels
-	// 5. Close `out` correctly
+func (b *Barrier) Wait() {
+	time.Sleep(time.Second)
 
-	defer close(out)
+	// Each goroutine signals arrival
+	b.arrive <- struct{}{}
 
-	ticker := time.NewTicker(time.Second / 3) // 3 ops/sec
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ctx.Done():
-			return
-
-		case task, ok := <-in:
-			if !ok {
-				return
-			}
-
-			<-ticker.C           // rate limit
-			out <- process(task) // backpressure here
+	// Last goroutine releases all
+	if len(b.arrive) == b.n {
+		// Fill release channel with n tokens
+		for i := 0; i < b.n; i++ {
+			b.release <- struct{}{}
 		}
+		// Reset arrival channel for next barrier use
+		b.arrive = make(chan struct{}, b.n)
 	}
-}
 
-func process(v int) int {
-	time.Sleep(20 * time.Millisecond)
-	return v * 2
+	// Each goroutine waits for a release token
+	<-b.release
 }

@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
-// дедлока не будет потому что на каждое чтение мы имеем запись.
-// А то, что блокировка произойдет не в main-горутине - это не
-// вызовет падение, даже если в конце функции main поставить
-// долгий sleep
+// there is no deadlock because the main goroutine is not blocked (it sleeps
+// and then exits), so not all goroutines are blocked at the same time.
 
 func main() {
 	ch := make(chan int)
@@ -22,4 +21,6 @@ func main() {
 	for i := 0; i < 3; i++ {
 		fmt.Println(<-ch)
 	}
+
+	time.Sleep(time.Second)
 }

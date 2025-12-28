@@ -2,11 +2,8 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
-
-// we do not see deadlock because the program finishes while a
-// goroutine is still blocked — and Go does NOT panic if main
-// returns while other goroutines are stuck.
 
 func main() {
 	ch := make(chan int, 1)
@@ -19,5 +16,6 @@ func main() {
 	ch <- 10
 	ch <- 30
 
+	time.Sleep(time.Second)
 	fmt.Println("done")
 }

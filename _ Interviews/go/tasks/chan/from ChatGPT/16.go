@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"sync"
 	"time"
 )
 
@@ -22,19 +21,21 @@ func main() {
 	in := make(chan int, 100)
 	out := make(chan int, 100)
 
-	// Unlimited fast producer
+	// unlimited producer
 	go func() {
-		i := 1
-		for {
-			in <- i
-			i++
-			time.Sleep(50 * time.Millisecond) // fast producer
+		defer close(in)
+		for i := 1; ; i++ {
+			select {
+			case <-ctx.Done():
+				return
+			case in <- i:
+				time.Sleep(50 * time.Millisecond)
+			}
 		}
 	}()
 
 	go rateLimitedProcess(ctx, in, out)
 
-	// Consumer (just print)
 	for v := range out {
 		fmt.Println("processed:", v)
 	}
@@ -48,65 +49,28 @@ func rateLimitedProcess(ctx context.Context, in <-chan int, out chan<- int) {
 	// 4. Stop when ctx cancels
 	// 5. Close `out` correctly
 
-	const workers = 5
-	const rate = 3
+	defer close(out)
 
-	tokens := make(chan struct{}, rate)
+	ticker := time.NewTicker(time.Second / 3) // 3 ops/sec
+	defer ticker.Stop()
 
-	go func() {
-		ticker := time.NewTicker(time.Second / rate)
-		defer ticker.Stop()
-		for {
-			select {
-			case <-ctx.Done():
+	for {
+		select {
+		case <-ctx.Done():
+			return
+
+		case task, ok := <-in:
+			if !ok {
 				return
-			case <-ticker.C:
-				select {
-				case tokens <- struct{}{}:
-				default:
-				}
 			}
+
+			<-ticker.C           // rate limit
+			out <- process(task) // backpressure here
 		}
-	}()
-
-	var wg sync.WaitGroup
-	wg.Add(workers)
-
-	for i := 0; i < workers; i++ {
-		go func() {
-			defer wg.Done()
-
-			for {
-				select {
-				case <-ctx.Done():
-					return
-
-				case task := <-in:
-					select {
-					case <-ctx.Done():
-						return
-					case <-tokens:
-					}
-
-					result := process(task)
-					select {
-					case <-ctx.Done():
-						return
-					case out <- result:
-					}
-				}
-			}
-		}()
 	}
-
-	go func() {
-		wg.Wait()
-		close(out)
-	}()
 }
 
 func process(v int) int {
-	// Simulate small work
 	time.Sleep(20 * time.Millisecond)
 	return v * 2
 }

@@ -1,0 +1,72 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this Netflix for end users only (watching), or also the studio/admin side
+(uploading, encoding, publishing)?
+2. Are we doing movies only, or also episodic series, seasons, trailers, live streams?
+3. Do we support offline downloads?
+4. Do we support multiple user profiles per account (kids profile, maturity ratings)?
+5. Are we in one region or global (multi-region + multiple CDNs)?
+
+## B. Playback experience (the “core”)
+
+6. Startup time target (time-to-first-frame)? Buffering target?
+7. Required max quality: 1080p, 4K, HDR, Dolby Vision/Atmos?
+8. What devices: web, iOS/Android, Smart TVs, consoles?
+9. Do we need “Continue Watching”, “Up Next”, autoplay?
+10. Do we support subtitles + multiple audio tracks + dubbing?
+
+## C. Content delivery & streaming protocol
+
+11. Which streaming: HLS, MPEG-DASH, both?
+12. Do we require ABR (adaptive bitrate) ladders?
+13. Do we need DRM (Widevine/FairPlay/PlayReady)?
+14. Should playback be via signed URLs/tokens? Token TTL?
+15. Are range requests required? (almost always yes)
+
+## D. Catalog & discovery
+
+16. How big is the catalog (titles, assets, metadata size)?
+17. Search: simple title search or full-text, autocomplete, multilingual?
+18. Do we need “Top 10”, “Trending”, regional rows, editorial picks?
+19. Do we need per-user personalization of the homepage rows?
+20. Should we support “Coming soon” and reminders?
+
+## E. Recommendations & ranking (the hard + high impact part)
+
+21. Do we need ML recommendations or simpler heuristics is fine for interview?
+22. How fresh should personalization be (real-time vs hourly/daily batch)?
+23. Signals: watch time, likes/dislikes, ratings, search, clicks, dwell time?
+24. Cold start: new user / new title strategy?
+25. A/B testing requirement for ranking and UI variants?
+
+## F. Accounts, plans, payments
+
+26. Subscription only, or also ads tier? (ads changes the whole system)
+27. Concurrency limits: how many simultaneous streams per account?
+28. Password sharing detection out of scope or in scope?
+29. Geo restrictions / licensing rules (country availability windows)?
+30. Parental controls + maturity ratings enforcement?
+
+## G. Data correctness & reliability
+
+31. Must “Continue Watching” update in real-time across devices?
+32. Eventual consistency acceptable for recommendations/homepage?
+33. SLA targets: playback availability, API availability?
+34. Disaster recovery: multi-region failover required?
+35. Data retention requirements for viewing history?
+
+## H. Security, compliance, abuse
+
+36. DRM mandatory? Watermarking needed?
+37. Anti-piracy measures: token binding, short TTL, device attestation?
+38. Rate limits / bot scraping of catalog?
+39. Privacy regulations: GDPR/CCPA (delete history, export data)?
+40. Audit logging requirements (admin changes, content publishing)?
+
+## I. Observability (how we know it works)
+
+41. Key metrics: startup time, rebuffer ratio, bitrate delivered, error codes?
+42. How do we detect CDN failures and reroute?
+43. Real-time monitoring vs batch analytics expectations?
+44. What logging granularity is acceptable (cost)?
+45. Incident playbooks: rollback configs, kill switches, feature flags?

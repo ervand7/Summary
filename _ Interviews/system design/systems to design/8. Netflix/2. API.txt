@@ -1,0 +1,179 @@
+# 0️⃣ Auth (assumed)
+- OAuth/JWT access token
+- account_id + profile_id
+- device_id (important for DRM + concurrency + downloads)
+
+---
+
+# 1️⃣ Catalog (browse + details)
+
+### GET /v1/home?profile_id=...&device=tv
+What it does:
+👉 Returns “rows” for the Netflix home screen (personalized).
+
+Response:
+{
+  "rows": [
+    { "type": "continue_watching", "items": [ ... ] },
+    { "type": "because_you_watched", "items": [ ... ] },
+    { "type": "trending", "items": [ ... ] }
+  ],
+  "request_id": "req_123"
+}
+
+---
+
+### GET /v1/titles/{title_id}?profile_id=...
+👉 Title detail page: metadata + available seasons/episodes + maturity rating + availability.
+
+Response:
+{
+  "title_id": "t_42",
+  "type": "series",
+  "name": "Example Show",
+  "synopsis": "...",
+  "genres": ["Drama"],
+  "artwork": { "poster": "...", "background": "..." },
+  "availability": { "country": "RS", "playable": true },
+  "seasons": [ { "season": 1, "episodes": [ ... ] } ]
+}
+
+---
+
+### GET /v1/search?q=...&profile_id=...&limit=20
+👉 Search + autocomplete-backed results (may return mixed types).
+
+Response:
+{
+  "results": [
+    { "kind": "title", "title_id": "t_42", "name": "Example Show" }
+  ],
+  "next_cursor": "c_9"
+}
+
+---
+
+# 2️⃣ Playback session (the hot path)
+
+### POST /v1/playback/sessions
+What it does:
+👉 Creates an authorized playback session and returns a manifest URL + DRM info.
+
+Request:
+{
+  "profile_id": "p_1",
+  "title_id": "t_42",
+  "asset_id": "a_main_ep3",
+  "device": { "device_id": "d_777", "platform": "tv", "drm": "widevine" },
+  "network": { "country": "RS" }
+}
+
+Response:
+{
+  "session_id": "ps_abc",
+  "manifest": {
+    "type": "dash",
+    "url": "https://cdn.../manifest.mpd?token=...",
+    "expires_in_sec": 120
+  },
+  "drm": {
+    "license_server_url": "https://drm.../license",
+    "license_token": "lt_...",
+    "key_system": "widevine"
+  },
+  "cdn": { "provider": "cdna", "region": "eu" }
+}
+
+Notes:
+- This endpoint enforces: entitlements, geo rules, maturity profile, concurrency limit.
+
+---
+
+### POST /v1/drm/licenses
+👉 Optional if you model DRM as your own proxy service; often devices talk directly to DRM provider.
+Request:
+{ "session_id": "ps_abc", "challenge": "base64..." }
+
+Response:
+{ "license": "base64...", "expires_in_sec": 3600 }
+
+---
+
+# 3️⃣ Player telemetry (quality, errors, watch progress)
+
+### POST /v1/playback/events
+What it does:
+👉 Sends QoE + client events for analytics + troubleshooting.
+
+Request:
+{
+  "session_id": "ps_abc",
+  "ts_ms": 1735200000000,
+  "event": "rebuffer_start",
+  "metrics": { "bitrate_kbps": 3200, "buffer_ms": 1200 }
+}
+
+---
+
+### PUT /v1/profiles/{profile_id}/progress
+What it does:
+👉 Updates “Continue Watching” position (cross-device).
+
+Request:
+{
+  "title_id": "t_42",
+  "asset_id": "a_main_ep3",
+  "position_ms": 1534000,
+  "state": "playing"  // or paused/finished
+}
+
+Response:
+{ "ok": true }
+
+---
+
+# 4️⃣ My List / likes
+
+### POST /v1/profiles/{profile_id}/mylist
+Request: { "title_id": "t_42" }
+Response: { "ok": true }
+
+### DELETE /v1/profiles/{profile_id}/mylist/{title_id}
+
+### POST /v1/profiles/{profile_id}/ratings
+Request: { "title_id": "t_42", "rating": "thumbs_up" }
+
+---
+
+# 5️⃣ Downloads (optional scope)
+
+### POST /v1/downloads
+What it does:
+👉 Grants an offline download license + provides URLs for encrypted segments.
+
+Request:
+{
+  "profile_id": "p_1",
+  "asset_id": "a_main_ep3",
+  "device_id": "d_777"
+}
+
+Response:
+{
+  "download_id": "dl_1",
+  "manifest_url": "https://cdn.../offline.mpd?token=...",
+  "drm": { "license_token": "lt_...", "expires_in_sec": 86400 }
+}
+
+---
+
+# 6️⃣ Admin / content publishing (if in scope)
+
+### POST /v1/admin/titles
+👉 Create title metadata shell.
+
+### POST /v1/admin/assets
+👉 Register raw video upload + start encoding pipeline.
+
+### POST /v1/admin/publish/{title_id}
+👉 Makes the title visible in specified regions/profiles.

@@ -1,0 +1,158 @@
+# 🌍 Full picture: Netflix-like streaming system (interview-grade)
+
+                              CONTROL PLANE
+             (content ingest, encoding config, catalog publishing)
+
++----------------------------------------------------------------------------------+
+| Studio / Admin Portal                                                            |
+| - upload masters (video, audio, subtitles)                                       |
+| - manage metadata: title, cast, genres, maturity ratings                         |
+| - regional availability windows (licensing)                                      |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Content Management Service (CMS)                                                 |
+| - validates metadata + policies                                                  |
+| - creates/updates catalog records                                                |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Ingest & Transcode Orchestrator                                                  |
+| - queues encoding jobs per asset                                                 |
+| - defines ABR ladder: 240p..4K + codecs (H.264/H.265/AV1)                        |
+| - packages outputs for HLS/DASH                                                  |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Encoding Farm (workers / cloud batch)                                            |
+| - transcode video                                                                |
+| - normalize audio, create multiple tracks                                        |
+| - generate subtitles/captions outputs                                            |
+| - create thumbnails, previews                                                    |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Origin Storage (Object Store like S3)                                            |
+| - stores packaged segments + manifests + artwork                                 |
+| - versioned, durable                                                             |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| CDN Fill / Replication                                                           |
+| - pushes/pulls hot content closer to regions                                     |
+| - cache warming for new releases                                                 |
++----------------------------------------------------------------------------------+
+
+
+
+                               DATA PLANE (HOT PATH)
+               (browse → start playback → stream segments; must be fast)
+
+Clients:
+- Mobile / Web
+- Smart TV / Console
+- Tablet
+        |
+        | HTTPS
+        v
++----------------------------------------------------------------------------------+
+| Edge / DNS / Global Traffic Manager                                              |
+| - routes user to nearest healthy region                                          |
+| - can steer around regional outages                                              |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| API Gateway / L7 Load Balancer                                                   |
+| - authn (JWT), request routing                                                   |
+| - rate limiting / abuse protection                                               |
++-------------------------------+------------------------------+-------------------+
+                                |                              |
+                                |                              |
+                                v                              v
++------------------------------+               +-----------------------------------+
+| Browse / Catalog API         |               | Playback Control API              |
+| (stateless)                  |               | (stateless, latency-sensitive)    |
+| - home rows                  |               | - entitlement checks              |
+| - search                     |               | - geo + maturity policy           |
+| - title details              |               | - concurrency limits              |
++---------------+--------------+               | - chooses CDN + returns manifest  |
+                |                              +------------------+----------------+
+                |                                                 |
+                v                                                 v
++------------------------------+               +-----------------------------------+
+| Catalog DB + Cache           |               | Session Store / Token Service     |
+| - title metadata             |               | - short-lived playback tokens     |
+| - availability rules         |               | - signed URLs / JWT claims        |
++------------------------------+               +------------------+----------------+
+                                                                |
+                                                                v
+                                                     +--------------------------+
+                                                     | DRM / License Service    |
+                                                     | - Widevine/FairPlay/...  |
+                                                     | - issues content keys    |
+                                                     +--------------------------+
+
+
+                      PERSONALIZATION & RECOMMENDATIONS (mostly async)
+
+Client events (play, pause, search, click, watch time)
+        |
+        v
++----------------------------------------------------------------------------------+
+| Event Ingestion (Kafka/PubSub)                                                   |
+| - high-volume stream of user events                                              |
++-------------------------------+------------------------------+-------------------+
+                                |                              |
+                                v                              v
++------------------------------+               +-----------------------------------+
+| Real-time Signals Processor  |               | Batch Analytics / ML Training     |
+| - updates progress           |               | - nightly/hourly feature jobs     |
+| - “continue watching”        |               | - model training + evaluation     |
++---------------+--------------+               +------------------+----------------+
+                |                                                 |
+                v                                                 v
++------------------------------+               +-----------------------------------+
+| User State Store             |               | Recommendation Service            |
+| - continue watching          |               | - candidate generation + ranking  |
+| - watch history summary      |               | - produces home rows per profile  |
++------------------------------+               +------------------+----------------+
+                                                                |
+                                                                v
+                                                     +--------------------------+
+                                                     | Home Feed Cache          |
+                                                     | - per-profile cached rows|
+                                                     +--------------------------+
+
+
+                          STREAMING BYTES PATH (CDN does the heavy work)
+
+1) Client calls Playback Control API: POST /playback/sessions
+   - verifies: subscription entitlements, region availability, maturity rules
+   - returns: manifest URL (HLS/DASH) + DRM info + token
+
+2) Client fetches manifest from CDN:
+   Client ---> CDN Edge ---> (miss) ---> CDN Regional Cache ---> (miss) ---> Origin Storage
+
+3) Client streams segments (range requests / segment files):
+   Client ---> CDN Edge  (ABR chooses bitrate based on bandwidth/CPU)
+
+4) Client reports QoE + progress:
+   - /playback/events (rebuffer, bitrate switches, errors)
+   - /profiles/{id}/progress (continue watching updates)
+
+
+                          OBSERVABILITY & SAFETY
+
++----------------------------------------------------------------------------------+
+| Metrics/Logs/Tracing                                                             |
+| - time-to-first-frame, rebuffer ratio, delivered bitrate                         |
+| - CDN hit ratio, origin egress, DRM/license errors                               |
+| - playback session success rate, auth/entitlement failures                       |
+| - regional health + automated traffic steering                                   |
++----------------------------------------------------------------------------------+

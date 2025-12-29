@@ -1,0 +1,14 @@
+1. Scope & goals – what exactly are we building, what’s out of scope
+2. Business requirements – SLAs, correctness vs latency, compliance
+3. Users & access patterns – who uses it and how
+4. Traffic & load – QPS, read/write ratio, peaks, growth
+5. Data model & size – entities, volume, growth rate
+6. Read/write paths – hot paths, fan-out, idempotency
+7. Consistency requirements – strong vs eventual, ordering
+8. Availability & reliability – uptime target, failure handling
+9. Scalability strategy – sharding, statelessness, growth plan
+10. Caching – what, where, invalidation
+11. Security & privacy – auth, authz, encryption, abuse protection
+12. APIs & interfaces – sync/async, versioning, idempotency
+13. Observability & ops – metrics, logs, alerts
+14. Constraints & tradeoffs – cost, non-goals, future improvements

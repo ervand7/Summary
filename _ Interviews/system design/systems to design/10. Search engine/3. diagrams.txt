@@ -1,0 +1,194 @@
+# 🌍 Full picture: Search Engine (crawl + index + serve)
+
+                           CONTROL PLANE (slow, safe)
+        (policies, configs, quality tuning, admin workflows)
+
++-----------------------------------------------------------------------+
+| Admin / Ops Console                                                   |
+| - crawler policies (per-domain rate limits, robots rules)             |
+| - index schema/versioning                                             |
+| - ranking config (weights, boosts, safe search rules)                 |
+| - takedowns / removals / blocklists                                   |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Config Store (etcd/Consul/Git + controller)                           |
+| - distributes configs to crawler + indexer + query serving            |
++-----------------------------------------------------------------------+
+
+
+
+                         DATA PLANE A: CRAWL + PROCESS
+
+Seed sources:
+- manually submitted seeds
+- sitemaps
+- discovered links from crawled pages
+- partner feeds (optional)
+        |
+        v
++-----------------------------------------------------------------------+
+| URL Frontier / Scheduler (priority queue)                             |
+| - decides what to crawl next                                          |
+| - politeness: per-domain QPS + delays                                 |
+| - dedupe URLs (visited/seen bloom filter + persistent set)            |
+| - prioritization (PageRank-ish, freshness, trending)                  |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Crawler Fleet (stateless workers)                                     |
+| - fetch HTML/bytes                                                    |
+| - obey robots.txt + redirects                                         |
+| - retries/backoff, compression, timeouts                              |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Fetch Store (raw snapshots)                                           |
+| - object storage for raw page content (optional)                      |
+| - used for reprocessing/snippet generation                            |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Content Processing Pipeline                                           |
+| - parse HTML (extract title, text, headings)                          |
+| - extract links (for URL frontier)                                    |
+| - language detection, normalization                                   |
+| - spam/malware checks                                                 |
+| - canonicalization (choose canonical URL)                             |
+| - duplicate/near-duplicate detection (hash/simhash)                   |
++------------------------------+----------------------------------------+
+                               |
+               +---------------+-------------------+
+               |                                   |
+               v                                   v
++------------------------------+     +----------------------------------+
+| Link Graph Store             |     | Document Store (metadata)        |
+| - edges: (from -> to)        |     | - doc_id, url, title, lang       |
+| - used for PageRank/signals  |     | - crawl timestamps, hashes       |
++------------------------------+     +----------------------------------+
+
+
+
+                         DATA PLANE B: INDEX BUILDING
+
+Processed docs
+   |
+   v
++-----------------------------------------------------------------------+
+| Indexer (batch or streaming)                                          |
+| - tokenization + normalization (lowercase, stemming, etc.)            |
+| - builds postings lists (term -> docIDs + freq)                       |
+| - optional positions for phrase search/highlighting                   |
+| - builds forward index features (doc -> title terms, length, etc.)    |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Inverted Index Storage (sharded)                                      |
+| - shards by term or docID                                             |
+| - postings are compressed (varint, block compression)                 |
+| - replicated for availability                                         |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Feature Stores for Ranking                                            |
+| - static features: PageRank, domain quality, spam score               |
+| - freshness features: last_crawled, publish_time (if extracted)       |
+| - optional ML embeddings index (vector search)                        |
++-----------------------------------------------------------------------+
+
+
+
+                         DATA PLANE C: QUERY SERVING (HOT PATH)
+
+Users (web/mobile/API)
+        |
+        | HTTPS
+        v
++-----------------------------------------------------------------------+
+| Edge / CDN (optional)                                                 |
+| - caches popular queries / static assets                              |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| API Gateway / Load Balancer                                           |
+| - auth (optional), rate limits, routing                               |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Query Frontend (stateless)                                            |
+| - query parsing (operators: site:, time:, quotes)                     |
+| - normalization + spellcheck + rewrite                                |
+| - chooses shards to fan out to                                        |
+| - merges partial results                                              |
++------------------------------+----------------------------------------+
+                               |
+               +---------------+----------------------------+
+               |                                            |
+               v                                            v
++------------------------------+              +------------------------------+
+| Index Shard Servers          |              | Suggest/Autocomplete Service |
+| - lookup terms -> postings   |              | - prefix trie / log-based    |
+| - retrieve top-K candidates  |              | - popularity +personalization|
++---------------+--------------+              +------------------------------+
+                |
+                v
++-----------------------------------------------------------------------+
+| Ranker / Scoring Service                                              |
+| - computes final score using signals                                  |
+|   * text relevance (BM25/TF-IDF)                                      |
+|   * link/quality (PageRank/domain score)                              |
+|   * freshness                                                         |
+|   * geo/lang prefs (optional)                                         |
+|   * ML ranking model (optional)                                       |
+| - returns top N with snippets                                         |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Snippet Generator                                                     |
+| - uses stored text/positions to produce query-highlighted snippets    |
+| - caches snippets for hot docs/queries                                |
++------------------------------+----------------------------------------+
+                               |
+                               v
+Client gets:
+- ranked results
+- next_cursor
+- optional “did you mean”
+
+
+
+                         FEEDBACK + TRAINING LOOP (offline/async)
+
++-----------------------------------------------------------------------+
+| Event Stream (Kafka/PubSub)                                           |
+| - query logs, clicks, dwell time, “no results”, errors                |
++------------------+-------------------+-------------------------------+
+                   |                   |
+                   v                   v
+     +-------------------------+   +-------------------------------+
+     | Analytics/Monitoring    |   | Ranking Model Training        |
+     | - CTR, p95 latency      |   | - learns weights/models       |
+     | - freshness lag         |   | - validates offline metrics   |
+     +-------------------------+   +---------------+---------------+
+                                                  |
+                                                  v
+                                       (deploy new model/config)
+
+
+                         RELIABILITY & DEGRADATION
+
+- shard failure: query frontend retries replica / returns partial results
+- time budget: stop early if slow shards (keep p95 low)
+- caches:
+  * query result cache (hot queries)
+  * postings cache (hot terms)
+  * doc/snippet cache

@@ -1,0 +1,65 @@
+### A. Scope (what exactly are we building?)
+
+1. Is this a web search engine (like Google) or site/app search (search inside one product)?
+2. Do we need full crawling of the public web, or do documents come from partners / user submissions?
+3. Which content types are in scope: HTML only, or also PDF/DOC, images, video?
+4. Do we support multiple languages? Any special tokenization needs (CJK, Cyrillic, etc.)?
+5. Is this general search or a vertical (news, e-commerce, jobs)?
+
+### B. Must-have features (MVP)
+
+6. What is the expected UX: 10 blue links, or also snippets, sitelinks, knowledge panels?
+7. Do we need autocomplete / suggestions?
+8. Do we need “Did you mean” spell correction?
+9. Do we support advanced operators (site:, filetype:, time range, quotes)?
+10. Do we need safe search / adult content filtering?
+
+### C. Scale & latency targets
+
+11. Corpus size: how many documents/pages? (10M, 1B?)
+12. Query QPS peak? (and geographic distribution)
+13. Latency target: p95 and p99 for search results (e.g., p95 < 200 ms)?
+14. Freshness: how quickly must updates appear in results? (seconds / minutes / hours)
+15. Multi-region requirement: active-active global, or single region?
+
+### D. Crawling strategy (if web search)
+
+16. Are we allowed to crawl everything, or must follow strict policies (robots.txt, per-domain quotas)?
+17. Crawl frequency: recrawl popular pages often? How to handle news / trending?
+18. How to discover URLs: seed list only, or link extraction + sitemaps?
+19. How to handle duplicate pages and near-duplicates?
+20. Any legal/compliance constraints on storage (GDPR “right to be forgotten”)?
+
+### E. Ranking & relevance (the hard part)
+
+21. Ranking goal: “good enough” (BM25 + signals) or ML ranking (learning-to-rank)?
+22. Personalization needed (location, language, user history) or anonymous only?
+23. Do we need to handle recency boosting (fresh results for news queries)?
+24. Spam resistance requirements (link farms, keyword stuffing)?
+25. Do we need ads (sponsored results) and how separated from organic?
+
+### F. Indexing details
+
+26. Do we index full text, or only title + headings + anchors?
+27. Do we store positions for phrase search and highlighting?
+28. Do we need faceting/filters (date, domain, language)?
+29. Storage constraints: can we keep a cached copy of the page (for snippets),
+or only metadata?
+30. Consistency model: is it ok if some shards are briefly stale?
+
+### G. Safety, abuse, and quality
+
+31. Rate limiting / bot protection for the search API?
+32. Content moderation rules (adult, violence, hate, malware)?
+33. Malware/phishing detection required in results?
+34. “Remove results” workflow (DMCA, takedowns)?
+35. Audit logs and explainability required?
+
+### H. Observability & ops
+
+36. What metrics matter most: p95 latency, CTR, “no results” rate, freshness
+lag, crawl errors?
+37. On-call constraints: must degrade gracefully if a shard is down?
+38. Backfill/reindex requirements (schema changes)?
+39. Cost constraints: “cheapest possible” vs “best quality”?
+40. Offline evaluation: do we have labeled data / relevance judgments?

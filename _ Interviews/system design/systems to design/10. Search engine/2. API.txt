@@ -1,0 +1,128 @@
+### # 0️⃣ Auth (assumed)
+
+* Public search often allows anonymous access, but you still may use:
+
+  * API key / JWT for partners
+  * user_id (optional) for personalization
+
+---
+
+### # 1️⃣ Search
+
+#### `GET /v1/search?q=...&limit=10&cursor=...`
+
+What it does:
+👉 Returns ranked documents + snippets.
+
+Query params (common):
+
+* `q` — query string
+* `limit` — number of results (e.g., 10)
+* `cursor` — pagination token (avoid page=1000)
+* `lang` — preferred language
+* `country` / `region` — geo boost (optional)
+* `safe` — safe search mode (off/moderate/strict)
+* `time_range` — last_day/last_week/custom (optional)
+
+Response:
+
+```json
+{
+  "query_id": "qid_123",
+  "normalized_query": "best pizza belgrade",
+  "next_cursor": "c_456",
+  "results": [
+    {
+      "doc_id": "d_9f2",
+      "url": "https://example.com/page",
+      "title": "Best Pizza in Belgrade",
+      "snippet": "…top places for pizza…",
+      "score": 12.84,
+      "language": "en",
+      "last_crawled_ms": 1735900000000
+    }
+  ],
+  "spelling": { "did_you_mean": "best pizza in belgrade" }
+}
+```
+
+---
+
+### # 2️⃣ Autocomplete / Suggestions
+
+#### `GET /v1/suggest?q=best piz&limit=10`
+
+What it does:
+👉 Returns query completions based on logs + popularity.
+
+Response:
+
+```json
+{
+  "suggestions": [
+    "best pizza belgrade",
+    "best pizza near me",
+    "best pizzeria belgrade"
+  ]
+}
+```
+
+---
+
+### # 3️⃣ Document details (optional)
+
+#### `GET /v1/docs/{doc_id}`
+
+What it does:
+👉 Returns stored metadata (useful for debug/tools).
+
+Response:
+
+```json
+{
+  "doc_id": "d_9f2",
+  "canonical_url": "https://example.com/page",
+  "title": "Best Pizza in Belgrade",
+  "language": "en",
+  "last_crawled_ms": 1735900000000,
+  "content_hash": "sha256:..."
+}
+```
+
+---
+
+### # 4️⃣ Logging feedback (optional but valuable)
+
+#### `POST /v1/events/click`
+
+What it does:
+👉 Collects clicks for ranking evaluation/training.
+
+```json
+{
+  "query_id": "qid_123",
+  "doc_id": "d_9f2",
+  "position": 1,
+  "ts_ms": 1735900001000
+}
+```
+
+---
+
+### # 5️⃣ Crawling control (only if web crawler is in scope)
+
+#### `POST /v1/crawl:submit`
+
+👉 Submit seed URLs (partners/admin).
+
+```json
+{ "urls": ["https://example.com"], "priority": "high" }
+```
+
+#### `POST /v1/remove`
+
+👉 Takedown/removal request (admin/legal).
+
+```json
+{ "url": "https://example.com/bad", "reason": "dmca" }
+```

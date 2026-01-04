@@ -46,7 +46,7 @@ Seed sources:
                                |
                                v
 +-----------------------------------------------------------------------+
-| Fetch Store (raw snapshots)                                           |
+| Fetch Store (raw snapshots) S3 / GCS / local blob storage             |
 | - object storage for raw page content (optional)                      |
 | - used for reprocessing/snippet generation                            |
 +------------------------------+----------------------------------------+

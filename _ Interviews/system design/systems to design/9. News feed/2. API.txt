@@ -1,0 +1,120 @@
+# 0️⃣ Auth (assumed)
+All requests use:
+- OAuth/JWT access token
+- identity: viewer_user_id
+- device_id (optional for rate limits / experimentation bucketing)
+
+---
+
+# 1️⃣ Post creation & actions
+
+### POST /v1/posts
+What it does:
+👉 Creates a new post (the source of feed items).
+
+Request:
+{
+  "text": "Hello world",
+  "visibility": "followers",          // public | followers | friends | custom
+  "media": [{ "type": "image", "id": "m_123" }],
+  "client_ts_ms": 1735200000000
+}
+
+Response:
+{
+  "post_id": "p_abc",
+  "author_id": "u_1",
+  "created_ts_ms": 1735200000123
+}
+
+---
+
+### PATCH /v1/posts/{post_id}
+👉 Edit post (optional scope). Decide: update in-place or create “edit event”.
+
+Request: { "text": "Edited text" }
+
+---
+
+### DELETE /v1/posts/{post_id}
+👉 Delete post (must propagate to feeds / caches).
+
+Response: { "status": "ok" }
+
+---
+
+# 2️⃣ Home feed read
+
+### GET /v1/feed/home?limit=20&cursor=...
+What it does:
+👉 Returns the viewer’s home feed page.
+
+Response:
+{
+  "next_cursor": "c_987",
+  "items": [
+    {
+      "item_id": "fi_1",              // feed item id (optional)
+      "post_id": "p_abc",
+      "author_id": "u_1",
+      "rank_score": 0.812,            // optional if ranked
+      "reason": "followed_author",    // optional debug
+      "created_ts_ms": 1735200000123
+    }
+  ]
+}
+
+Notes:
+- Cursor pagination (stable)
+- Payload can be “IDs only”, and client fetches post details via batch endpoint.
+
+---
+
+### POST /v1/posts:batchGet
+What it does:
+👉 Batch fetch post bodies for feed rendering (avoids N+1).
+
+Request:
+{ "post_ids": ["p_abc", "p_def", "p_ghi"] }
+
+Response:
+{
+  "posts": [
+    { "post_id":"p_abc", "text":"...", "media":[...], "like_count":10, "comment_count":2 }
+  ]
+}
+
+---
+
+# 3️⃣ Timeline / profile feed (optional but common)
+
+### GET /v1/users/{user_id}/timeline?limit=20&cursor=...
+👉 Posts authored by that user (typically chronological, simpler).
+
+---
+
+# 4️⃣ Engagement signals (only if needed for ranking)
+
+### POST /v1/posts/{post_id}/like
+### DELETE /v1/posts/{post_id}/like
+### POST /v1/posts/{post_id}/comment
+### POST /v1/posts/{post_id}/share
+
+(These produce events used by ranking + notifications + counters.)
+
+---
+
+# 5️⃣ Follow graph operations (if in scope)
+
+### POST /v1/follows
+Request: { "target_user_id": "u_2" }
+Response: { "status": "ok" }
+
+### DELETE /v1/follows/{target_user_id}
+
+---
+
+# 6️⃣ Optional: realtime updates
+
+### GET /v1/feed/home/stream  (SSE/WebSocket)
+👉 Push incremental new items (or “invalidate cursor”) to clients.

@@ -1,0 +1,225 @@
+# 📰 Full picture: News Feed system (readable, interview-grade)
+
+                                CONTROL PLANE
+               (config, experiments, moderation rules; slower but safe)
+
++-----------------------------------------------------------------------+
+| Admin / Ops Console                                                   |
+| - feature flags (ranking v1/v2), A/B experiments                      |
+| - safety policies (blocked domains, banned users)                     |
+| - moderation tools (takedown, user suspension)                        |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Config / Experiment Service                                           |
+| - rollout rules: % traffic, per-region, per-user buckets              |
+| - ranking config: weights, thresholds, candidate sources              |
++-----------------------------------------------------------------------+
+
+
+
+                                DATA PLANE (HOT PATH)
+                    (feed reads, post writes; must be fast)
+
+Clients:
+- Mobile apps
+- Web (browser)
+- Internal services (notifications, moderation)
+        |
+        | HTTPS
+        v
++-----------------------------------------------------------------------+
+| Edge / API Gateway / LB                                               |
+| - authn/authz (JWT)                                                   |
+| - rate limiting + bot protection                                      |
+| - routing + request hedging                                           |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Feed API Service (stateless)                                          |
+| - GET /feed/home                                                      |
+| - assembles response (IDs + cursors)                                  |
+| - calls Feed Store/Cache + Post Service (batch)                       |
++----------------------+----------------------------+-------------------+
+                       |                            |
+                       |                            |
+                       v                            v
+
+
+                  (A) READ PATH: “fanout on read” (simple, heavy reads)
+                  -----------------------------------------------------
+
++-----------------------------------------------------------------------+
+| Candidate Generation                                                  |
+| - get followed authors (Graph Service)                                |
+| - fetch recent posts per author (Post Index)                          |
+| - merge + filter (privacy, blocks)                                    |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Ranking Service (optional)                                            |
+| - scores candidates using features                                    |
+| - returns top K ids                                                   |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Response Assembly                                                     |
+| - batchGet posts (Post Service)                                       |
+| - attach counts/snippets/media URLs                                   |
++-----------------------------------------------------------------------+
+
+Pros: easy writes, no per-follower fanout.
+Cons: can be expensive at scale for “celebrity follows many” + high read QPS.
+
+
+
+                  (B) WRITE PATH: “fanout on write” (common at scale)
+                  ---------------------------------------------------
+
+When author creates a post:
+
+Client
+  |
+  | 1) POST /posts
+  v
++-----------------------------------------------------------------------+
+| Post API Service (stateless)                                          |
+| - validates request                                                   |
+| - writes Post DB (author timeline)                                    |
+| - emits PostCreated event                                             |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Post Store                                                            |
+| - Post DB (sharded SQL/NoSQL): post_id -> body, author_id, ts         |
+| - Media goes to Object Storage + CDN                                  |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Event Bus (Kafka/PubSub)                                              |
+| topics: post_created, post_deleted, follow_created, like_created, ... |
++------------------+-------------------+-------------------------------+
+                   |
+                   | 2) consume post_created
+                   v
++-----------------------------------------------------------------------+
+| Fanout Workers (N workers)                                            |
+| - fetch followers of author (Graph Service)                           |
+| - write into each follower’s Home Feed materialization                |
+| - apply privacy filters + blocks + “who can see”                      |
+| - optional: precompute lightweight rank score                         |
++----------------------+----------------------------+-------------------+
+                       |                            |
+                       v                            v
++------------------------------+    +-----------------------------------+
+| Home Feed Store (fast)       |    | Graph Service                     |
+| - per-user sorted list       |    | - followers/friends edges         |
+| - Redis/Cassandra/Dynamo     |    | - adjacency lists + caching       |
+| - key: user_id               |    +-----------------------------------+
+| - value: [feed_item...]      |
++------------------------------+
+
+Data model idea for Home Feed Store:
+- partition key: viewer_user_id
+- sort key: (rank_key or time, feed_item_id)
+- store only post_id + small metadata (author_id, ts, score)
+
+Read path becomes very cheap:
+Feed API -> Home Feed Store -> batchGet posts -> respond.
+
+
+
+                  HYBRID (what most big systems do)
+                  ---------------------------------
+- Normal users: fanout-on-write (materialized home feeds)
+- Celebrities / mega-followed accounts: fanout-on-read
+  (store their posts centrally; merge at read time for followers)
+Reason: otherwise a single post would need millions of writes.
+
+
+
+                        FEED READ PATH (fanout-on-write case)
+                        -------------------------------------
+
+Client
+  |
+  | GET /feed/home?cursor=...
+  v
+Feed API Service
+  |
+  | 1) read page from Home Feed Cache/Store (post_ids)
+  v
++-----------------------------------------------------------------------+
+| Home Feed Cache (Redis)                                               |
+| - hot pages (first 1-2 pages)                                         |
+| - short TTL + invalidation on new post                                |
++-----------------------------------------------------------------------+
+  |
+  | 2) batchGet posts (body + media)
+  v
++-----------------------------------------------------------------------+
+| Post Service + Post Cache                                             |
+| - cache: post_id -> post blob                                         |
+| - DB fallback                                                         |
++-----------------------------------------------------------------------+
+  |
+  v
+Client renders feed (media via CDN signed URLs)
+
+
+
+                        COUNTERS & ENGAGEMENT (optional)
+                        --------------------------------
+
++-----------------------------------------------------------------------+
+| Like/Comment events -> Event Bus                                      |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Counter Service                                                       |
+| - maintains like_count/comment_count                                  |
+| - stores in KV (fast reads)                                           |
+| - periodically reconciles with source of truth                        |
++-----------------------------------------------------------------------+
+
+
+
+                        DELETES / PRIVACY / MODERATION
+                        ------------------------------
+
+Delete post:
+- PostDeleted event -> Fanout workers remove from Home Feed Store (best-effort)
+- Also enforce at read time:
+  Feed API / Post Service checks “is_deleted / visibility” and filters out
+
+Moderation takedown:
+- Policy/MOD event -> invalidate caches + block at Post Service read
+
+
+
+                        SEARCH / DISCOVERY (optional)
+                        -----------------------------
+
+PostCreated event
+  -> Indexing pipeline (Elastic/OpenSearch)
+  -> enables search and “topic feeds”
+
+
+
+                        OBSERVABILITY & SLOs
+                        ---------------------
+
++----------------------Ω-------------------------------------------------+
+| Metrics/Logs/Tracing                                                  |
+| - feed p95 latency, cache hit rate, empty feed rate                   |
+| - fanout lag (event -> visible delay)                                 |
+| - Kafka consumer lag, worker retry rate                               |
+| - hot-key detection (celebrity accounts)                              |
++-----------------------------------------------------------------------+

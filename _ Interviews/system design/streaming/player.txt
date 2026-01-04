@@ -1,0 +1,255 @@
+# 1️⃣ ❌ Streaming video is NOT an API-driven thing in the usual sense
+
+There is:
+
+* NO `/play` API returning bytes
+* NO backend pushing video frames
+* NO WebSocket streaming video
+
+✅ Instead:
+
+> The backend gives metadata + signed URLs
+> The player downloads media directly from CDN using HTTP
+
+This single idea unlocks everything.
+
+---
+
+# 2️⃣ High-level picture (burn this into memory)
+
+```
+User presses "Play"
+        |
+        v
+Frontend / Player SDK
+        |
+        | 1️⃣ REST API (JSON)
+        v
+Playback / Metadata Service
+        |
+        | returns manifest + DRM + signed URLs
+        v
+Player (browser / mobile / TV)
+        |
+        | 2️⃣ HTTP GET (media chunks)
+        v
+CDN (CloudFront / Akamai / Netflix Open Connect)
+```
+
+👉 APIs are control plane
+👉 Video delivery is data plane
+
+---
+
+# 3️⃣ What actually happens when you press ▶️ Play
+
+### Step 1 — Playback API (normal REST)
+
+```http
+POST /v1/playback/start
+```
+
+Response (simplified):
+
+```json
+{
+  "asset_id": "movie_123",
+  "manifest_url": "https://cdn.example.com/manifests/movie_123.mpd",
+  "drm": {
+    "type": "widevine",
+    "license_url": "https://drm.example.com/license"
+  },
+  "expires_at": 1735203600
+}
+```
+
+📌 This is the last moment the backend is involved
+
+---
+
+### Step 2 — Manifest file (this is the key!)
+
+The player downloads a manifest:
+
+* HLS → `.m3u8`
+* DASH → `.mpd`
+
+This file describes:
+
+* available qualities (240p, 720p, 4K)
+* audio tracks
+* subtitles
+* chunk duration
+* codecs
+
+📄 Example (conceptual):
+
+```
+1080p → segments of 4s
+720p  → segments of 4s
+audio → separate track
+```
+
+---
+
+### Step 3 — Chunk-based streaming (pure HTTP)
+
+The player now does:
+
+```http
+GET /video/1080p/segment_0001.ts
+GET /video/1080p/segment_0002.ts
+GET /video/1080p/segment_0003.ts
+```
+
+✅ Normal HTTP
+✅ Over CDN
+✅ Cacheable
+✅ Seekable
+✅ Resumeable
+
+No backend logic here.
+
+---
+
+# 4️⃣ Why chunked streaming exists (interview gold)
+
+| Problem           | Solution                  |
+| ----------------- | ------------------------- |
+| Slow network      | Lower quality             |
+| User seeks        | Download different chunks |
+| Packet loss       | Retry single chunk        |
+| Millions of users | CDN cache                 |
+
+👉 Adaptive Bitrate Streaming (ABR)
+
+The player:
+
+* measures bandwidth
+* switches quality dynamically
+* never stalls the backend
+
+---
+
+# 5️⃣ Protocols you MUST know (non-negotiable)
+
+## 🎥 Video streaming protocols
+
+| Protocol  | Used where                 |
+| --------- | -------------------------- |
+| HLS       | iOS, Safari, Apple TV      |
+| MPEG-DASH | Android, Chrome, Smart TVs |
+| CMAF      | Modern common format       |
+
+📌 Netflix uses both HLS and DASH
+
+---
+
+## 🔐 DRM (this is where backend comes back)
+
+| DRM       | Platform        |
+| --------- | --------------- |
+| Widevine  | Android, Chrome |
+| FairPlay  | Apple           |
+| PlayReady | Windows         |
+
+Flow:
+
+```
+Player → DRM license server → key → decrypt chunk
+```
+
+❗ Video is encrypted on CDN
+
+---
+
+# 6️⃣ What the backend actually does (your responsibility)
+
+As a backend engineer, you typically own:
+
+### ✅ Control plane
+
+* playback authorization
+* entitlement checks
+* geo restrictions
+* signed URLs
+* DRM license validation
+
+### ❌ NOT data plane
+
+* no video bytes
+* no transcoding at request time
+* no pushing frames
+
+---
+
+# 7️⃣ CDN is NOT dumb storage (important!)
+
+CDN responsibilities:
+
+* cache video chunks
+* validate signed URLs
+* enforce expiration
+* sometimes apply geo rules
+
+📌 Signed URL example:
+
+```
+https://cdn.example.com/seg_001.ts
+  ?exp=1735203600
+  &sig=abc123
+```
+
+CDN verifies signature without calling backend.
+
+---
+
+# 8️⃣ Browser vs Mobile vs TV (common confusion)
+
+| Platform | Player          |
+| -------- | --------------- |
+| Browser  | HTML5 `<video>` |
+| iOS      | AVPlayer        |
+| Android  | ExoPlayer       |
+| TV       | Native SDK      |
+
+Backend sees no difference.
+
+---
+
+# 9️⃣ Telemetry & analytics (often forgotten)
+
+Players send events, not streams:
+
+```http
+POST /v1/playback/events
+```
+
+Events:
+
+* start
+* pause
+* rebuffer
+* quality change
+* error
+
+📌 These go to Kafka / analytics pipelines.
+
+---
+
+# 🔟 Best practices (what interviewers expect)
+
+### ✅ DO
+
+* chunk size 2–6 seconds
+* signed URLs
+* CDN-first architecture
+* adaptive bitrate
+* DRM everywhere
+
+### ❌ DON’T
+
+* stream via backend
+* use WebSockets for video
+* keep long-lived HTTP connections
+* store user sessions on video servers

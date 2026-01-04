@@ -1,0 +1,146 @@
+## 1️⃣ CSRF — *Cross-Site Request Forgery*
+
+What it is
+A malicious site makes a victim’s browser send an authenticated request to
+your backend.
+
+Why it works
+Browsers automatically attach cookies.
+
+Example
+User is logged in → visits evil site → backend receives valid request.
+
+Mitigation
+
+* `SameSite=Strict/Lax` cookies
+* CSRF tokens
+* Do not use cookies for APIs (prefer Authorization headers)
+
+---
+
+## 2️⃣ XSS — *Cross-Site Scripting*
+
+What it is
+Attacker injects JavaScript into your page.
+
+Impact
+
+* Steals tokens
+* Acts as the user
+
+Mitigation
+
+* Escape output
+* Content Security Policy (CSP)
+* `HttpOnly` cookies
+
+---
+
+## 3️⃣ SQL Injection
+
+What it is
+User input becomes part of SQL logic.
+
+Example
+
+```sql
+WHERE email = 'a' OR 1=1
+```
+
+Mitigation
+
+* Prepared statements only
+* Never build SQL with strings
+
+---
+
+## 4️⃣ IDOR — *Insecure Direct Object Reference*
+
+What it is
+User accesses someone else’s resource by changing an ID.
+
+Example
+
+```
+GET /orders/123   → change to /orders/124
+```
+
+Key point
+Authentication ≠ Authorization
+
+Mitigation
+
+* Always check ownership on backend
+
+---
+
+## 5️⃣ Authentication / JWT mistakes
+
+What it is
+
+* Token not verified properly
+* Missing `exp`, `aud`, `iss` checks
+
+Impact
+
+* Full account takeover
+
+Mitigation
+
+* Verify signature
+* Validate claims strictly
+
+---
+
+## 6️⃣ Replay attacks
+
+What it is
+Valid request is captured and resent.
+
+Common in
+
+* Payments
+* Withdrawals
+
+Mitigation
+
+* Idempotency keys
+* Nonces / timestamps
+
+---
+
+## 7️⃣ DoS (application-level)
+
+What it is
+Exhausting resources:
+
+* CPU
+* DB connections
+* Goroutines
+
+Go-specific
+Unbounded goroutines = DoS
+
+Mitigation
+
+* Rate limiting
+* Timeouts
+* Worker pools
+
+---
+
+## 8️⃣ Race conditions (business logic)
+
+What it is
+Two requests modify the same state concurrently.
+
+Example
+
+* Double withdrawal
+* Double order
+
+Mitigation
+
+* DB transactions
+* Locks
+* Idempotency

@@ -1,0 +1,60 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this a social “home feed” (friends/following) or a “news” feed (topics + publishers)?
+2. Is it “timeline only” (chronological) or “ranked feed” (ML/heuristics)?
+3. Do we support only text posts, or also images/video links?
+4. Is commenting/likes/shares in scope, or only feed generation + read path?
+5. Do we need notifications (push/email) as part of the design?
+
+## B. Audience graph & relationships
+
+6. What is the relationship model: friends (mutual) or follow (one-way)?
+7. Do we support groups/pages (one-to-many publishers)?
+8. Do we need privacy levels (public/friends-only/custom lists)?
+9. Are blocks/mutes required (filtering certain authors)?
+
+## C. Feed semantics (what shows up?)
+
+10. Which events create feed items: posts only, or also likes/comments/reposts?
+11. Any content rules: hide deleted posts, hide “reported/flagged” content?
+12. Do we need dedup (same story shared multiple times)?
+13. How far back can a user scroll (7 days? 30 days? “infinite”)?
+
+## D. Ranking & freshness
+
+14. Chronological or ranked? If ranked: what are top signals (recency, affinity, engagement)?
+15. Do we need A/B experiments (multiple ranking versions)?
+16. Hard latency target for feed load (p95 < 200ms? 500ms?) and for “new post appears”?
+17. How “fresh” must the feed be (seconds vs minutes)?
+
+## E. Scale & traffic shape
+
+18. DAU/MAU? Typical follows/friends per user? (p50/p99)
+19. Feed reads QPS vs writes QPS? Peak patterns (morning spikes)?
+20. Average feed page size (20 items?) and pagination style (cursor vs offset)?
+21. Data sizes: post payload size, media size, metadata size?
+
+## F. Consistency & correctness
+
+22. When someone posts, must followers see it immediately?
+23. Consistency model acceptable: eventual for feed, strong for post creation?
+24. What happens on edits: update existing feed items or treat as new event?
+25. Deletions: must disappear instantly from all feeds?
+
+## G. Storage & data retention
+
+26. How long do we store feed materialization (if we precompute)? TTL?
+27. Do we need “seen/read” state, or just return items?
+28. Do we store per-user feed as a list, or compute on demand?
+
+## H. Anti-abuse, security, and privacy
+
+29. Spam prevention needed (rate limits, shadow bans)?
+30. Do we need content moderation pipeline (reporting, takedown)?
+31. Any compliance constraints (PII, GDPR “right to be forgotten”)?
+
+## I. Observability & ops
+
+32. Core SLIs: feed p95 latency, empty-feed rate, freshness lag, error rate?
+33. Backfill/rebuild needs: can we recompute feeds after bugs/ranking change?
+34. Multi-region requirement (active-active reads?) and DR (RPO/RTO)?

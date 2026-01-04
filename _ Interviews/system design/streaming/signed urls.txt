@@ -1,0 +1,62 @@
+Signed URL = a normal CDN URL with:
+
+* expiration time
+* cryptographic signature
+
+It allows the CDN to serve private video content without calling the backend.
+
+---
+
+### Typical (best-practice) flow
+
+1. Backend authorizes playback
+   * checks user, geo, entitlement
+
+2. Backend returns a signed manifest URL
+   (or sets a signed cookie)
+
+```json
+{
+  "manifest_url": "https://cdn.example.com/movie.mpd?exp=1735203600&sig=abc"
+}
+```
+
+3. Player downloads the manifest
+
+4. Player downloads video chunks
+
+```http
+GET /720/seg_001.ts
+GET /720/seg_002.ts
+```
+
+5. CDN authorizes each chunk
+
+* using the same signature or cookie
+* no backend involved
+
+---
+
+### Important clarifications
+
+* ✅ Every chunk is authorized
+* ❌ Chunks are usually NOT individually signed
+* ✅ Authorization is inherited from:
+
+  * signed manifest or
+  * signed CDN cookie
+
+---
+
+### Why this design is used
+
+* avoids signing thousands of URLs
+* scales to millions of users
+* keeps backend off the hot path
+
+---
+
+### One-sentence senior summary
+
+> Video chunks are authorized by the CDN using a signed manifest or signed cookies, so 
+each chunk request is validated without backend involvement.

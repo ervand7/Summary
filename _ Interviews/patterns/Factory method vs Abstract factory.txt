@@ -1,0 +1,2 @@
+ - Factory Method creates ONE product.
+ - Abstract Factory creates a FAMILY of related products.

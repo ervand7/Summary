@@ -1,0 +1,134 @@
+# 0️⃣ Auth (assumed)
+
+* JWT/OAuth
+* identity: `user_id`
+* tenant/namespace: `project_id` (or `team_id`)
+
+---
+
+# 1️⃣ Schedules (CRUD)
+
+### `POST /v1/schedules`
+
+👉 Create a schedule.
+
+```json
+{
+  "project_id": "p_1",
+  "name": "daily-invoice",
+  "cron": "0 9 * * *",
+  "timezone": "Europe/Belgrade",
+  "enabled": true,
+  "concurrency_policy": "forbid",
+  "misfire_policy": "skip",
+  "max_jitter_ms": 1000,
+
+  "target": {
+    "type": "http",
+    "url": "https://internal.api/jobs/invoice",
+    "method": "POST",
+    "headers": { "X-Job": "invoice" },
+    "body": { "mode": "daily" },
+    "timeout_ms": 5000,
+    "auth": { "type": "service_token", "ref": "secret://invoice-token" }
+  },
+
+  "retry": {
+    "max_attempts": 5,
+    "backoff_ms": 500,
+    "max_backoff_ms": 60000
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "schedule_id": "sch_123",
+  "status": "enabled",
+  "next_run_at_ms": 1735200000000,
+  "version": 1
+}
+```
+
+---
+
+### `GET /v1/schedules/{schedule_id}`
+
+👉 Get schedule details + next run time.
+
+---
+
+### `GET /v1/schedules?project_id=p_1&limit=50&cursor=...`
+
+👉 List schedules (paginated).
+
+---
+
+### `PATCH /v1/schedules/{schedule_id}`
+
+👉 Update cron/target/retry/policies (optimistic concurrency).
+
+```json
+{
+  "version": 1,
+  "enabled": false
+}
+```
+
+---
+
+### `DELETE /v1/schedules/{schedule_id}`
+
+👉 Delete schedule (optionally soft delete).
+
+---
+
+# 2️⃣ Runs (execution)
+
+### `POST /v1/schedules/{schedule_id}:runNow`
+
+👉 Trigger an immediate run (still uses same target & policies).
+
+Response:
+
+```json
+{ "run_id": "run_987", "status": "queued" }
+```
+
+---
+
+### `GET /v1/runs/{run_id}`
+
+👉 Run status + attempts + last error.
+
+```json
+{
+  "run_id": "run_987",
+  "schedule_id": "sch_123",
+  "due_at_ms": 1735200000000,
+  "started_at_ms": 1735200000500,
+  "finished_at_ms": 1735200001200,
+  "status": "succeeded",
+  "attempt": 1
+}
+```
+
+---
+
+### `GET /v1/schedules/{schedule_id}/runs?limit=50&cursor=...`
+
+👉 Run history for a schedule.
+
+---
+
+# 3️⃣ DLQ & redrive (optional but common)
+
+### `GET /v1/dlq?project_id=p_1&limit=50&cursor=...`
+
+👉 List failed runs that exhausted retries.
+
+### `POST /v1/dlq/{run_id}:redrive`
+
+👉 Retry again from DLQ.

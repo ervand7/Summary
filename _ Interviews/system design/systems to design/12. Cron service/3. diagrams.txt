@@ -1,0 +1,117 @@
+# 🌍 Full picture: Cron Scheduler Service (reliable, multi-tenant)
+
+                           CONTROL PLANE (slow path)
+          (create/update schedules, validations, authz, secrets)
+
+Clients:
+- Web UI / CLI / Admin tool
+        |
+        | HTTPS
+        v
++-------------------------------------------------------------------+
+| API Gateway / LB                                                  |
+| - authn (JWT/OAuth)                                               |
+| - authz (RBAC by project_id)                                      |
+| - rate limit (schedule writes)                                    |
++------------------------------+------------------------------------+
+                               |
+                               v
++-------------------------------------------------------------------+
+| Cron Control Service (stateless)                                  |
+| - validate cron syntax + timezone                                 |
+| - store schedule definitions                                      |
+| - compute next_run (or delegate to planner)                       |
+| - manage secrets references (never store raw secrets)             |
++------------------------------+------------------------------------+
+                               |
+                               v
++-------------------------------------------------------------------+
+| Schedule Store (SQL)                                              |
+| tables: schedules, schedule_versions                              |
+| - strong consistency for enable/disable/update                    |
+| - optimistic concurrency via version                              |
++-------------------------------------------------------------------+
+
+
+                           DATA PLANE (hot path)
+        (due detection, dispatch, retries; must be resilient)
+
+                 (A) "Due runs" planning / time wheel
++-------------------------------------------------------------------+
+| Planner / Ticker Fleet (N instances)                              |
+| - continuously finds schedules due in [now, now+window]           |
+| - uses leasing to avoid double-picking                            |
+| - emits Run events                                                |
++------------------------------+------------------------------------+
+                               |
+                               | produce
+                               v
++-------------------------------------------------------------------+
+| Event Bus (Kafka/PubSub)                                          |
+| topics:                                                           |
+|  - run.due                                                        |
+|  - run.retry                                                      |
+|  - run.dlq                                                        |
++------------------+--------------------+---------------------------+
+                   |                    |
+                   | consume            | consume (delayed retry)
+                   v                    v
++------------------------------+   +--------------------------------+
+| Dispatcher / Workers         |   | Retry Scheduler (optional)     |
+| - pull run.due               |   | - schedules run.retry by ETA   |
+| - enforce per-schedule       |   | - publishes back to run.due    |
+|   concurrency policy         |   +--------------------------------+
+| - create attempt + execute   |
++---------------+--------------+
+                |
+                | (B) Execution (targets)
+                v
++-------------------------------------------------------------------+
+| Target Executors                                                  |
+| - HTTP executor (timeouts, TLS, headers, payload)                 |
+| - gRPC executor                                                   |
+| - Queue publish executor                                          |
+| - (optional) Container/Task runner integration                    |
+|                                                                   |
+| IMPORTANT: at-least-once delivery is typical,                     |
+| so targets should be idempotent                                   |
++-------------------------------------------------------------------+
+                |
+                | write results
+                v
++-------------------------------------------------------------------+
+| Run Store (SQL / KV)                                              |
+| tables: runs, attempts                                            |
+| - status: queued/running/succeeded/failed/dlq                     |
+| - attempt_count, last_error, timings                              |
++-------------------------------------------------------------------+
+
+
+                 (C) Concurrency & de-dup safety (core correctness)
+
++-------------------------------------------------------------------+
+| Lease / Lock Mechanism (Redis/etcd/DB row locks)                  |
+| - "schedule_id + due_time" -> lease owner                         |
+| - prevents double-dispatch across planner instances               |
+| - dispatcher uses idempotency key: (schedule_id, due_at)          |
++-------------------------------------------------------------------+
+
+
+                 (D) DLQ + redrive (ops)
+
++-------------------------------------------------------------------+
+| Dead Letter Queue                                                 |
+| - run events that exhausted retries                               |
+| - operator can inspect + redrive                                  |
++-------------------------------------------------------------------+
+
+
+                 OBSERVABILITY
+
++-------------------------------------------------------------------+
+| Metrics / Logs / Tracing                                          |
+| - due_time vs start_time (jitter) p50/p95/p99                     |
+| - success rate, retries, DLQ rate                                 |
+| - per-tenant quotas, executor error codes                         |
+| - dispatcher lag (consumer lag), planner lag                      |
++-------------------------------------------------------------------+

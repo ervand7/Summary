@@ -1,0 +1,173 @@
+# 0️⃣ Auth (assumed)
+- OAuth/JWT for merchant/admin APIs
+- mTLS/service auth for internal calls
+- Idempotency-Key header for POSTs that move money
+
+Common headers:
+- Idempotency-Key: <uuid>
+- X-Request-Id: <trace id>
+
+
+### 1️⃣ Create a Payment Intent (the “anchor”)
+
+**POST /v1/payment_intents**
+
+What it does:
+👉 Creates a payment attempt for an order; returns next action.
+
+Request:
+
+```json
+{
+  "merchant_id": "m_1",
+  "amount": 2599,
+  "currency": "EUR",
+  "order_id": "ord_777",
+  "capture_method": "automatic",
+  "payment_method": {
+    "type": "card_token",
+    "token": "tok_abc"
+  },
+  "confirm": true,
+  "return_url": "https://merchant.site/return"
+}
+```
+
+Response:
+
+```json
+{
+  "payment_intent_id": "pi_123",
+  "status": "requires_action",
+  "next_action": {
+    "type": "redirect",
+    "url": "https://3ds.challenge/..."
+  }
+}
+```
+
+Statuses (typical):
+
+* `requires_payment_method`, `requires_confirmation`, `requires_action`,
+`processing`, `succeeded`, `canceled`, `failed`
+
+---
+
+### 2️⃣ Confirm / continue (after client action)
+
+**POST /v1/payment_intents/{pi_id}/confirm**
+
+Request:
+
+```json
+{ "payment_method": { "type": "card_token", "token": "tok_abc" } }
+```
+
+Response:
+
+```json
+{ "payment_intent_id": "pi_123", "status": "processing" }
+```
+
+---
+
+### 3️⃣ Get status (polling-safe)
+
+**GET /v1/payment_intents/{pi_id}**
+
+Response:
+
+```json
+{
+  "payment_intent_id": "pi_123",
+  "status": "succeeded",
+  "amount": 2599,
+  "currency": "EUR",
+  "latest_charge_id": "ch_9"
+}
+```
+
+---
+
+### 4️⃣ Capture (if auth-only)
+
+**POST /v1/payment_intents/{pi_id}/capture**
+
+Request:
+
+```json
+{ "amount_to_capture": 2599 }
+```
+
+Response:
+
+```json
+{ "payment_intent_id": "pi_123", "status": "succeeded" }
+```
+
+---
+
+### 5️⃣ Cancel / void (before capture)
+
+**POST /v1/payment_intents/{pi_id}/cancel**
+
+Response:
+
+```json
+{ "payment_intent_id": "pi_123", "status": "canceled" }
+```
+
+---
+
+### 6️⃣ Refunds
+
+**POST /v1/refunds**
+
+Request:
+
+```json
+{
+  "charge_id": "ch_9",
+  "amount": 1000,
+  "reason": "requested_by_customer"
+}
+```
+
+Response:
+
+```json
+{ "refund_id": "rf_1", "status": "processing" }
+```
+
+**GET /v1/refunds/{refund_id}**
+
+---
+
+### 7️⃣ Webhooks to merchant
+
+**POST [https://merchant.site/webhooks/payments](https://merchant.site/webhooks/payments)** (merchant endpoint)
+
+Events we send:
+
+```json
+{
+  "event_id": "evt_1",
+  "type": "payment_intent.succeeded",
+  "created_ms": 1735200000000,
+  "data": { "payment_intent_id": "pi_123", "order_id": "ord_777" }
+}
+```
+
+Rules:
+
+* Signed payload (HMAC)
+* Retries with backoff
+* Merchant must be idempotent by `event_id`
+
+---
+
+### 8️⃣ Admin / Ops (optional but nice in interview)
+
+* **GET /v1/admin/payments/search?order_id=...**
+* **POST /v1/admin/refunds/{id}:approve** (if approvals needed)
+* **GET /v1/admin/psp_health**

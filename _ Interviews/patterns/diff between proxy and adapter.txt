@@ -1,91 +1,12 @@
-Паттерны проектирования Proxy и Adapter решают разные задачи и применяются в
-различных контекстах. Вот основные отличия между ними:
+Proxy and Adapter solve different design problems.
 
-### Proxy (Прокси)
-**Назначение**: Паттерн Proxy используется для создания заместителя или суррогата
-другого объекта для контроля доступа к нему.
+Proxy provides a substitute for an object to control access or add behavior (e.g.,
+access checks, lazy initialization, caching, logging) while keeping the same
+interface as the real object.
 
-**Основные задачи**:
-1. **Контроль доступа**: Предоставление контрольного доступа к объекту, например,
-путем проверки прав пользователя.
-2. **Ленивая инициализация**: Создание объекта только тогда, когда он действительно нужен.
-3. **Локализация**: Работа с удаленными объектами, как если бы они находились локально
-(удаленный прокси).
-4. **Кэширование**: Хранение результатов выполненных операций для оптимизации
-производительности.
+Adapter converts the interface of one class into another interface expected by
+the client, allowing incompatible classes to work together without modifying their code.
 
-**Пример**:
-```python
-class RealSubject:
-    def request(self):
-        print("RealSubject: Handling request.")
-
-class Proxy:
-    def __init__(self, real_subject):
-        self._real_subject = real_subject
-
-    def request(self):
-        if self.check_access():
-            self._real_subject.request()
-            self.log_access()
-
-    def check_access(self):
-        print("Proxy: Checking access prior to firing a real request.")
-        return True
-
-    def log_access(self):
-        print("Proxy: Logging the time of request.")
-
-real_subject = RealSubject()
-proxy = Proxy(real_subject)
-proxy.request()
-```
-
-### Adapter (Адаптер)
-**Назначение**: Паттерн Adapter используется для преобразования интерфейса одного класса в интерфейс, ожидаемый клиентом.
-
-**Основные задачи**:
-1. **Совместимость**: Преобразование интерфейса класса в другой интерфейс, чтобы классы могли работать вместе.
-2. **Упрощение интеграции**: Позволяет использовать существующие классы, не изменяя их кода, даже если их интерфейсы несовместимы.
-
-**Пример**:
-```python
-class Adaptee:
-    def specific_request(self):
-        return "Adaptee: Specific request."
-
-class Target:
-    def request(self):
-        return "Target: General request."
-
-class Adapter(Target):
-    def __init__(self, adaptee):
-        self._adaptee = adaptee
-
-    def request(self):
-        return self._adaptee.specific_request()
-
-adaptee = Adaptee()
-adapter = Adapter(adaptee)
-print(adapter.request())
-```
-
-### Сравнение:
-
-- **Цель**:
-  - **Proxy**: Контроль доступа, оптимизация производительности, локализация и кэширование.
-  - **Adapter**: Преобразование интерфейса для обеспечения совместимости.
-
-- **Основное применение**:
-  - **Proxy**: Замена объекта для контроля доступа или оптимизации.
-  - **Adapter**: Преобразование одного интерфейса в другой для совместимости.
-
-- **Реализация**:
-  - **Proxy**: Обычно содержит ссылку на реальный объект и добавляет дополнительную
-  логику до и/или после передачи вызовов к реальному объекту.
-  - **Adapter**: Обычно содержит ссылку на адаптируемый объект и преобразует вызовы
-  от клиента к адаптируемому объекту.
-
-Таким образом, Proxy и Adapter решают разные проблемы и используются в разных контекстах.
-Proxy контролирует доступ и производительность, в то время как Adapter обеспечивает
-совместимость между различными интерфейсами.
+In short:
+Proxy = same interface, extra control or optimization
+Adapter = different interface, compatibility bridge

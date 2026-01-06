@@ -1,0 +1,63 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this a managed cron platform (like Cloud Scheduler) or an internal service for
+our microservices?
+2. Do we schedule HTTP/gRPC calls, queue jobs, container runs, or run code inside the
+scheduler?
+3. Is it only time-based (cron) or also one-off / delayed / recurring with fixed interval?
+4. Do we need timezone support per job (e.g., “9am Europe/Belgrade”)?
+5. Do we need calendar rules (holidays, business days), or plain cron syntax only?
+
+## B. Core features (must-haves)
+
+6. CRUD: create/update/pause/resume/delete schedules?
+7. Can a schedule have multiple targets or only one?
+8. Do we support payloads, headers, secrets, retries policy per job?
+9. Do we need job runs history, logs, and run output storage?
+10. Manual run: “run now” endpoint?
+
+## C. Semantics (the hardest part)
+
+11. Exactly-once required, or is at-least-once acceptable?
+12. If a run is delayed (scheduler downtime), do we catch up missed runs or skip them?
+13. If a run overlaps with the next tick, what is policy:
+
+* allow concurrent runs
+* forbid overlap (skip)
+* queue (serialize)
+
+14. What are the idempotency expectations of targets (do they handle duplicates)?
+15. How do we define “success” (2xx only? any response? custom)?
+
+## D. Retries, backoff, and DLQ
+
+16. Retry policy: max attempts, exponential backoff, jitter?
+17. What failures are retryable (timeouts/5xx) vs not (4xx)?
+18. Do we need dead-letter queue + re-drive?
+19. Per-job timeouts and circuit breaking (don’t spam a broken downstream)?
+
+## E. Scale & performance targets
+
+20. How many schedules total? (10k / 1M / 100M?)
+21. Peak “fires per second” (e.g., at minute boundaries)? Burst handling requirement?
+22. Latency requirement: how close to the scheduled time (p50/p99 “jitter”)?
+23. Multi-tenant? quotas per team/org/user?
+
+## F. Data model & consistency
+
+24. Strong consistency needed for create/update/pause? Or eventual OK?
+25. Are schedule edits effective immediately or “from next tick”?
+26. Do we need versioning / optimistic concurrency control on updates?
+
+## G. Security & compliance
+
+27. Authn/authz: who can manage schedules? RBAC per namespace/project?
+28. Where do secrets live (KMS/Vault)? Are payloads encrypted at rest?
+29. Audit logs required (who changed what and when)?
+30. Network controls: allowlist targets, SSRF protection, egress policies?
+
+## H. Observability & ops
+
+31. Required metrics: due time vs actual, success rate, retries, DLQ depth?
+32. Do we need per-run trace propagation (traceparent)?
+33. Admin tools: disable a noisy tenant, global pause, backfill controls?

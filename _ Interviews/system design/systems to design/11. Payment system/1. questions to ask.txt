@@ -1,0 +1,70 @@
+### A. Scope (what exactly are we building?)
+
+1. Is this card payments only, or also bank transfers (ACH/SEPA/SWIFT), wallets, cash, BNPL?
+2. Is it merchant checkout (Stripe-like), P2P transfers (Venmo-like), or both?
+3. Are we acting as a Payment Service Provider (PSP) (integrate to acquirers), or a
+merchant’s internal payments layer?
+4. Do we need multi-PSP routing (Adyen + Stripe + local acquirer) or single provider?
+5. Do we support one-time only or also subscriptions / recurring?
+
+### B. Money flow & payment methods
+
+6. Supported methods: cards (Visa/MC), Apple Pay/Google Pay, A2A (open banking),
+PayPal, local methods?
+7. Currency support: single currency vs multi-currency? Do we do FX?
+8. Countries/regions in scope? Any sanctions / restricted geos constraints?
+9. Do we store customer payment credentials (vault) or rely on a PSP vault?
+
+### C. Core checkout features (must-haves)
+
+10. Basic flow: authorize → capture later, or sale (auth+capture) immediately?
+11. Do we need partial capture / multiple captures?
+12. Do we need void (cancel auth) and refunds (full/partial)?
+13. Do we need idempotency on all money-moving endpoints?
+14. Do we need webhooks to merchants (payment_succeeded, chargeback, refund, etc.)?
+15. Do we need payment links / invoices?
+
+### D. Correctness & accounting (hard part)
+
+16. What are the source of truth entities: PaymentIntent/Charge/Authorization/Capture/Refund/Ledger
+entries?
+17. Do we need an internal double-entry ledger (balances, settlements, fees)?
+18. Is exactly-once required for posting to ledger, or is at-least-once acceptable with
+dedupe?
+19. What is the rule for state transitions (allowed/forbidden moves)?
+20. Do we need reconciliation with processor/acquirer statements? How often (daily/hourly)?
+
+### E. Reliability, latency, scale
+
+21. Expected peak checkout RPS, average, and seasonality (Black Friday spikes)?
+22. Latency target for “Pay” button response (p95/p99)?
+23. Availability target (99.9/99.99)? Multi-region active-active required?
+24. Failure mode: if PSP is down, do we fail over to another PSP?
+
+### F. Risk, fraud, and disputes
+
+25. Do we need fraud scoring (3DS decisioning, velocity checks, device fingerprint, rules
+engine)?
+26. 3D Secure: required always, or risk-based (SCA/PSD2)?
+27. Do we support chargebacks / disputes flows? Evidence submission?
+
+### G. Security & compliance
+
+28. Are we in PCI scope? Do we need PCI DSS compliance design assumptions?
+29. Tokenization: do we store PAN anywhere, or only PSP tokens?
+30. Secrets management (HSM/KMS), encryption at rest/in transit requirements?
+31. Audit logs requirements (who changed routing rules, refunds, etc.)?
+
+### H. Merchant / platform requirements
+
+32. Multi-merchant platform (marketplace) or single merchant?
+33. Do we need split payments, payouts to sellers, platform fees?
+34. Settlement schedule: when do merchants receive money? T+0/T+2?
+35. Do we need reports (exports, dashboards) for finance/support?
+
+### I. Ops & observability
+
+36. Key metrics: auth rate, capture rate, decline reasons, PSP latency, retry rate, webhook
+success, ledger lag?
+37. Alerting: “drop in approval rate”, “PSP timeout spike”, “reconciliation mismatch”?
+38. Support tooling: search by order_id, payment_id, trace_id; manual refund limits/approvals?

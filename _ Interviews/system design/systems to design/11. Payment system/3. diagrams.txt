@@ -1,0 +1,143 @@
+# 🌍 Full picture: Payment System (merchant checkout) — readable, interview-grade
+
+                         CONTROL PLANE (slow path)
+         (configuration, routing, risk rules, limits, compliance, admin)
+
++-----------------------------------------------------------------------+
+| Admin Console                                                         |
+| - PSP routing rules (country/currency/amount/bin)                     |
+| - feature flags (3DS required?), retry policies                       |
+| - refund approval limits, user roles                                  |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Config / Policy Store (DB)                                            |
+| - routing tables, risk thresholds, merchant configs                   |
++-----------------------------------------------------------------------+
+
+
+
+                         DATA PLANE (hot path)
+             (checkout latency sensitive; must be fast + safe)
+
+Client (Web/Mobile)             Merchant Backend
+- collects card details         - creates order_id
+- may handle 3DS redirect       - calls payments API
+        |                                 |
+        | HTTPS                           | HTTPS
+        v                                 v
++-----------------------------------------------------------------------+
+| Edge / API Gateway / WAF                                              |
+| - authn (JWT), rate limits, bot protection                            |
+| - request validation, idempotency-key presence checks                 |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Payments API (stateless)                                              |
+| - POST /payment_intents                                               |
+| - /confirm, /capture, /cancel, /refunds                               |
+| - orchestrates state machine                                          |
++--------------------+----------------------+---------------------------+
+                     |                      |
+                     |                      |
+                     v                      v
++------------------------------+   +------------------------------------+
+| Payment State Store          |   | Idempotency Store                  |
+| (SQL strongly consistent)    |   | (Redis/SQL)                        |
+| - payment_intents, charges   |   | key -> response / status           |
+| - state transitions          |   | prevents double charge             |
++---------------+--------------+   +------------------+-----------------+
+                |                                  |
+                v                                  v
++------------------------------+          +------------------------------+
+| Outbox Table (SQL)           |          | Distributed Lock (optional)  |
+| - “events to publish”        |          | for tricky operations        |
+| - ensures atomicity          |          +------------------------------+
++---------------+--------------+
+                |
+                | (CDC / poller)
+                v
++-----------------------------------------------------------------------+
+| Event Bus (Kafka/PubSub)                                              |
+| - payment.created, auth.requested, auth.succeeded, failed, ...        |
+| - refund.requested, webhook.send, ledger.post, reconcile, ...         |
++-------------------+------------------------+--------------------------+
+                    |                        |
+                    v                        v
+         +----------------------+   +-------------------------------+
+         | PSP Connector Worker |   | Risk / Fraud Service          |
+         | - talks to PSPs      |   | - rules + scoring             |
+         | - retries safely     |   | - 3DS decisioning             |
+         +----------+-----------+   +---------------+---------------+
+                    |                               |
+                    |                               |
+                    v                               v
++-----------------------------------------------------------------------+
+| External PSP / Acquirer(s)                                            |
+| - authorize / capture / void / refund                                 |
+| - may require 3DS (redirect/challenge)                                |
++------------------------------+----------------------------------------+
+                               |
+                               | async result / callbacks (varies)
+                               v
++-----------------------------------------------------------------------+
+| PSP Webhook Ingress (optional)                                        |
+| - verifies PSP signatures                                             |
+| - maps PSP events -> internal events                                  |
++------------------------------+----------------------------------------+
+                               |
+                               v
+                       (back into Event Bus)
+
+
+                    LEDGER / ACCOUNTING (correctness core)
+
++-----------------------------------------------------------------------+
+| Ledger Service (double-entry)                                         |
+| - posts immutable entries:                                            |
+|   * customer_cash -> merchant_receivable                              |
+|   * fees -> platform_revenue                                          |
+| - idempotent by payment_id + entry_type                               |
++------------------------------+----------------------------------------+
+                               |
+                               v
++-----------------------------------------------------------------------+
+| Ledger DB                                                             |
+| - immutable journal + balance views                                   |
++-----------------------------------------------------------------------+
+
+
+                    MERCHANT NOTIFICATIONS (webhooks)
+
++-----------------------------------------------------------------------+
+| Webhook Dispatcher                                                    |
+| - takes events from Event Bus                                         |
+| - signs payload (HMAC)                                                |
+| - retries with backoff + DLQ                                          |
++------------------------------+----------------------------------------+
+                               |
+                               v
+Merchant webhook endpoint  <--- (ack 2xx, idempotent by event_id)
+
+
+                    RECONCILIATION (batch/async)
+
++-----------------------------------------------------------------------+
+| Reconciliation Job                                                    |
+| - downloads PSP settlement reports                                    |
+| - matches internal ledger vs PSP statements                           |
+| - flags mismatches for finance ops                                    |
++-----------------------------------------------------------------------+
+
+
+                    OBSERVABILITY & SAFETY
+
++-----------------------------------------------------------------------+
+| Metrics / Logs / Tracing                                              |
+| - approval rate, decline reasons, PSP latency/timeouts                |
+| - idempotency hits, double-spend prevented count                      |
+| - event lag, outbox backlog, webhook success rate                     |
+| - ledger posting latency, reconciliation mismatches                   |
++-----------------------------------------------------------------------+

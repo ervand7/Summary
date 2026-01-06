@@ -1,28 +1,44 @@
 from abc import ABC, abstractmethod
 
 """
-Classes must depend on interfaces, bt not on specific classes.
-We could accept concrete SaveToFile or concrete SaveToDB in __init__.
-But in this way we restrict class Computer to accept ather Saver classes.
+High-level modules should not depend on low-level modules.
+Both should depend on abstractions.
+
+Abstractions should not depend on details.
+Details should depend on abstractions.
+
+Computer is a high-level class.
+SaveToFile / SaveToDB are low-level details.
+Computer depends only on Saver (abstraction), not on concrete classes.
 """
-
-
-class Computer:
-    def __init__(self, saver: 'Saver'):
-        self.saver = saver
 
 
 class Saver(ABC):
     @abstractmethod
-    def save(self):
-        raise NotImplementedError()
+    def save(self) -> None:
+        pass
 
 
-class SaveToFile(Saver):
-    def save(self):
-        print('I save to file')
+# Low-level modules (details)
+class FileSaver(Saver):
+    def save(self) -> None:
+        print("Saving to file")
 
 
-class SaveToDB(Saver):
-    def save(self):
-        print('I save to db')
+class DatabaseSaver(Saver):
+    def save(self) -> None:
+        print("Saving to database")
+
+
+# High-level module
+class Computer:
+    def __init__(self, saver: Saver) -> None:
+        self._saver = saver
+
+    def save(self) -> None:
+        self._saver.save()
+
+
+# Usage
+Computer(FileSaver()).save()
+Computer(DatabaseSaver()).save()

@@ -1,25 +1,47 @@
 from abc import ABC, abstractmethod
 
 """
-Classes must be open for extending but not for modification.
-We could just make only one class Saver, which implements methods save_to_file
-and save_to_db. But so we need to modify Saver every time we need to add
-a new method, fo example save_to_memory. 
-And now we can just extend abstract class Saver with inherit classes.
+Classes should be:
+- open for extension (new behavior can be added)
+- closed for modification (existing code is not changed)
+
+We do NOT put all save logic into one class with if/else.
+Instead, we define a stable abstraction (Saver) and extend it
+by adding new classes.
 """
 
 
 class Saver(ABC):
     @abstractmethod
-    def save(self):
-        raise NotImplementedError()
+    def save(self) -> None:
+        pass
 
 
-class SaveToFile(Saver):
-    def save(self):
-        print('I save to file')
+class FileSaver(Saver):
+    def save(self) -> None:
+        print("Saving to file")
 
 
-class SaveToDB(Saver):
-    def save(self):
-        print('I save to db')
+class DatabaseSaver(Saver):
+    def save(self) -> None:
+        print("Saving to database")
+
+
+# Client code depends only on the abstraction
+def persist(saver: Saver) -> None:
+    saver.save()
+
+
+# Usage
+persist(FileSaver())
+persist(DatabaseSaver())
+
+
+# To add a new saving method (e.g. memory),
+# we create a new class instead of modifying existing ones.
+class MemorySaver(Saver):
+    def save(self) -> None:
+        print("Saving to memory")
+
+
+persist(MemorySaver())

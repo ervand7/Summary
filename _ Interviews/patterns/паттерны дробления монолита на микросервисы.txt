@@ -1,0 +1,9 @@
+### Microservice Decomposition Patterns (Short)
+
+1. Functional — split by business capabilities (Users, Orders, Products).
+2. Data-based — split by data ownership; each service owns its data.
+3. Action-based — split by operations or workflows (Create Order, Payment).
+4. Event-driven — services communicate via events, reducing coupling.
+5. Layer-based — split by architectural layers (API, logic, data).
+6. Strangler Fig — gradually migrate from monolith to microservices.
+7. Anti-Corruption Layer — isolate legacy systems with adapters.

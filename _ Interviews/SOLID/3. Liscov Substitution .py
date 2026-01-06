@@ -1,19 +1,27 @@
 """
-Behavior of the same method of class and his child must be the same.
-So we can get expected result independent of calling method get_some
-whether from Father or from Son.
+Objects of a superclass must be replaceable with objects of its subclass
+without breaking the correctness of the program.
 
-However, this is point of contention, as this contradicts ability of overriding.
+This does NOT mean methods cannot be overridden.
+It means overriding must preserve the expected behavior (the contract).
 """
 
 
 class Father:
-    def get_some(self):
+    def get_value(self) -> int:
         return 1
 
 
 class Son(Father):
-    pass
+    # Overriding is allowed as long as the contract is preserved
+    def get_value(self) -> int:
+        return 1
 
 
-assert Father().get_some() == Son().get_some()
+def use(obj: Father) -> int:
+    return obj.get_value()
+
+
+# Substitution works
+assert use(Father()) == 1
+assert use(Son()) == 1

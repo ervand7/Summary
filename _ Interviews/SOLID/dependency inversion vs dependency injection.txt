@@ -1,0 +1,9 @@
+ Dependency Inversion (DIP) → a design principle
+  👉 High-level code depends on abstractions, not concrete implementations.
+
+ Dependency Injection (DI) → a technique
+  👉 A way to provide those dependencies from the outside (constructor, setter, container).
+
+In one line:
+
+> DIP is the rule. DI is one way to follow the rule.

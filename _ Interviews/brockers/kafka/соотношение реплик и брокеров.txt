@@ -30,9 +30,7 @@ Broker 3 → partition-0 (follower)
 
 ## Важные правила
 * ❌ На одном broker’е не может быть две replica одной partition
-* ✅ Один broker может хранить:
-  * replica разных partition
-  * replica разных топиков
+* ✅ Один broker может хранить replica разных partition
 * ❌ Broker ≠ replica
 * ✅ Replica — это данные
 * ✅ Broker — это сервер, который хранит данные

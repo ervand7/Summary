@@ -1,10 +1,10 @@
-### ✅ **C4 Model** (Context, Containers, Components, Code)
+### ✅ C4 Model (Context, Containers, Components, Code)
 
-It’s a **software architecture diagramming** method, with **4 zoom levels**:
-1. **Context** – big picture (users, systems)
-2. **Container** – apps/services within your system
-3. **Component** – internal parts of each container
-4. **Code** – class/module-level details (optional)
+It’s a software architecture diagramming method, with 4 zoom levels:
+1. Context – big picture (users, systems)
+2. Container – apps/services within your system
+3. Component – internal parts of each container
+4. Code – class/module-level details (optional)
 
 
 ### 🧠 Goal:

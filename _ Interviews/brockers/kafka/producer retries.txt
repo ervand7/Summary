@@ -5,11 +5,6 @@ A Kafka producer can automatically retry sending a record if the send fails.
 * If the send fails (temporary error, network issue, leader change):
   * the producer retries sending the same record
 
-### Key producer settings
-* `retries` — how many times to retry (`0`, `3`, `Integer.MAX_VALUE`, etc.)
-* `retry.backoff.ms` — delay between retries
-* `delivery.timeout.ms` — total time allowed for all retries
-
 ### Important consequence (interview-critical)
 Retries can cause duplicate messages.
 

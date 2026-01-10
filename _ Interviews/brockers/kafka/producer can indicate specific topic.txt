@@ -1,6 +1,6 @@
 👉 A producer can explicitly choose the partition, not only the topic or key.
 
-How it works (concise):
+How it works:
 
 * Producer can send a record with:
   * topic only → Kafka uses the partitioner

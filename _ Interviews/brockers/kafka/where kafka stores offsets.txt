@@ -1,0 +1,2 @@
+> Kafka stores consumer offsets in its internal, replicated topic __consumer_offsets,
+which makes offsets durable and fault-tolerant even if consumers crash.

@@ -1,5 +1,5 @@
 Kafka replicates each partition across multiple brokers.
-One broker is the leader, others are followers.
+One replica is the leader, others are followers.
 ISR (In-Sync Replicas) is the set of replicas that are fully caught up with the leader.
 
 

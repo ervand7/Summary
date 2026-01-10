@@ -1,0 +1,17 @@
+👉 You manually set the number of Kafka brokers.
+Replication factor does NOT create brokers automatically.
+
+Clear separation:
+
+* Brokers → number of servers you deploy (manual: VMs, pods, containers)
+* Replication factor → how many brokers each partition is copied to
+
+Rule of thumb:
+
+* `replication.factor = N` requires at least N brokers
+* Kafka will fail topic creation if brokers < replication factor
+
+One-line interview answer:
+
+> Kafka brokers are provisioned manually; replication factor only controls how many
+existing brokers store replicas.

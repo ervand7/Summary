@@ -1,0 +1,13 @@
+You can set it on your own. Durable will not lose the data on restarts.
+
+* Durable queue
+
+```python
+queue_declare(queue="q", durable=True)
+```
+
+* Non-durable queue
+
+```python
+queue_declare(queue="q", durable=False)
+```

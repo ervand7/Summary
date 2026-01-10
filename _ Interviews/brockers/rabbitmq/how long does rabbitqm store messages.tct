@@ -1,0 +1,16 @@
+RabbitMQ stores messages until they are consumed or expire.
+There is no time-based retention by default.
+
+Details (still short):
+
+* Message is removed when acknowledged by a consumer
+* You *can* configure expiration:
+
+  * TTL on a queue → all messages expire after N ms
+  * TTL per message → message expires after N ms
+* Expired messages are dropped or dead-lettered
+
+One-line interview answer:
+
+> RabbitMQ keeps messages until they’re consumed, unless TTL or max-length policies
+delete them earlier.

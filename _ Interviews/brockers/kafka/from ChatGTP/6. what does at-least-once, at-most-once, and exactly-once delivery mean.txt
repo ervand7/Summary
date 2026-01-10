@@ -1,0 +1,14 @@
+* At-most-once
+  👉 Message is delivered 0 or 1 time (may be lost, never duplicated)
+
+* At-least-once
+  👉 Message is delivered 1 or more times (never lost, may be duplicated)
+
+* Exactly-once
+  👉 Message is delivered exactly 1 time (no loss, no duplicates)
+
+One-liners for interviews:
+
+* *At-most-once*: “Fast, but you can lose messages.”
+* *At-least-once*: “Reliable, but you must handle duplicates.”
+* *Exactly-once*: “Reliable and no duplicates, but more complex and costly.”

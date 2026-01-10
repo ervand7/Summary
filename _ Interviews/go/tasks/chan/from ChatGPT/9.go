@@ -10,6 +10,7 @@ func main() {
 
 	wg.Add(1)
 	go func() {
+		fmt.Println("outer")
 		wg.Add(1)
 		go func() {
 			fmt.Println("inner")

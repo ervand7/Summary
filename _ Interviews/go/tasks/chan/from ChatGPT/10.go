@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// это не for-range, дедлока не будет
-
 func main() {
 	ch := make(chan int)
 

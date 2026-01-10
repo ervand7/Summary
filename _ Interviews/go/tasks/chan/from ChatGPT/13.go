@@ -56,7 +56,7 @@ func merge(ctx context.Context, chans ...<-chan string) <-chan string {
 					return
 				case val, ok := <-ch:
 					if !ok {
-						return // channel is closed
+						return
 					}
 					select {
 					case <-ctx.Done():

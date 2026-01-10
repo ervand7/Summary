@@ -10,11 +10,11 @@ import (
 
 func main() {
 	var (
-		wg           sync.WaitGroup
 		workersCount = 10
 		jobsCount    = 100
-		semaphore    = make(chan struct{}, workersCount)
+		wg           sync.WaitGroup
 		jobs         = make(chan int)
+		semaphore    = make(chan struct{}, workersCount)
 	)
 
 	// single reader
@@ -31,10 +31,12 @@ func main() {
 			defer wg.Done()
 			defer func() { <-semaphore }()
 			jobs <- item * item
-			time.Sleep(time.Second)
+			time.Sleep(time.Second) // simulate hard work
 		}(i)
 	}
 
-	wg.Wait()
-	close(jobs)
+	go func() {
+		wg.Wait()
+		close(jobs)
+	}()
 }

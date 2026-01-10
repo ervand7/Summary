@@ -1,0 +1,1 @@
+> DELETE removes rows, TRUNCATE clears a table, DROP deletes the table itself.

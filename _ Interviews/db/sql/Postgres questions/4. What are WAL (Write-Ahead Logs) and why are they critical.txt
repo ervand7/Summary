@@ -1,0 +1,12 @@
+WAL (Write-Ahead Logging) is a mechanism where PostgreSQL writes changes to
+a log first, before applying them to data files.
+
+Why it’s critical:
+
+* Crash recovery – DB can replay WAL after a crash
+* Durability (ACID) – committed data is not lost
+* Replication – replicas stream WAL from primary
+* Point-in-time recovery (PITR)
+
+One-liner (interview-ready):
+> WAL guarantees durability and recovery by logging changes before they hit disk.

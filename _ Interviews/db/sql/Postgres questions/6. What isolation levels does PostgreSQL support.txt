@@ -1,0 +1,15 @@
+PostgreSQL supports 3 isolation levels (even though SQL defines 4):
+
+* READ COMMITTED *(default)*
+* REPEATABLE READ
+* SERIALIZABLE
+
+Key detail interviewers love:
+* PostgreSQL does NOT implement READ UNCOMMITTED
+* `READ UNCOMMITTED` behaves the same as `READ COMMITTED`
+
+Quick meaning:
+
+* READ COMMITTED → each query sees latest committed data
+* REPEATABLE READ → same snapshot for whole transaction
+* SERIALIZABLE → full isolation using predicate locking

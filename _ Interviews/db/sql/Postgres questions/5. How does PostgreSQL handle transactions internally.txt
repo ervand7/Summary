@@ -1,0 +1,17 @@
+PostgreSQL handles transactions using MVCC + WAL.
+
+Internally:
+
+* Each transaction gets a transaction ID (XID)
+* Changes create new row versions (old ones stay visible to others)
+* WAL records changes for durability
+* On COMMIT → WAL is flushed to disk
+* On ROLLBACK → new versions are ignored
+
+Key idea:
+
+> Transactions see a consistent snapshot without blocking others.
+
+One-liner (interview-ready):
+
+> PostgreSQL uses MVCC for isolation and WAL for durability to implement transactions.

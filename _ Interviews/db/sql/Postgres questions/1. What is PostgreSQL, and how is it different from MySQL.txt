@@ -1,0 +1,11 @@
+PostgreSQL is an open-source, enterprise-grade relational database focused on
+correctness, standards compliance, and advanced features.
+
+Difference from MySQL:
+
+* PostgreSQL → richer SQL support (CTEs, window functions, JSONB, full MVCC), strong
+ consistency, complex queries
+* MySQL → simpler, faster to start with, often used for basic CRUD and read-heavy workloads
+
+One-liner:
+> PostgreSQL prioritizes features and correctness, MySQL prioritizes simplicity and speed.

@@ -1,0 +1,15 @@
+MVCC (Multi-Version Concurrency Control) means PostgreSQL keeps multiple versions
+of rows so that reads don’t block writes and writes don’t block reads.
+
+Why it’s important:
+* Readers see a consistent snapshot
+* Writers don’t lock readers
+* High concurrency without blocking
+
+In practice:
+* `UPDATE` creates a new row version
+* Old versions stay until cleaned by VACUUM
+
+One-liner (interview-ready):
+> MVCC allows PostgreSQL to handle many concurrent transactions safely without read/write
+blocking.

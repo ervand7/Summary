@@ -1,0 +1,17 @@
+* EXPLAIN
+  * Shows the planned execution strategy
+  * No query execution
+  * Estimated costs only
+
+* EXPLAIN ANALYZE
+  * Executes the query
+  * Shows actual timings, rows, and loops
+  * Reveals mismatches between estimates and reality
+
+Why ANALYZE matters:
+
+> Plans can be wrong; `ANALYZE` shows what really happened.
+
+One-liner (interview-ready):
+
+> EXPLAIN shows the plan, EXPLAIN ANALYZE runs the query and shows real performance.

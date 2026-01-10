@@ -1,0 +1,30 @@
+A covering index is an index that contains all columns needed by a query, so
+PostgreSQL doesn’t need to read the table itself.
+
+Example:
+
+```sql
+CREATE INDEX idx_orders_cover
+ON orders (user_id)
+INCLUDE (amount, status);
+```
+
+Query:
+
+```sql
+SELECT amount, status
+FROM orders
+WHERE user_id = 42;
+```
+
+👉 PostgreSQL can use an index-only scan.
+
+Why it matters:
+
+* Fewer disk reads
+* Much faster queries
+
+One-liner (interview-ready):
+
+> A covering index lets PostgreSQL answer a query using only the index, without
+touching the table.

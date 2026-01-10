@@ -1,0 +1,2 @@
+> PostgreSQL evaluates multiple plans using statistics and picks the one with
+the lowest estimated cost.

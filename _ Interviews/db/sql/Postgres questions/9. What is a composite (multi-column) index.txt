@@ -1,0 +1,27 @@
+A composite (multi-column) index is an index built on multiple columns together,
+in a specific order.
+
+Example:
+
+```sql
+CREATE INDEX idx_orders_user_created
+ON orders (user_id, created_at);
+```
+
+Key rule (very important):
+
+* The index works best when queries filter by the leftmost columns
+
+  * ✅ `WHERE user_id = ?`
+  * ✅ `WHERE user_id = ? AND created_at > ?`
+  * ❌ `WHERE created_at > ?` (can’t use index efficiently)
+
+Why it’s useful:
+
+* Fewer indexes
+* Faster multi-condition queries
+
+One-liner (interview-ready):
+
+> A composite index indexes multiple columns in order and is effective only when
+queries use the leftmost columns.

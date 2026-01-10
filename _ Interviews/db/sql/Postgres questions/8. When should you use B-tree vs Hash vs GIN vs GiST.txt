@@ -1,0 +1,23 @@
+* B-tree
+  👉 Default choice
+
+  * `=`, `<`, `>`, `BETWEEN`, `ORDER BY`
+  * Most columns (IDs, timestamps, numbers)
+
+* Hash
+  👉 Equality only
+
+  * `=`
+  * Rarely used (B-tree usually better)
+
+* GIN
+  👉 “Contains” queries
+
+  * `JSONB`, arrays, full-text search
+  * `@>`, `?`, `&&`
+
+* GiST
+  👉 Complex relationships
+
+  * geometric data, ranges, proximity
+  * overlap, distance, containment

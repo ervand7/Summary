@@ -1,0 +1,7 @@
+PostgreSQL supports these main index types:
+
+* B-tree *(default)* → equality, range queries, ordering
+* Hash → equality only (rarely used)
+* GIN → arrays, `JSONB`, full-text search
+* GiST → geometric data, ranges, custom search
+* BRIN → very large, naturally ordered tables (time-series)

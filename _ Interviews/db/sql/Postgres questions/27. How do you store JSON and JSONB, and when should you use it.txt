@@ -1,0 +1,3 @@
+> JSON stores text and is re-parsed on every read;
+> JSONB stores a binary format, supports indexing and faster queries but has slower writes.
+

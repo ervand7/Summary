@@ -1,0 +1,21 @@
+* Normalization
+
+  * Split data into multiple tables
+  * Avoid duplication
+  * Strong consistency
+  * More joins
+
+* Denormalization
+
+  * Duplicate data deliberately
+  * Fewer joins, faster reads
+  * More complex writes
+  * Risk of inconsistency
+
+Rule of thumb:
+
+> Normalize for correctness, denormalize for performance.
+
+One-liner (interview-ready):
+
+> Normalization reduces redundancy; denormalization trades consistency for faster reads.

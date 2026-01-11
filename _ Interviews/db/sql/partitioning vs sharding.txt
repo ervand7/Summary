@@ -1,0 +1,48 @@
+## Prefer PARTITIONING when
+
+👉 One Postgres instance, data is logically split.
+
+* Table is very large
+* Queries usually filter by date / region / tenant
+* You want:
+
+  * partition pruning
+  * faster deletes (`DROP PARTITION`)
+  * easier maintenance (`VACUUM`, `INDEX`)
+* Strong consistency needed
+* Joins across partitions required
+
+Example:
+`orders` partitioned by `created_at` (monthly)
+
+---
+
+## Prefer SHARDING when
+
+👉 One DB is not enough.
+
+* Data volume or traffic exceeds a single Postgres
+* Need horizontal scaling
+* Write throughput is the bottleneck
+* Can tolerate:
+
+  * cross-shard complexity
+  * app-level routing
+  * eventual consistency (sometimes)
+
+Example:
+`orders` sharded by `user_id` across multiple DBs
+
+---
+
+## One-line rule (interview gold)
+
+> Partitioning = scale *inside* one database.
+> Sharding = scale *beyond* one database.
+
+---
+
+## Common real-world path
+
+1. Start with partitioning
+2. When you hit limits → shard

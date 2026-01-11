@@ -1,0 +1,79 @@
+Perfect explanation:
+
+1) Create parent metadata table
+```sql
+CREATE TABLE orders (
+  id BIGINT,
+  country TEXT,
+  created_at DATE
+) PARTITION BY LIST (country);
+```
+
+2) Create child tables:
+```sql
+CREATE TABLE orders_uae PARTITION OF orders
+  FOR VALUES IN ('UAE');
+
+CREATE TABLE orders_ksa PARTITION OF orders
+  FOR VALUES IN ('KSA');
+```
+
+### What this means internally
+
+* `orders` = metadata + routing rules
+* `orders_uae`, `orders_ksa` = real storage
+
+---
+
+## When you INSERT
+
+```sql
+INSERT INTO orders VALUES (1, 'UAE', '2024-01-01');
+```
+
+Postgres:
+
+1. looks at `country`
+2. finds matching partition (`orders_uae`)
+3. stores the row in `orders_uae`
+
+---
+
+## When you SELECT
+
+```sql
+SELECT * FROM orders;
+```
+
+Postgres:
+
+1. expands query to:
+
+   ```sql
+   SELECT * FROM orders_uae
+   UNION ALL
+   SELECT * FROM orders_ksa;
+   ```
+2. returns rows from all partitions
+
+👉 You never query `orders_uae` directly (unless you want to).
+
+---
+
+## Partition pruning (why this is fast)
+
+```sql
+SELECT * FROM orders WHERE country = 'UAE';
+```
+
+Planner does:
+
+* sees partition key = `country`
+* scans only `orders_uae`
+* skips `orders_ksa`
+
+---
+
+## One-sentence mental model (remember this)
+
+> The parent table is a router + view; child partitions store the data.

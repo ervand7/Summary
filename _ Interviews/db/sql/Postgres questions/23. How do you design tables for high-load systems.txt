@@ -1,0 +1,17 @@
+To design tables for high-load systems, you optimize for access patterns, writes, and scale.
+
+Key principles:
+
+* Use simple, narrow tables (fewer columns = faster I/O)
+* Choose proper primary keys (often BIGINT or UUID)
+* Add indexes only for real queries
+* Avoid expensive constraints on hot paths
+* Prefer append-heavy patterns over frequent updates
+* Design for partitioning (by time or key)
+* Denormalize only when necessary
+
+
+One-liner (interview-perfect):
+
+> High-load schemas are simple, write-efficient, index-light, and designed around real
+query patterns.

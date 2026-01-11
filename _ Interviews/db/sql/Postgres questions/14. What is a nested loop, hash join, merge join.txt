@@ -1,0 +1,25 @@
+PostgreSQL has three main join algorithms:
+
+* Nested Loop Join
+
+  * For each row in outer table, scan inner table
+  * Best for small datasets or indexed lookups
+
+* Hash Join
+
+  * Builds hash table on smaller input
+  * Fast for large, unsorted datasets
+  * Requires memory
+
+* Merge Join
+
+  * Both inputs must be sorted
+  * Efficient for large, already ordered data
+
+Rule of thumb:
+
+> Nested loop for small + indexed, hash join for big unsorted, merge join for sorted data.
+
+One-liner (interview-ready):
+
+> PostgreSQL chooses nested loop, hash, or merge joins based on data size, indexes, and ordering.

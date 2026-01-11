@@ -1,0 +1,31 @@
+1. Run `EXPLAIN ANALYZE`
+   → find slow nodes (seq scan, bad join, misestimates)
+
+2. Check indexes
+
+   * missing index?
+   * wrong index order?
+   * need composite or covering index?
+
+3. Reduce data
+
+   * filter earlier
+   * avoid `SELECT *`
+
+4. Fix joins
+
+   * correct join type
+   * proper join keys
+
+5. Update statistics
+
+   * `ANALYZE`
+   * fix skewed data
+
+Key mindset interviewers want:
+
+> Measure first, optimize second.
+
+One-liner (interview-ready):
+
+> I start with EXPLAIN ANALYZE, then fix indexes, joins, and data access patterns.

@@ -1,0 +1,16 @@
+Adding an index can make a query slower because:
+
+* Planner chooses a bad index (wrong selectivity)
+* Low-selectivity index → many random reads
+* Extra index maintenance slows writes
+* Index not covering → still hits the table
+* Outdated statistics → wrong plan
+
+Key idea:
+
+> More indexes ≠ faster queries.
+
+One-liner (interview-ready):
+
+> An index can slow queries if it’s low-selectivity, misused by the planner,
+or increases I/O and maintenance overhead.

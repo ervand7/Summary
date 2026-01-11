@@ -1,0 +1,22 @@
+A deadlock happens when two or more transactions block each other forever,
+each waiting for locks held by the others.
+
+Example:
+
+* T1 locks row A → waits for row B
+* T2 locks row B → waits for row A
+
+How PostgreSQL detects it:
+
+* Builds a wait-for graph
+* Periodically checks for cycles
+* If found → aborts one transaction with a deadlock error
+
+Key point:
+
+> PostgreSQL resolves deadlocks automatically by killing one transaction.
+
+One-liner (interview-ready):
+
+> A deadlock is a circular lock wait, and PostgreSQL detects it by finding cycles
+in the wait-for graph.

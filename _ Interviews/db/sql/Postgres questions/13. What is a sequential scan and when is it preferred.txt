@@ -1,0 +1,17 @@
+A sequential scan means PostgreSQL reads the entire table from start to end.
+
+When it’s preferred:
+
+* Small tables
+* Large percentage of rows needed
+* No useful index
+* Sequential I/O is cheaper than random I/O
+
+Key idea:
+
+> Using an index is not always faster.
+
+One-liner (interview-ready):
+
+> PostgreSQL uses a sequential scan when reading most of a table is cheaper than using
+an index.

@@ -1,0 +1,24 @@
+`OFFSET / LIMIT` pagination is inefficient and unstable.
+
+Problems:
+
+* Database must scan and discard skipped rows
+* Gets slower as `OFFSET` grows
+* Results can shift or duplicate if data changes
+
+Example issue:
+
+```sql
+SELECT * FROM orders ORDER BY id LIMIT 20 OFFSET 100000;
+```
+
+→ slow and inconsistent under writes
+
+Better approach:
+
+* Keyset (cursor-based) pagination
+
+One-liner (interview-ready):
+
+> OFFSET/LIMIT pagination is slow for large offsets and produces inconsistent
+results under concurrent writes.

@@ -1,0 +1,28 @@
+Keyset (cursor-based) pagination uses the last seen value as a cursor 
+instead of `OFFSET`.
+
+Example:
+
+```sql
+SELECT *
+FROM orders
+WHERE id > :last_id
+ORDER BY id
+LIMIT 20;
+```
+
+Why it’s better:
+
+* Uses indexes efficiently
+* Constant-time performance
+* Stable under inserts/deletes
+
+Trade-off:
+
+* Can’t jump to arbitrary pages
+* Requires a stable sort key
+
+One-liner (interview-ready):
+
+> Keyset pagination uses a cursor value instead of OFFSET, making pagination fast
+and consistent.

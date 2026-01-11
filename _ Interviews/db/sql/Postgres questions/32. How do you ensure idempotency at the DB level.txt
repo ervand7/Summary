@@ -1,0 +1,26 @@
+You ensure idempotency at the DB level by making duplicate operations impossible.
+
+Common techniques:
+
+* UNIQUE constraints (idempotency keys)
+* `INSERT … ON CONFLICT DO NOTHING`
+* `INSERT … ON CONFLICT DO UPDATE`
+* Store and check request_id / operation_id
+* Use transactions to combine checks + writes
+
+Example:
+
+```sql
+INSERT INTO payments(idempotency_key, amount)
+VALUES ($1, $2)
+ON CONFLICT (idempotency_key) DO NOTHING;
+```
+
+Key idea:
+
+> The database must be the final authority for idempotency.
+
+One-liner (interview-ready):
+
+> Idempotency is enforced with unique constraints and conflict-handling inserts
+at the database level.

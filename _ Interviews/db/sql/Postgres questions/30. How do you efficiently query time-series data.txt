@@ -1,0 +1,23 @@
+To query time-series data efficiently in PostgreSQL, you optimize for 
+append-heavy writes and time-based reads.
+
+Key techniques:
+
+* Index on timestamp (often composite: `(time, id)`)
+* Partition tables by time (daily / monthly)
+* Use BRIN indexes for large, ordered tables
+* Avoid updates; prefer append-only
+* Query by time ranges, not full scans
+
+Example:
+
+```sql
+SELECT *
+FROM events
+WHERE created_at >= now() - interval '1 day';
+```
+
+One-liner (interview-ready):
+
+> Efficient time-series queries rely on time-based partitioning, proper indexes,
+and append-only patterns.

@@ -1,0 +1,36 @@
+Soft deletes mean marking a row as deleted instead of physically removing it.
+
+Common approach:
+
+```sql
+deleted_at TIMESTAMP NULL
+```
+
+* `NULL` → active
+* NOT NULL → deleted
+
+How to handle them properly:
+
+* Always filter:
+
+  ```sql
+  WHERE deleted_at IS NULL
+  ```
+* Add partial indexes:
+
+  ```sql
+  CREATE INDEX ON users(id) WHERE deleted_at IS NULL;
+  ```
+* Avoid `UNIQUE` conflicts by including `deleted_at` or using partial unique indexes
+* Optionally hard-delete old data with background jobs
+
+Why this works:
+
+* Easy recovery
+* Audit/history support
+* No immediate data loss
+
+One-liner (interview-ready):
+
+> Soft deletes use a delete flag or timestamp, require consistent filtering, and
+benefit from partial indexes.

@@ -1,0 +1,18 @@
+Foreign keys enforce referential integrity between tables.
+
+Why they hurt in high-load systems:
+
+* Add extra checks on every write
+* Increase lock contention
+* Cascades can trigger massive operations
+* Don’t scale across services or shards
+* Reduce availability when referenced tables are slow
+
+When to avoid:
+
+* write-heavy or high-concurrency systems
+* distributed / microservice architectures
+
+One-liner:
+
+> Foreign keys improve safety but often hurt performance and availability under high load.

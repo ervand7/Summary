@@ -1,0 +1,22 @@
+* SERIAL / BIGSERIAL
+
+  * Auto-increment integers
+  * Smaller, faster indexes
+  * Good for single DB, centralized writes
+  * Predictable IDs
+
+* UUID
+
+  * Globally unique
+  * Safe for distributed systems, sharding, offline writes
+  * No coordination needed
+  * Larger indexes, slower than integers
+
+Rule of thumb:
+
+> Use SERIAL/BIGSERIAL for simple, single-DB systems; UUID for distributed or
+multi-writer systems.
+
+One-liner (interview-ready):
+
+> SERIAL is faster and smaller; UUID is safer for distributed systems.

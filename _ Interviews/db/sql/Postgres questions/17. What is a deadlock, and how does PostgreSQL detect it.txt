@@ -10,7 +10,8 @@ How PostgreSQL detects it:
 
 * Builds a wait-for graph
 * Periodically checks for cycles
-* If found → aborts one transaction with a deadlock error
+* If found → aborts one transaction with a deadlock error, second transaction
+ will be ok
 
 Key point:
 

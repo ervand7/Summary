@@ -1,0 +1,64 @@
+### What happens if two transactions update the same row?
+
+Always (all isolation levels):
+
+* The first transaction acquires a row-level lock
+* The second transaction waits
+* Only one writer at a time is allowed
+
+---
+
+### What happens after the wait depends on isolation level and access pattern:
+
+#### READ COMMITTED
+
+* Second transaction:
+
+  * waits
+  * re-reads the row
+  * updates the latest committed version
+* ✅ Always succeeds
+
+---
+
+#### REPEATABLE READ
+
+* Second transaction:
+
+  * waits
+  * uses a fixed snapshot
+  * fails only if:
+
+    * it read the row before, and
+    * the row was modified and committed by another transaction
+* ❌ May fail with:
+
+  ```text
+  ERROR: could not serialize access due to concurrent update
+  ```
+* ✅ If the row was not previously read, the update can succeed
+
+---
+
+#### SERIALIZABLE
+
+* Uses predicate locking
+* Even without direct row conflicts, transactions may:
+
+  * abort with serialization failure
+* ❌ Conflicts are common
+* 🔁 Application must retry
+
+---
+
+### Key mental model (interview gold):
+
+> In REPEATABLE READ, PostgreSQL fails only when an update would violate the
+transaction’s snapshot.
+
+---
+
+### One-liner (interview-perfect):
+
+> One transaction locks the row and the other waits; whether the second succeeds or
+fails depends on the isolation level and whether its snapshot was invalidated.

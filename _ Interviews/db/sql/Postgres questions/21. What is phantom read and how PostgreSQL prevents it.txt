@@ -1,0 +1,45 @@
+A phantom read happens when a transaction re-executes the same query and 
+sees new rows that were inserted by another committed transaction.
+
+---
+
+### Example (phantom read)
+
+```sql
+-- Transaction 1
+BEGIN;
+SELECT COUNT(*) FROM orders WHERE amount > 100;  -- returns 5
+
+-- Transaction 2
+INSERT INTO orders(amount) VALUES (150);
+COMMIT;
+
+-- Back to Transaction 1
+SELECT COUNT(*) FROM orders WHERE amount > 100;  -- returns 6 (phantom)
+```
+
+---
+
+## How PostgreSQL prevents phantom reads
+
+* READ COMMITTED
+
+  * ❌ Phantoms are possible
+  * Each query sees a fresh snapshot
+
+* REPEATABLE READ
+
+  * ✅ Prevents phantom reads
+  * Uses a single snapshot for the whole transaction
+
+* SERIALIZABLE
+
+  * ✅ Prevents phantoms and more
+  * Uses predicate locking
+  * May abort transactions with serialization errors
+
+
+### One-liner (interview-perfect):
+
+> A phantom read is when new rows appear in repeated queries; PostgreSQL prevents it using
+snapshots in REPEATABLE READ and predicate locking in SERIALIZABLE.

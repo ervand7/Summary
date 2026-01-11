@@ -1,0 +1,1 @@
+VACUUM is PostgreSQL’s process for cleaning up dead row versions created by MVCC.

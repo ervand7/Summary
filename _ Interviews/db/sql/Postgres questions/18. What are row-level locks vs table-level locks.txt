@@ -1,0 +1,16 @@
+* Row-level locks
+
+  * Lock specific rows
+  * Allow high concurrency
+  * Used by `UPDATE`, `DELETE`, `SELECT … FOR UPDATE`
+
+* Table-level locks
+
+  * Lock the entire table
+  * Block concurrent operations
+  * Used by `ALTER TABLE`, `TRUNCATE`, some DDL
+
+One-liner (interview-ready):
+
+> Row-level locks protect individual rows, table-level locks protect the whole
+table and reduce concurrency.

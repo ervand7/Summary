@@ -1,0 +1,32 @@
+`SELECT … FOR UPDATE` locks the selected rows for writing.
+
+What it does:
+
+* Acquires row-level exclusive locks
+* Prevents other transactions from:
+
+  * updating those rows
+  * deleting those rows
+  * locking them with `FOR UPDATE`
+
+What it does NOT do:
+
+* Does not block normal `SELECT` queries
+
+Why it’s used:
+
+* Safe read-modify-write logic
+* Prevents race conditions
+
+Example use case:
+
+```sql
+BEGIN;
+SELECT balance FROM accounts WHERE id = 1 FOR UPDATE;
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+COMMIT;
+```
+
+One-liner (interview-ready):
+
+> `SELECT … FOR UPDATE` locks rows so only one transaction can modify them at a time.

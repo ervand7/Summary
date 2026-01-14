@@ -1,0 +1,23 @@
+In production, migrations must be safe, reversible, and automated.
+
+Best practices:
+
+* Use a migration tool (golang-migrate, Flyway, Liquibase)
+* Run migrations before or during deploy, not manually
+* Make migrations backward-compatible
+* Avoid long locks (`ALTER TABLE ADD COLUMN` first, backfill later)
+* Version and track migrations
+* Test on staging with production-like data
+
+Zero-downtime pattern:
+
+1. Add new nullable column
+2. Deploy code that writes both old + new
+3. Backfill data
+4. Switch reads
+5. Drop old column later
+
+One-liner (interview-ready):
+
+> Production migrations must be automated, backward-compatible, and designed to
+avoid long locks or downtime.

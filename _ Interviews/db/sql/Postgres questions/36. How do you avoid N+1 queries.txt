@@ -1,0 +1,23 @@
+You avoid N+1 queries by fetching related data in bulk, not per row.
+
+Common solutions:
+
+* Use JOINs instead of per-row queries
+* Fetch related rows with `IN (...)`
+* Preload / batch queries
+* Cache frequently accessed data
+
+Example (bad → good):
+
+```text
+❌ 1 query for users + N queries for orders
+✅ 1 JOIN query or 2 batched queries
+```
+
+Key idea:
+
+> Always think in sets, not rows.
+
+One-liner (interview-ready):
+
+> N+1 queries are avoided by batching and joining related data instead of querying per row.

@@ -1,0 +1,22 @@
+A connection pool is a set of reusable database connections to avoid opening
+a new connection per request.
+
+Why it matters:
+
+* Opening DB connections is expensive
+* Pools reduce latency and DB overload
+
+How to tune in Go (`database/sql`):
+
+* `SetMaxOpenConns` → max total connections
+* `SetMaxIdleConns` → idle connections kept
+* `SetConnMaxLifetime` → recycle connections
+
+Rule of thumb:
+
+> Pool size ≈ DB max connections ÷ number of app instances.
+
+One-liner (interview-ready):
+
+> A connection pool reuses DB connections; tuning balances throughput without
+exhausting the database.

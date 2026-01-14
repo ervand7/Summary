@@ -1,0 +1,37 @@
+You build dynamic SQL safely by never interpolating user input into SQL strings.
+
+Correct approaches:
+
+* Use parameterized queries (`$1`, `$2`, …)
+* Build SQL structure dynamically, but pass values as parameters
+* Use query builders when needed
+
+Example (safe):
+
+```go
+query := "SELECT * FROM users WHERE status = $1"
+rows, err := db.Query(query, status)
+```
+
+Dynamic filters (safe pattern):
+
+```go
+query := "SELECT * FROM users WHERE 1=1"
+args := []any{}
+
+if email != "" {
+    query += " AND email = $1"
+    args = append(args, email)
+}
+```
+
+Avoid ❌:
+
+```go
+query := "SELECT * FROM users WHERE email = '" + email + "'"
+```
+
+One-liner (interview-ready):
+
+> Dynamic SQL is safe when structure is dynamic but values are always passed
+as parameters, never interpolated.

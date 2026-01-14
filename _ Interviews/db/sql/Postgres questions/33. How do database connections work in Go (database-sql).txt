@@ -1,0 +1,23 @@
+In Go, `database/sql` manages a connection pool, not a single connection.
+
+How it works:
+
+* `sql.DB` is a pool manager
+* Connections are opened lazily
+* Queries borrow a connection from the pool
+* After use, the connection is returned
+
+Key points:
+
+* `sql.DB` is safe for concurrent use
+* You should create one `sql.DB` per database
+* Configure pool size with:
+
+  * `SetMaxOpenConns`
+  * `SetMaxIdleConns`
+  * `SetConnMaxLifetime`
+
+One-liner (interview-ready):
+
+> In Go, `sql.DB` is a concurrent-safe connection pool that manages DB connections
+automatically.

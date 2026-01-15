@@ -1,0 +1,17 @@
+Cold start is the initial delay when a serverless function (e.g. Lambda) runs for
+the first time or after being idle, because the platform needs to create the
+runtime and load the code before executing it.
+
+* Happen on first run or after inactivity
+* Increase latency (Python is affected by heavy imports)
+* Are worse with **VPC**, large packages, or big init code
+* Can be mitigated by:
+
+  * minimizing global imports
+  * keeping functions small
+  * using **Provisioned Concurrency** for critical paths
+* Matter mainly for **latency-sensitive** workloads, not async jobs
+
+
+Cold start optimization matters primarily for synchronous, user-facing Lambdas. For
+async or background processing, the latency impact is usually negligible.

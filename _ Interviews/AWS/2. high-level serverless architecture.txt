@@ -1,0 +1,67 @@
+## High-Level Serverless Architecture
+
+When designing a serverless architecture (e.g. AWS Lambda + events), I always
+explicitly address:
+
+### 1️⃣ Idempotency
+
+* Lambdas must be idempotent because events can be delivered more than once
+* Use:
+
+  * idempotency keys (request ID / event ID)
+  * DynamoDB conditional writes or Redis locks
+* Never assume *exactly-once* execution
+
+> *“Every handler should be safe to run multiple times.”*
+
+---
+
+### 2️⃣ Cold Starts
+
+* Cold starts impact latency-sensitive paths
+* Mitigations:
+
+  * keep Lambdas small
+  * avoid heavy imports at init time
+  * provisioned concurrency where needed
+* Not all Lambdas need optimization — only user-facing ones
+
+---
+
+### 3️⃣ Error Handling & Retries
+
+* Retries are implicit in many event sources (SQS, SNS, EventBridge)
+* Design for:
+
+  * retry-safe logic
+  * exponential backoff
+  * DLQs for poison messages
+* Never retry non-idempotent operations blindly
+
+---
+
+### 4️⃣ Event Schema Management
+
+* Events are contracts, not random JSON
+* Use:
+
+  * versioned schemas
+  * backward-compatible changes only
+  * schema validation at boundaries
+* Never break consumers with silent schema changes
+
+---
+
+### 5️⃣ Observability (brief but senior-sounding)
+
+* Structured logs + correlation IDs
+* Metrics per event type
+* Tracing across async boundaries
+
+---
+
+### 🎯 One-Sentence Senior Summary (gold)
+
+> “In serverless systems I design for at-least-once delivery: handlers are idempotent,
+retries are explicit and safe, cold starts are managed where latency matters, and
+event schemas are treated as versioned contracts.”

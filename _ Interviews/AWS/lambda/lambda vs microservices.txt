@@ -1,0 +1,3 @@
+Lambda is not a replacement for microservices. It’s a better fit for
+event-driven, bursty, or glue logic, while long-running or stateful workloads
+are better handled by traditional services.

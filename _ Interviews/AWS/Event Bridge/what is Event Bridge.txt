@@ -1,0 +1,10 @@
+✅ EventBridge ~ Kafka
+Events describe facts (“OrderCreated”)
+Multiple consumers
+Loose coupling
+Producers don’t care who listens
+✅ SQS ~ RabbitMQ
+Messages are tasks
+One consumer per message
+Retries, DLQ
+Worker crashes → retry

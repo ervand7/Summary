@@ -1,0 +1,12 @@
+AWS KMS (Key Management Service) is a managed service for creating, storing,
+and using encryption keys.
+
+Very short:
+
+> It lets AWS services encrypt/decrypt data securely without you handling keys yourself.
+
+Used for:
+
+* Encrypting Lambda env vars
+* Encrypting S3, RDS, EBS data
+* Controlling access to encryption via IAM policies

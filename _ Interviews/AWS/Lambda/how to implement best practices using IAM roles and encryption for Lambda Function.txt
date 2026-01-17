@@ -1,0 +1,6 @@
+* IAM: Use least-privilege execution roles (only exact permissions needed)
+* Encryption: Encrypt env vars & data with KMS (at rest + in transit)
+
+One-liner:
+
+> *Minimal IAM permissions + KMS everywhere.*

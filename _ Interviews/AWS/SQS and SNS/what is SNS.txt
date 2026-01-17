@@ -1,0 +1,14 @@
+AWS SNS (Simple Notification Service) is a publish–subscribe messaging service.
+
+
+* Push-based fan-out (one message → many subscribers)
+* Subscribers: Lambda, SQS, HTTP, email, SMS
+* Decouples producers from consumers
+* No message storage (not a queue)
+* Retries & DLQ supported
+* Common pattern: SNS → SQS → Lambda
+* Python: publish via `boto3.publish`
+
+One-liner:
+
+> *SNS broadcasts events; SQS processes work.*

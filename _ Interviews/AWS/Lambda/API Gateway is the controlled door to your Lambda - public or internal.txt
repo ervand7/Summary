@@ -1,0 +1,17 @@
+API Gateway controls *who* can call your Lambda and *from where*.
+
+* Outside access → API Gateway exposes a public HTTP endpoint
+  👉 browsers, mobile apps, external services can call your Lambda
+
+* Inside access → API Gateway is private (VPC / IAM-restricted)
+  👉 only internal services (other Lambdas, EC2, VPC resources) can call it
+
+Why this matters:
+
+* Central auth (IAM, JWT, API keys)
+* Rate limiting, throttling
+* You don’t expose Lambda directly
+
+One-liner:
+
+> API Gateway is the controlled door to your Lambda — public or internal.

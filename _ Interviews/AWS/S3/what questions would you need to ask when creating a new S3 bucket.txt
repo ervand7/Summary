@@ -29,6 +29,9 @@ Beyond storage class, I always ask:
 * Legal retention?
 * WORM / Object Lock required?
 
+
+### 5️⃣ Versioning
+
 ---
 
 ### Interview “gold” sentence

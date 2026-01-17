@@ -1,0 +1,3 @@
+Because Lambda pricing = time × memory.
+
+Bigger packages → slower cold starts, often more memory, longer execution → higher cost.

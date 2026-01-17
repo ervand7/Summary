@@ -1,0 +1,12 @@
+AWS Step Functions is a serverless workflow orchestrator.
+
+Very short:
+
+> It lets you coordinate multiple Lambdas/services using a state machine (steps,
+retries, branching).
+
+Used for:
+
+* Multi-step business workflows
+* Retries, timeouts, error handling
+* Replacing complex Lambda-to-Lambda logic

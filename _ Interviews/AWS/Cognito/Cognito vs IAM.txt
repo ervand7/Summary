@@ -1,0 +1,9 @@
+* Cognito → *users of your app*
+* IAM → *AWS services & developers*
+
+In practice:
+
+* Cognito: login, signup, JWTs, MFA
+* IAM: roles, policies, permissions for AWS resources
+
+👉 Cognito authenticates people. IAM authorizes AWS access.

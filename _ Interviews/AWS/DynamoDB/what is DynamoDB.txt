@@ -1,0 +1,27 @@
+DynamoDB — what you must know:
+
+* NoSQL, key-value + wide-column store (not relational, no joins)
+* Primary key design is everything
+
+  * Partition key → scalability
+  * Sort key → query patterns
+* Access patterns first, schema second (design for queries, not normalization)
+* Strong vs eventual consistency (default is eventual)
+* Indexes
+
+  * GSI (Global Secondary Index) = new access patterns
+  * LSI (Local Secondary Index) = same partition key
+* Throughput & scaling
+
+  * On-demand vs provisioned
+  * Hot partitions = your main enemy
+* Query vs Scan
+
+  * Query = fast, cheap
+  * Scan = slow, expensive (avoid in prod)
+* Transactions exist, but limited and costly
+* TTL for automatic item expiration
+* Conditional writes = optimistic locking / idempotency
+* Pricing model: pay per read/write + storage
+* Typical use cases: high-scale APIs, session storage, counters, event/state storage
+* Not good for: ad-hoc analytics, complex relations, joins

@@ -1,0 +1,12 @@
+CloudWatch = metrics, logs, alarms for AWS.
+
+What you should know:
+
+* Logs: Lambda / EC2 / ECS logs, log groups & streams
+* Metrics: built-in (CPU, errors, latency) + custom metrics
+* Alarms: trigger alerts (SNS, Slack) on thresholds
+* Dashboards: visualize system health
+* Log Insights: query logs (`filter`, `stats`, `count`)
+* Retention & cost control: logs are not free forever
+
+👉 Think: observability + alerting, not storage.

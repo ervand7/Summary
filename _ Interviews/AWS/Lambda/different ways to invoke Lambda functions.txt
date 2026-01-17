@@ -1,0 +1,62 @@
+AWS Lambda can be invoked in three main ways:
+
+### 1️⃣ Synchronous (request → response)
+
+Example:
+User opens a website → clicks “Pay”
+
+```
+Browser → API Gateway → Lambda → response
+```
+
+* User waits for the result
+* Lambda returns success / error immediately
+* If Lambda fails → caller sees the error
+
+👉 Like a normal HTTP request.
+
+---
+
+### 2️⃣ Asynchronous (fire and forget)
+
+Example:
+User uploads a photo → create thumbnails
+
+```
+S3 upload → Lambda (later)
+```
+
+* User does NOT wait
+* AWS queues the event
+* AWS retries automatically if Lambda fails
+
+👉 Like sending an email: you don’t wait for the recipient to read it.
+
+---
+
+### 3️⃣ Polling (Lambda pulls messages)
+
+Example:
+Order processing queue
+
+```
+SQS queue ← Lambda polls → processes messages
+```
+
+* Lambda pulls messages itself
+* Message stays in queue until processed
+* If Lambda crashes → message is processed again
+
+👉 Like a worker checking a task list.
+
+---
+
+### 🧠 One-line summary
+
+| Type        | Who waits? | Who retries? | Typical use      |
+| ----------- | ---------- | ------------ | ---------------- |
+| Sync    | Client     | Client       | APIs             |
+| Async   | Nobody     | AWS          | Background jobs  |
+| Polling | Nobody     | Queue        | Streams / queues |
+
+If you want, I can explain this in Go terms or compare it to Kafka / RabbitMQ next.

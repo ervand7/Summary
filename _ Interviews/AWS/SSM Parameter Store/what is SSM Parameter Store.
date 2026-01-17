@@ -1,0 +1,12 @@
+SSM Parameter Store is for configuration and lightweight secrets.
+
+What you should know:
+
+* Stores config values (strings, numbers, JSON)
+* Supports SecureString (encrypted with KMS)
+* Access controlled via IAM
+* Cheaper / often free (vs Secrets Manager)
+* No automatic rotation
+* Commonly used for app config & feature flags
+
+👉 Think: Parameter Store = config-first, Secrets Manager = secrets-first.

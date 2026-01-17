@@ -1,0 +1,33 @@
+### 1️⃣ Synchronous (request → response)
+
+Example:
+User opens a website → clicks “Pay”
+
+```
+Browser → API Gateway → Lambda → response
+```
+
+* User waits for the result
+* Lambda returns success / error immediately
+* If Lambda fails → caller sees the error
+
+👉 Like a normal HTTP request.
+
+---
+
+### 2️⃣ Asynchronous (fire and forget)
+
+Example:
+User uploads a photo → create thumbnails
+
+```
+S3 upload → Lambda (later)
+```
+
+* User does NOT wait
+* AWS queues the event
+* AWS retries automatically if Lambda fails
+
+👉 Like sending an email: you don’t wait for the recipient to read it.
+
+---

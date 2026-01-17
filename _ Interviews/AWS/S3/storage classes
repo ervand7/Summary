@@ -1,0 +1,11 @@
+### S3 Storage Classes — short summary
+
+* Standard — frequent access, low latency
+* Intelligent-Tiering — automatic cost optimization when access is unpredictable
+* Standard-IA — infrequent access, cheaper storage, retrieval cost
+* One Zone-IA — infrequent access, single AZ, cheaper but less durable
+* Glacier Instant Retrieval — archival data, fast access
+* Glacier Flexible Retrieval — archival, minutes–hours retrieval
+* Glacier Deep Archive — cheapest, long-term retention, hours retrieval
+
+> Choose based on access frequency, latency needs, durability, and retention period.

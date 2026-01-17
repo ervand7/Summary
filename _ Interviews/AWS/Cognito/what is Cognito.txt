@@ -1,0 +1,13 @@
+Cognito = authentication & user management, not business logic.
+
+What you should know:
+
+* User Pools → login, signup, JWT tokens, OAuth 2.0
+* Identity Pools → AWS access for users
+* JWT validation (access / ID tokens)
+* Integration with API Gateway & ALB
+* Auth flows: password, refresh, MFA
+* Custom claims & triggers (Lambda)
+* Common pain points: UX, limits, complexity
+
+👉 Cognito answers “who is the user?”, not “what can they do?”

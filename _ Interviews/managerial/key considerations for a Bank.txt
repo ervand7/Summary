@@ -1,0 +1,36 @@
+### 1️⃣ Security (baseline)
+
+* Encryption at rest and in transit
+* Strict IAM / least privilege
+* Key management (KMS, rotation)
+
+---
+
+### 2️⃣ Auditing
+
+Auditing = the ability to reconstruct who did what, when, and why.
+
+For a bank this means:
+
+* Immutable logs (append-only, tamper-proof)
+* Every action is:
+
+  * attributable to an identity
+  * timestamped
+  * non-erasable
+* Full trace from request → business action → data change
+
+Examples:
+
+* Ledger-style transaction logs
+* API access logs
+* Admin actions (config changes, key access)
+
+---
+
+### 3️⃣ Why auditing is critical for banks
+
+* Regulatory compliance (PCI DSS, SOX, AML, etc.)
+* Fraud investigation
+* Dispute resolution
+* Internal & external audits

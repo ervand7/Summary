@@ -27,13 +27,17 @@
 
 ### Side-by-side (short)
 
-|                | SNS      | SQS        |
-| -------------- | -------- | ---------- |
-| Model          | Pub/Sub  | Queue      |
-| Delivery       | Push     | Pull       |
-| Consumers      | Many     | One        |
-| Message stored | ❌ No    | ✅ Yes     |
-| Use case       | Events   | Jobs/tasks |
+|                | SNS                         | SQS                   | EventBridge               |
+| -------------- | ----------------------------| ----------------------| --------------------------|
+| Model          | Pub/Sub                     | Queue                 | Event bus (rules-based)   |
+| Delivery       | Push                        | Pull                  | Push                      |
+| Consumers      | Many (same message to all)  | One per message       | Many (matched by rules)   |
+| Message stored | ❌ No                       | ✅ Yes                | ❌ No                     |
+| Ordering       | ❌ No                       | ✅ (FIFO)             | ❌ No                     |
+| Filtering      | ❌ No                       | ❌ No                 | ✅ Yes                    |
+| Use case       | Broadcast notifications     | Background processing | Application event routing |
+
+
 
 ---
 

@@ -1,0 +1,15 @@
+What it is: Managed message queue for async decoupling between services
+* Delivery:
+
+  * Standard → at-least-once, unordered
+  * FIFO → exactly-once processing, ordered
+* Visibility timeout: when a consumer reads a message, SQS hides it from other
+ consumers for a set time so only one worker processes it; must delete after success
+* No push: Consumers poll (long polling recommended)
+* Retention: 1 minute → 14 days (default 4 days)
+* Message size: Max 256 KB (use S3 for large payloads)
+
+One-liner:
+
+> *SQS is a durable, pull-based queue for decoupling services with retries and DLQs,
+not a streaming system.

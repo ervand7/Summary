@@ -1,0 +1,14 @@
+Use DynamoDB when you need massive scale, very low latency, and simple access
+patterns — without managing servers.
+
+Typical use cases:
+
+* Key-value / lookup data (by PK, sometimes SK)
+* User sessions & auth tokens
+* Counters, rate-limits, quotas
+* Event/state storage (IoT, clickstream)
+* High-traffic apps with predictable queries
+
+Not for: complex joins, ad-hoc queries, heavy analytics.
+
+👉 Think: fast, simple, unlimited scale

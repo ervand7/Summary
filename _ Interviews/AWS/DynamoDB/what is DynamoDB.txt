@@ -1,16 +1,17 @@
 DynamoDB — what you must know:
 
+👉 DynamoDB is query-driven, not schema-driven.
+
 * NoSQL, key-value + wide-column store (not relational, no joins)
 * Primary key design is everything
-
-  * Partition key → scalability
-  * Sort key → query patterns
+ - Partition key = decides how data is spread across servers
+   → bad choice = hot partition (physical shard), no scalability
+ - Sort key = decides how you can query data inside one partition
+   → ranges, ordering, filtering
 * Access patterns first, schema second (design for queries, not normalization)
 * Strong vs eventual consistency (default is eventual)
 * Indexes
-
-  * GSI (Global Secondary Index) = new access patterns
-  * LSI (Local Secondary Index) = same partition key
+ - GSI → lets you query by a different partition key
 * Throughput & scaling
 
   * On-demand vs provisioned

@@ -1,0 +1,6 @@
+* Partition Key (PK): groups items and defines data distribution
+* Sort Key (SK): orders items within the same PK
+* Primary Key: either PK or PK + SK
+* GSI: used for querying across all partitions
+
+👉 Keys define how you can query your data.

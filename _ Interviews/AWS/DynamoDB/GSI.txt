@@ -1,0 +1,6 @@
+👉 GSI = another table view with a different partition key
+ * Key takeaways (ultra-short)
+ * GSI lets you query by another field
+ * GSI has its own partition key
+ * Data is duplicated automatically
+ * GSI is eventually consistent only

@@ -1,0 +1,13 @@
+In DynamoDB, access patterns = the exact queries your app must support.
+
+Examples:
+
+* Get user by user_id
+* Get all orders of a user, sorted by time
+* Get latest session for a user
+* Get items by status + timestamp (via GSI)
+
+You design keys first, data second.
+If you can’t express a query with PK / SK (or GSI) → it’s the wrong pattern for DynamoDB.
+
+👉 DynamoDB is *query-driven*, not schema-driven.

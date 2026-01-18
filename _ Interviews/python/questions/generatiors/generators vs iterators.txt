@@ -1,0 +1,46 @@
+> Generators are a simpler way to create iterators using `yield`.
+> All generators are iterators, but not all iterators are generators.
+
+---
+
+### Iterator (manual)
+
+```python
+class Counter:
+    def __init__(self, n):
+        self.n = n
+        self.i = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.i >= self.n:
+            raise StopIteration
+        self.i += 1
+        return self.i
+```
+
+---
+
+### Generator (Pythonic)
+
+```python
+def counter(n):
+    for i in range(1, n + 1):
+        yield i
+```
+
+---
+
+### When to use which
+
+* Generator → simple iteration, streaming, pipelines
+* Iterator class → complex state, reset logic, multiple modes
+
+---
+
+### One-liner (senior-level)
+
+> Generators are syntactic sugar for iterators that automatically manage state
+and iteration.

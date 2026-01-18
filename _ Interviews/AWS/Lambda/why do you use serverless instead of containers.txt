@@ -1,0 +1,11 @@
+Why do you use serverless instead of containers?
+
+* Developers don’t manage infrastructure
+* Faster delivery and experimentation
+* Built-in scaling and reliability
+* Teams can own code + IaC
+* Often cheaper for event-driven workloads
+
+One-liner:
+
+> Serverless simplifies infrastructure and lets developers focus on business logic.

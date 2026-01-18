@@ -1,0 +1,247 @@
+Question:
+Design an account closure process. Context: Chetwood bank offers a Savings holder account
+which is the simplest savings acount you can have. Money goes in once. And money goes out
+upon request from the customer. Once the customer's money withdrawal request is processed,
+the balance educes to 0 and the account must be closed. It must be closed [A] in our core
+banking engine (Mambu), and [B] in an external system [E]. Upon account closure, we must
+notify the customer with an email to let them know that the account has been closed. How
+would you design the solution? Lets' discuss. Note: you don't have to change what's already
+in the diagram
+
+-------------------------------------------------------------
+
+Answer:
+## 1. Problem restatement (shows understanding)
+
+We need to automatically close a savings account once:
+
+* a withdrawal has completed
+* the balance is exactly 0
+* the account is closed in two systems:
+
+  * [A] Mambu (core banking)
+  * [B] External system E
+* only after both closures, we must notify the customer via email
+
+Constraints:
+
+* Payment/withdrawal flow already exists
+* Thousands of requests per minute
+* Cannot change the existing diagram, only add logic
+* Must be reliable, retryable, and idempotent
+
+---
+
+## 2. Core design decision (what interviewer cared about)
+
+### ❗ Key insight
+
+Mambu will NOT tell us “account is closed”
+→ We own the closure process
+
+So we need:
+
+* a closure orchestrator
+* a persistent state
+* retries
+* idempotency
+* observability
+
+---
+
+## 3. Architecture (clean, minimal, correct)
+
+### Components
+
+* Savings / Withdrawal Service (already exists)
+* Event source: SQS / EventBridge
+* Account Closure Orchestrator (AWS Step Functions)
+* 2 Lambdas:
+
+  * `CloseInMambuLambda`
+  * `CloseInExternalELambda`
+* Notification Lambda
+* Relational DB (PostgreSQL)
+
+---
+
+## 4. Why NOT DynamoDB (fixing interview confusion)
+
+DynamoDB is not needed here because:
+
+* no high-volume key-value access
+* we need transactions
+* we need state transitions
+* we need auditability
+* we need idempotency with constraints
+
+👉 PostgreSQL is the correct choice.
+
+---
+
+## 5. Data model (simple, interview-perfect)
+
+```sql
+account_closure (
+  account_id        UUID PRIMARY KEY,
+  closure_id        UUID,
+  state             TEXT,  -- OPEN → CLOSING_MAMBU → MAMBU_CLOSED → E_CLOSED → CLOSED
+  email_sent_at     TIMESTAMP,
+  last_error        TEXT,
+  updated_at        TIMESTAMP
+);
+```
+
+Optional (for audit, very strong signal):
+
+```sql
+account_closure_events (
+  id BIGSERIAL,
+  account_id UUID,
+  from_state TEXT,
+  to_state TEXT,
+  occurred_at TIMESTAMP
+);
+```
+
+---
+
+## 6. End-to-end flow (this is the gold)
+
+### Step 1 — Withdrawal completes
+
+* Withdrawal service finishes
+* Balance becomes `0`
+* Emits event:
+
+```json
+WithdrawalCompleted {
+  account_id,
+  balance: 0
+}
+```
+
+---
+
+### Step 2 — Trigger closure workflow
+
+* EventBridge / SQS triggers Step Functions
+* Step Function:
+
+  * checks `balance == 0`
+  * creates or updates `account_closure`
+  * moves state → `CLOSING_MAMBU`
+
+---
+
+### Step 3 — Close account in Mambu
+
+* `CloseInMambuLambda`
+* Uses idempotency key = `closure_id`
+* On success:
+
+  * update DB → `MAMBU_CLOSED`
+* On failure:
+
+  * Step Functions retries automatically
+
+---
+
+### Step 4 — Close account in External system E
+
+* Same pattern:
+
+  * idempotent call
+  * retryable
+* On success:
+
+  * update DB → `E_CLOSED`
+
+---
+
+### Step 5 — Finalize + notify
+
+Only if both systems are closed:
+
+* update state → `CLOSED`
+* emit `AccountClosed` event
+* Notification Lambda sends email
+* email sending is idempotent:
+
+  * check `email_sent_at IS NULL`
+  * then send
+  * then mark `email_sent_at`
+
+---
+
+## 7. Idempotency (major interview gap — fixed)
+
+### Where idempotency is applied:
+
+| Step           | How                        |
+| -------------- | -------------------------- |
+| Step Function  | state machine guards       |
+| Mambu API      | idempotency key            |
+| External E API | idempotency key            |
+| Email sending  | DB check (`email_sent_at`) |
+
+### Why this matters:
+
+* SQS = at-least-once delivery
+* retries are guaranteed
+* duplicates must not break logic
+
+---
+
+## 8. Why Step Functions (strong signal)
+
+Because:
+
+* built-in retries
+* backoff
+* timeout handling
+* clear visualization
+* no custom retry logic
+* interviewers LOVE this answer
+
+---
+
+## 9. Observability & operations
+
+### Metrics
+
+* `account_closure_started_total`
+* `account_closure_completed_total`
+* `account_closure_failed_total{step}`
+
+### Alerts
+
+* stuck in `CLOSING_MAMBU` > X minutes
+* stuck in `CLOSING_E` > X minutes
+
+### Logs
+
+* `closure_id`
+* `account_id`
+* step name
+* error message
+
+---
+
+## 10. Security (short, but correct)
+
+* IAM roles with least privilege
+* Secrets in AWS Secrets Manager
+* mTLS or signed tokens for Mambu / E
+* No PII in events or logs
+
+---
+
+## 11. Final 30-second interview answer (memorize this)
+
+> I’d model account closure as an event-driven state machine. Once withdrawal completes 
+and balance reaches zero, an event triggers a Step Functions workflow. That workflow closes 
+the account in Mambu first, then in the external system, both via idempotent Lambdas with 
+retries. State is stored in PostgreSQL for consistency and auditability. Only after both 
+systems confirm closure, we emit an AccountClosed event and send the notification email 
+in an idempotent way. This design is resilient, observable, and safe under retries.

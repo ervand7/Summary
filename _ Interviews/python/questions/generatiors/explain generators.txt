@@ -1,0 +1,56 @@
+> A generator is a function that returns values one at a time using `yield`, producing
+a lazy iterator instead of computing everything at once.
+
+---
+
+### Minimal example
+
+```python
+def numbers():
+    yield 1
+    yield 2
+    yield 3
+```
+
+```python
+for n in numbers():
+    print(n)
+```
+
+---
+
+### Why generators matter
+
+* Lazy → values produced only when needed
+* Memory-efficient → no full list in memory
+* Perfect for streams, files, large data
+
+---
+
+### Key facts (must know)
+
+* `yield` pauses the function
+* Execution resumes from last `yield`
+* Generator keeps its state automatically
+* Used once (exhausted after iteration)
+
+---
+
+### Common real use
+
+```python
+def read_lines(path):
+    with open(path) as f:
+        for line in f:
+            yield line
+```
+
+---
+
+### One-liner for interview
+
+> “Generators allow me to iterate over large or infinite sequences efficiently by
+producing values lazily with `yield`.”
+
+
+It has functions `send`, `throw`, `close`

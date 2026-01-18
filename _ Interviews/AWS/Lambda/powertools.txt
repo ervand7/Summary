@@ -1,0 +1,16 @@
+AWS Lambda Powertools is a set of official AWS utilities (for Python, TypeScript, Java)
+that helps you write cleaner, more reliable Lambda code.
+
+In short: it gives you logging, metrics, and tracing out of the box — the *right* way.
+
+Why it exists:
+
+* Structured logging (JSON, correlation IDs)
+* Custom metrics (CloudWatch-friendly)
+* Tracing helpers (X-Ray)
+* Common patterns (idempotency, parameters, batch processing)
+
+One-liner (interview-style):
+
+> AWS Lambda Powertools is an AWS-maintained utility library that standardizes logging,
+metrics, and tracing for Lambda functions and reduces boilerplate code.

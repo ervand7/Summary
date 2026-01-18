@@ -1,6 +1,15 @@
-* Partition Key (PK): groups items and defines data distribution
-* Sort Key (SK): orders items within the same PK
-* Primary Key: either PK or PK + SK
-* GSI: used for querying across all partitions
+Table
+├─ Primary Key
+│  ├─ Partition Key (required)
+│  └─ Sort Key (optional)
+├─ Attributes (flexible schema)
+└─ Indexes
+   ├─ GSI (optional)
+   └─ LSI (optional)
 
-👉 Keys define how you can query your data.
+
+
+PK: user_id
+SK: order_id
+Attributes: status, amount, created_at
+GSI: status + created_at

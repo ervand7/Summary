@@ -1,6 +1,6 @@
 Question:
 Design an account closure process. Context: Chetwood bank offers a Savings holder account
-which is the simplest savings acount you can have. Money goes in once. And money goes out
+which is the simplest savings account you can have. Money goes in once. And money goes out
 upon request from the customer. Once the customer's money withdrawal request is processed,
 the balance educes to 0 and the account must be closed. It must be closed [A] in our core
 banking engine (Mambu), and [B] in an external system [E]. Upon account closure, we must
@@ -85,7 +85,7 @@ DynamoDB is not needed here because:
 account_closure (
   account_id        UUID PRIMARY KEY,
   closure_id        UUID,
-  state             TEXT,  -- OPEN → CLOSING_MAMBU → MAMBU_CLOSED → E_CLOSED → CLOSED
+  state             TEXT,  -- OPEN → CLOSING_MAMBU → MAMBU_CLOSED → CLOSING_E → E_CLOSED → CLOSED
   email_sent_at     TIMESTAMP,
   last_error        TEXT,
   updated_at        TIMESTAMP

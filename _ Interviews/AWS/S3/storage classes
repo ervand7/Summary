@@ -1,4 +1,4 @@
-### S3 Storage Classes — short summary
+### S3 Storage Classes
 
 * Standard — frequent access, low latency
 * Intelligent-Tiering — automatic cost optimization when access is unpredictable

@@ -1,0 +1,6 @@
+Use AWS KMS for encryption at rest.
+
+* CloudWatch Logs → enable log group encryption with a KMS key
+* DynamoDB → enable server-side encryption (SSE) with KMS (preferably a customer-managed key)
+
+Access and decryption are controlled via IAM + KMS key policies.

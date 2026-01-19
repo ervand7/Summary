@@ -3,7 +3,7 @@
 
 In practice:
 
-* Cognito: login, signup, JWTs, MFA
+* Cognito: login, signup, JWTs, MFA, OAuth 2.0
 * IAM: roles, policies, permissions for AWS resources
 
 👉 Cognito authenticates people. IAM authorizes AWS access.

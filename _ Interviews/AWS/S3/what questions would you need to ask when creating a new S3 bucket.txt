@@ -32,6 +32,11 @@ Beyond storage class, I always ask:
 
 ### 5️⃣ Versioning
 
+
+### 6️⃣ Geography & availability
+* Single-region vs multi-region access?
+
+
 ---
 
 ### Interview “gold” sentence

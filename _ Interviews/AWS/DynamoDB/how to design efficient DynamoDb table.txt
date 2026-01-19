@@ -1,0 +1,11 @@
+Design DynamoDB tables around access patterns.
+
+* Start with queries, not entities
+* Choose Partition Key for even data distribution
+* Use Sort Key to support range queries and ordering
+* Add GSIs only for required additional access patterns
+* Avoid scans; use Query + indexes
+* Use conditional writes for idempotency and consistency
+* Use TTL for automatic cleanup
+
+Primary rule: key design = performance + scalability.

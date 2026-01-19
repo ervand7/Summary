@@ -1,7 +1,12 @@
 ### Core difference (one sentence)
 
-* SNS → *broadcast a message*
-* SQS → *store a task until someone processes it*
+* SNS → broadcast a message to all its subscribers?
+* SQS → store a task until someone processes it
+
+---
+
+* SNS: consumers must explicitly subscribe to a topic
+* SQS: consumers do NOT subscribe — they poll the queue
 
 ---
 

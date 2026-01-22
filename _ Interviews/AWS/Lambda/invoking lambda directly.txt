@@ -1,0 +1,1 @@
+Use CLI or AWS Management Console.

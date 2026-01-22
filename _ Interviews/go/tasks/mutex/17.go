@@ -8,9 +8,9 @@ import (
 func main() {
 	var mu sync.Mutex
 
-	go func(m sync.Mutex) {
-		m.Lock()
-	}(mu)
+	go func() {
+		mu.Lock()
+	}()
 
 	time.Sleep(time.Second)
 	mu.Lock()

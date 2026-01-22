@@ -1,6 +1,3 @@
-# I implement factories in Python using a registry that maps keys to classes
-# and a classmethod that instantiates them.
-
 class Factory:
     _registry = {}
 
@@ -14,17 +11,30 @@ class Factory:
 
 
 class A:
+    def __init__(self, x):
+        self.x = x
+
     def run(self):
-        print("A running")
+        print(f"A running with x={self.x}")
 
 
 class B:
+    def __init__(self, name, verbose=False):
+        self.name = name
+        self.verbose = verbose
+
     def run(self):
-        print("B running")
+        if self.verbose:
+            print(f"B running in verbose mode, name={self.name}")
+        else:
+            print(f"B running, name={self.name}")
 
 
 Factory.register("a", A)
 Factory.register("b", B)
 
-obj = Factory.create("a")
-obj.run()
+a = Factory.create("a", 10)
+a.run()
+
+b = Factory.create("b", "service", verbose=True)
+b.run()

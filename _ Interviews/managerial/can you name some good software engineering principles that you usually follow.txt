@@ -1,0 +1,64 @@
+### 1️⃣ Simplicity over cleverness
+
+> If code needs explaining, it’s probably too clever.
+> Readable > smart.
+
+---
+
+### 2️⃣ Single Responsibility Principle (SRP)
+
+One module = one reason to change.
+If a function has `and` in its description — it’s doing too much.
+
+---
+
+### 3️⃣ Explicit is better than implicit
+
+Clear inputs, clear outputs, no magic side effects.
+Defaults are fine — surprises are not.
+
+---
+
+### 4️⃣ Design for change, not for perfection
+
+Assume requirements will change.
+Avoid over-engineering “just in case”.
+
+---
+
+### 5️⃣ Fail fast and loudly
+
+Validate early, crash early, log clearly.
+Silent failures are production bugs waiting to happen.
+
+---
+
+### 6️⃣ Prefer composition over inheritance
+
+Small, composable pieces beat deep class hierarchies.
+
+---
+
+### 7️⃣ Make illegal states unrepresentable
+
+Use types, validation, and invariants to prevent bad states by design.
+
+---
+
+### 8️⃣ Optimize only when there is evidence
+
+Measure first.
+Most performance “problems” are imaginary.
+
+---
+
+### 9️⃣ Interfaces define contracts
+
+Depend on behavior, not implementations.
+This keeps code testable and replaceable.
+
+---
+
+### 🔟 Code is read more often than it’s written
+
+Write code for the next engineer — often future you.

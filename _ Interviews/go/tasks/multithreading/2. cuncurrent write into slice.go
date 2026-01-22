@@ -27,5 +27,3 @@ func main() {
 	wg.Wait()
 	fmt.Println(items)
 }
-
-// [1, 2, 3]

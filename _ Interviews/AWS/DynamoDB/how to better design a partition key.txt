@@ -1,0 +1,16 @@
+Design a Partition Key around access patterns and worst-case traffic, not
+around entities.
+
+Rules of thumb:
+
+* Aim for high cardinality (many distinct values)
+* Ensure even read/write distribution (avoid hot keys)
+* Avoid time-based or low-cardinality values
+* Don’t use a single high-traffic business key alone
+* Distribute writes (UUIDs, sharding, suffixes if needed)
+* Use GSIs to support other query patterns
+* Design defensively for unknown future load
+
+One-liner:
+
+> A good partition key spreads traffic evenly under the worst-case access pattern.

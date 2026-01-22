@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-// should be passed as pointer, but passed as val. That's why no changes
-
 type S struct {
 	mu sync.Mutex
 	x  int

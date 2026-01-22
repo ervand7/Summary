@@ -25,12 +25,13 @@ func main() {
 		fmt.Println(1)
 	}
 
-	typedErr := &SomeError{}
+	var typedErr error
 	if errors.As(err, &typedErr) {
 		fmt.Println(2)
 	}
 	fmt.Println(3)
-}
 
-// 2
-// 3
+	if errors.Is(err, typedErr) {
+		fmt.Println(4)
+	}
+}

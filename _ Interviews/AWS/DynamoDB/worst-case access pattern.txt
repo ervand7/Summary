@@ -1,0 +1,19 @@
+```
+Partition Key = customer_id
+```
+
+**Worst-case access pattern:**
+
+* One customer becomes a VIP
+* Generates 100k writes/reads per minute
+* All traffic hits **one partition key**
+  → **hot partition + throttling**
+
+**Safer design:**
+
+```
+PK = order_id (UUID)
+GSI = customer_id + created_at
+```
+
+Writes stay evenly distributed even in the worst case.

@@ -2,13 +2,6 @@ package main
 
 import "fmt"
 
-/*
- - слайс "a" не изменился потому, что в функции double ему был присвоен адрес
-другого слайса и все изменения уже происходили с другим слайсом
- - слайс "b" был изменен, так как внутри функции double пыл произведен
-dereferencing
-*/
-
 func double(alfa []int, beta *[]int) {
 	newArr := []int{10, 11, 12}
 	alfa = newArr
@@ -27,6 +20,6 @@ func main() {
 	b := []int{4, 5, 6}
 
 	double(a, &b)
-	fmt.Println(a) // [1 2 3]
-	fmt.Println(b) // [40 44 48]
+	fmt.Println(a)
+	fmt.Println(b)
 }

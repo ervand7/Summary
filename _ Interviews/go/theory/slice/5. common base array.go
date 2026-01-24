@@ -5,7 +5,7 @@ import "fmt"
 // оставшиеся значения (:cap(b)) берутся из базового массива
 
 func main() {
-	a := make([]int, 6, 6)
+	a := make([]int, 6)
 	for i := 0; i < len(a); i++ {
 		a[i] = i
 	}

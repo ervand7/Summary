@@ -6,28 +6,29 @@ import (
 	"time"
 )
 
-func work(wg *sync.WaitGroup, jobs <-chan int, i int) {
+func work(wg *sync.WaitGroup, jobs <-chan int, workerID int) {
 	defer wg.Done()
 	for job := range jobs {
-		fmt.Printf("job %d processes value %d\n", i, job)
-		time.Sleep(time.Second)
+		fmt.Printf("worker %d processes job %d\n", workerID, job)
+		time.Sleep(time.Second) // simulate hard work
 	}
 }
 
 func main() {
-	const workersCount = 3
-	const jobsCount = 10
-
-	jobs := make(chan int)
-	var wg sync.WaitGroup
+	var (
+		jobsCount    = 100
+		workersCount = 10
+		wg           sync.WaitGroup
+		jobs         = make(chan int)
+	)
 
 	for i := 0; i < workersCount; i++ {
 		wg.Add(1)
 		go work(&wg, jobs, i)
 	}
 
-	for j := 0; j < jobsCount; j++ {
-		jobs <- j
+	for i := 0; i < jobsCount; i++ {
+		jobs <- i
 	}
 	close(jobs)
 

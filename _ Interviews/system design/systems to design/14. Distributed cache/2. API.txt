@@ -1,0 +1,160 @@
+## 0️⃣ Auth (assumed)
+
+All requests include:
+
+* `Authorization: Bearer <token>` or **mTLS**
+* `X-Tenant-Id` (if multi-tenant)
+
+---
+
+## 1️⃣ Basic KV
+
+### `GET /v1/cache/{namespace}/{key}`
+
+Response (hit):
+
+```json
+{
+  "hit": true,
+  "value_base64": "AAECAwQ=",
+  "version": "1718729123",
+  "ttl_ms": 42000
+}
+```
+
+Response (miss):
+
+```json
+{ "hit": false }
+```
+
+Notes:
+
+* `version` supports optimistic writes (CAS).
+* value is base64 to keep API binary-safe.
+
+---
+
+### `PUT /v1/cache/{namespace}/{key}`
+
+Request:
+
+```json
+{
+  "value_base64": "eyJ1c2VySWQiOiIxMjMifQ==",
+  "ttl_ms": 60000,
+  "mode": "upsert"
+}
+```
+
+Response:
+
+```json
+{ "ok": true, "version": "1718729999" }
+```
+
+Modes:
+
+* `upsert` (default)
+* `add_only` (fail if exists) — useful for “single-flight locks”
+* `replace_only` (fail if missing)
+
+---
+
+### `DELETE /v1/cache/{namespace}/{key}`
+
+Response:
+
+```json
+{ "ok": true }
+```
+
+---
+
+## 2️⃣ Multi-get / batch (to reduce RTT)
+
+### `POST /v1/cache/{namespace}:mget`
+
+Request:
+
+```json
+{ "keys": ["k1", "k2", "k3"] }
+```
+
+Response:
+
+```json
+{
+  "items": [
+    { "key": "k1", "hit": true, "value_base64": "MQ==", "ttl_ms": 1000 },
+    { "key": "k2", "hit": false },
+    { "key": "k3", "hit": true, "value_base64": "Mw==", "ttl_ms": 9000 }
+  ]
+}
+```
+
+---
+
+## 3️⃣ CAS (compare-and-set) for correctness
+
+### `PUT /v1/cache/{namespace}/{key}:cas`
+
+Request:
+
+```json
+{
+  "expected_version": "1718729999",
+  "value_base64": "NA==",
+  "ttl_ms": 60000
+}
+```
+
+Response (success):
+
+```json
+{ "ok": true, "version": "1718731111" }
+```
+
+Response (conflict):
+
+```json
+{ "ok": false, "reason": "version_mismatch" }
+```
+
+---
+
+## 4️⃣ Counters (common in interviews)
+
+### `POST /v1/cache/{namespace}/{key}:incr`
+
+Request:
+
+```json
+{ "delta": 1, "ttl_ms": 60000 }
+```
+
+Response:
+
+```json
+{ "value": 42 }
+```
+
+---
+
+## 5️⃣ Invalidation by tag (optional but very useful)
+
+### `POST /v1/cache/{namespace}:invalidate`
+
+Request:
+
+```json
+{ "tag": "user:123" }
+```
+
+Response:
+
+```json
+{ "scheduled": true }
+```
+
+(Implementation is async: invalidation fanouts to shards.)

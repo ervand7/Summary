@@ -1,0 +1,73 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this a cache service for our internal microservices (like “Redis as a platform”), 
+or a library inside each service (in-process)?
+2. Are we caching generic key/value only, or also objects with schemas (JSON/protobuf) 
+and “collections” (sets, lists, sorted sets)?
+3. Is the cache meant for read-through / write-through / write-behind, or “dumb 
+cache” (app controls everything)?
+4. Is it primarily for hot reads (latency), offloading DB (cost/QPS), or sharing 
+state (sessions/rate limits)?
+5. Do we need multi-tenant isolation (many teams/apps using the same cluster)?
+6. Do we need multi-region cache (global users) or single region is fine?
+7. Do we need persistence (restart shouldn’t wipe data) or purely ephemeral?
+
+## B. Workload & scale
+
+8. Expected QPS (reads/writes) and peak bursts?
+9. Average and max value size (1 KB vs 1 MB matters a lot)?
+10. Key cardinality: millions, billions?
+11. Read/write ratio (e.g., 95/5)?
+12. Hot-key distribution: do we have very hot keys (celebrity profile)?
+13. Latency targets (p50/p95/p99) for GET/SET?
+14. Throughput targets (MB/s) and network constraints?
+
+## C. Data model & operations
+
+15. Required operations: GET/SET/DELETE only, or also MGET, INCR/DECR, CAS, locks,
+pub/sub, scan?
+16. Do we need atomic operations (INCR) across the cluster?
+17. Do we need transactions or “multi-key” consistency?
+18. Do we need prefix operations (scan keys by pattern), or can we avoid scans entirely?
+19. Do we need tag-based invalidation (invalidate all keys for user_id=123)?
+
+## D. Consistency & correctness
+
+20. Is stale read acceptable? For how long?
+21. After a write, must reads be read-your-writes consistent?
+22. Are occasional lost writes acceptable, or must writes be durable?
+23. What happens on node failure: is it OK to lose cached data?
+24. Do we need idempotency on SET (same key written multiple times)?
+25. Do we need “single-flight” / request coalescing to prevent thundering herds?
+
+## E. Expiration & eviction
+
+26. Do keys have TTL always, or sometimes no TTL?
+27. Default TTL and min/max TTL?
+28. Eviction policy: LRU/LFU/ARC/random? Any preference?
+29. Memory limits per node and cluster? Behavior when full?
+30. Do we need TTL jitter to avoid synchronized expirations?
+
+## F. Sharding, replication, availability
+
+31. Availability target (e.g., 99.9 vs 99.99)?
+32. Do we need replication (1 replica, 2 replicas)?
+33. Is strong consistency across replicas required, or async replication OK?
+34. Failover model: automatic leader election? client-side retries?
+35. Do clients support consistent hashing, or do we need a routing proxy?
+36. Cross-AZ requirement (nodes spread across AZs)?
+
+## G. Security & multi-tenancy
+
+37. AuthN/AuthZ: mTLS? tokens? per-tenant ACLs?
+38. Encryption in transit required? at rest required (if persistence)?
+39. Rate limits per tenant to avoid noisy neighbors?
+40. Audit requirements (who accessed what keys) or not needed?
+
+## H. Observability & operations
+
+41. Must-have metrics: hit rate, evictions, p99 latency, memory, replication lag?
+42. How do we do capacity planning and autoscaling?
+43. Do we need online resharding (adding nodes without downtime)?
+44. SLOs and alerting: what’s “page-worthy”?
+45. Operational constraints: “no manual ops”, “self-healing”, maintenance windows?

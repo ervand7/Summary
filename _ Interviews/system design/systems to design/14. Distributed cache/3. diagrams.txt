@@ -1,0 +1,159 @@
+# 🌍 Full picture: Distributed Cache Service (interview-grade)
+
+                          CONTROL PLANE
+          (safe changes: topology, quotas, policies, routing)
+
++----------------------------------------------------------------------------------+
+| Admin / Ops Console                                                              |
+| - create tenant / namespace                                                      |
+| - set quotas (max memory, max QPS)                                               |
+| - configure eviction policy (LRU/LFU)                                            |
+| - set replication factor                                                         |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Control Plane API                                                                |
+| - stores cluster metadata: nodes, shards, replicas                               |
+| - triggers rebalancing (add/remove node)                                         |
+| - manages config rollout                                                         |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Metadata Store (strongly consistent)                                             |
+| (e.g., etcd/consul/zookeeper)                                                    |
+| - shard map: shard_id -> [primary, replicas]                                     |
+| - node health + leases                                                           |
+| - routing version (epoch)                                                        |
++-------------------------------+--------------------------------------------------+
+
+
+                           DATA PLANE (HOT PATH)
+           (GET/SET must be extremely fast, highly parallel)
+
+Clients (microservices)
+- Service A / B / C
+- Cache SDK (preferred) OR via proxy
+        |
+        | 1) request (GET/SET/MGET/INCR)
+        v
++----------------------------------------------------------------------------------+
+| Edge: Cache Client SDK (in each service)                                         |
+| - consistent hashing / rendezvous hashing                                        |
+| - retries + hedging (optional)                                                   |
+| - circuit breaker                                                                |
+| - request coalescing (single-flight) to avoid thundering herd                    |
+| - local in-process tiny cache (optional L1)                                      |
++-------------------------------+--------------------------------------------------+
+                                |
+                                | 2) chooses shard + node(s) using shard map
+                                v
++----------------------------------------------------------------------------------+
+| (Option A) Smart clients directly to nodes                                       |
+| OR                                                                               |
+| (Option B) Cache Router/Proxy layer (Envoy-like)                                 |
+| - simplifies clients, centralizes auth/rate limits                               |
+| - can do request routing, buffering, observability                               |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Cache Cluster (sharded)                                                          |
+|                                                                                  |
+|   Shard 0                   Shard 1                    Shard 2                   |
+| +------------------+     +------------------+      +------------------+          |
+| | Node 0 (Primary) |     | Node 3 (Primary) |      | Node 6 (Primary) |          |
+| | memtable + TTL   |     | memtable + TTL   |      | memtable + TTL   |          |
+| +--------+---------+     +--------+---------+      +--------+---------+          |
+|          |                      |                         |                      |
+|   async repl               async repl                async repl                  |
+|          v                      v                         v                      |
+| +------------------+     +------------------+      +------------------+          |
+| | Node 1 (Replica) |     | Node 4 (Replica) |      | Node 7 (Replica) |          |
+| +------------------+     +------------------+      +------------------+          |
+|          |                      |                         |                      |
+|   async repl               async repl                async repl                  |
+|          v                      v                         v                      |
+| +------------------+     +------------------+      +------------------+          |
+| | Node 2 (Replica) |     | Node 5 (Replica) |      | Node 8 (Replica) |          |
+| +------------------+     +------------------+      +------------------+          |
+|                                                                                  |
+| Notes:                                                                           |
+| - Each key maps to a shard via hash(key).                                        |
+| - Primary serves writes; replicas serve reads (optional) or only failover.       |
+| - TTL + eviction (LRU/LFU) enforced per node.                                    |
++-------------------------------+--------------------------------------------------+
+
+
+                     READ PATHS (L1 + L2, stampede-safe)
+
+Client
+  |
+  | GET(namespace,key)
+  v
+[Optional L1 in-process cache]
+  | hit -> return
+  | miss
+  v
+Cache SDK -> route to shard primary/replica
+  |
+  | hit -> return value + ttl
+  | miss ->
+  v
+(If read-through enabled)
+  +---------------------------------------------------------------+
+  | Cache Aside / Read-through Strategy                           |
+  | - App fetches from DB/service                                 |
+  | - App SETs cache with TTL (+ jitter)                          |
+  | - Use single-flight lock to prevent 1000 DB calls on same miss|
+  +---------------------------------------------------------------+
+
+
+                     WRITE PATHS (pick one per requirement)
+
+1) Cache-aside (most common)
+   App writes DB first, then invalidates cache (DELETE key) OR updates cache (SET).
+
+2) Write-through
+   App writes cache; cache synchronously writes to DB (rare; higher coupling).
+
+3) Write-behind
+   App writes cache; cache buffers and flushes to DB async (riskier, complex).
+
+
+                     FAILOVER & RESHARDING
+
+Node failure detection:
+- node heartbeats / leases in Metadata Store
+
+Failover:
+- promote replica -> new primary
+- bump routing epoch -> clients refresh shard map
+
+Resharding (scale out):
+- add node
+- move subset of hash ranges to new shard owners
+- dual-read / redirect during migration
+- finally flip epoch
+
+
+                     OBSERVABILITY & SAFETY
+
++----------------------------------------------------------------------------------+
+| Metrics / Logs / Tracing                                                         |
+| - hit_rate, miss_rate, eviction_rate                                             |
+| - p95/p99 GET/SET latency                                                        |
+| - hot-key detection (top K keys)                                                 |
+| - replication lag (primary->replica)                                             |
+| - memory usage, fragmentation, OOM kills                                         |
+| - error budgets + SLOs                                                           |
++----------------------------------------------------------------------------------+
+
++----------------------------------------------------------------------------------+
+| Guardrails                                                                       |
+| - per-tenant QPS limits + quotas                                                 |
+| - max value size                                                                 |
+| - protection from cache stampede (single-flight, negative caching)               |
+| - TTL jitter + background refresh (optional)                                     |
++----------------------------------------------------------------------------------+

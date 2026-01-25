@@ -8,15 +8,14 @@ import (
 func main() {
 	s := make([]int, 0, 10000)
 
-	var wg sync.WaitGroup
+	var mu sync.Mutex
 	for i := 0; i < 10000; i++ {
-		wg.Add(1)
 		go func(v int) {
-			defer wg.Done()
+			mu.Lock()
+			defer mu.Unlock()
 			s = append(s, v)
 		}(i)
 	}
 
-	wg.Wait()
 	fmt.Println(len(s))
 }

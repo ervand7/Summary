@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// append will change initial slice if there will be enough capacity and len
-
 func handle(arr []int) {
 	arr = append(arr, 5)
 }

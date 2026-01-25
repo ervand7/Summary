@@ -10,7 +10,7 @@ func main() {
 	var nums []int
 	fmt.Println(nums == nil, len(nums)) // true 0
 
-	strs := make([]string, 1, 2)
-	strs[0] = "hello"
-	strs[1] = "world" // panic: runtime error: index out of range [2] with length 1
+	arr := make([]string, 1, 2)
+	arr[0] = "hello"
+	arr[1] = "world" // panic: runtime error: index out of range [2] with length 1
 }

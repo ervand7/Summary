@@ -1,0 +1,216 @@
+# 0️⃣ Auth (assumed)
+
+All requests include:
+
+* `Authorization: Bearer <JWT|opaque>`
+* Derived context: `principal_id`, `principal_type` (user/service), `tenant_id` (if multi-tenant)
+
+---
+
+## 1️⃣ Permissions catalog (what actions exist)
+
+### `GET /v1/permissions`
+
+Returns the list of known permissions (for role editor UI).
+
+Response:
+
+```json
+{
+  "permissions": [
+    { "key": "invoice.read", "description": "Read invoices" },
+    { "key": "invoice.write", "description": "Create/update invoices" },
+    { "key": "user.manage", "description": "Manage users" }
+  ]
+}
+```
+
+---
+
+## 2️⃣ Roles (built-in + custom)
+
+### `POST /v1/roles`
+
+Create a role (usually within a tenant/org).
+
+Request:
+
+```json
+{
+  "name": "Billing Admin",
+  "scope_type": "tenant",
+  "permissions": ["invoice.read", "invoice.write", "refund.execute"]
+}
+```
+
+Response:
+
+```json
+{ "role_id": "role_123", "version": 1 }
+```
+
+Notes:
+
+* `version` enables optimistic locking and cache invalidation.
+
+---
+
+### `GET /v1/roles?scope_type=tenant&cursor=...`
+
+Lists roles.
+
+---
+
+### `GET /v1/roles/{role_id}`
+
+Role details including permissions + version.
+
+---
+
+### `PATCH /v1/roles/{role_id}`
+
+Update role permissions (with optimistic concurrency).
+
+Request:
+
+```json
+{
+  "expected_version": 1,
+  "permissions": ["invoice.read", "invoice.write"]
+}
+```
+
+Response:
+
+```json
+{ "role_id": "role_123", "version": 2 }
+```
+
+---
+
+### `DELETE /v1/roles/{role_id}`
+
+Soft delete (or hard delete if allowed). Must ensure it’s not in use, or detach first.
+
+---
+
+## 3️⃣ Groups (optional but common)
+
+### `POST /v1/groups`
+
+```json
+{ "name": "Finance Team" }
+```
+
+### `POST /v1/groups/{group_id}/members`
+
+```json
+{ "principal": { "type": "user", "id": "user_7" } }
+```
+
+### `DELETE /v1/groups/{group_id}/members/{user_id}`
+
+Remove member.
+
+---
+
+## 4️⃣ Role bindings (who has what role, where)
+
+Key concept: a *binding* = (principal) → (role) at (scope)
+
+Scopes examples:
+
+* `tenant: t_1`
+* `project: p_99`
+* `resource: invoice: inv_abc`
+
+### `POST /v1/role-bindings`
+
+Request:
+
+```json
+{
+  "principal": { "type": "user", "id": "user_7" },
+  "role_id": "role_123",
+  "scope": { "type": "project", "id": "p_99" },
+  "expires_at": "2026-02-01T00:00:00Z"
+}
+```
+
+Response:
+
+```json
+{ "binding_id": "rb_555", "created_at": "2026-01-25T10:00:00Z" }
+```
+
+---
+
+### `GET /v1/role-bindings?principal_id=user_7&scope_type=project&scope_id=p_99`
+
+List bindings.
+
+---
+
+### `DELETE /v1/role-bindings/{binding_id}`
+
+Revoke.
+
+---
+
+## 5️⃣ Authorization check (hot path)
+
+### `POST /v1/authorize`
+
+Used by API Gateway or services to decide allow/deny.
+
+Request:
+
+```json
+{
+  "principal": { "type": "user", "id": "user_7", "tenant_id": "t_1" },
+  "action": "invoice.write",
+  "resource": { "type": "invoice", "id": "inv_abc", "tenant_id": "t_1", "project_id": "p_99" },
+  "context": { "ip": "203.0.113.10", "device": "web" }
+}
+```
+
+Response:
+
+```json
+{
+  "decision": "allow",
+  "reason": "role:Billing Admin via group:Finance Team scope:project:p_99",
+  "policy_version": 4821,
+  "ttl_ms": 5000
+}
+```
+
+Notes:
+
+* Return `ttl_ms` so callers can cache decisions briefly.
+
+---
+
+## 6️⃣ “My permissions” (useful for UI)
+
+### `GET /v1/me/effective-permissions?scope_type=project&scope_id=p_99`
+
+Response:
+
+```json
+{
+  "permissions": ["invoice.read", "invoice.write"]
+}
+```
+
+---
+
+## 7️⃣ Audit log (admin/compliance)
+
+### `GET /v1/audit-events?cursor=...&filter=role_binding_created`
+
+Events:
+
+* role created/updated/deleted
+* binding granted/revoked
+* optional: authorization decisions (usually sampled)

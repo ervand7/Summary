@@ -1,0 +1,76 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this RBAC only, or do we also need ABAC/policies
+(conditions like time/IP/device/resource tags)?
+2. What are the protected resources? (APIs only, UI actions, data rows/objects,
+files, features)
+3. What’s the authorization granularity: service-level, endpoint-level, resource-level,
+field-level, row-level?
+4. Is this for a single app, a platform with many services, or multi-tenant SaaS?
+5. Do we need both authentication (who you are) and authorization (what you can do),
+or authn is already solved?
+6. Which identity types exist: users, service accounts, machines, API keys, third-party apps?
+7. Is there an org hierarchy (org → teams → projects), and does it affect permissions?
+
+## B. Roles model (core RBAC decisions)
+
+8. Are roles global (system-wide) or scoped (per org/project/resource)?
+9. Do we support built-in roles only, or custom roles created by admins?
+10. Are roles composed of permissions (permission = action + resource type), or are
+roles “names only”?
+11. Do we need role hierarchy (Admin includes Editor includes Viewer)?
+12. Can a principal have multiple roles on the same scope? How to combine (union/deny
+overrides)?
+13. Do we need groups and group-based role assignment?
+14. Do we need nested groups?
+15. Do we need dynamic membership (SCIM/IdP synced) or manual only?
+
+## C. Permissions semantics (the hard part)
+
+16. What is a “permission” exactly: `action` only (e.g., `read`) or `action + resource`
+(e.g., `invoice:read`)?
+17. Do we support resource ownership rules (owner can always do X)?
+18. Do we need explicit deny (deny rules override allow)?
+19. Do we need inheritance (org role applies to all projects; project role applies to
+all resources)?
+20. How do we handle conflicts (user allowed via group, denied via direct assignment)?
+21. Do we need “break glass” access for support engineers? How audited/limited?
+22. Do we need temporary access (grant for 1 hour / until date)?
+23. Do we need delegation/impersonation (admin acts as user)?
+
+## D. Token/session integration
+
+24. Are we using JWT access tokens? Who issues them (Auth0/Keycloak/Cognito/custom)?
+25. Where should authorization be enforced: API gateway, each service, or a central
+AuthZ service?
+26. Do we need token introspection (opaque tokens) or offline JWT validation?
+27. Do we embed roles/permissions into tokens, or keep tokens small and query authz
+on each request?
+28. Requirements for logout / revocation? (JWT revocation lists, session store)
+29. Do we need M2M flows (client credentials) and service-to-service auth?
+
+## E. Scale, latency, reliability
+
+30. Expected QPS for authz checks (p50/p95 latency target)?
+31. Is the system global/multi-region? Any data residency constraints?
+32. Availability target (e.g., 99.9/99.99) and what happens if authz is down: fail
+closed or fail open (usually closed)?
+33. Hot-path caching allowed? Acceptable staleness (e.g., role change takes effect
+within 5s/1m)?
+34. Size limits: max roles per user, permissions per role, group size, nested depth?
+
+## F. Admin, audit, compliance
+
+35. Who can create/update/delete roles? Who can assign roles to others?
+36. Do we need approval workflow for granting high privileges?
+37. Audit logs required: what events (login, permission checks, role grants, denials)?
+38. Retention requirements for audit logs (30 days / 1 year / immutable/WORM)?
+39. Need reason codes for access denied (user-friendly) vs security (don’t leak)?
+40. Do we need policy simulation (“Would user X be allowed to do Y?”)?
+41. Do we need access reviews (periodic certification of permissions)?
+
+## G. Migration & interoperability
+
+42. Any legacy roles to migrate? Backward compatibility for permission names?
+43. Integration with enterprise IdP: SAML/OIDC, SCIM provisioning, “groups from IdP”?
+44. Any need for fine-grained data access later (ABAC), so we should design extensibly now?

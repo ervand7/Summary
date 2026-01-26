@@ -1,0 +1,116 @@
+# 🌍 Authorization / RBAC System (interview-grade, end-to-end)
+
+                             CONTROL PLANE
+               (admin actions, policy editing, slower but safe)
+
++-------------------------------------------------------------------------+
+| Admin UI / Admin API                                                    |
+| - create/update roles (permissions sets)                                |
+| - create groups and manage membership                                   |
+| - grant/revoke role bindings (user/group/service-account)               |
+| - configure org/tenant settings (optional)                              |
++----------------------------------+--------------------------------------+
+                                   |
+                                   v
++-------------------------------------------------------------------------+
+| RBAC Management Service (stateless)                                     |
+| - validates role definitions                                            |
+| - enforces "who can grant what" rules                                   |
+| - writes roles, groups, role bindings                                   |
+| - emits change events for cache invalidation                            |
++--------------------+----------------------+-----------------------------+
+                     |                      |
+                     v                      v
++---------------------------+      +--------------------------------------+
+| RBAC DB (SQL)             |      |Directory / IdP Integration (optional)|
+| - roles(role_id, ver, ...)|      | - OIDC/SAML for login                |
+| - role_permissions        |      | - SCIM provisioning                  |
+| - groups, group_members   |      | - IdP groups -> local groups mapping |
+| - role_bindings           |      +--------------------------------------+
++---------------------------+
+                     |
+                     |
+                     | role/binding updates
+                     v
++-------------------------------------------------------------------------+
+| Event Bus (Kafka/PubSub)                                                |
+| - RoleUpdated, BindingGranted, BindingRevoked, GroupChanged             |
++----------------------+--------------------------+------------------------+
+                       |                          |
+                       v                          v
++----------------------------------+   +----------------------------------+
+| Cache Invalidation Workers       |   | Audit Log Pipeline               |
+| - purge authz caches by principal|   | - append-only immutable log      |
+| - purge by scope/tenant/role     |   | - retention / search             |
++----------------------+-----------+   +----------------------+-----------+
+                       |                                   |
+                       v                                   v
++----------------------------------+        +----------------------------+
+| AuthZ Cache (Redis/Memcache)     |        | Audit Store (WORM/DB)      |
+| - principal -> effective roles   |        | + optional SIEM export     |
+| - principal+resource -> decision |        +----------------------------+
++----------------------------------+
+
+
+
+                             DATA PLANE (HOT PATH)
+           (every request; must be low-latency, highly available)
+
+Clients (Web/Mobile/Service-to-Service)
+        |
+        | HTTPS
+        v
++-------------------------------------------------------------------------+
+| API Gateway / Edge                                                      |
+| - AuthN: validate JWT (signature/exp/aud) or introspect opaque token    |
+| - Extract principal_id, tenant_id, scopes/claims                        |
+| - Option A: call AuthZ Service (centralized)                            |
+| - Option B: enforce locally with embedded PDP library + caches          |
++------------------------------+------------------------------------------+
+                               |
+                               v
++-------------------------------------------------------------------------+
+| AuthZ Service (Policy Decision Point / PDP)                             |
+| Input: principal + action + resource + context                          |
+| Steps:                                                                  |
+| 1) Load principal's effective role bindings (direct + group)            |
+| 2) Resolve scope inheritance (tenant -> project -> resource)            |
+| 3) Expand roles -> permissions                                          |
+| 4) Apply conflict rules (union, optional deny overrides)                |
+| 5) Return decision + reason + policy_version + ttl                      |
++--------------------+----------------------+-----------------------------+
+                     |                      |
+          cache hit  |                      | cache miss
+                     v                      v
++---------------------------+      +--------------------------------------+
+| AuthZ Cache               |      | RBAC DB / Directory (if needed)      |
+| - effective perms         |      | - read role_bindings, group_members  |
+| - decisions short TTL     |      | - read role_permissions              |
++---------------------------+      +--------------------------------------+
+
+                               |
+                               v
++-------------------------------------------------------------------------+
+| Downstream Business Services (PEP)                                      |
+| (Policy Enforcement Point)                                              |
+| - trust gateway decision OR re-check locally (defense-in-depth)         |
+| - enforce resource-level checks (e.g., invoice belongs to tenant)       |
++-------------------------------------------------------------------------+
+
+
+                         CACHING + CONSISTENCY STRATEGY
+
+1) Short TTL caching on decisions (e.g., 1-10s) for QPS bursts
+2) Longer caching for "effective permissions per principal" (e.g., 1-5 min)
+3) Invalidation via Event Bus on any role/group/binding changes
+4) Safety: fail CLOSED on authz outages (configurable per endpoint)
+
+                         OBSERVABILITY & SAFETY
+
++-------------------------------------------------------------------------+
+| Metrics / Tracing                                                       |
+| - p95 authorize latency, cache hit ratio                                |
+| - deny rates by action (watch anomalies)                                |
+| - admin changes rate (role/binding churn)                               |
+| - audit pipeline lag                                                    |
++-------------------------------------------------------------------------+

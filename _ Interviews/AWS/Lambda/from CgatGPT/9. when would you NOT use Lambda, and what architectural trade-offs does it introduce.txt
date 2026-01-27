@@ -1,0 +1,49 @@
+Lambda is great, but not universal.
+
+When NOT to use Lambda:
+
+1) Long-running or stateful workloads
+   * Max execution time (15 minutes)
+   * No guaranteed in-memory state
+   * Poor fit for workflows needing local state
+
+2) Ultra-low latency or predictable latency systems
+   * Cold starts add variance
+   * Provisioned concurrency increases cost
+
+3) Very high, steady throughput
+   * Constant traffic can be cheaper on ECS / EKS
+   * Lambda cost scales with invocations + duration
+
+4) Heavy CPU / memory / native dependencies
+   * Large packages increase cold start
+   * Limited control over OS and kernel (unless containers)
+
+5) Complex networking requirements
+   * VPC cold start overhead
+   * Harder debugging vs long-lived services
+
+6) Tight coupling or chatty internal calls
+   * Lambda favors event-driven, not chatty RPC patterns
+
+Architectural trade-offs:
+
+Pros:
+* No server management
+* Automatic scaling
+* Pay-per-use
+
+Cons:
+* Execution limits (time, memory)
+* Cold starts
+* Harder local debugging
+* Eventual consistency patterns required
+* Vendor lock-in
+
+Interview answer to “When would you avoid Lambda?”
+
+> I avoid Lambda for long-running, stateful, or ultra-low-latency workloads, and for
+steady high-throughput systems where containerized services are cheaper and more predictable.
+Lambda trades operational simplicity for execution limits, cold starts, and architectural constraints.
+
+👉 Think: `great for bursty, event-driven work — not for always-on systems`.

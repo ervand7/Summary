@@ -1,6 +1,9 @@
-AWS Lambda can be invoked in three main ways:
+AWS Lambda can be invoked in three main ways, depending on who waits for the result
+and who handles retries.
 
-### 1️⃣ Synchronous (request → response)
+---
+
+## 1️⃣ Synchronous (request → response)
 
 Example:
 User opens a website → clicks “Pay”
@@ -9,54 +12,83 @@ User opens a website → clicks “Pay”
 Browser → API Gateway → Lambda → response
 ```
 
-* User waits for the result
-* Lambda returns success / error immediately
+Characteristics
+
+* Client waits for the result
+* Lambda returns success or error immediately
 * If Lambda fails → caller sees the error
+* Retries are client-side (browser, SDK, API Gateway)
 
 👉 Like a normal HTTP request.
 
+Typical use
+
+* REST / GraphQL APIs
+* Authentication
+* Payments
+* Anything where the user needs an immediate answer
+
 ---
 
-### 2️⃣ Asynchronous (fire and forget)
+## 2️⃣ Asynchronous (fire and forget)
 
 Example:
-User uploads a photo → create thumbnails
+User uploads a photo → thumbnails are generated later
 
 ```
-S3 upload → Lambda (later)
+S3 upload → Lambda (invoked later)
 ```
 
-* User does NOT wait
-* AWS queues the event
+Characteristics
+
+* Client does NOT wait
+* Event is queued internally by AWS
+* Lambda runs in the background
 * AWS retries automatically if Lambda fails
+* Failures can be routed to DLQ / destinations
 
 👉 Like sending an email: you don’t wait for the recipient to read it.
 
+Typical use
+
+* Image / video processing
+* Notifications
+* Background data processing
+* Event-driven workflows
+
 ---
 
-### 3️⃣ Polling (Lambda pulls messages)
+## 3️⃣ Polling (Lambda pulls messages)
 
 Example:
-Order processing queue
+Order processing system
 
 ```
 SQS queue ← Lambda polls → processes messages
 ```
 
+Characteristics
+
 * Lambda pulls messages itself
-* Message stays in queue until processed
-* If Lambda crashes → message is processed again
+* Message stays in the queue until processed successfully
+* If Lambda crashes → message is retried
+* Retry behavior is controlled by the queue (visibility timeout, DLQ)
 
 👉 Like a worker checking a task list.
 
+Typical use
+
+* SQS-based workers
+* Kafka / stream processing
+* Reliable background processing
+* Decoupled services
+
 ---
 
-### 🧠 One-line summary
+## 🧠 One-line comparison
 
-| Type        | Who waits? | Who retries? | Typical use      |
-| ----------- | ---------- | ------------ | ---------------- |
-| Sync    | Client     | Client       | APIs             |
-| Async   | Nobody     | AWS          | Background jobs  |
-| Polling | Nobody     | Queue        | Streams / queues |
-
-If you want, I can explain this in Go terms or compare it to Kafka / RabbitMQ next.
+| Type    | Who waits? | Who retries? | Typical use cases        |
+| ------- | ---------- | ------------ | ------------------------ |
+| Sync    | Client     | Client       | APIs, user actions       |
+| Async   | Nobody     | AWS          | Background jobs, events  |
+| Polling | Nobody     | Queue        | Queues, streams, workers |

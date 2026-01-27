@@ -13,7 +13,6 @@
   * Let one Lambda process multiple messages per invocation (SQS batch size).
   * Reduces invocation count, cold starts, and downstream pressure.
 
-Rule of thumb (interview):
 
 > Queues absorb spikes, concurrency limits protect systems, batching reduces cost
 and pressure.

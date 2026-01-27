@@ -1,0 +1,41 @@
+Monitoring Lambda = logs + metrics + tracing.
+
+CloudWatch Logs (debugging):
+
+* Write logs to CloudWatch automatically
+* Use structured JSON logs (not plain strings) for filtering and analysis
+* Include fields: request_id, correlation_id, user_id, latency_ms, error_type
+* Set log retention (don’t keep forever)
+
+CloudWatch Metrics (health + SLOs):
+
+* Native metrics:
+  - Invocations, Errors, Duration, Throttles, ConcurrentExecutions
+* Add custom metrics for business KPIs:
+  - processed_events_total, retries_total, external_api_latency_ms
+* Use alarms:
+  - error rate spike, throttles > 0, p95 duration near timeout
+
+AWS X-Ray (distributed tracing):
+
+* Enable tracing to see end-to-end request flow
+* Useful for:
+  - slow dependencies (DB, HTTP calls)
+  - pinpointing where time is spent
+  - finding bottlenecks across services
+* Propagate trace/correlation IDs through downstream calls
+
+Best practices:
+
+* Emit one log line per important event (start/end/error)
+* Add dashboards (errors, p95 latency, throttles, concurrency)
+* Use DLQ metrics and alarms if async sources
+* Sample traces/logs to control cost under high load
+
+Interview answer to “How do you monitor/debug Lambda?”
+
+> I rely on CloudWatch for structured logs and alarms on core metrics like error rate,
+p95 duration, and throttles. For deeper debugging across services, I enable X-Ray tracing
+and propagate correlation IDs, so I can pinpoint slow dependencies and failures end-to-end.
+
+👉 Think: `logs for details`, `metrics for health`, `traces for the full path`.

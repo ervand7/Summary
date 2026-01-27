@@ -1,0 +1,28 @@
+Lambda execution environment may be reused between invocations.
+
+This means:
+
+* The same container can serve multiple requests
+* Code outside the handler runs only once per container lifecycle
+
+What can be safely reused:
+
+* Global variables (read-only or carefully mutated)
+* Initialized SDK clients (e.g. boto3)
+* Database connections / connection pools
+* In-memory caches
+* Loaded libraries and configuration
+
+What you must NOT rely on:
+
+* That reuse will always happen
+* That in-memory state will persist
+* That only one request runs at a time (with async / future features)
+
+Interview answer to “What happens between Lambda invocations?”
+
+> AWS may reuse the same execution environment between invocations, so
+initialization code and global objects can be reused to improve performance,
+but the lifecycle is not guaranteed and the function must remain stateless.
+
+👉 Think: `reuse if possible, never depend on it`.

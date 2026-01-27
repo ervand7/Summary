@@ -9,6 +9,7 @@ runtime and load the code before executing it.
 
   * minimizing global imports
   * keeping functions small
+  * Keeping Lambdas warm with scheduled invokes
   * using **Provisioned Concurrency** for critical paths
   * using SnapStart: Lambda initializes the function once, takes a snapshot, and
   restores it on cold starts instead of re-running init code.

@@ -1,9 +1,0 @@
-You can limit Lambda cold starts by:
-
-* Provisioned Concurrency (pre-warmed Lambdas)
-* Keeping packages small (use layers wisely)
-* Using lighter runtimes and less init code
-* Avoiding heavy work in global scope
-* Keeping Lambdas warm with scheduled invokes
-
-👉 Best real solution: Provisioned Concurrency.

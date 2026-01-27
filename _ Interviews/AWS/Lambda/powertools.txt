@@ -14,3 +14,7 @@ One-liner (interview-style):
 
 > AWS Lambda Powertools is an AWS-maintained utility library that standardizes logging,
 metrics, and tracing for Lambda functions and reduces boilerplate code.
+
+Interview one-liner
+> “I use AWS Lambda Powertools’ idempotency utility, which stores idempotency keys in DynamoDB
+and guarantees safe retries with minimal code.”

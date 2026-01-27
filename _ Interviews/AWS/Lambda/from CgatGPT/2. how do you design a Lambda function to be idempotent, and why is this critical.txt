@@ -1,38 +1,20 @@
-Idempotency means: the same event processed multiple times produces the same result.
+Idempotency = same event processed multiple times → same result.
 
-Why it’s critical in Lambda:
+Why needed in Lambda:
 
-* Lambda + event sources can retry on failures/timeouts
-* Messages can be delivered more than once (at-least-once delivery)
-* Without idempotency you get double charges, duplicate rows, repeated emails, etc.
+* Retries and duplicate deliveries are normal
+* Without it → double charges, duplicate rows, repeated emails
 
-How to design it:
+How to do it:
 
-1) Pick an idempotency key
-   * Use event_id / message_id (SQS), request_id, or a hash of the payload
-   * Must uniquely represent “this operation”
+* Use a stable idempotency key (event/message ID)
+* Store it in DynamoDB with a conditional write
+* If key exists → return previous result
+* Make downstream writes idempotent too (UPSERT, stable IDs)
 
-2) Store “seen” keys in durable storage with TTL
-   * DynamoDB is the classic choice
-   * Key = idempotency_key, value = status + response + expires_at
+Interview one-liner:
 
-3) Use conditional writes / transactions
-   * First writer wins (PutItem with ConditionExpression attribute_not_exists)
-   * If key already exists → return stored result or “already processed”
+> I assume retries, store an idempotency key with a conditional write, and return
+the stored result on duplicates to avoid double side effects.
 
-4) Make downstream writes idempotent too
-   * Use UPSERT patterns (DynamoDB UpdateItem, SQL ON CONFLICT)
-   * Use stable primary keys derived from the idempotency key
-   * Ensure side effects (email/payment) have their own idempotency key
-
-5) Handle “in-progress” vs “done”
-   * Store status = IN_PROGRESS then DONE
-   * Prevent two Lambdas from doing the work concurrently
-
-Interview answer to “How do you make Lambda idempotent?”
-
-> I assume retries and duplicates, so I use a stable idempotency key per request,
-store it in DynamoDB with a conditional write, and return the stored result on repeats.
-This prevents duplicate side effects like double payments or duplicate records.
-
-👉 Think: `retries are normal — duplicates must be harmless`.
+👉 Retries are normal; duplicates must be harmless.

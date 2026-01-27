@@ -1,0 +1,12 @@
+Goal: small, fast, reproducible Lambda deployments.
+
+* Use wheels built for Amazon Linux
+* Keep function ZIP minimal (handler + app code)
+* Use Lambda Layers for shared dependencies
+* Don’t bundle boto3 or dev deps
+* Use containers only for heavy native deps or OS control
+
+One-liner:
+
+> I package Python deps as Amazon-Linux wheels, keep the ZIP slim, use layers for
+shared libs, and switch to Lambda container images only for heavy native dependencies.

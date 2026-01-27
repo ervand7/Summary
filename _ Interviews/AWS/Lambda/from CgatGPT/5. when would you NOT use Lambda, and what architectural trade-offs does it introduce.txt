@@ -1,0 +1,12 @@
+Don’t use Lambda when:
+
+* Work is long-running or stateful
+* You need predictable ultra-low latency
+* Traffic is high and constant (cheaper on ECS/EKS)
+* You have heavy native deps / CPU needs
+* The system is chatty or tightly coupled
+
+One-liner:
+
+> Lambda is great for bursty, event-driven workloads, but I avoid it for long-running, 
+stateful, low-latency, or always-on systems.

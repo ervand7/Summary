@@ -1,0 +1,9 @@
+Lambda error handling depends on invocation type
+
+* Synchronous → no retries, no DLQ, error returned to caller
+* Asynchronous → automatic retries, DLQ supported
+
+One-liner:
+
+> Sync Lambdas return errors to the caller, async Lambdas retry automatically and
+send failures to a DLQ.

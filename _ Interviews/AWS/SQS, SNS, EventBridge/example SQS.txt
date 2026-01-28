@@ -1,0 +1,23 @@
+Producer (Order Service on EC2)
+   |
+   | Call SQS API:
+   |   - SendMessage
+   |   Payload:
+   |   {
+   |     "orderId": "123",
+   |     "action": "charge_card"
+   |   }
+   v
+SQS Queue  ← "Payments tasks queue"
+   |
+   | (long polling, managed by AWS Lambda service,
+   |  NOT by your Lambda code). It is set up in Lambda configuration
+   v
+Lambda Event Source Mapping
+   |
+   v
+Lambda Invocations (will be invoked automatically)
+   |
+   | chargeCard(orderId)
+   v
+External Payment Provider

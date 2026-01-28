@@ -1,0 +1,113 @@
+* SNS → broadcast a message to all its subscribers
+* SQS → store a task until someone processes it
+* EventBridge → route events based on rules and event content
+
+---
+
+* SNS: consumers must explicitly subscribe to a topic
+* SQS: consumers do NOT subscribe — they poll the queue
+* EventBridge: consumers do NOT subscribe — rules match events automatically
+
+---
+
+### Think in real life
+
+#### 📣 SNS = loudspeaker
+
+> “Order created!”
+
+* Everyone listening hears it
+* Same message goes to many receivers
+* No storage
+
+#### 📦 SQS = mailbox
+
+> “Process this order”
+
+* Message waits until one worker picks it up
+* If worker crashes → message comes back
+* Reliable task execution
+
+#### 🧠 EventBridge = smart dispatcher
+
+> “OrderCreated, source=payments, country=DE”
+
+* Checks rules
+* Sends event only to matching targets
+* No polling, no tight coupling
+* Designed for domain events
+
+---
+
+### Side-by-side (short)
+
+|                | SNS                         | SQS                   | EventBridge               |
+| -------------- | ----------------------------| ----------------------| --------------------------|
+| Model          | Pub/Sub                     | Queue                 | Event bus (rules-based)   |
+| Delivery       | Push                        | Pull                  | Push                      |
+| Consumers      | Many (same message to all)  | One per message       | Many (matched by rules)   |
+| Message stored | ❌ No                       | ✅ Yes                | ❌ No                     |
+| Ordering       | ❌ No                       | ✅ (FIFO)             | ❌ No                     |
+| Filtering      | ❌ No                       | ❌ No                 | ✅ Yes (event pattern)    |
+| Use case       | Broadcast notifications     | Background processing | Domain / app event routing|
+
+---
+
+### When to use EventBridge (important 💡)
+
+Use EventBridge when:
+
+* You publish **business events**, not tasks
+* Producers must NOT know consumers
+* You need **filtering by event fields**
+* You want clean, event-driven architecture
+
+Example:
+OrderService → EventBridge →
+
+* BillingService
+* Analytics
+* Email
+* FraudDetection
+
+
+---
+
+### Common AWS patterns
+
+**Fan-out + reliability**
+
+Producer
+|
+v
+SNS
+|
+v
+SQS
+|
+v
+Lambda workers
+
+
+
+**Event-driven architecture**
+
+Services
+|
+v
+EventBridge
+|
++--> Lambda
++--> Step Functions
++--> SQS
++--> Other services
+
+
+
+---
+
+### Interview one-liner
+
+> SNS broadcasts messages
+> SQS guarantees task processing,
+> EventBridge routes domain events using rules and event content.

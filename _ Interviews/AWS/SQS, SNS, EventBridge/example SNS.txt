@@ -1,0 +1,26 @@
+Producer (Order Service on EC2)
+   |
+   | Call SNS API:
+   |   - Publish
+   |   Message:
+   |   {
+   |     "orderId": "123",
+   |     "event": "order_created"
+   |   }
+   v
+SNS Topic  ← "Order events topic"
+   |
+   | (fan-out, push delivery)
+   | Subscriptions are configured
+   | in SNS (NOT in Lambda code)
+   v
+Lambda Subscription
+   |
+   | (SNS → Lambda permission is
+   |  added automatically)
+   v
+Lambda Invocations (will be invoked automatically)
+   |
+   | handleOrderCreated(orderId)
+   v
+Email / Notification Service

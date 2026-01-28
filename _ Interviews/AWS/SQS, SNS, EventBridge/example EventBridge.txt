@@ -1,0 +1,25 @@
+Producer (Order Service on EC2)
+   |
+   | Call EventBridge API:
+   |   - PutEvents
+   |   Event:
+   |   {
+   |     "source": "order-service",
+   |     "detail-type": "OrderCreated",
+   |     "detail": {
+   |       "orderId": "123",
+   |       "amount": 99.99
+   |     }
+   |   }
+   v
+EventBridge Event Bus (default)
+   |
+   | Rule:
+   |   source = "order-service"
+   |   detail-type = "OrderCreated"
+   v
+Lambda Target (will be invoked automatically. It is indicated in the EventBridge rule configuration)
+   |
+   | sendOrderConfirmation(orderId)
+   v
+Email / Notification Service

@@ -1,0 +1,33 @@
+How DynamoDB scales automatically
+
+* Table is split into many physical partitions
+* Each partition has fixed limits (storage + read/write capacity)
+* DynamoDB monitors traffic and storage usage
+* When limits are approached → it splits partitions and redistributes data
+* Scaling is automatic and transparent to the application
+
+What is a “hot” partition
+
+* Too many reads/writes for a single partition key
+* Happens when access is skewed to a small key set
+* Partition hits its per-partition throughput limit
+* Results in throttling even if table has free capacity
+
+How DynamoDB handles it
+
+* Auto-scaling can add capacity at table level
+* But traffic for one partition key cannot be split
+* Hot partition remains a bottleneck until access pattern changes
+
+How to prevent hot partitions
+
+* Use high-cardinality partition keys
+* Add key sharding (e.g. user_id#bucket)
+* Avoid time-based keys without randomness
+* Spread traffic across multiple partition keys
+
+Interview one-liner:
+
+> DynamoDB auto-scales by splitting and rebalancing partitions, but if traffic is
+concentrated on one partition key, that partition becomes hot and throttles,
+so good key design is critical.

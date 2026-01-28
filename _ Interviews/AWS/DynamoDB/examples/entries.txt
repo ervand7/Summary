@@ -1,0 +1,25 @@
+Example: same table, different items
+User profile
+PK = USER#123
+SK = PROFILE
+
+email = "user@mail.com"
+name  = "Ivan"
+age   = 30
+
+
+Order
+PK = USER#123
+SK = ORDER#2026-01-28T10:15:00
+
+order_id = "ORD-98765"
+amount   = 149.99
+status   = "PAID"
+
+
+Login event
+PK = USER#123
+SK = LOGIN#2026-01-28T10:20:00
+
+ip_address = "1.2.3.4"
+device     = "iPhone"

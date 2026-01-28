@@ -1,0 +1,33 @@
+Modeling relationships in DynamoDB
+
+One-to-many:
+
+* Use a single partition key for the “one”
+* Use sort key to represent the “many”
+* Example:
+  PK = USER#123
+  SK = ORDER#2024-01-01
+
+* Query by PK to fetch all related items
+
+Many-to-many:
+
+* Use a single-table design
+* Create linking items (join records)
+* Example:
+  PK = USER#123   SK = GROUP#456
+  PK = GROUP#456  SK = USER#123
+
+* Optionally add GSIs for reverse lookups
+
+Key principles:
+
+* Model by access patterns, not joins
+* Duplicate data when needed
+* Avoid cross-partition transactions
+
+Interview one-liner:
+
+> In DynamoDB, one-to-many is modeled with a shared partition key and sorted items,
+while many-to-many uses explicit linking items and GSIs, designed around access
+patterns instead of joins.

@@ -1,0 +1,20 @@
+Global Secondary Index (GSI) lets you query DynamoDB using an alternative
+partition key and sort key, effectively querying across all table partitions.
+
+Key limitations:
+
+* GSIs are always eventually consistent (no strongly consistent reads)
+* They have separate read/write capacity
+* They are updated asynchronously from the base table
+
+
+Local Secondary Index (LSI) lets you query DynamoDB using an alternative
+sort key while keeping the same partition key as the base table.
+
+Key properties / limitations:
+
+* Same partition key as the base table
+* Different sort key
+* Supports strongly consistent reads
+* Must be defined at table creation time
+* Shares table read/write capacity

@@ -1,0 +1,37 @@
+Provisioned vs On-Demand capacity in DynamoDB
+
+Provisioned Capacity:
+
+* You specify RCUs and WCUs
+* Cheaper for predictable, steady workloads
+* Supports auto-scaling within min/max limits
+* Risk of throttling if capacity is underestimated
+* Requires capacity planning
+
+On-Demand Capacity:
+
+* No capacity planning required
+* DynamoDB automatically handles traffic spikes
+* Scales instantly with workload
+* More expensive per request
+* Best for unpredictable or spiky traffic
+
+When to choose each
+
+Choose Provisioned when:
+
+* Traffic pattern is stable or predictable
+* Cost optimization is important
+* You can forecast load reasonably well
+
+Choose On-Demand when:
+
+* Traffic is unknown, spiky, or bursty
+* You want zero operational overhead
+* Workload is new or experimental
+
+Interview one-liner:
+
+> Provisioned capacity is cheaper but requires planning, while On-Demand trades
+higher cost for instant scaling and zero capacity management, making it ideal
+for unpredictable workloads.

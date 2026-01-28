@@ -1,0 +1,4 @@
+* Eventual consistency → default
+* Strong consistency → `ConsistentRead = true`
+* Strong reads work only on base table and LSI
+* GSI supports eventual consistency only

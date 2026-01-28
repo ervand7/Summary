@@ -1,0 +1,14 @@
+Primary Key:
+"PK": "USER#123",
+"SK": "ORDER#2026-01-28T10:15:00",
+
+GSI:
+"GSI1PK": "ORDER#ORD-98765",
+"GSI1SK": "2026-01-28T10:15:00",
+
+Value:
+{
+  "order_id": "ORD-98765",
+  "status": "PAID",
+  "amount": 149.99
+}

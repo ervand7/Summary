@@ -1,0 +1,1 @@
+A DynamoDB table can have up to 20 GSIs

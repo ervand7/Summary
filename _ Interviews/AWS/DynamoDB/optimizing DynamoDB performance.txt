@@ -21,6 +21,5 @@ Optimizing DynamoDB performance (short & senior-level):
 
 Rule of thumb (interview):
 
-> *Fix data modeling first, then choose capacity mode, and add DAX only if read latency is still a problem.*
-
-Built on Amazon Web Services DynamoDB.
+> *Fix data modeling first, then choose capacity mode, and add DAX only if read
+latency is still a problem.*

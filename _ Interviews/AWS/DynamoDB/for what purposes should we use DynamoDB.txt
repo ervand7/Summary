@@ -1,5 +1,5 @@
 Use DynamoDB when you need massive scale, very low latency, and simple access
-patterns — without managing servers.
+patterns - without managing servers.
 
 Typical use cases:
 

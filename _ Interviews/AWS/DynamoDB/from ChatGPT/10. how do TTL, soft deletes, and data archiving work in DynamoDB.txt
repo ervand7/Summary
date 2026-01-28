@@ -1,0 +1,21 @@
+TTL, soft deletes, and archiving
+
+TTL:
+
+* Auto-deletes items after a timestamp
+* Asynchronous and eventual
+
+Soft deletes:
+
+* Mark item as deleted with a flag
+* Data stays for recovery or audit
+
+Archiving:
+
+* Move old data to S3 or another store
+* Reduces DynamoDB size and cost
+
+Interview one-liner:
+
+> TTL expires data automatically, soft deletes keep data with a delete flag, and
+archiving moves cold data to cheaper storage like S3.

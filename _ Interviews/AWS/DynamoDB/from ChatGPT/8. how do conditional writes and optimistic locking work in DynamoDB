@@ -1,0 +1,3 @@
+> DynamoDB uses conditional writes for atomic checks, and optimistic locking by
+verifying a version attribute on update, which prevents lost updates without
+using locks.

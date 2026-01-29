@@ -1,0 +1,15 @@
+Immutable types:
+* Cannot be changed after creation
+* Examples: int, float, str, tuple, frozenset
+
+Mutable types:
+* Can be changed in place
+* Examples: list, dict, set
+
+Why it matters:
+* Immutables are hashable → can be dict keys / set items
+* Mutables can cause side effects
+* Affects function arguments and default values
+
+Key takeaway:
+> Mutability affects safety, hashing, and behavior

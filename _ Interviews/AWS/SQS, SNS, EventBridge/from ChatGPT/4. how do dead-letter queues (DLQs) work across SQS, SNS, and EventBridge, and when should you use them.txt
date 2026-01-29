@@ -1,0 +1,15 @@
+SQS
+
+* Message goes to DLQ after `maxReceiveCount`
+* Controlled by visibility timeout + retries
+
+SNS
+
+* DLQ per subscription
+* Used when push delivery fails after retries
+
+EventBridge
+
+* DLQ per rule
+* Event sent after managed retries (up to ~24h)
+

@@ -1,0 +1,2 @@
+> Visibility timeout controls retry behavior, long polling reduces empty polls and
+cost, and batching increases throughput while lowering API call overhead.

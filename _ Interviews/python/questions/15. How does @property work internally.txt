@@ -1,0 +1,13 @@
+@property is a descriptor.
+
+Internally:
+* Wraps a method into a descriptor object
+* Accessing attribute calls __get__()
+* Setting attribute calls __set__ (if defined)
+
+Effect:
+* Looks like an attribute
+* Behaves like a method
+
+Key idea:
+> @property = method access via descriptor

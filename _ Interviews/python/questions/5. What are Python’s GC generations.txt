@@ -1,0 +1,14 @@
+Python GC uses generational garbage collection.
+
+Generations:
+* Gen 0 → new objects (collected most often)
+* Gen 1 → objects that survived Gen 0
+* Gen 2 → long-lived objects (collected least often)
+
+How it works:
+* Most objects die young
+* Survivors are promoted to older generations
+* Older generations are scanned less frequently
+
+Key idea:
+> Collect young objects often, old objects rarely

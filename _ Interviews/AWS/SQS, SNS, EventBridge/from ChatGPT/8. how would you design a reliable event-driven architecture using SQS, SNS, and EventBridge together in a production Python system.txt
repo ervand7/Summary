@@ -1,0 +1,3 @@
+I use EventBridge for routing, SNS for optional fan-out, and SQS per consumer for
+buffering/backpressure, with idempotent consumers, DLQs, and metrics/alarms to make
+delivery at-least-once but outcomes exactly-once.

@@ -1,0 +1,10 @@
+Python function calls create a new stack frame.
+
+Internally:
+* Arguments are bound to local variables
+* A frame object is pushed onto the call stack
+* Bytecode is executed in that frame
+* Frame is destroyed after return
+
+Key point:
+> Each call = new frame with its own locals

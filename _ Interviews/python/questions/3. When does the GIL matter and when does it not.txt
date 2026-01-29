@@ -1,0 +1,13 @@
+GIL matters:
+* CPU-bound workloads
+* Multiple threads doing heavy Python computation
+* True parallelism on multiple cores is needed
+
+GIL does NOT matter:
+* I/O-bound tasks (network, disk, DB)
+* Single-threaded programs
+* Code that releases the GIL (C extensions, NumPy)
+
+Rule of thumb:
+> Threads help I/O, processes help CPU
+

@@ -1,0 +1,15 @@
+__new__:
+* Creates the object
+* Called before __init__
+* Must return an instance
+
+__init__:
+* Initializes the object
+* Called after __new__
+* Does not return anything
+
+Use case:
+* Override __new__ for immutable types or custom creation
+
+Key rule:
+> __new__ creates, __init__ configures

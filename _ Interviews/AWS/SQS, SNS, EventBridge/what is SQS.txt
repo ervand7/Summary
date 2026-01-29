@@ -11,5 +11,5 @@ What it is: Managed message queue for async decoupling between services
 
 One-liner:
 
-> *SQS is a durable, pull-based queue for decoupling services with retries and DLQs,
-not a streaming system.
+> *SQS is a durable, pull-based queue for decoupling services with retries and DLQs
+(is built-in), not a streaming system.

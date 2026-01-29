@@ -1,0 +1,15 @@
+Default arguments are evaluated once at function definition time.
+
+Problem:
+* Mutable default is shared between calls
+* Changes persist across function calls
+
+Example issue:
+* list/dict keeps old values unexpectedly
+
+Safe pattern:
+* Use None as default
+* Create mutable object inside the function
+
+Key takeaway:
+> Mutable defaults cause hidden shared state

@@ -1,0 +1,29 @@
+SQS
+
+* Standard: no ordering guarantees
+* FIFO: strict ordering per `MessageGroupId`
+* Limitation:
+  * Ordering is not global
+
+---
+
+SNS
+
+* No ordering guarantees
+* Messages can arrive out of order
+* Fan-out amplifies reordering across subscribers
+
+---
+
+EventBridge
+
+* No strict ordering guarantee
+* Events may be delivered out of order
+* Ordering depends on source and routing, not enforced by EventBridge
+
+---
+
+One-liner:
+
+> Only SQS FIFO provides ordering (per message group); SNS and EventBridge do not
+> guarantee order, so consumers must tolerate reordering.

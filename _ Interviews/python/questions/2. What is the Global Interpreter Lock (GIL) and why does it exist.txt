@@ -1,0 +1,13 @@
+GIL = a mutex that allows only one thread to execute Python bytecode at a time.
+
+Why it exists:
+* Simplifies memory management
+* Makes reference counting thread-safe
+* Avoids expensive fine-grained locks
+
+Impact:
+* CPU-bound threads don’t scale on multiple cores
+* I/O-bound threads are mostly unaffected
+
+Key takeaway:
+> GIL trades parallelism for simplicity and safety

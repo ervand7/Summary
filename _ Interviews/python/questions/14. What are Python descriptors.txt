@@ -1,0 +1,14 @@
+Descriptors are objects that control attribute access.
+
+They implement:
+* __get__ → read access
+* __set__ → write access
+* __delete__ → delete access
+
+Used for:
+* @property
+* Methods
+* Class attributes with custom behavior
+
+Key idea:
+> Descriptors customize how attributes are accessed

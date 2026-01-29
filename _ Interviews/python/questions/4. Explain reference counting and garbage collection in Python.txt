@@ -1,0 +1,13 @@
+Reference counting:
+* Every object has a reference counter
+* Incremented when a new reference is created
+* Decremented when a reference is removed
+* When count → 0, object is freed immediately
+
+Garbage collection:
+* Handles reference cycles (objects referencing each other)
+* Periodically scans objects in generations
+* Frees unreachable cycles
+
+Summary:
+> Reference counting is primary, GC cleans cycles

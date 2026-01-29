@@ -1,0 +1,3 @@
+I handle idempotency by extracting a stable event ID and using a conditional write
+in DynamoDB (or Lambda Powertools) so duplicate SQS, SNS, or EventBridge deliveries
+produce the same outcome without side effects.

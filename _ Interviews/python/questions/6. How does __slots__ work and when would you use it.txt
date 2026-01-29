@@ -1,0 +1,18 @@
+__slots__ restricts which attributes an object can have.
+
+How it works:
+* Replaces per-instance __dict__ with a fixed set of attributes
+* Saves memory
+* Prevents dynamic attribute creation
+
+When to use:
+* Many instances of a small class
+* Memory is critical
+* Object structure is fixed
+
+Trade-off:
+* Less flexible
+* No new attributes unless defined in __slots__
+
+Key takeaway:
+> __slots__ = lower memory, less flexibility

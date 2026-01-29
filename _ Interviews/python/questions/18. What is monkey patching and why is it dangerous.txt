@@ -1,0 +1,16 @@
+Monkey patching = changing code at runtime.
+
+What it is:
+* Modifying classes, functions, or modules after import
+
+Why dangerous:
+* Hidden side effects
+* Hard to trace bugs
+* Breaks assumptions of other code
+* Makes behavior non-obvious
+
+When acceptable:
+* Testing or controlled environments
+
+Key takeaway:
+> Monkey patching trades clarity for convenience

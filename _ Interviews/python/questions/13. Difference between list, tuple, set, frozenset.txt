@@ -1,0 +1,22 @@
+list:
+* Ordered
+* Mutable
+* Allows duplicates
+
+tuple:
+* Ordered
+* Immutable
+* Allows duplicates
+
+set:
+* Unordered
+* Mutable
+* Unique elements only
+
+frozenset:
+* Unordered
+* Immutable
+* Unique elements only
+
+Rule of thumb:
+> Choose based on mutability, order, and uniqueness

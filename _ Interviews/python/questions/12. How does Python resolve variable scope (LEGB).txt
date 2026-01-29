@@ -1,0 +1,10 @@
+Python uses LEGB rule for name lookup.
+
+Order:
+* Local → inside current function
+* Enclosing → outer (non-global) functions
+* Global → module-level variables
+* Built-in → Python built-ins
+
+Key point:
+> Python searches from inner to outer scopes

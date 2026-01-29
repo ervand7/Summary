@@ -11,8 +11,7 @@ Producer (Order Service on EC2)
 SNS Topic  ← "Order events topic"
    |
    | (fan-out, push delivery)
-   | Subscriptions are configured
-   | in SNS (NOT in Lambda code)
+   | Subscriptions are configured in SNS (NOT in Lambda code)
    v
 Lambda Subscription
    |

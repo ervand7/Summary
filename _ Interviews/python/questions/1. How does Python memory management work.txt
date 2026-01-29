@@ -1,0 +1,10 @@
+Python uses automatic memory management.
+
+How it works:
+* Objects are allocated on the heap
+* Reference counting tracks how many references point to an object
+* When refcount → 0, object is immediately freed
+* Cyclic garbage collector cleans up reference cycles
+
+Key point:
+> Reference counting handles most cases, GC handles cycles

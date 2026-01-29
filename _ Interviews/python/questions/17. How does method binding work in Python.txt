@@ -1,0 +1,9 @@
+Functions become methods when accessed via an instance.
+
+How it works:
+* obj.method → returns a bound method
+* Instance is automatically passed as `self`
+* Class.method → returns an unbound function
+
+Key idea:
+> Binding injects `self` automatically

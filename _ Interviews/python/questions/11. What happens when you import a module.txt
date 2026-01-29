@@ -1,0 +1,9 @@
+Import process:
+* Python checks if module is already in sys.modules
+* If not, it locates the module file
+* Executes the module top-level code once
+* Stores module object in sys.modules
+* Future imports reuse the cached module
+
+Key point:
+> Imports execute code once, then reuse the module

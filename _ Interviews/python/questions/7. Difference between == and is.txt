@@ -1,0 +1,13 @@
+`==` checks value equality
+`is` checks object identity (same memory reference)
+
+Examples:
+* a == b → values are equal
+* a is b → both refer to the same object
+
+Typical use:
+* `==` for comparisons
+* `is` for singletons (None, True, False)
+
+Key rule:
+> Use == for values, is for identity

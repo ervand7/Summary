@@ -1,0 +1,12 @@
+Standard SQS
+* Нет порядка
+* Высокий throughput
+* Возможны дубликаты
+
+FIFO SQS
+* Строгий порядок
+* Ниже throughput
+* Без дублей
+
+
+> Standard favors scale, FIFO favors ordering and deduplication.

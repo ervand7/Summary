@@ -1,0 +1,42 @@
+Amazon SQS
+
+* Pull-based (consumer polls the queue)
+* Delivery: at-least-once
+* Retries:
+
+  * Automatic via visibility timeout
+  * If not deleted → message becomes visible again
+* Failure handling:
+
+  * Redrive to DLQ after `maxReceiveCount`
+* Consumer controls retry speed and logic
+
+---
+
+Amazon SNS
+
+* Push-based (to Lambda, HTTP, SQS, etc.)
+* Delivery: at-least-once
+* Retries:
+
+  * Automatic retries with exponential backoff
+  * Retry behavior depends on subscription type
+* Failure handling:
+
+  * Per-subscription DLQ (e.g., SQS)
+* Publisher does not control retries
+
+---
+
+Amazon EventBridge
+
+* Push-based event routing
+* Delivery: at-least-once
+* Retries:
+
+  * Automatic retries for up to 24 hours
+  * Exponential backoff
+* Failure handling:
+
+  * DLQ or archive + replay
+* No consumer-side retry control

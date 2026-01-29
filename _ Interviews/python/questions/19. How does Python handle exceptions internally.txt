@@ -1,0 +1,11 @@
+Exceptions are objects raised during runtime errors.
+
+Internally:
+* Error creates an exception object
+* Interpreter unwinds the call stack
+* Looks for a matching except block
+* If found → handles it
+* If not → program terminates with traceback
+
+Key idea:
+> Exceptions propagate up the stack until handled

@@ -1,0 +1,16 @@
+A plugin system loads and executes external components dynamically.
+
+Basic design:
+* Define a clear interface (ABC / protocol)
+* Plugins implement that interface
+* Discover plugins via entry points, config, or directory scanning
+* Load them dynamically (importlib)
+* Register plugins in a registry
+
+Key ideas:
+* Loose coupling
+* Stable interface
+* Runtime extensibility
+
+Summary:
+> Plugin system = discover, load, validate, execute

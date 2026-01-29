@@ -1,0 +1,10 @@
+Dataclasses auto-generate boilerplate code for classes.
+
+Internally:
+* @dataclass inspects class annotations
+* Generates __init__, __repr__, __eq__ (and others)
+* Stores fields as normal instance attributes
+* Still a regular Python class at runtime
+
+Key idea:
+> Dataclasses generate code, not magic objects

@@ -1,0 +1,12 @@
+Avoid inheritance when:
+* Behavior varies, not identity
+* You only need code reuse
+* Hierarchies become deep or fragile
+* Changes in base class may break children
+
+Prefer:
+* Composition
+* Interfaces / protocols
+* Dependency injection
+
+> Favor composition over inheritance

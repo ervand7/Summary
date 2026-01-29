@@ -1,0 +1,1 @@
+> ABCs enforce contracts, duck typing trusts behavior

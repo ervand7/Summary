@@ -1,0 +1,2 @@
+> Inheritance for shared identity
+> Composition for shared behavior

@@ -1,0 +1,13 @@
+Abstract Base Classes (ABCs) define required methods.
+
+How they work:
+* Use abc.ABC as base class
+* Mark methods with @abstractmethod
+* Cannot instantiate until all abstract methods are implemented
+
+Purpose:
+* Enforce interfaces
+* Catch design errors early
+
+
+> ABCs define what a class must implement

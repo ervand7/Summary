@@ -1,0 +1,12 @@
+Avoid dataclasses when:
+* Complex validation logic is needed
+* Invariants must be strictly enforced
+* Object lifecycle is non-trivial
+* Heavy inheritance or dynamic attributes are required
+
+Better fit:
+* Regular classes
+* Explicit __init__ and methods
+
+Key idea:
+> Dataclasses are for simple data holders

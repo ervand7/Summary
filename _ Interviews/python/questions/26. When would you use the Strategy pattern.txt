@@ -1,0 +1,12 @@
+Strategy pattern encapsulates interchangeable algorithms.
+
+When to use:
+* Multiple ways to perform an action
+* Behavior changes at runtime
+* Want to avoid large if/else blocks
+
+Example:
+* Different pricing, sorting, or validation logic
+
+Key idea:
+> Strategy lets you swap behavior without changing code

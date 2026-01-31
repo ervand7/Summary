@@ -1,0 +1,10 @@
+Use profiling tools to find slow or heavy code paths.
+
+Common tools:
+* cProfile → CPU time per function
+* line_profiler → line-by-line CPU usage
+* memory_profiler / tracemalloc → memory usage
+* timeit → micro-benchmarks
+
+Rule of thumb:
+> Measure first, optimize second

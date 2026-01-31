@@ -1,0 +1,18 @@
+Race condition = outcome depends on execution order.
+
+Why it happens:
+* Shared mutable state
+* Concurrent access (threads/processes/async)
+* No proper synchronization
+
+Effects:
+* Inconsistent or corrupted data
+* Hard-to-reproduce bugs
+
+Prevention:
+* Locks, semaphores
+* Atomic operations
+* Avoid shared state
+
+Key idea:
+> Uncontrolled concurrency leads to races

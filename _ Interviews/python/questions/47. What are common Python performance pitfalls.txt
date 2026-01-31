@@ -1,0 +1,12 @@
+Common Python performance pitfalls:
+
+* Writing CPU-heavy loops in pure Python
+* Excessive object creation
+* Blocking I/O in async code
+* Inefficient data structures
+* Repeated work without caching
+* Overusing threads for CPU-bound tasks
+* Unnecessary abstraction layers
+
+Key idea:
+> Python is fast enough — misuse makes it slow

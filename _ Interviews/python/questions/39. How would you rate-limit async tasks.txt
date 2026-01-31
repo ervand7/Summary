@@ -1,0 +1,13 @@
+Rate limiting controls how many tasks run concurrently.
+
+Common approaches:
+* asyncio.Semaphore → limit concurrent tasks
+* Token bucket / leaky bucket
+* Queue + worker pool
+* External rate limiter (Redis)
+
+Example idea:
+> Acquire permit → run task → release permit
+
+Key takeaway:
+> Limit concurrency to protect resources

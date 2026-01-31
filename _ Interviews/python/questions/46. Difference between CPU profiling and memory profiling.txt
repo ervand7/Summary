@@ -1,0 +1,14 @@
+CPU profiling:
+* Measures execution time
+* Finds slow functions and hotspots
+
+Memory profiling:
+* Measures memory usage
+* Finds leaks and high-allocation areas
+
+Purpose:
+> CPU profiling → speed
+> Memory profiling → footprint
+
+Key takeaway:
+> Optimize time and space separately

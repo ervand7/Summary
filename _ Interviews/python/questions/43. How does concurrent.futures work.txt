@@ -1,0 +1,24 @@
+concurrent.futures provides a high-level API for running tasks concurrently.
+
+How it works:
+* Uses executors to manage worker pools
+  - ThreadPoolExecutor → threads
+  - ProcessPoolExecutor → processes
+* You submit callables with submit()
+* Returns Future objects
+* Futures represent running or completed tasks
+
+Key idea:
+> Executor manages workers, Future represents result
+
+
+```
+from concurrent.futures import ThreadPoolExecutor
+
+def work(x):
+    return x * 2
+
+with ThreadPoolExecutor() as executor:
+    future = executor.submit(work, 10)
+    print(future.result())
+```

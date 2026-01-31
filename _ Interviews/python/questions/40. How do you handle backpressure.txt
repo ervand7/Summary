@@ -1,0 +1,11 @@
+Backpressure = preventing producers from overwhelming consumers.
+
+How to handle it:
+* Limit concurrency (semaphores)
+* Use bounded queues
+* Apply rate limiting
+* Reject or delay excess work
+* Buffer with timeouts
+
+Goal:
+> Slow producers when consumers can’t keep up

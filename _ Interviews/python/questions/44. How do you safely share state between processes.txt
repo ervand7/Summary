@@ -1,0 +1,101 @@
+Processes do NOT share memory by default.
+
+Safe ways to share state:
+* Use multiprocessing primitives (Queue, Pipe)
+* Use multiprocessing.Manager (shared dict/list)
+* Share data via IPC (sockets)
+* Persist state in external storage (DB, Redis, files)
+
+Avoid:
+* Sharing mutable in-memory objects directly
+
+Key takeaway:
+> Processes communicate, not share memory
+
+
+Example:
+> Each process has its own memory.
+
+That means:
+
+* Variables in one process are invisible to another
+* You cannot safely share normal Python objects between processes
+
+---
+
+## Simple example
+
+```python
+from multiprocessing import Process
+
+x = 0
+
+def worker():
+    global x
+    x = 10
+
+p = Process(target=worker)
+p.start()
+p.join()
+
+print(x)
+```
+
+Output
+
+```
+0
+```
+
+Why?
+
+* `worker()` runs in another process
+* It changes its own copy of `x`
+* Parent process never sees it
+
+---
+
+## How processes “share” data (safely)
+
+They don’t share memory — they send messages.
+
+### Example with a Queue
+
+```python
+from multiprocessing import Process, Queue
+
+def worker(q):
+    q.put(10)
+
+q = Queue()
+p = Process(target=worker, args=(q,))
+p.start()
+
+print(q.get())
+```
+
+Here:
+
+* Worker sends data
+* Parent receives data
+
+---
+
+## Why this matters
+
+If processes shared memory:
+
+* One process could corrupt another
+* Crashes and data races would be common
+
+So OS rule is:
+
+> Processes are isolated for safety.
+
+---
+
+## One-line summary
+
+> Threads share memory, processes don’t — they communicate instead.
+
+That’s all this text is saying.

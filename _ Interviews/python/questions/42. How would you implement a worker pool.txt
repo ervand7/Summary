@@ -1,0 +1,14 @@
+Worker pool = fixed number of workers processing tasks from a queue.
+
+Basic design:
+* Task queue
+* N workers
+* Workers fetch → process → repeat
+
+Implementations:
+* threading + queue.Queue
+* multiprocessing + Pool
+* asyncio + Queue + workers
+
+Key idea:
+> Control concurrency and reuse workers

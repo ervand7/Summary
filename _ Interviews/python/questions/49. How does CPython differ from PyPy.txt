@@ -1,0 +1,14 @@
+CPython:
+* Default Python implementation
+* Interprets bytecode
+* Reference counting + GC
+* Best compatibility with C extensions
+
+PyPy:
+* Alternative implementation
+* Has a JIT compiler (often faster for CPU-bound code)
+* Different GC (not refcount-based)
+* Some C extensions may be slower or incompatible
+
+Key idea:
+> CPython = compatibility, PyPy = JIT speed (when it fits)

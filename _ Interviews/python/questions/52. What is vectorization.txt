@@ -1,0 +1,14 @@
+Vectorization means applying operations to whole arrays at once.
+
+Instead of:
+* Looping in Python
+
+Do:
+* Single operation on arrays
+
+Why faster:
+* Runs in optimized C code
+* Fewer Python-level operations
+
+Key idea:
+> Vectorization replaces Python loops with native array ops

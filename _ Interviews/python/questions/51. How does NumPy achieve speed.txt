@@ -1,0 +1,1 @@
+NumPy is fast because most work runs in C, not Python.

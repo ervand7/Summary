@@ -1,0 +1,16 @@
+Optimize a slow API endpoint step-by-step:
+
+1. Measure first (profiling, logs, metrics)
+2. Identify bottleneck:
+   * DB queries
+   * External APIs
+   * Serialization
+3. Optimize:
+   * Add caching
+   * Improve queries / indexes
+   * Reduce payload size
+   * Add async or batching
+4. Scale if needed (horizontal, workers)
+
+Key idea:
+> Don’t guess - measure and fix the bottleneck

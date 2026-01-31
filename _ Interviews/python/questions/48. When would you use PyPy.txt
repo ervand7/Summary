@@ -1,0 +1,15 @@
+Use PyPy when:
+* Workload is CPU-bound
+* Code has long-running loops
+* Uses pure Python (few C extensions)
+
+Why:
+* JIT compilation speeds up execution
+* Often faster than CPython for compute-heavy code
+
+Avoid when:
+* Heavy C-extension usage
+* Strict CPython compatibility required
+
+Rule of thumb:
+> PyPy for long-running, pure-Python workloads

@@ -1,0 +1,8 @@
+Use C extensions when:
+* Performance is critical
+* Code is CPU-bound
+* Heavy numeric or algorithmic work is needed
+* You want to reuse existing C/C++ libraries
+
+
+> Use C extensions only when Python is the bottleneck

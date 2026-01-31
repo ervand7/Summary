@@ -1,0 +1,11 @@
+Optimize I/O-bound workloads by overlapping waiting time.
+
+Techniques:
+* Use async I/O (asyncio, async/await)
+* Use threading for blocking I/O
+* Batch requests
+* Connection pooling
+* Caching results
+
+Key idea:
+> Hide I/O latency with concurrency

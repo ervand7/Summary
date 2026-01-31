@@ -1,0 +1,13 @@
+Mock external services by replacing real dependencies.
+
+Common methods:
+* unittest.mock (patch, MagicMock)
+* pytest-mock
+* Fake servers (HTTP mocks)
+* Dependency injection
+
+Goal:
+> Test logic without calling real external systems
+
+Rule of thumb:
+> Mock boundaries, not internals

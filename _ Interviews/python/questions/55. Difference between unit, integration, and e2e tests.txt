@@ -1,0 +1,17 @@
+Unit tests:
+* Test small pieces (functions/classes)
+* Fast, isolated
+* No external dependencies
+
+Integration tests:
+* Test components working together
+* Use real DBs/services (or close mocks)
+* Slower than unit tests
+
+End-to-end (E2E) tests:
+* Test full system flow
+* Closest to real user behavior
+* Slowest and most expensive
+
+Rule of thumb:
+> Many unit tests, fewer integration tests, minimal E2E

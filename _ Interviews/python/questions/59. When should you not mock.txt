@@ -1,0 +1,12 @@
+Avoid mocking when:
+* Behavior is critical to correctness
+* Integration with real service matters
+* You want to test actual failures
+* Mock becomes more complex than real call
+
+Prefer:
+* Integration tests
+* Test environments / sandboxes
+
+Key idea:
+> Don’t mock what you need to trust

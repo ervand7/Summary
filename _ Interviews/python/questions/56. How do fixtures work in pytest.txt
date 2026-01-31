@@ -1,0 +1,10 @@
+Fixtures provide reusable test setup and teardown.
+
+How they work:
+* Defined with @pytest.fixture
+* Injected into tests by name
+* Can have different scopes (function, module, session)
+* Can yield for teardown logic
+
+Purpose:
+> Share setup code cleanly across tests

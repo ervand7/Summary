@@ -1,0 +1,14 @@
+Test isolation means each test runs independently.
+
+What it ensures:
+* Tests don’t depend on execution order
+* No shared state between tests
+* One test’s failure doesn’t affect others
+
+How to achieve:
+* Fresh data per test
+* Proper setup/teardown
+* Avoid global mutable state
+
+Key idea:
+> A test must pass or fail on its own

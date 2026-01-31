@@ -1,0 +1,20 @@
+threading:
+* Multiple threads in one process
+* Shares memory
+* Limited by GIL → no CPU parallelism
+* Best for I/O-bound tasks
+
+multiprocessing:
+* Multiple processes
+* Separate memory, separate GIL per process
+* True parallelism on multiple cores
+* Best for CPU-bound tasks
+
+asyncio:
+* Single-threaded, event-driven
+* Cooperative multitasking
+* Very efficient for many I/O operations
+* Requires async-compatible code
+
+Rule of thumb:
+> Threads for I/O, processes for CPU, asyncio for high-concurrency I/O

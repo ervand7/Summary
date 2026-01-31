@@ -1,0 +1,123 @@
+asyncio.gather:
+* Runs coroutines concurrently
+* Returns results in order
+* Fails fast on first exception (by default)
+
+asyncio.wait:
+* Waits for futures to complete
+* Returns done and pending sets
+* Gives more control over completion behavior
+
+Rule of thumb:
+> gather for results, wait for control
+
+
+
+More detailed:
+## `asyncio.gather` — *“give me all results”*
+
+### Example
+
+```python
+import asyncio
+
+async def job(n):
+    await asyncio.sleep(n)
+    return n
+
+async def main():
+    result = await asyncio.gather(job(1), job(2))
+    print(result)
+
+asyncio.run(main())
+```
+
+Output
+
+```
+[1, 2]
+```
+
+### What it does
+
+* Starts coroutines concurrently
+* Waits for all to finish
+* Returns results in the same order
+* If one fails → raises immediately (default)
+
+👉 Use when you care about results
+
+---
+
+## `asyncio.wait` — *“tell me who finished”*
+
+### Example
+
+```python
+import asyncio
+
+async def job(n):
+    await asyncio.sleep(n)
+    return n
+
+async def main():
+    tasks = [
+        asyncio.create_task(job(1)),
+        asyncio.create_task(job(2)),
+    ]
+
+    done, pending = await asyncio.wait(tasks)
+    print(len(done), len(pending))
+
+asyncio.run(main())
+```
+
+Output
+
+```
+2 0
+```
+
+### What it does
+
+* Waits for tasks to complete
+* Returns two sets: `done`, `pending`
+* No results automatically
+* You decide what to do next
+
+👉 Use when you need control
+
+---
+
+## Early return example (`wait` advantage)
+
+```python
+done, pending = await asyncio.wait(
+    tasks,
+    return_when=asyncio.FIRST_COMPLETED
+)
+```
+
+* Returns when first task finishes
+* Others stay pending
+
+---
+
+## Key difference (one glance)
+
+| Feature              | `gather` | `wait` |
+| -------------------- | -------- | ------ |
+| Returns results      | ✅ Yes    | ❌ No   |
+| Keeps order          | ✅ Yes    | ❌      |
+| Fail-fast            | ✅ Yes    | ❌      |
+| Partial completion   | ❌        | ✅      |
+| Fine-grained control | ❌        | ✅      |
+
+---
+
+## One-line memory hook
+
+> `gather` = collect results
+> `wait` = manage task lifecycle
+
+If you want, next I can show what happens on exceptions or how to cancel pending tasks safely.

@@ -1,0 +1,18 @@
+Blocking the event loop freezes async execution.
+
+What happens:
+* No other coroutines can run
+* I/O waits are not processed
+* Application becomes unresponsive
+
+Causes:
+* time.sleep()
+* CPU-heavy work
+* Blocking I/O calls
+
+Solution:
+* Use non-blocking async APIs
+* Offload CPU work to threads/processes
+
+Key rule:
+> Never block the event loop

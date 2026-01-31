@@ -1,0 +1,14 @@
+async def:
+* Creates a coroutine
+* Uses await
+* Managed by the event loop
+* Designed for async I/O
+
+Generators (def + yield):
+* Produce values lazily
+* Use yield
+* Not async by default
+* Used for iteration / streaming data
+
+Key difference:
+> async def = async execution, generators = lazy iteration

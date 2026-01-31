@@ -1,0 +1,13 @@
+Cooperative multitasking means tasks voluntarily yield control.
+
+How it works:
+* Tasks run until they await / yield
+* Event loop switches to another task
+* No preemption by the scheduler
+
+Used in:
+* asyncio
+* async/await systems
+
+Key idea:
+> Tasks cooperate by yielding control explicitly

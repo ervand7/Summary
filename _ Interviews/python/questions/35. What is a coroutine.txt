@@ -1,0 +1,12 @@
+A coroutine is a function that can pause and resume execution.
+
+In Python:
+* Defined with async def
+* Uses await to yield control
+* Managed by the event loop
+
+Purpose:
+* Handle many I/O tasks efficiently without blocking
+
+Key idea:
+> Coroutine = pausable function for async work

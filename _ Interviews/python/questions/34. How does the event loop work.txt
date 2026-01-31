@@ -1,0 +1,10 @@
+The event loop schedules and runs async tasks.
+
+How it works:
+* Keeps a queue of ready tasks
+* Executes a task until it awaits
+* Suspends it during I/O
+* Resumes it when I/O is ready
+
+Key idea:
+> Event loop = run, pause, resume async tasks

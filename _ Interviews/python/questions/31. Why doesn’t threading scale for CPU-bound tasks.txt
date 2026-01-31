@@ -1,0 +1,12 @@
+Because of the Global Interpreter Lock (GIL).
+
+Why:
+* Only one thread can execute Python bytecode at a time
+* CPU-bound threads compete for the GIL
+* Threads are context-switched, not run in parallel
+
+Result:
+* Multiple cores are not fully utilized
+
+Key takeaway:
+> Python threads don’t provide true CPU parallelism

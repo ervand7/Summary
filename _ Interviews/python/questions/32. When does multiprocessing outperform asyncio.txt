@@ -1,0 +1,15 @@
+Multiprocessing outperforms asyncio for CPU-bound work.
+
+Why:
+* Each process has its own GIL
+* Runs truly in parallel on multiple cores
+* Asyncio is single-threaded and cooperative
+
+Examples:
+* Heavy computation
+* Data processing
+* Image / video processing
+* ML preprocessing
+
+Rule of thumb:
+> asyncio for I/O, multiprocessing for CPU

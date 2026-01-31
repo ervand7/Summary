@@ -1,12 +1,139 @@
-Common Python performance pitfalls:
+## 1️⃣ CPU-heavy loops in pure Python
 
-* Writing CPU-heavy loops in pure Python
-* Excessive object creation
-* Blocking I/O in async code
-* Inefficient data structures
-* Repeated work without caching
-* Overusing threads for CPU-bound tasks
-* Unnecessary abstraction layers
+❌ Slow:
 
-Key idea:
-> Python is fast enough — misuse makes it slow
+```python
+s = 0
+for i in range(10_000_000):
+    s += i
+```
+
+✅ Better:
+
+```python
+s = sum(range(10_000_000))
+```
+
+Why: Python loops are slow; built-ins are optimized in C.
+
+---
+
+## 2️⃣ Excessive object creation
+
+❌ Slow:
+
+```python
+result = []
+for i in range(100_000):
+    result += [i]   # creates new list every time
+```
+
+✅ Better:
+
+```python
+result = []
+for i in range(100_000):
+    result.append(i)
+```
+
+---
+
+## 3️⃣ Blocking I/O in async code
+
+❌ Bad:
+
+```python
+async def handler():
+    time.sleep(2)   # blocks event loop
+```
+
+✅ Good:
+
+```python
+async def handler():
+    await asyncio.sleep(2)
+```
+
+---
+
+## 4️⃣ Inefficient data structures
+
+❌ Slow:
+
+```python
+items = []
+if x in items:      # O(n)
+    ...
+```
+
+✅ Better:
+
+```python
+items = set()
+if x in items:      # O(1)
+    ...
+```
+
+---
+
+## 5️⃣ Repeated work without caching
+
+❌ Slow:
+
+```python
+def calc(x):
+    return x * x
+
+calc(10)
+calc(10)
+```
+
+✅ Better:
+
+```python
+from functools import lru_cache
+
+@lru_cache
+def calc(x):
+    return x * x
+```
+
+---
+
+## 6️⃣ Threads for CPU-bound tasks
+
+❌ Ineffective:
+
+```python
+# threads don't speed up CPU work (GIL)
+```
+
+✅ Better:
+
+```python
+# use multiprocessing / ProcessPoolExecutor
+```
+
+---
+
+## 7️⃣ Unnecessary abstraction layers
+
+❌ Overkill:
+
+```python
+class Wrapper:
+    def get(self):
+        return value
+```
+
+✅ Simple:
+
+```python
+value
+```
+
+---
+
+## One-line takeaway
+
+> Python is usually fast enough — performance problems come from using it the wrong way.

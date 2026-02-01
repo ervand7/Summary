@@ -1,0 +1,14 @@
+ORM:
+* Faster development
+* Safer queries
+* Database abstraction
+* Less control, possible overhead
+
+Raw SQL:
+* Full control
+* Better performance tuning
+* Database-specific
+* More boilerplate and risk
+
+Rule of thumb:
+> ORM for productivity, SQL for performance-critical paths

@@ -1,0 +1,10 @@
+Test async code using async-aware tools.
+
+Common approaches:
+* pytest + pytest-asyncio
+* Mark tests with @pytest.mark.asyncio
+* Await coroutines directly
+* Mock async functions properly
+
+Key idea:
+> Async code needs async tests

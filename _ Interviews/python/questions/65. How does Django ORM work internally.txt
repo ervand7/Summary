@@ -1,0 +1,10 @@
+Django ORM maps Python objects to database rows.
+
+Internally:
+* Models define table schema
+* QuerySets build lazy SQL queries
+* Queries compile to SQL only when evaluated
+* Results are converted to model instances
+
+Key idea:
+> Django ORM builds SQL lazily and executes on access

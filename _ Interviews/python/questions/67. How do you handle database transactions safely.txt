@@ -1,0 +1,11 @@
+Handle transactions by ensuring atomicity and consistency.
+
+Best practices:
+* Use explicit transactions (BEGIN / COMMIT / ROLLBACK)
+* Keep transactions short
+* Use proper isolation levels
+* Handle retries for transient failures
+* Use context managers where available
+
+Key idea:
+> Either everything succeeds, or nothing is applied

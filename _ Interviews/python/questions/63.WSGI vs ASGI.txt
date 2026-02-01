@@ -1,0 +1,14 @@
+WSGI:
+* Synchronous interface
+* One request per thread/process
+* Designed for blocking I/O
+* Used by Flask, Django (classic)
+
+ASGI:
+* Asynchronous interface
+* Supports async/await
+* Handles long-lived connections (WebSockets)
+* Used by FastAPI, Starlette, modern Django
+
+Key idea:
+> WSGI = sync, ASGI = async + real-time

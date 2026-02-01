@@ -1,0 +1,15 @@
+Property-based testing checks general rules, not specific cases.
+
+How it works:
+* Define properties (invariants)
+* Framework generates many random inputs
+* Test must hold for all inputs
+
+Example:
+* Sorting output is always ordered
+
+Tools:
+* Hypothesis
+
+Key idea:
+> Test behavior, not examples

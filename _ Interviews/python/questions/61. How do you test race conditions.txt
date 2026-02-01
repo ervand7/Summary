@@ -1,0 +1,11 @@
+Race conditions are tested by forcing concurrency.
+
+Techniques:
+* Run tests many times
+* Increase concurrency and timing pressure
+* Use stress tests
+* Add synchronization hooks or delays
+* Use deterministic schedulers (when possible)
+
+Key idea:
+> Make races happen on purpose

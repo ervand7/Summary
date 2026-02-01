@@ -1,0 +1,11 @@
+Handle legacy code carefully and incrementally.
+
+Approach:
+* Understand behavior before changing
+* Add characterization tests
+* Refactor in small steps
+* Isolate legacy parts
+* Improve only what you touch
+
+Key idea:
+> Stabilize first, improve gradually

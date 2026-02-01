@@ -1,0 +1,16 @@
+Refactor when code slows you down or becomes risky.
+
+Signals:
+* Hard to understand or change
+* Frequent bugs in same area
+* Duplication grows
+* Performance issues
+* New features become painful
+
+Rules:
+* Refactor with tests in place
+* Do it incrementally
+* Avoid “big rewrite” without need
+
+Key idea:
+> Refactor to reduce future cost, not for beauty

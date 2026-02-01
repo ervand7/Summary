@@ -1,0 +1,10 @@
+Prefer readability first, optimize when needed.
+
+Approach:
+* Write clear, simple code
+* Measure performance
+* Optimize only proven bottlenecks
+* Document non-obvious optimizations
+
+Rule of thumb:
+> Clear code first, fast code when necessary

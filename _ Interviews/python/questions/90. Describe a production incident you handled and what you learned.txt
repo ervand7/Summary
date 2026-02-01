@@ -1,0 +1,17 @@
+Incident:
+A production service started timing out under load due to a downstream dependency
+becoming slow, which caused request pile-ups and thread exhaustion.
+
+Action:
+* Identified the bottleneck using metrics and logs
+* Added timeouts and retries with backoff
+* Implemented a circuit breaker to fail fast
+* Reduced blast radius by limiting concurrency
+
+Result:
+* Service stabilized quickly
+* Downstream failures no longer cascaded
+* Mean recovery time improved significantly
+
+Lesson learned:
+> Always design for failure - slow dependencies are more dangerous than dead ones

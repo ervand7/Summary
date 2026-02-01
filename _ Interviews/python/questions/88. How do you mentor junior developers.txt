@@ -1,0 +1,12 @@
+Mentor by teaching thinking, not just syntax.
+
+Practices:
+* Explain “why”, not only “how”
+* Review code constructively
+* Pair program
+* Encourage questions
+* Give ownership with guidance
+* Lead by example
+
+Key idea:
+> Grow autonomy, not dependence

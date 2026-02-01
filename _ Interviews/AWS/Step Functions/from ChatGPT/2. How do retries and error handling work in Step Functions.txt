@@ -1,0 +1,9 @@
+Step Functions handle retries and errors at the workflow level, not inside code.
+
+* You define retries per state (`Retry`) with max attempts and backoff
+* You define error handling paths (`Catch`) based on error types
+* If retries fail, execution moves to a fallback or failure state
+* Lambdas must be idempotent because retries are automatic
+
+> Retries and failures are managed declaratively in the state machine, not imperatively
+in Lambda code.

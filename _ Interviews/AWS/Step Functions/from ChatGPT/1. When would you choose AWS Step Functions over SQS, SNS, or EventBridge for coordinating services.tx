@@ -1,0 +1,15 @@
+> Use AWS Step Functions when you need explicit workflow orchestration.
+
+Choose Step Functions when you need:
+
+* Ordered steps (A → B → C)
+* State between steps
+* Built-in retries, timeouts, and error handling
+* Visibility into execution
+* Long-running workflows
+
+Use SQS / SNS / EventBridge for:
+
+* Event-driven, loosely coupled systems
+* High throughput and fan-out
+* Fire-and-forget processing

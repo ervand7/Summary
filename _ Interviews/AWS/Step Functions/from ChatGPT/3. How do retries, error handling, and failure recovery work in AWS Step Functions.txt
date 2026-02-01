@@ -1,0 +1,5 @@
+* Retries are configured per state using `Retry` with attempt limits and backoff
+* Errors are matched by type and handled using `Catch` blocks
+* Failures can route execution to fallback, compensation, or fail states
+* Recovery is automatic via retries; Lambdas must be idempotent
+* Execution history shows exactly where and why a workflow failed

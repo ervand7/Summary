@@ -1,0 +1,4 @@
+* Data is passed as JSON between states
+* Use `InputPath`, `ResultPath`, and `OutputPath` to filter and shape the payload
+* Avoid passing large objects — store them in S3 and pass references
+* State input/output is limited to 256 KB per step

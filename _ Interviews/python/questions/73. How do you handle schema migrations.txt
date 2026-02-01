@@ -1,0 +1,11 @@
+Handle schema migrations safely by evolving the DB gradually.
+
+Best practices:
+* Use migration tools (Alembic, Django migrations)
+* Make backward-compatible changes
+* Deploy code before removing old columns
+* Avoid long-running locks
+* Test migrations on staging
+
+Key idea:
+> Change schema in small, reversible steps

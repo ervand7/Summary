@@ -1,0 +1,16 @@
+CSRF (Cross-Site Request Forgery) tricks a user’s browser into making
+an unwanted authenticated request.
+
+How it works:
+* User is logged in
+* Malicious site sends a request using user’s cookies
+* Server thinks it’s a legitimate action
+
+Prevention:
+* CSRF tokens (most important)
+* SameSite cookies
+* Check Origin / Referer headers
+* Use POST for state-changing actions
+
+Key idea:
+> Verify the request really comes from your site

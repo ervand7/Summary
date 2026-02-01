@@ -1,0 +1,11 @@
+Backward compatibility means old clients keep working.
+
+How to manage:
+* Version APIs (URL or headers)
+* Add fields instead of changing/removing
+* Keep old behavior during transition
+* Deprecate gradually
+* Monitor usage before removal
+
+Key idea:
+> Never break existing clients silently

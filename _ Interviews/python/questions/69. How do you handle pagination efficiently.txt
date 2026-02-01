@@ -1,0 +1,10 @@
+Handle pagination by limiting data per request.
+
+Efficient methods:
+* Limit + offset (simple, slow at scale)
+* Cursor-based pagination (preferred for large datasets)
+* Indexed sort keys
+* Avoid deep offsets
+
+Key idea:
+> Cursor-based pagination scales better

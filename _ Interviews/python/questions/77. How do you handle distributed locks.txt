@@ -1,0 +1,15 @@
+Distributed locks ensure only one actor accesses a shared resource.
+
+Common approaches:
+* Redis (SET NX + TTL)
+* Database row locks / advisory locks
+* Zookeeper / etcd
+* Cloud-managed locks (e.g. DynamoDB conditional writes)
+
+Best practices:
+* Always use timeouts (TTL)
+* Handle lock expiration
+* Make operations idempotent
+
+Key idea:
+> Locks coordinate work across processes or machines

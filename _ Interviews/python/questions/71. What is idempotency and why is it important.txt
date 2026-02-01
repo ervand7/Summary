@@ -1,0 +1,13 @@
+Idempotency = same request processed multiple times → same result.
+
+Why important:
+* Retries and duplicates are normal in distributed systems
+* Prevents double writes, double charges, repeated actions
+
+How:
+* Idempotency keys
+* Conditional updates
+* Deduplication logic
+
+Key idea:
+> Idempotency makes retries safe

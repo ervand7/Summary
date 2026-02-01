@@ -1,0 +1,15 @@
+Race conditions in APIs happen when concurrent requests modify shared state.
+
+Common causes:
+* Multiple requests updating the same resource
+* Missing locks or transactions
+* Non-atomic read → modify → write logic
+* Retries without idempotency
+
+Examples:
+* Double charging
+* Lost updates
+* Inconsistent balances
+
+Key idea:
+> Concurrent writes without coordination cause races

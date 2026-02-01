@@ -1,0 +1,16 @@
+A background job system runs tasks asynchronously outside request flow.
+
+Basic design:
+* Producer enqueues jobs
+* Queue/broker stores jobs (SQS, Redis, Kafka)
+* Workers consume and execute jobs
+* Retries + DLQ for failures
+* Idempotent job handlers
+
+Key concerns:
+* Reliability
+* Retries
+* Monitoring
+
+Key idea:
+> Offload slow or unreliable work from user requests

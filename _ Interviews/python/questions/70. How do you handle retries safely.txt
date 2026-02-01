@@ -1,0 +1,11 @@
+Safe retries require idempotency.
+
+Best practices:
+* Use idempotency keys
+* Retry only transient errors
+* Apply exponential backoff
+* Set retry limits
+* Avoid retry storms
+
+Key idea:
+> Retries are safe only if operations are idempotent

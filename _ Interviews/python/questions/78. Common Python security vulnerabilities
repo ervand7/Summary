@@ -1,0 +1,12 @@
+Common Python security vulnerabilities:
+
+* SQL injection (unsafe query building)
+* Command injection (os.system, subprocess)
+* Insecure deserialization (pickle)
+* Hardcoded secrets
+* Path traversal in file access
+* Improper input validation
+* Insecure dependency versions
+
+Key idea:
+> Never trust input, always validate and sanitize

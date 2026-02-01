@@ -1,0 +1,22 @@
+Celery:
+* Python task queue
+* Tight integration with Django/Flask
+* Uses Redis/RabbitMQ
+* Good for background jobs inside Python apps
+
+Kafka:
+* Distributed event streaming platform
+* High throughput, durable logs
+* Multiple consumers, replayable events
+* Good for event-driven architectures and data pipelines
+
+SQS:
+* Managed AWS message queue
+* Simple, reliable, scalable
+* At-least-once delivery
+* Good for decoupling services in AWS
+
+Rule of thumb:
+> Celery = app-level tasks
+> Kafka = event streams
+> SQS = simple, reliable cloud queue

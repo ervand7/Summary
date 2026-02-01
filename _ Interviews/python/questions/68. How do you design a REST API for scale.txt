@@ -1,0 +1,12 @@
+Design a scalable REST API by reducing coupling and load.
+
+Key principles:
+* Stateless requests
+* Clear resource-based endpoints
+* Pagination and filtering
+* Caching (HTTP, Redis)
+* Idempotent operations
+* Proper rate limiting
+
+Key idea:
+> Stateless, cacheable, predictable APIs scale best

@@ -1,0 +1,23 @@
+Use multipart upload when:
+
+* Uploading large objects (typically >100 MB, required >5 GB)
+* You want parallel uploads for speed
+* You need resume/retry without re-uploading everything
+
+What it solves:
+
+* Faster uploads (parts in parallel)
+* Fault tolerance (retry only failed parts)
+* Required for very large files (S3 limit)
+
+Problems it introduces:
+
+* More complexity (init, upload parts, complete/abort)
+* Orphaned parts if uploads aren’t completed → extra cost
+  (must clean up with lifecycle rules)
+* Ordering and checksum handling must be managed carefully
+
+Key takeaway:
+
+> Multipart upload improves performance and reliability for big files, but needs
+cleanup and careful completion logic.

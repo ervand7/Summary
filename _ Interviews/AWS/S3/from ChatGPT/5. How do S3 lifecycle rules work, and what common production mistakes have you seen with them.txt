@@ -1,0 +1,18 @@
+How lifecycle rules work:
+
+* Automatically transition objects between storage classes (e.g. Standard → IA → Glacier)
+* Expire (delete) objects after a set time
+* Can be based on object age, prefix, tags, or versions
+* Evaluated daily by S3 (not real-time)
+
+Common production mistakes:
+
+* Moving data to IA/Glacier too early → high retrieval costs
+* Forgetting noncurrent version rules → storage grows silently
+* Not cleaning up failed multipart uploads
+* Applying rules to the wrong prefix or tag
+* Assuming transitions happen immediately at exact timestamps
+
+Key takeaway:
+
+> Lifecycle rules save money, but misconfigured rules can quietly increase cost or break data access.

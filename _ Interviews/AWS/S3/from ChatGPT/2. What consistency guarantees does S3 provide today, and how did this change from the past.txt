@@ -1,0 +1,22 @@
+Short answer:
+
+Today (since 2020):
+Amazon S3 provides strong read-after-write consistency for all operations:
+
+* `PUT` (new objects)
+* `PUT` (overwrite existing objects)
+* `DELETE`
+* `LIST`
+
+➡️ Once a write or delete succeeds, all subsequent reads and listings immediately reflect it.
+
+In the past:
+
+* Strong consistency only for new object PUTs
+* Eventual consistency for overwrites, deletes, and LIST
+  (you could temporarily see stale data)
+
+Key takeaway:
+
+> Modern S3 behaves like a strongly consistent object store, eliminating race conditions
+that older designs had to work around.

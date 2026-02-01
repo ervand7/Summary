@@ -1,0 +1,15 @@
+Short answer:
+
+Amazon S3 stores multiple copies of every object across several physically 
+separate Availability Zones within a region. If disks, servers, or even an entire 
+AZ fail, your data is still available.
+
+“11 nines” durability (99.999999999%) means:
+
+* For 1 billion objects, you might lose ~1 object every 10,000 years
+* Data loss is *extremely* unlikely
+
+Key takeaway:
+
+> S3 protects against hardware and AZ failures, but not against user mistakes (deletes,
+overwrites) — for that you need versioning, replication, or backups.

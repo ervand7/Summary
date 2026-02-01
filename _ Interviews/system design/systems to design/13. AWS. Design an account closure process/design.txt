@@ -202,7 +202,6 @@ Because:
 * timeout handling
 * clear visualization
 * no custom retry logic
-* interviewers LOVE this answer
 
 ---
 

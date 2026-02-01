@@ -1,0 +1,11 @@
+* Direct uploads with pre-signed URLs (don’t proxy data through your service)
+* Partition keys well (hash prefixes, time-based folders) to avoid hot prefixes
+* Batch and compress small events → fewer PUTs, lower cost
+* Use multipart upload for large files
+* Buffer with SQS/Kinesis to absorb spikes
+* Make uploads idempotent (deterministic keys / DynamoDB)
+* Lifecycle rules to move cold data to cheaper storage
+
+
+> Push data directly to S3, batch it, partition keys well, and decouple with queues to get
+high throughput at low cost.

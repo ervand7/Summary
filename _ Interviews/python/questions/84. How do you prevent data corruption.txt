@@ -1,0 +1,13 @@
+Prevent data corruption by enforcing consistency at all layers.
+
+Techniques:
+* Use transactions
+* Apply proper locking
+* Enforce constraints at DB level
+* Make operations idempotent
+* Validate inputs
+* Use checksums / versioning
+* Handle retries carefully
+
+Key idea:
+> Assume failures happen and guard against partial writes

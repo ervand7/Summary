@@ -1,0 +1,11 @@
+Graceful shutdown lets a service stop without breaking in-flight work.
+
+How to design:
+* Catch termination signals (SIGTERM)
+* Stop accepting new requests
+* Finish in-flight requests
+* Close connections cleanly
+* Enforce a timeout before force exit
+
+Key idea:
+> Stop accepting, finish working, then exit

@@ -1,0 +1,12 @@
+Secure authentication focuses on strong identity proof + safe sessions.
+
+Best practices:
+* Use proven standards (OAuth2 / OIDC)
+* Hash passwords with bcrypt/argon2 (never plain hash)
+* Use HTTPS everywhere
+* Use short-lived access tokens + refresh tokens
+* Store sessions/tokens securely (HttpOnly, Secure cookies)
+* Add MFA for sensitive actions
+
+Key idea:
+> Use standards and minimize token lifetime + exposure

@@ -1,0 +1,15 @@
+Rate limiting controls how many requests a client can make.
+
+Why:
+* Prevent abuse and DoS
+* Protect backend resources
+* Ensure fair usage
+
+Where it should live:
+* API Gateway / Load Balancer (preferred)
+* Reverse proxy (NGINX)
+* Application layer (fallback)
+* Distributed store (Redis) for consistency
+
+Key idea:
+> Rate limit as early as possible in the request path

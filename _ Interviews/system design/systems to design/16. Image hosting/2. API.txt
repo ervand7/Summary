@@ -1,0 +1,314 @@
+# 0️⃣ Auth (assumed)
+
+All requests use:
+- OAuth/JWT access token (for private images & management APIs)
+- user identity: user_id
+
+Public images may be accessible without auth.
+
+API servers are control-plane only.
+Binary data NEVER passes through API servers.
+Client uploads directly to object storage (S3) using signed URLs.
+```
+
+---
+
+# 1️⃣ Images (metadata)
+
+### `POST /v1/images`
+
+👉 Creates image metadata entry.
+
+Request:
+
+```json
+{
+  "filename": "cat.png",
+  "content_type": "image/png",
+  "size_bytes": 4839201,
+  "visibility": "private",
+  "album_id": "alb_123",
+  "client_sha256": "optional_hash"
+}
+```
+
+Response:
+
+```json
+{
+  "image_id": "img_abc",
+  "status": "upload_pending",
+  "upload": {
+    "mode": "resumable",
+    "session_id": "up_sess_1"
+  }
+}
+```
+
+Notes:
+
+* Metadata created first
+* Ownership + quotas validated
+* No file uploaded yet
+
+---
+
+### `GET /v1/images/{image_id}`
+
+```json
+{
+  "image_id": "img_abc",
+  "owner_id": "user_1",
+  "visibility": "private",
+  "created_at_ms": 1735,
+  "original": {
+    "width": 4032,
+    "height": 3024,
+    "format": "png",
+    "size_bytes": 4839201
+  },
+  "variants": [
+    { "name": "thumb", "width": 200, "height": 200, "status": "ready" },
+    { "name": "medium", "width": 1280, "height": 960, "status": "processing" }
+  ],
+  "status": "processing"
+}
+```
+
+---
+
+### `PATCH /v1/images/{image_id}`
+
+```json
+{ "visibility": "public", "title": "My cat", "tags": ["pets", "cat"] }
+```
+
+---
+
+### `DELETE /v1/images/{image_id}`
+
+```json
+{ "deleted": true, "deletes_at_ms": 1735 }
+```
+
+---
+
+# 2️⃣ Upload (Resumable — Signed URL per Part)
+
+🚨 Important:
+
+* Client uploads directly to S3
+* Backend signs URLs dynamically per part
+* No large signed URL payload returned at once
+
+---
+
+# Upload Flow Overview
+
+1. Client creates metadata.
+2. Client starts upload session.
+3. Backend creates S3 multipart upload.
+4. Client requests signed URL for each part.
+5. Client uploads each part directly to S3.
+6. Client calls `:complete`.
+7. Backend finalizes + verifies.
+
+---
+
+## Step 1 — Start Upload Session
+
+### `POST /v1/uploads:resumable`
+
+Request:
+
+```json
+{
+  "image_id": "img_abc",
+  "total_bytes": 4839201,
+  "content_type": "image/png"
+}
+```
+
+Response:
+
+```json
+{
+  "session_id": "up_sess_1",
+  "object_key": "uploads/img_abc/original",
+  "upload_strategy": "multipart",
+  "multipart_upload_id": "aws_upload_id_123",
+  "part_size_bytes": 8388608,
+  "expires_at_ms": 1735200000000
+}
+```
+
+Backend internally:
+
+* Calls `CreateMultipartUpload` on S3
+* Stores upload state in DB
+
+---
+
+## Step 2 — Request Signed URL Per Part
+
+### `POST /v1/uploads/{session_id}/parts/{part_number}`
+
+Response:
+
+```json
+{
+  "part_number": 1,
+  "url": "https://s3.amazonaws.com/bucket/uploads/img_abc/original?partNumber=1&uploadId=aws_upload_id_123&X-Amz-Signature=..."
+}
+```
+
+Backend:
+
+* Generates signed URL for specific part
+* Short expiration (e.g., 10–15 minutes)
+
+Client repeats this for each part.
+
+---
+
+## Step 3 — Client Uploads Directly to S3
+
+Client:
+
+```
+PUT https://s3.amazonaws.com/...signed...
+```
+
+Headers:
+
+```
+Content-Type: image/png
+Content-Length: 8388608
+```
+
+S3 returns:
+
+```
+ETag: "abc123"
+```
+
+Client stores ETag for completion.
+
+🚨 Backend never sees file bytes.
+
+---
+
+## Step 4 — Complete Upload
+
+### `POST /v1/uploads/{session_id}:complete`
+
+Request:
+
+```json
+{
+  "parts": [
+    { "part_number": 1, "etag": "abc123" },
+    { "part_number": 2, "etag": "def456" }
+  ]
+}
+```
+
+Backend:
+
+* Calls `CompleteMultipartUpload` on S3
+* Verifies object
+* Validates size + checksum (optional)
+* Marks image as `stored`
+* Emits processing event
+
+Response:
+
+```json
+{
+  "image_id": "img_abc",
+  "status": "stored",
+  "original_object_key": "uploads/img_abc/original"
+}
+```
+
+---
+
+# 3️⃣ Delivery (Signed CDN URLs)
+
+### `GET /v1/images/{image_id}:view?variant=thumb`
+
+Backend:
+
+* Checks permissions
+* Generates signed CDN URL
+
+Response:
+
+```json
+{
+  "url": "https://cdn.example.com/thumb/img_abc?signature=...",
+  "expires_in_sec": 300
+}
+```
+
+Client downloads directly from CDN.
+
+---
+
+### `GET /v1/images/{image_id}:download`
+
+Same as view, but:
+
+* May force original
+* May set `Content-Disposition: attachment`
+
+---
+
+# 4️⃣ Sharing
+
+### `POST /v1/images/{image_id}/shares`
+
+```json
+{ "type": "link", "role": "viewer", "expires_in_sec": 86400 }
+```
+
+Response:
+
+```json
+{
+  "share_id": "shr_1",
+  "token": "t_kn1...",
+  "url": "https://img.host/s/t_kn1..."
+}
+```
+
+---
+
+### `DELETE /v1/images/{image_id}/shares/{share_id}`
+
+Revokes immediately.
+
+---
+
+# 5️⃣ Albums
+
+### `POST /v1/albums`
+
+### `GET /v1/albums/{album_id}`
+
+### `GET /v1/albums/{album_id}/images?limit=50&cursor=...`
+
+---
+
+# 6️⃣ Search
+
+### `GET /v1/search/images?q=cat tag:pets owner:me limit=50&cursor=...`
+
+```json
+{
+  "images": [
+    { "image_id": "img_1", "title": "Cat 1" }
+  ],
+  "next_cursor": "abc123"
+}
+```

@@ -1,0 +1,74 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this consumer image hosting (like Imgur) or a product feature for an app (like “upload
+profile photos”)?
+2. Is it private-by-default (needs auth) or public-by-default (anyone can view)?
+3. Are we hosting only images, or also short videos / GIFs (animated)?
+4. Do we need albums/collections, or just individual images?
+5. Do we need image editing features (crop/rotate/filters) or just hosting?
+
+## B. Core user flows (must-haves)
+
+6. Main flows: upload → view → share link → delete? Anything else (replace image, move to album)?
+7. Do we need multiple sizes (thumbnail/medium/original) generated automatically?
+8. Do we need metadata extraction (width/height, EXIF, camera model, GPS)?
+9. Do we need tagging + search (by tags / title / user)?
+10. Do we need “feed” or “trending” like a social site, or no ranking?
+
+## C. Access control & sharing
+
+11. Who can view an image: owner-only, selected users, anyone with link, fully public?
+12. Do we need signed URLs with TTL for private images?
+13. Do we need hotlink protection (only allow embedding from approved domains)?
+14. Any requirement to revoke links immediately (token rotation / versioned tokens)?
+15. Do we need audit logs (“who viewed/downloaded”)?
+
+## D. Upload behavior & client constraints
+
+16. Typical file sizes (mobile photos ~2–8MB, or pro photos 30–80MB)?
+17. Max file size and max resolution?
+18. Expected upload patterns: single image, multi-upload, batch (100s) from camera roll?
+19. Need resumable uploads / chunking (bad networks)?
+20. Do we need client-side direct-to-storage uploads (pre-signed URLs) vs proxy through
+our servers?
+
+## E. Transformations & delivery (the “image” part)
+
+21. Which transformations are required: resize, format conversion (JPEG/PNG/WebP/AVIF),
+quality settings?
+22. Do we need dynamic resize on-the-fly (via CDN/image proxy) or precompute fixed variants?
+23. Do we support content negotiation (serve WebP/AVIF if client supports)?
+24. Do we need watermarks for certain images?
+25. Latency targets: first byte for image < 100ms from CDN? p95 upload finalize < 1s?
+
+## F. Scale & performance targets
+
+26. How many users (DAU/MAU) and how many uploads/day?
+27. Peak upload QPS and peak image view QPS (views usually dwarf uploads)?
+28. Total storage size target (TB/PB) and retention policy?
+29. Global product (multi-region) or single region?
+30. CDN required? Any “must use” cloud provider?
+
+## G. Correctness, reliability, and consistency
+
+31. After upload, must the image be immediately viewable (strong consistency) or eventual is OK?
+32. What’s acceptable if transformations are still running—show original first, or “processing…”?
+33. Durability requirements (object storage-level), and DR needs (RPO/RTO)?
+34. Do we need exactly-once processing for variants, or is idempotent retry enough?
+35. Do we need deduplication (same image uploaded multiple times) by hash?
+
+## H. Safety, abuse, and compliance
+
+36. Do we need malware scanning (rare for images but still possible) and/or file type validation?
+37. Do we need NSFW / policy moderation, and what’s the workflow (auto + human review)?
+38. Rate limits / spam prevention (bots uploading millions)?
+39. DMCA/takedown flow, user reports, and legal requirements?
+40. Privacy: must we strip EXIF GPS data by default?
+
+## I. Data model & product extras
+
+41. Do we need comments/likes (social features) or strictly storage?
+42. Do we need versioning (replace image but keep old versions)?
+43. Delete semantics: soft delete (trash) vs hard delete; retention window?
+44. Billing/quotas: per-user storage limits, paid tiers?
+45. Observability requirements: what metrics matter most (CDN hit rate, p95 transform time, upload fail rate)?

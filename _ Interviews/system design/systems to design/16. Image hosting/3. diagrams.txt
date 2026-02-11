@@ -1,0 +1,156 @@
+# 🖼️ Image Hosting — Interview-grade system diagram (data plane + async processing)
+
+                    CONTROL PLANE (slow path, governance)
+
++-----------------------------------------------------------------------+
+| Admin / Policies                                                      |
+| - quotas, rate limits, allowed formats                                |
+| - privacy defaults (strip EXIF GPS?)                                  |
+| - abuse rules (hotlinking, spam accounts)                             |
++-----------------------------------------------------------------------+
+
+
+                    DATA PLANE (hot path: upload + view)
+
+Clients:
+
+* Web
+* Mobile
+* Backend apps (integrations)
+  |
+  | HTTPS
+  v
+  +-----------------------------------------------------------------------+
+  | CDN / Edge                                                            |
+  | - caches public images + variants                                     |
+  | - supports Range requests                                             |
+  | - optional: blocks hotlinking by Referer / signed cookies             |
+  +-----------------------------------------------------------------------+
+  |
+  v
+  +-----------------------------------------------------------------------+
+  | API Gateway / Load Balancer                                           |
+  | - authn (JWT/OAuth) for private images                                |
+  | - rate limit / WAF                                                    |
+  | - routing                                                             |
+  +-----------------------------------------------------------------------+
+  |
+  v
+  +-----------------------------------------------------------------------+
+  | Image API Service (stateless)                                         |
+  | - create image metadata                                               |
+  | - start upload sessions                                               |
+  | - permission checks                                                   |
+  | - return signed URLs for view/download                                |
+  +----------------------+------------------------------------------------+
+  |                     |
+  |                     |
+  v                     v
+  +------------------------------+    +-----------------------------------+
+  | Metadata Service             |    | AuthZ/Sharing Service (optional)  |
+  | - image rows, albums, tags   |    | - public/private/link shares      |
+  | - status: pending/stored/... |    | - revocable tokens                |
+  | - pointers to object keys    |    | - domain allowlist/hotlink rules  |
+  +------------------------------+    +-----------------------------------+
+  |                                      |
+  v                                      v
+  +------------------------------+    +-----------------------------------+
+  | Metadata DB (SQL)            |    | Share/ACL DB (SQL/kv)             |
+  | - transactional updates      |    | - token -> image_id mapping       |
+  | - secondary indexes (owner)  |    | - TTL + versioned tokens          |
+  +------------------------------+    +-----------------------------------+
+
+  
+                    UPLOAD PATH (direct-to-storage, scalable)
+Client
+|
+| 1) POST /v1/images  (create metadata)
+| 2) POST /v1/uploads:resumable (get session)
+v
+Image API Service
+|
+| 3) returns pre-signed PUT URLs (or chunk endpoints)
+v
+Client -----------------------------------------------------------------+
+|
+v
++-----------------------------------------------------------------------+
+| S3 Object Storage (Originals + Variants)                                 |
+| - originals stored as immutable objects                               |
+| - variants stored under deterministic keys                            |
+| - multi-AZ durability                                                 |
++-----------------------------------------------------------------------+
+|
+| 4) upload complete -> event
+v
++-----------------------------------------------------------------------+
+| Event Bus (Kafka/PubSub/SQS)                                          |
+| - ImageUploaded(img_id)                                               |
+| - VariantReady(img_id, variant)                                       |
+| - ModerationDecision(img_id, status)                                  |
++-----------------------------------------------------------------------+
+|                   |
+|                   |
+v                   v
++-------------------------+   +----------------------------------+
+| Image Processing Worker |   | Moderation Pipeline (optional)   |
+| - verify magic bytes    |   | - NSFW classifier                |
+| - decode image          |   | - user reports queue             |
+| - strip EXIF (policy)   |   | - takedown workflow              |
+| - generate variants     |   +------------------+---------------+
+|   (thumb/medium/...)    |                      |
+| - format convert        |                      v
+|   (WebP/AVIF)           |        +-----------------------------+
++-------------------------+        | Moderation DB               |
+|                                  | - state: allowed/blocked    |
+|                                  +-----------------------------+
+|
+v
++-------------------------+
+| Variant Storage (same   |
+| object store) + CDN     |
+| - cacheable keys        |
++-------------------------+
+
+
+                    VIEW/DOWNLOAD PATH (fast, cheap)
+Client
+|
+| 1) GET /v1/images/{id}:view?variant=thumb
+v
+Image API Service
+|
+| 2) AuthZ check (private/share/public) + moderation check
+| 3) returns signed CDN URL (short TTL) or 302 redirect
+v
+Client ------------------> CDN ------------------> Object Storage
+(cache hit)             (cache miss)
+
+Notes:
+
+* Public images: CDN can serve without hitting API (if URL is stable).
+* Private images: signed URLs/cookies ensure access control.
+
+  
+                    OPTIONAL: SEARCH / TAGS
++-----------------------------------------------------------------------+
+| Indexing Worker                                                       |
+| - consumes ImageUploaded / metadata updates                           |
+| - indexes title/tags/owner/albums                                     |
++-----------------------------------------------------------------------+
+|
+v
++-----------------------------------------------------------------------+
+| Search Index (Elastic/OpenSearch)                                     |
++-----------------------------------------------------------------------+
+
+
+                    OBSERVABILITY & SAFETY
++-----------------------------------------------------------------------+
+| Metrics/Logs/Tracing                                                  |
+| - upload success rate, p95/p99 upload finalize                        |
+| - transform queue lag, transform p95 time                             |
+| - CDN hit rate, origin egress bytes                                   |
+| - moderation false positives, takedown SLA                            |
++-----------------------------------------------------------------------+
+

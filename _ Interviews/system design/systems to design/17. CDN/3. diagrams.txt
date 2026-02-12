@@ -1,0 +1,148 @@
+# 🌍 CDN design (interview-grade): Control Plane + Data Plane
+
+                         CONTROL PLANE (config + ops)
+                 (low QPS, strong correctness, audited changes)
+
++----------------------------------------------------------------------------------+
+| Admin UI / CLI                                                                   |
+| - create distributions (domains, origins, behaviors)                             |
+| - purge/invalidate                                                               |
+| - view logs/metrics                                                              |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| CDN Control API (stateless)                                                      |
+| - authn/authz (RBAC)                                                             |
+| - validates config (no loops, sane TTLs, safe cache keys)                        |
+| - creates config versions (immutable)                                            |
+| - creates purge jobs (async)                                                     |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Config Store (SQL / strongly consistent)                                         |
+| - distributions, origins, behaviors, security policies                           |
+| - versioned configs (dist_id + version)                                          |
++-------------------------------+--------------------------------------------------+
+                                |
+                                | publish "config_version_ready(dist, ver)" event
+                                v
++----------------------------------------------------------------------------------+
+| Config Publisher                                                                 |
+| - fanout to all POPs (event bus / pubsub)                                        |
+| - retries, backoff, per-POP ack                                                  |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| POP Control Agents (one per POP)                                                 |
+| - pulls new config version                                                       |
+| - compiles to fast lookup tables (route -> behavior)                             |
+| - hot-reloads edge proxies safely                                                |
++----------------------------------------------------------------------------------+
+
+
+
+                           DATA PLANE (hot path)
+              (very high QPS, must be fast, mostly read traffic)
+
+Users (Browsers/Mobile/Apps)
+        |
+        | DNS -> Anycast / GeoDNS -> nearest POP
+        v
++----------------------------------------------------------------------------------+
+| POP (Point of Presence)                                                           |
+|                                                                                   |
+|  +------------------------+      +--------------------------------------------+   |
+|  | L4/L7 Front Door       |----->| Edge Proxy / Cache Engine                  |   |
+|  | - TLS termination      |      | - routing: domain+path -> behavior         |   |
+|  | - HTTP/2, HTTP/3       |      | - cache lookup (RAM -> SSD)                |   |
+|  | - basic DDoS controls  |      | - request coalescing on MISS               |   |
+|  +-----------+------------+      | - supports Range requests                  |   |
+|              |                   | - serves HIT immediately                   |   |
+|              |                   +-------------------+------------------------+   |
+|              |                                       |                            |
+|              |                                       | MISS                       |
+|              |                                       v                            |
+|              |                   +--------------------------------------------+   |
+|              |                   | (Optional) Shield / Mid-tier Cache         |   |
+|              |                   | - reduces origin load across POPs          |   |
+|              |                   +-------------------+------------------------+   |
+|              |                                       |                            |
+|              v                                       v                            |
+|  +------------------------+             +-------------------------------------+   |
+|  | WAF / Rate Limiter     |             | Origin Fetcher                      |   |
+|  | - bot rules, IP rules  |             | - timeouts, retries, circuit break  |   |
+|  | - per-tenant limits    |             | - origin failover (primary->backup) |   |
+|  +------------------------+             | - signed origin requests (optional) |   |
+|                                         +-------------------+-----------------+   |
+|                                                             |                     |
++----------------------------------------------------------------------------------+
+                                                              |
+                                                              v
+                               ORIGINS (customer/app storage)
++----------------------------------------------------------------------------------+
+| Origin(s)                                                                        |
+| - object storage (S3-compatible)                                                 |
+| - or HTTP servers / Kubernetes ingress                                           |
+| - should return Cache-Control / ETag / Last-Modified                             |
++----------------------------------------------------------------------------------+
+
+
+
+                         PURGE / INVALIDATION FLOW
+
+Admin -> Control API -> Purge Job Queue
+   |
+   v
++----------------------------------------------------------------------------------+
+| Purge Dispatcher                                                                 |
+| - expands rules (paths/prefix/tags -> keys) if needed                            |
+| - sends purge command to each POP control agent                                  |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| POP Cache Engine                                                                 |
+| - marks entries invalid (by key/prefix/tag)                                      |
+| - may keep stale briefly but must not serve after "hard purge"                   |
++----------------------------------------------------------------------------------+
+
+
+
+                         LOGGING / METRICS (operations)
+
++----------------------------------------------------------------------------------+
+| POP Telemetry                                                                    |
+| - request logs: uri, status, bytes, hit/miss, pop_id, latency                    |
+| - metrics: hit ratio, origin egress, p95 latency, 4xx/5xx, shield hits           |
++-------------------------------+--------------------------------------------------+
+                                |
+                                v
++----------------------------------------------------------------------------------+
+| Telemetry Pipeline                                                               |
+| - stream logs to Kafka/S3                                                        |
+| - aggregate metrics to TSDB (Prometheus/ClickHouse/etc.)                         |
+| - dashboards + alerts (SLO burn, origin errors, POP health)                      |
++----------------------------------------------------------------------------------+
+
+
+
+                         KEY INTERVIEW TALKING POINTS
+
+Cache key:
+- domain + path + (query?) + (vary headers?) + (cookies?) + (device?) + tenant_id
+
+Storage inside POP:
+- hot objects in RAM, warm in SSD, large objects streamed + cached by chunks
+
+Performance tricks:
+- request coalescing (100 MISS -> 1 origin fetch)
+- stale-while-revalidate (serve stale while updating in background)
+- origin shielding (reduce cross-POP origin amplification)
+
+Safety:
+- rate limiting + WAF + bot detection
+- signed URLs/cookies for private content
+- signed origin requests so origin is not publicly fetchable

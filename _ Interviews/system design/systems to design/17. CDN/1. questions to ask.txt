@@ -1,0 +1,70 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this a public internet CDN (like CloudFront/Fastly) or an internal CDN for
+one company?
+2. What content types are in scope: static files (images/js/css), large files, video
+streaming (HLS/DASH), API responses?
+3. Is it pull-based (cache on first request), push-based, or both?
+4. Do we need multi-CDN / failover between CDN providers, or we are building a single
+CDN ourselves?
+5. Do we support custom domains (CNAMEs) and TLS/HTTPS termination?
+
+## B. Core features (must-haves)
+
+6. Required caching features: TTL, cache key customization (headers/cookies/query),
+stale-while-revalidate, stale-if-error?
+7. Invalidation model: purge by URL, purge by prefix, purge by tag, global purge?
+8. Do we need origin shielding (a mid-tier cache to protect origin)?
+9. Do we need range requests (important for video/large downloads)?
+10. Do we need compression (gzip/brotli) and/or image optimization at the edge?
+
+## C. Traffic & scale targets
+
+11. Expected peak RPS / bandwidth (Gbps/Tbps)? Any “big event” spikes?
+12. Latency targets: TTFB p95? global coverage requirements (continents/countries)?
+13. Cache hit ratio target (or origin offload target)?
+14. Typical object sizes and distribution (many small vs fewer huge)?
+15. How many tenants/domains/origins/distributions?
+
+## D. Origin model
+
+16. What are origins: S3/object storage, customer HTTP servers, Kubernetes ingress,
+multi-origin per distribution?
+17. Origin protocol: HTTP/1.1, HTTP/2, HTTP/3? Any requirement for mTLS to origin?
+18. How do we handle origin failures: retries, timeouts, circuit breaker, failover origin?
+19. Do we need signed origin requests (so only CDN can fetch from origin)?
+20. Do we need origin rate limiting or request collapsing (coalescing concurrent misses)?
+
+## E. Correctness & consistency
+
+21. After purge, how fast must content disappear globally (seconds vs minutes)?
+22. Is it okay that some edges serve stale content briefly after an update?
+23. Do we need negative caching (cache 404/500) and for how long?
+24. Do we need cache consistency guarantees across POPs, or “eventual is fine”?
+25. Any requirements for exact logging / billing accuracy?
+
+## F. Security & abuse
+
+26. Do we need WAF (web application firewall) features: bot mitigation, OWASP rules, IP
+reputation?
+27. Do we need DDoS protection and where (edge, upstream scrubbing)?
+28. Access control: signed URLs/cookies, token auth, geo restrictions?
+29. Hotlinking protection: referer checks, tokenized URLs, rate limits?
+30. Content safety: malware scanning, DMCA takedown workflow?
+
+## G. Observability & operations
+
+31. Logs: do we need real-time logs (seconds) or batch logs (minutes/hours)?
+32. Metrics: what matters most—hit ratio, origin egress, p95 latency, error rates,
+shield hit ratio?
+33. Do we need customer-facing analytics API and dashboards?
+34. SLOs: availability target (99.9/99.99/99.999)? multi-region control plane?
+35. Config propagation time: how fast must config changes reach all POPs?
+
+## H. Constraints (the “gotchas”)
+
+36. Are we allowed to use existing DNS/LB/anycast, or must we design from scratch?
+37. Any compliance constraints (GDPR, data residency, log retention)?
+38. Budget constraints: can we overprovision POPs or must be lean?
+39. Do we need to support HTTP/3 (QUIC)?
+40. Do we need edge compute (Workers/Lambda@Edge) or pure caching only?

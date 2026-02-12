@@ -1,0 +1,167 @@
+# 0️⃣ Auth (assumed)
+
+All control-plane requests use:
+- OAuth/JWT access token
+- tenant_id / account_id
+- RBAC roles (admin, operator, read-only)
+
+Data-plane (end-user traffic) is public by default, with optional:
+- signed URL / signed cookie / token auth
+```
+
+---
+
+### # 1️⃣ Distributions (a “CDN site”)
+
+#### `POST /v1/distributions`
+
+Creates a distribution: domain(s), origin(s), caching rules.
+
+Request:
+
+```json
+{
+  "name": "assets-prod",
+  "domains": ["cdn.example.com"],
+  "tls": { "mode": "managed", "min_version": "TLS1.2" },
+  "origins": [
+    { "origin_id": "o1", "type": "http", "host": "origin.example.com", "port": 443, "protocol": "https" }
+  ],
+  "default_behavior": {
+    "origin_id": "o1",
+    "cache": {
+      "default_ttl_sec": 3600,
+      "max_ttl_sec": 86400,
+      "negative_ttl_sec": 30,
+      "stale_while_revalidate_sec": 60
+    },
+    "cache_key": {
+      "include_query": true,
+      "include_headers": ["Accept-Encoding"],
+      "include_cookies": "none"
+    },
+    "compression": { "gzip": true, "brotli": true },
+    "range_requests": true
+  }
+}
+```
+
+Response:
+
+```json
+{
+  "distribution_id": "dist_123",
+  "status": "deploying",
+  "dns_target": "d123.pop-cdn.net"
+}
+```
+
+---
+
+#### `GET /v1/distributions/{distribution_id}`
+
+Returns config + deployment status + version.
+
+#### `PATCH /v1/distributions/{distribution_id}`
+
+Updates config (creates a new config version).
+
+#### `POST /v1/distributions/{distribution_id}:deploy`
+
+Forces rollout of the latest version (optional if auto-deploy).
+
+---
+
+### # 2️⃣ Cache behaviors (path-based routing)
+
+#### `POST /v1/distributions/{id}/behaviors`
+
+Example: cache `/images/*` differently from `/api/*`.
+
+```json
+{
+  "path_pattern": "/images/*",
+  "origin_id": "o1",
+  "cache": { "default_ttl_sec": 86400 },
+  "cache_key": { "include_query": false }
+}
+```
+
+---
+
+### # 3️⃣ Purge / Invalidation
+
+#### `POST /v1/distributions/{id}/purges`
+
+Invalidate cached objects globally (async).
+
+```json
+{
+  "paths": ["/logo.png", "/static/*"],
+  "mode": "invalidate"
+}
+```
+
+Response:
+
+```json
+{ "purge_id": "purge_777", "status": "queued" }
+```
+
+#### `GET /v1/purges/{purge_id}`
+
+Progress: queued → propagating → completed (with POP stats optionally).
+
+---
+
+### # 4️⃣ Origin protection (signed origin fetch)
+
+#### `POST /v1/distributions/{id}/origin-auth`
+
+Issues shared secrets / public keys so origin can verify requests came from CDN.
+
+```json
+{ "mode": "hmac_header", "header_name": "X-CDN-Signature" }
+```
+
+---
+
+### # 5️⃣ Security (WAF / rate limits / geo)
+
+#### `POST /v1/distributions/{id}/security-policies`
+
+```json
+{
+  "waf": { "enabled": true, "ruleset": "owasp-core" },
+  "rate_limits": [{ "key": "ip", "rps": 200, "burst": 400 }],
+  "geo_block": { "blocked_countries": ["CN", "KP"] }
+}
+```
+
+---
+
+### # 6️⃣ Logs & analytics
+
+#### `POST /v1/distributions/{id}/logs/sinks`
+
+Ship logs to S3/Kafka/BigQuery, etc.
+
+```json
+{ "type": "s3", "bucket": "cdn-logs", "prefix": "prod/", "format": "json" }
+```
+
+#### `GET /v1/distributions/{id}/metrics?from=...&to=...`
+
+Returns time series: hit ratio, egress, p95 latency, 4xx/5xx, origin fetch latency.
+
+---
+
+### # 7️⃣ Data plane (what end-users hit)
+
+This is not “your API”; it’s standard HTTP:
+
+* `GET https://cdn.example.com/path/to/object`
+* Supports: `If-None-Match` (ETag), `If-Modified-Since`, `Range`, `Cache-Control`
+* CDN adds headers like:
+
+  * `Age`, `X-Cache: HIT/MISS`, `Via`, `X-POP`

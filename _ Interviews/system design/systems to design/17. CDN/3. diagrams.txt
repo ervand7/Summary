@@ -52,32 +52,32 @@ Users (Browsers/Mobile/Apps)
         | DNS -> Anycast / GeoDNS -> nearest POP
         v
 +----------------------------------------------------------------------------------+
-| POP (Point of Presence)                                                           |
-|                                                                                   |
-|  +------------------------+      +--------------------------------------------+   |
-|  | L4/L7 Front Door       |----->| Edge Proxy / Cache Engine                  |   |
-|  | - TLS termination      |      | - routing: domain+path -> behavior         |   |
-|  | - HTTP/2, HTTP/3       |      | - cache lookup (RAM -> SSD)                |   |
-|  | - basic DDoS controls  |      | - request coalescing on MISS               |   |
-|  +-----------+------------+      | - supports Range requests                  |   |
-|              |                   | - serves HIT immediately                   |   |
-|              |                   +-------------------+------------------------+   |
-|              |                                       |                            |
-|              |                                       | MISS                       |
-|              |                                       v                            |
-|              |                   +--------------------------------------------+   |
-|              |                   | (Optional) Shield / Mid-tier Cache         |   |
-|              |                   | - reduces origin load across POPs          |   |
-|              |                   +-------------------+------------------------+   |
-|              |                                       |                            |
-|              v                                       v                            |
-|  +------------------------+             +-------------------------------------+   |
-|  | WAF / Rate Limiter     |             | Origin Fetcher                      |   |
-|  | - bot rules, IP rules  |             | - timeouts, retries, circuit break  |   |
-|  | - per-tenant limits    |             | - origin failover (primary->backup) |   |
-|  +------------------------+             | - signed origin requests (optional) |   |
-|                                         +-------------------+-----------------+   |
-|                                                             |                     |
+| POP (Point of Presence)                                                          |
+|                                                                                  |
+|  +------------------------+      +--------------------------------------------+  |
+|  | L4/L7 Front Door       |----->| Edge Proxy / Cache Engine                  |  |
+|  | - TLS termination      |      | - routing: domain+path -> behavior         |  |
+|  | - HTTP/2, HTTP/3       |      | - cache lookup (RAM -> SSD)                |  |
+|  | - basic DDoS controls  |      | - request coalescing on MISS               |  |
+|  +-----------+------------+      | - supports Range requests                  |  |
+|              |                   | - serves HIT immediately                   |  |
+|              |                   +-------------------+------------------------+  |
+|              |                                       |                           |
+|              |                                       | MISS                      |
+|              |                                       v                           |
+|              |                   +--------------------------------------------+  |
+|              |                   | (Optional) Shield / Mid-tier Cache         |  |
+|              |                   | - reduces origin load across POPs          |  |
+|              |                   +-------------------+------------------------+  |
+|              |                                       |                           |
+|              v                                       v                           |
+|  +------------------------+             +-------------------------------------+  |
+|  | WAF / Rate Limiter     |             | Origin Fetcher                      |  |
+|  | - bot rules, IP rules  |             | - timeouts, retries, circuit break  |  |
+|  | - per-tenant limits    |             | - origin failover (primary->backup) |  |
+|  +------------------------+             | - signed origin requests (optional) |  |
+|                                         +-------------------+-----------------+  |
+|                                                             |                    |
 +----------------------------------------------------------------------------------+
                                                               |
                                                               v
@@ -126,23 +126,3 @@ Admin -> Control API -> Purge Job Queue
 | - aggregate metrics to TSDB (Prometheus/ClickHouse/etc.)                         |
 | - dashboards + alerts (SLO burn, origin errors, POP health)                      |
 +----------------------------------------------------------------------------------+
-
-
-
-                         KEY INTERVIEW TALKING POINTS
-
-Cache key:
-- domain + path + (query?) + (vary headers?) + (cookies?) + (device?) + tenant_id
-
-Storage inside POP:
-- hot objects in RAM, warm in SSD, large objects streamed + cached by chunks
-
-Performance tricks:
-- request coalescing (100 MISS -> 1 origin fetch)
-- stale-while-revalidate (serve stale while updating in background)
-- origin shielding (reduce cross-POP origin amplification)
-
-Safety:
-- rate limiting + WAF + bot detection
-- signed URLs/cookies for private content
-- signed origin requests so origin is not publicly fetchable

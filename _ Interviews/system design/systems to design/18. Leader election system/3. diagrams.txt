@@ -1,0 +1,153 @@
+# 🗳️ Full picture: Leader Election System (lease + fencing, interview-grade)
+
+                        CONTROL PLANE (slow path)
+            (policies, membership, security, observability config)
+
++---------------------------------------------------------------------+
+| Admin / Ops                                                         |
+| - create groups / policies (ttl bounds, retry backoff)              |
+| - allowlist nodes (optional)                                        |
+| - force step-down (rare, break-glass)                               |
++-----------------------------+---------------------------------------+
+                              |
+                              v
++---------------------------------------------------------------------+
+| Group Registry / Policy Service                                     |
+| - group_id -> config (ttl min/max, authz rules)                     |
+| - membership rules (static allowlist or dynamic)                    |
++-----------------------------+---------------------------------------+
+
+
+                        DATA PLANE (hot path)
+     (campaign/renew/read leader must be low-latency + strongly correct)
+
+Participants:
+- Node A, Node B, Node C  (instances of some service)
+
+            campaign/renew/read/watch
+Node A  ------------------------------\
+Node B  -------------------------------->  +--------------------------+
+Node C  ------------------------------/    |  Election API Service    |
+                                           |  (stateless)             |
+                                           | - authn/authz            |
+                                           | - validation (ttl bounds)|
+                                           | - implements lease logic |
+                                           +-----------+--------------+
+                                                       |
+                                                       | linearizable R/W
+                                                       v
+                                           +--------------------------+
+                                           |  Coordination Store      |
+                                           |  (etcd/ZK/Consul or      |
+                                           |   custom Raft KV)        |
+                                           | - quorum replication     |
+                                           | - linearizable CAS       |
+                                           +-----------+--------------+
+                                                       |
+                                                       v
+                                           +--------------------------+
+                                           |  Election State (per     |
+                                           |  group_id key)           |
+                                           |                          |
+                                           | key: /election/{group}   |
+                                           | value: {                 |
+                                           |   leader_node_id,        |
+                                           |   term,                  |
+                                           |   lease_expiry_ms,       |
+                                           |   metadata               |
+                                           | }                        |
+                                           +--------------------------+
+
+-----------------------------------------------------------------------
+# 1) Acquire leadership (campaign) — CAS on a lease
+
+Node B -> Election API:
+  POST /groups/G/campaign {node_id=B, ttl=5s}
+
+Election API -> Store (single atomic step):
+  IF key absent OR lease_expiry_ms < now:
+      term := term + 1
+      set value(leader=B, term=term, lease_expiry_ms=now+ttl)   [CAS]
+      => B wins
+  ELSE:
+      => B loses, return current leader + retry_after
+
+Why CAS matters:
+- Prevents two nodes from both “winning” when requests race.
+
+-----------------------------------------------------------------------
+# 2) Keep leadership (renew) — fencing via term
+
+Leader Node B periodically:
+  POST /groups/G/renew {node_id=B, term=44, extend_by=5s}
+
+Election API -> Store (atomic):
+  IF current leader == B AND current term == 44:
+      lease_expiry_ms := now + extend_by
+      update
+      => ok
+  ELSE:
+      => NOT_LEADER (B must stop acting immediately)
+
+Fencing token (term):
+- Every leader change increments term.
+- Downstream systems can reject commands with stale term.
+
+-----------------------------------------------------------------------
+# 3) Discover leader (read) — cheap, frequent
+
+Any node/client:
+  GET /groups/G/leader
+
+Election API -> Store:
+  read current value (linearizable read)
+  return leader_node_id + term + expiry + metadata
+
+Optional caching:
+- You may cache for a short time (<< ttl), but correctness prefers fresh reads.
+
+-----------------------------------------------------------------------
+# 4) Notify changes (watch)
+
+Watchers:
+  GET /groups/G/watch (SSE/long-poll/gRPC stream)
+
+Election API:
+- subscribes to store watch (key changes)
+- pushes LEADER_CHANGED events to clients
+- clients reconnect with cursor on disconnect
+
+-----------------------------------------------------------------------
+# 5) Failure handling (what interviewer expects you to say)
+
+A) Leader crash:
+- renew stops => lease expires at store => next campaign wins
+- failover time ≈ ttl + detection jitter (choose ttl to meet target)
+
+B) Network partition:
+- only partition with store quorum can elect/renew leader
+- minority partition leaders fail renew => fenced (safety > availability)
+
+C) GC pause / stop-the-world on leader:
+- renew misses deadline => loses leadership
+- term changes => old leader fenced when it resumes
+
+-----------------------------------------------------------------------
+# 6) Observability & ops
+
++---------------------------------------------------------------------+
+| Metrics/Logs/Tracing                                                |
+| - time_to_elect_ms (p50/p95)                                        |
+| - leader_changes_total{group_id}                                    |
+| - renew_failures_total{reason=NOT_LEADER|BACKEND_DOWN|...}          |
+| - store_quorum_health, request_latency_p99                          |
+| - split_brain_detected_total (should be ~0)                         |
++---------------------------------------------------------------------+
+
+-----------------------------------------------------------------------
+# 7) Typical sizing knobs (mention briefly in interview)
+
+- lease_ttl_ms: tradeoff (fast failover vs more load)
+- renew interval: usually ttl/3 (safety margin)
+- jitter + exponential backoff on campaign retries (avoid herd)
+- linearizable store requirement for safety

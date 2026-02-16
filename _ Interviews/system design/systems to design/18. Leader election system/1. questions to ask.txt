@@ -1,0 +1,87 @@
+## A. Scope (what exactly are we building?)
+
+1. Is this leader election for a single cluster (one region), or multi-region / global?
+2. Is it for one “group” of nodes (one election), or many independent groups (e.g.,
+per shard / per service / per tenant)?
+3. Do we elect exactly 1 leader, or do we also need roles like “primary + N backups”
+or “controller + workers”?
+4. Is the leader a process, a pod, a VM, or a logical identity (service instance id)?
+5. Is this inside a trusted network (datacenter/VPC) or across unreliable clients /
+internet?
+
+## B. Use cases & semantics (what does “leader” mean?)
+
+6. What does the leader actually do (e.g., schedule jobs, coordinate writes, handle
+partitions, issue leases)?
+7. Do followers need to know the leader immediately (push), or is pull-based discovery
+fine?
+8. Do we need “fencing” (prevent an old leader from still acting after losing leadership)?
+9. Do we need leadership transfer / handoff (graceful resignation) or only failure-driven
+elections?
+10. Do we need “sticky leader” (prefer to keep same leader if healthy) or random is fine?
+
+## C. Correctness requirements (the hard part)
+
+11. Must we guarantee **at most one leader** at any moment (safety), even during
+partitions?
+12. Is it acceptable to have periods with **no leader** (availability loss) during
+partitions/outages?
+13. What’s the target failover time (e.g., detect + elect within 1s, 5s, 30s)?
+14. What failure model: crash-stop only, or can nodes be Byzantine / malicious?
+15. How do we treat clock drift? Can we assume reasonably synchronized clocks (NTP),
+or must not rely on time?
+
+## D. Scale & performance targets
+
+16. How many nodes participate in an election group (3, 5, 1000)?
+17. How many election groups total (1, 100, 10k)?
+18. What’s expected QPS for “who is leader?” lookups?
+19. Any latency target for reads (leader discovery) vs writes (renew lease / heartbeats)?
+20. Are there burst scenarios (e.g., mass restart causing thundering herd)?
+
+## E. Environment & dependencies (build vs use)
+
+21. Are we allowed to depend on an existing coordination system (ZooKeeper/etcd/Consul)
+or must we build from scratch?
+22. If we can use a KV store, what consistency guarantees does it provide (linearizable
+writes, leader/follower replication)?
+23. If “from scratch,” can we assume TCP, reliable links, and stable membership service?
+24. Are nodes behind NAT / dynamic IPs? How do nodes identify themselves (instance_id +
+epoch)?
+25. Do we need dynamic membership (nodes join/leave frequently) or mostly static set?
+
+## F. Failure scenarios to clarify
+
+26. What should happen on network partition (split brain risk) — prefer safety or
+availability?
+27. What if the leader is alive but isolated from quorum?
+28. What if a node pauses (GC stop-the-world) and resumes later?
+29. What if the storage/coordination backend is partially down (some replicas unreachable)?
+30. Do we need to survive full AZ loss? full region loss?
+
+## G. Security & access control
+
+31. Do we need mTLS between nodes and the election service / coordinator?
+32. Do we need authz: who is allowed to participate in a group?
+33. Do we need audit logs of leadership changes (who became leader when/why)?
+34. Do we need protection against spoofing another node’s identity?
+35. Any compliance constraints (retention, encryption at rest)?
+
+## H. Observability & ops
+
+36. Required metrics: leader changes count, time-to-elect, lease renew latency,
+split-brain incidents?
+37. Do we need debugging tools: “why did I lose leadership?” event history?
+38. Operational tasks: draining a node, forcing re-election, changing group membership?
+39. Rate limiting / backoff strategy required for retries / elections?
+40. SLO/SLA targets and how to test (chaos testing, fault injection)?
+
+## I. Interface expectations
+
+41. Do clients want a watch/stream API for leadership changes, or polling is acceptable?
+42. Do we need exactly-once notification to watchers, or best-effort with reconnection
+is fine?
+43. Do we need to expose leader “lease expiry time” to clients?
+44. Should the system expose a monotonically increasing “leader epoch/term”?
+45. Any requirement to integrate with Kubernetes leader election patterns (Lease objects),
+or generic only?

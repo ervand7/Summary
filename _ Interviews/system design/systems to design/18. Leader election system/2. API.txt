@@ -1,0 +1,190 @@
+# 0️⃣ Auth / identity (assumed)
+
+- mTLS between nodes and Election Service (or signed JWT)
+- Node identity: {group_id, node_id} (node_id is stable per instance, plus optional instance_start_uuid)
+- Optional: permissions (which node_ids can join which group_id)
+
+---
+
+# 1️⃣ Core leader election (lease-based)
+
+## `POST /v1/groups/{group_id}/campaign`
+What it does:
+👉 A node attempts to become leader by acquiring a **lease**.
+
+Request:
+```json
+{
+  "node_id": "node_17",
+  "lease_ttl_ms": 5000,
+  "metadata": {
+    "ip": "10.0.1.7",
+    "zone": "az-a",
+    "version": "1.4.2"
+  }
+}
+````
+
+Response (won leadership):
+
+```json
+{
+  "is_leader": true,
+  "leader": {
+    "node_id": "node_17",
+    "term": 42,
+    "lease_expires_at_ms": 1735200000000
+  }
+}
+```
+
+Response (lost, someone else is leader):
+
+```json
+{
+  "is_leader": false,
+  "leader": {
+    "node_id": "node_03",
+    "term": 41,
+    "lease_expires_at_ms": 1735200000123
+  },
+  "retry_after_ms": 800
+}
+```
+
+Notes:
+
+* `term` is the fencing token (monotonic, increases on each new leader).
+* `lease_ttl_ms` is bounded by server policy (min/max).
+
+---
+
+## `POST /v1/groups/{group_id}/renew`
+
+What it does:
+👉 Current leader renews its lease before it expires.
+
+Request:
+
+```json
+{
+  "node_id": "node_17",
+  "term": 42,
+  "extend_by_ms": 5000
+}
+```
+
+Response:
+
+```json
+{
+  "ok": true,
+  "leader": {
+    "node_id": "node_17",
+    "term": 42,
+    "lease_expires_at_ms": 1735200005000
+  }
+}
+```
+
+Failure (fencing):
+
+```json
+{
+  "ok": false,
+  "error": "NOT_LEADER",
+  "current_leader": { "node_id": "node_03", "term": 43 }
+}
+```
+
+---
+
+## `POST /v1/groups/{group_id}/resign`
+
+What it does:
+👉 Graceful step-down (optional feature).
+
+Request:
+
+```json
+{ "node_id": "node_17", "term": 42 }
+```
+
+Response:
+
+```json
+{ "ok": true }
+```
+
+---
+
+# 2️⃣ Read APIs (for clients / followers)
+
+## `GET /v1/groups/{group_id}/leader`
+
+What it does:
+👉 Returns current leader info.
+
+Response:
+
+```json
+{
+  "leader": {
+    "node_id": "node_03",
+    "term": 43,
+    "lease_expires_at_ms": 1735200008123,
+    "metadata": { "zone": "az-b", "version": "1.4.2" }
+  }
+}
+```
+
+---
+
+## `GET /v1/groups/{group_id}/watch?cursor=...`
+
+What it does:
+👉 Server-Sent Events / long-poll / gRPC stream for leadership changes.
+
+Event example:
+
+```json
+{
+  "type": "LEADER_CHANGED",
+  "group_id": "payments-coordinator",
+  "term": 44,
+  "leader_node_id": "node_09",
+  "ts_ms": 1735200010000
+}
+```
+
+---
+
+# 3️⃣ Group management (often admin-only)
+
+## `POST /v1/groups`
+
+Create group (optional if groups are implicit).
+
+```json
+{
+  "group_id": "payments-coordinator",
+  "policy": { "min_ttl_ms": 2000, "max_ttl_ms": 15000 },
+  "allowed_nodes": ["node_01", "node_02", "node_03"]
+}
+```
+
+---
+
+## `GET /v1/groups/{group_id}/members`
+
+Lists registered/seen members + last heartbeat (optional).
+
+---
+
+# 4️⃣ Errors (common)
+
+* `NOT_LEADER` (fencing token mismatch / leadership lost)
+* `CONFLICT` (another leader holds lease)
+* `INVALID_TTL` (outside policy)
+* `UNAUTHORIZED` (node not allowed in group)
+* `BACKEND_UNAVAILABLE` (coordinator store quorum lost)

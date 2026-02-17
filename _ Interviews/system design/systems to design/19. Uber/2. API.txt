@@ -1,0 +1,290 @@
+# 0️⃣ Auth (assumed)
+
+All requests use:
+- OAuth/JWT access token
+- identity: rider_id / driver_id
+- device_id (optional), app_version (for rollout control)
+
+---
+
+# 1️⃣ Rider: discovery (ETA + price)
+
+### `POST /v1/rider/quote`
+👉 Returns price + ETA estimates for ride options.
+
+Request:
+```json
+{
+  "pickup":  { "lat": 44.8125, "lng": 20.4612 },
+  "dropoff": { "lat": 44.7866, "lng": 20.4489 },
+  "ride_types": ["uberx", "comfort", "xl"]
+}
+````
+
+Response:
+
+```json
+{
+  "quotes": [
+    {
+      "ride_type": "uberx",
+      "eta_sec": 240,
+      "price_estimate": { "min": 650, "max": 820, "currency": "RSD" },
+      "surge_multiplier": 1.2
+    }
+  ],
+  "request_token": "qt_abc123"
+}
+```
+
+Notes:
+
+* `request_token` helps bind later `/request` to a quote snapshot (optional).
+
+---
+
+# 2️⃣ Rider: request a ride
+
+### `POST /v1/rider/trips`
+
+👉 Creates a trip request (idempotent).
+
+Headers:
+
+* `Idempotency-Key: <uuid>`
+
+Request:
+
+```json
+{
+  "pickup":  { "lat": 44.8125, "lng": 20.4612, "address": "..." },
+  "dropoff": { "lat": 44.7866, "lng": 20.4489, "address": "..." },
+  "ride_type": "uberx",
+  "payment_method_id": "pm_123",
+  "quote_token": "qt_abc123"
+}
+```
+
+Response:
+
+```json
+{
+  "trip_id": "t_1001",
+  "status": "REQUESTED",
+  "dispatch": { "state": "SEARCHING" }
+}
+```
+
+---
+
+### `GET /v1/rider/trips/{trip_id}`
+
+👉 Trip status + driver assignment (if matched).
+
+Response:
+
+```json
+{
+  "trip_id": "t_1001",
+  "status": "MATCHED",
+  "driver": {
+    "driver_id": "d_77",
+    "name": "Ivan",
+    "car": { "make": "Toyota", "plate": "BG-123-AB" },
+    "location": { "lat": 44.8101, "lng": 20.4582 },
+    "eta_sec": 180
+  }
+}
+```
+
+---
+
+### `POST /v1/rider/trips/{trip_id}:cancel`
+
+👉 Cancel with reason (may charge cancellation fee depending on policy).
+
+Request:
+
+```json
+{ "reason": "changed_mind" }
+```
+
+Response:
+
+```json
+{ "status": "CANCELLED", "fee": { "amount": 0, "currency": "RSD" } }
+```
+
+---
+
+# 3️⃣ Driver: availability + offers
+
+### `POST /v1/driver/session:go_online`
+
+👉 Driver becomes available.
+
+Request:
+
+```json
+{
+  "vehicle_id": "v_10",
+  "ride_types": ["uberx", "comfort"]
+}
+```
+
+Response:
+
+```json
+{ "driver_state": "ONLINE", "session_id": "ds_999" }
+```
+
+---
+
+### `POST /v1/driver/location`
+
+👉 Driver sends GPS updates (high QPS).
+
+Request:
+
+```json
+{
+  "session_id": "ds_999",
+  "ts_ms": 1760000000000,
+  "lat": 44.8101,
+  "lng": 20.4582,
+  "heading": 120,
+  "speed_mps": 8.3
+}
+```
+
+Response:
+
+```json
+{ "ok": true }
+```
+
+---
+
+### `GET /v1/driver/offers/stream`
+
+👉 Realtime offers (SSE/WebSocket). Server pushes trip offers.
+
+Event example:
+
+```json
+{
+  "type": "TRIP_OFFER",
+  "offer_id": "off_500",
+  "trip_id": "t_1001",
+  "pickup": { "lat": 44.8125, "lng": 20.4612 },
+  "dropoff": { "lat": 44.7866, "lng": 20.4489 },
+  "eta_to_pickup_sec": 180,
+  "expires_in_sec": 12
+}
+```
+
+---
+
+### `POST /v1/driver/offers/{offer_id}:respond`
+
+👉 Accept/decline (idempotent).
+
+Headers:
+
+* `Idempotency-Key: <uuid>`
+
+Request:
+
+```json
+{ "action": "ACCEPT" }
+```
+
+Response:
+
+```json
+{ "result": "ACCEPTED", "trip_id": "t_1001" }
+```
+
+---
+
+# 4️⃣ Trip lifecycle (state transitions)
+
+### `POST /v1/driver/trips/{trip_id}:arrived`
+
+👉 Driver arrived at pickup.
+
+### `POST /v1/driver/trips/{trip_id}:start`
+
+👉 Starts trip (optionally with OTP/pin).
+
+Request:
+
+```json
+{ "pickup_pin": "1234" }
+```
+
+### `POST /v1/driver/trips/{trip_id}:complete`
+
+👉 Ends trip. Triggers fare finalization + payment capture.
+
+Request:
+
+```json
+{
+  "end_location": { "lat": 44.7866, "lng": 20.4489 },
+  "distance_m": 8200,
+  "duration_sec": 1180
+}
+```
+
+Response:
+
+```json
+{
+  "status": "COMPLETED",
+  "fare": { "amount": 790, "currency": "RSD" },
+  "payment": { "status": "CAPTURED", "payment_id": "pay_88" }
+}
+```
+
+---
+
+# 5️⃣ Rider/Driver realtime trip updates
+
+### `GET /v1/trips/{trip_id}/events/stream`
+
+👉 SSE/WebSocket for both rider and driver:
+
+* driver_location_updated
+* status_changed
+* message (chat)
+* payment_status
+
+---
+
+# 6️⃣ Ratings
+
+### `POST /v1/trips/{trip_id}/rating`
+
+👉 Rider rates driver; driver rates rider (separate endpoints or same with role).
+
+Request:
+
+```json
+{ "stars": 5, "comment": "Great ride" }
+```
+
+---
+
+# 7️⃣ Support (optional but common)
+
+### `POST /v1/support/tickets`
+
+👉 “I was overcharged / lost item / safety issue”.
+
+---
+
+# 8️⃣ Admin / Ops (usually out of scope, but mention)
+
+* `POST /v1/admin/feature_flags`
+* `GET /v1/admin/trips/{trip_id}/timeline`

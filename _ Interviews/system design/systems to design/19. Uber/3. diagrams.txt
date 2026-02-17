@@ -1,0 +1,209 @@
+# 🚗 Full picture: Uber-like system (interview-grade, text diagram)
+
+                           CONTROL PLANE (slow path)
+         (policies, pricing knobs, experiments, city configs, safety rules)
+
++-----------------------------------------------------------------------------------+
+| Admin Console / City Ops                                                          |
+| - city settings: ride types, airports rules, geofences, cancel fees               |
+| - pricing coefficients, surge caps, minimum fare                                  |
+| - fraud rules, safety settings, feature flags                                     |
++-----------------------------------+-----------------------------------------------+
+                                    |
+                                    v
++-----------------------------------------------------------------------------------+
+| Config + Feature Flag Service                                                     |
+| - dynamic configs per city/zone/app_version                                       |
+| - rollout / A/B tests                                                             |
++-----------------------------------+-----------------------------------------------+
+                                    |
+                                    v
++-----------------------------------------------------------------------------------+
+| Pricing Control Service                                                           |
+| - publishes pricing models, surge parameters, promotions                          |
++-----------------------------------------------------------------------------------+
+
+
+
+                           DATA PLANE (hot path)
+   (quotes, dispatch, realtime location, trip state machine, payments; must be fast)
+
+Clients:
+- Rider App (iOS/Android)
+- Driver App (iOS/Android)
+- Web (optional)
+        |
+        | HTTPS + WebSocket/SSE
+        v
++-----------------------------------------------------------------------------------+
+| Edge / API Gateway / Load Balancer                                                |
+| - JWT verification, rate limiting, device/app_version checks                      |
+| - routing to microservices                                                        |
++-----------------------------------+-----------------------------------------------+
+                                    |
+         +--------------------------+---------------------------+-------------------+
+         |                          |                           |                   |
+         v                          v                           v                   v
++---------------------+   +---------------------+     +------------------+   +------------------+
+| Trip Service        |   | Dispatch Service    |     | Realtime Gateway |   | Payment Service  |
+| (state machine)     |   | (matching brain)    |     | (WS/SSE fanout)  |   | (auth/capture)   |
+| - create trip       |   | - find candidates   |     | - trip events    |   | - PSP integration|
+| - transitions       |   | - send offers       |     | - location fanout|   | - refunds        |
+| - idempotency       |   | - accept race       |     | - chat relay     |   | - ledger hooks   |
++----------+----------+   +----------+----------+     +---------+--------+   +---------+--------+
+           |                         |                          |                  |
+           |                         |                          |                  |
+           v                         v                          v                  v
++---------------------+   +---------------------+     +------------------+   +------------------+
+| Trip DB             |   | Dispatch DB         |     | Pub/Sub Bus       |  | Payments DB      |
+| (SQL strongly cons.)|   | (KV/SQL)            |     | (Kafka/PubSub)    |  | (SQL)            |
+| - trip record       |   | - offers, locks     |     | - trip events     |  | - payment states |
+| - state history     |   | - assignment        |     | - location topics |  | - idempotency    |
++----------+----------+   +----------+----------+     +---------+--------+   +---------+--------+
+           |                         |                          |                  |
+           |                         |                          |                  |
+           |                         |                          |                  v
+           |                         |                          |        +----------------------+
+           |                         |                          |        | Ledger / Accounting  |
+           |                         |                          |        | - driver earnings    |
+           |                         |                          |        | - platform fees      |
+           |                         |                          |        +----------------------+
+           |                         |
+           |                         v
+           |            +------------------------------+
+           |            | Candidate Finder             |
+           |            | - geo search (nearby drivers)|
+           |            | - filters: ride_type, rating |
+           |            +--------------+---------------+
+           |                           |
+           |                           v
+           |            +------------------------------+
+           |            | Geo Index / Location Store   |
+           |            | (in-memory + geo)            |
+           |            | - driver last known location |
+           |            | - TTL, per-city shards       |
+           |            +--------------+---------------+
+           |                           ^
+           |                           |
+           |               driver GPS updates (high QPS)
+           |                           |
+           v                           |
++---------------------+                |
+| ETA/Routing Service |                |
+| - route, ETA        |                |
+| - map matching      |                |
++----------+----------+                |
+           |                           |
+           v                           |
++---------------------+                |
+| Pricing Service     |                |
+| - quote estimation  |                |
+| - surge lookup      |                |
++---------------------+                |
+
+
+----------------------------- MATCHING FLOW (request -> driver) -----------------------------
+
+Rider App
+  |
+  | 1) POST /rider/quote  (optional)
+  v
+Pricing Service + ETA Service -> returns estimates
+
+Rider App
+  |
+  | 2) POST /rider/trips  (Idempotency-Key)
+  v
+Trip Service
+  | 3) creates trip: REQUESTED in Trip DB
+  | 4) emits TripRequested event to Pub/Sub
+  v
+Dispatch Service
+  | 5) Candidate Finder queries Geo Index for nearby eligible drivers
+  | 6) ranks by ETA + constraints (ride type, acceptance, fairness)
+  | 7) creates offer(s) in Dispatch DB
+  | 8) pushes TRIP_OFFER via Realtime Gateway to Driver(s)
+  v
+Driver App
+  | 9) POST /offers/{id}:respond (ACCEPT)
+  v
+Dispatch Service
+  | 10) "accept race": first accept wins (CAS / DB transaction)
+  | 11) assigns driver to trip; emits DriverAssigned event
+  v
+Trip Service
+  | 12) updates trip status -> MATCHED; emits TripMatched event
+  v
+Realtime Gateway
+  | 13) pushes status + driver info to Rider App
+
+
+----------------------------- REALTIME LOCATION FLOW ---------------------------------------
+
+Driver App
+  |
+  | A) POST /driver/location every N seconds
+  v
+Location Ingest (part of Geo/Location Store)
+  | - updates Geo Index (TTL)
+  | - publishes LocationUpdated to Pub/Sub (per trip/driver topic)
+  v
+Realtime Gateway
+  | - fans out to rider(s) subscribed to this trip
+  v
+Rider App shows moving car
+
+
+----------------------------- TRIP LIFECYCLE FLOW -----------------------------------------
+
+Driver App -> Trip Service:
+- :arrived  -> status ARRIVED
+- :start    -> status IN_PROGRESS
+- :complete -> status COMPLETED (emits TripCompleted)
+
+TripCompleted triggers:
++---------------------------+        +----------------------------+
+| Fare/Fraud Checks Worker  |        | Payment Capture Worker     |
+| - recompute distance/time |        | - capture/preauth          |
+| - detect anomalies        |        | - retries + idempotency    |
++-------------+-------------+        +-------------+--------------+
+              |                                |
+              v                                v
+        Trip Service                      Payment Service
+        - final fare                      - updates payment status
+        - receipt event                   - emits PaymentCaptured/Failed
+              \                                /
+               \                              /
+                v                            v
+                    Realtime Gateway -> receipt/status to Rider/Driver
+
+
+----------------------------- RELIABILITY & DEGRADATION -----------------------------------
+
+If Dispatch is down:
+- Trip Service still accepts requests -> “SEARCHING” (queue)
+- Dispatch catches up from Pub/Sub (replay)
+
+If Location store is degraded:
+- fall back to last known location (less frequent updates)
+- keep trip state transitions working
+
+If Payments fail:
+- mark trip as COMPLETED + PAYMENT_PENDING
+- retry async; allow support workflow
+
+
+----------------------------- OBSERVABILITY & SAFETY --------------------------------------
+
++-----------------------------------------------------------------------------------+
+| Metrics / Logs / Tracing                                                          |
+| - p95 time-to-match, match success rate, cancel rate, offer acceptance rate       |
+| - location lag, WS fanout latency, ETA error, payment failure rate                |
+| - per-city dashboards + alerting                                                  |
++-----------------------------------------------------------------------------------+
+
++-----------------------------------------------------------------------------------+
+| Audit / Timeline Store (optional but strong in interviews)                        |
+| - append-only trip timeline: request, offers, accept, state changes, payments     |
+| - used by support + debugging                                                     |
++-----------------------------------------------------------------------------------+

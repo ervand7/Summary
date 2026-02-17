@@ -1,0 +1,86 @@
+## A. Scope (what exactly are we building?)
+
+1. Are we building “Uber Rides” only, or also Uber Eats / packages / rentals?
+2. Is the focus on MVP (request → match → trip → pay), or full production (fraud,
+surge, safety, support)?
+3. Cities/countries: single city first, or multi-region global from day 1?
+4. Do we support multiple ride types (X, Comfort, Black, XL), scheduled rides, pooling?
+5. Any special constraints: cash payments, offline mode, phone/SMS ordering,
+accessibility rides?
+
+## B. Core user flows (must-haves)
+
+6. Rider flow in scope: signup, set pickup/dropoff, price estimate, request ride,
+track driver, trip, receipt, rating?
+7. Driver flow in scope: go online/offline, accept/decline, navigation, start/finish
+trip, earnings, ratings?
+8. Do we need in-app chat/call masking between rider and driver?
+9. Cancellation rules: free-cancel window? who pays cancellation fee?
+10. Ratings/reviews: one-way rating only, or comments, support tickets?
+
+## C. Matching & dispatch (the hard part)
+
+11. Matching policy: nearest driver by distance, ETA, driver score, acceptance rate,
+car type?
+12. Do we need fairness constraints (avoid starving some drivers) or strict “best ETA”
+only?
+13. Re-dispatch rules: if driver doesn’t accept in N seconds, retry how many times?
+14. Do we need batching (send offer to one driver at a time) vs broadcast to several?
+15. Do we support driver destination mode (driver heading somewhere)?
+16. Pooling: if yes, define constraints (max detour %, max extra time, rider
+compatibility)?
+
+## D. Real-time location & maps
+
+17. Location update rate: e.g., driver sends GPS every 1s/3s/5s? rider too?
+18. Accuracy: do we need map matching (snap to road) and smoothing?
+19. Which map provider assumptions: internal routing/ETA service or external
+(Google/OSRM/etc.)?
+20. Geofencing: airports, city zones, pickup restrictions?
+
+## E. Pricing, surge, and ETA
+
+21. Pricing model: fixed base+time+distance, upfront price, or both (estimate then
+finalize)?
+22. Surge: do we implement dynamic pricing (supply/demand), and at what granularity
+(city/zone/grid cell)?
+23. How fresh must ETA/price be? Can it be “eventually updated” while user views the
+screen?
+24. Promotions/coupons in scope?
+
+## F. Payments & money movement
+
+25. Payment methods: cards only, Apple/Google Pay, cash, corporate accounts?
+26. When do we charge: pre-auth at request time, capture at end, split payments?
+27. Wallet/credits/refunds in scope?
+28. Driver payouts: real-time wallet, daily batch, weekly? (and accounting/auditing needs)
+
+## G. Scale & performance targets
+
+29. Expected DAU/MAU, peak concurrent riders/drivers per city, peak requests/sec?
+30. Latency goals: match decision < 2s? rider map updates < 500ms? trip state changes < 1s?
+31. Availability target: 99.9% vs 99.99%? what’s acceptable degradation mode?
+32. Multi-region: active-active or active-passive? requirement for locality (data residency)?
+
+## H. Correctness, consistency, and state machines
+
+33. Trip state machine: Requested → Matched → Arriving → InProgress → Completed; any
+extra states?
+34. Exactly-once vs at-least-once events: can we tolerate duplicate “trip_completed” events?
+35. Idempotency requirements for: request ride, accept ride, start trip, end trip,
+charge payment?
+36. What happens when rider/driver phone loses network mid-trip?
+
+## I. Abuse, fraud, and safety (often asked)
+
+37. Anti-fraud scope: fake GPS, driver/rider collusion, chargebacks, promo abuse?
+38. Safety features: SOS button, share trip, driver background checks (out of scope?),
+incident reporting?
+39. Rate limiting: prevent spam ride requests, driver accept scripts, bot signups?
+
+## J. Observability & ops
+
+40. Key metrics: match success rate, time-to-match, cancel rate, p95 dispatch latency,
+location lag, payment failure rate?
+41. Debuggability: do we need a full trip timeline/audit log?
+42. Rollouts: can we do feature flags per city/zone?

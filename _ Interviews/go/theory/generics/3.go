@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 type Ordered interface {
+	// `|` означает «или», а `~T` — любой тип с базовым типом `T`, например `~int` включает `int` и `type MyInt int`.
 	~int | ~int64 | ~float64 | ~string
 }
 

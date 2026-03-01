@@ -1,5 +1,8 @@
 package main
 
+// `comparable` — это ограничение типа, означающее, что значения этого типа можно
+// сравнивать с помощью `==` и `!=`.
+
 type Set[T comparable] struct {
 	m map[T]struct{}
 }

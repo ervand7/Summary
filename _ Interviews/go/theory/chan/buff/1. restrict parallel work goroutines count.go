@@ -21,10 +21,10 @@ func main() {
 
 		go func(n int) {
 			defer wg.Done()
+			defer func() { <-ch }()
 
 			time.Sleep(time.Second)
 			fmt.Println("do something concurrently", n)
-			<-ch
 		}(i)
 	}
 

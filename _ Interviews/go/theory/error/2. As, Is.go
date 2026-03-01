@@ -9,8 +9,8 @@ type MyError struct {
 	Code string `json:"code,omitempty"`
 }
 
-func (se MyError) Error() string {
-	return fmt.Sprintf("Error detected: %s", se.Code)
+func (e MyError) Error() string {
+	return fmt.Sprintf("Error detected: %s", e.Code)
 }
 
 func NewMyError(code string) *MyError {

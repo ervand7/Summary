@@ -60,14 +60,14 @@ Clients:
 | - trip record       |   | - offers, locks     |     | - trip events     |  | - payment states |
 | - state history     |   | - assignment        |     | - location topics |  | - idempotency    |
 +----------+----------+   +----------+----------+     +---------+--------+   +---------+--------+
-           |                         |                          |                  |
-           |                         |                          |                  |
-           |                         |                          |                  v
-           |                         |                          |        +----------------------+
-           |                         |                          |        | Ledger / Accounting  |
-           |                         |                          |        | - driver earnings    |
-           |                         |                          |        | - platform fees      |
-           |                         |                          |        +----------------------+
+           |                         |                                             |
+           |                         |                                             |
+           |                         |                                             v
+           |                         |                                   +----------------------+
+           |                         |                                   | Ledger / Accounting  |
+           |                         |                                   | - driver earnings    |
+           |                         |                                   | - platform fees      |
+           |                         |                                   +----------------------+
            |                         |
            |                         v
            |            +------------------------------+
@@ -75,83 +75,32 @@ Clients:
            |            | - geo search (nearby drivers)|
            |            | - filters: ride_type, rating |
            |            +--------------+---------------+
-           |                           |
-           |                           v
+           |                         |
+           |                         v
            |            +------------------------------+
            |            | Geo Index / Location Store   |
            |            | (in-memory + geo)            |
            |            | - driver last known location |
            |            | - TTL, per-city shards       |
            |            +--------------+---------------+
-           |                           ^
-           |                           |
+           |                         ^
+           |                         |
            |               driver GPS updates (high QPS)
-           |                           |
-           v                           |
-+---------------------+                |
-| ETA/Routing Service |                |
-| - route, ETA        |                |
-| - map matching      |                |
-+----------+----------+                |
-           |                           |
-           v                           |
-+---------------------+                |
-| Pricing Service     |                |
-| - quote estimation  |                |
-| - surge lookup      |                |
-+---------------------+                |
+           |
+           v
++---------------------+
+| ETA/Routing Service |
+| - route, ETA        |
+| - map matching      |
++----------+----------+               
+           |
+           v
++---------------------+
+| Pricing Service     |
+| - quote estimation  |
+| - surge lookup      |
++---------------------+
 
-
------------------------------ MATCHING FLOW (request -> driver) -----------------------------
-
-Rider App
-  |
-  | 1) POST /rider/quote  (optional)
-  v
-Pricing Service + ETA Service -> returns estimates
-
-Rider App
-  |
-  | 2) POST /rider/trips  (Idempotency-Key)
-  v
-Trip Service
-  | 3) creates trip: REQUESTED in Trip DB
-  | 4) emits TripRequested event to Pub/Sub
-  v
-Dispatch Service
-  | 5) Candidate Finder queries Geo Index for nearby eligible drivers
-  | 6) ranks by ETA + constraints (ride type, acceptance, fairness)
-  | 7) creates offer(s) in Dispatch DB
-  | 8) pushes TRIP_OFFER via Realtime Gateway to Driver(s)
-  v
-Driver App
-  | 9) POST /offers/{id}:respond (ACCEPT)
-  v
-Dispatch Service
-  | 10) "accept race": first accept wins (CAS / DB transaction)
-  | 11) assigns driver to trip; emits DriverAssigned event
-  v
-Trip Service
-  | 12) updates trip status -> MATCHED; emits TripMatched event
-  v
-Realtime Gateway
-  | 13) pushes status + driver info to Rider App
-
-
------------------------------ REALTIME LOCATION FLOW ---------------------------------------
-
-Driver App
-  |
-  | A) POST /driver/location every N seconds
-  v
-Location Ingest (part of Geo/Location Store)
-  | - updates Geo Index (TTL)
-  | - publishes LocationUpdated to Pub/Sub (per trip/driver topic)
-  v
-Realtime Gateway
-  | - fans out to rider(s) subscribed to this trip
-  v
-Rider App shows moving car
 
 
 ----------------------------- TRIP LIFECYCLE FLOW -----------------------------------------
@@ -175,7 +124,7 @@ TripCompleted triggers:
               \                                /
                \                              /
                 v                            v
-                    Realtime Gateway -> receipt/status to Rider/Driver
+          Realtime Gateway -> receipt/status to Rider/Driver
 
 
 ----------------------------- RELIABILITY & DEGRADATION -----------------------------------

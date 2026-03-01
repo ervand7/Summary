@@ -7,7 +7,7 @@ import "fmt"
 имеем дело с одним и тем же адресом памяти.
 */
 
-func changeArrByDereferencing(arr *[4]int) {
+func changeArrByPointer(arr *[4]int) {
 	fmt.Printf("%p\n", arr) // 0x140000b4000
 	arr[1] = 121212
 }
@@ -17,6 +17,6 @@ func main() {
 	fmt.Println(arr)         // [0 0 0 0]
 	fmt.Printf("%p\n", &arr) // 0x140000b4000
 
-	changeArrByDereferencing(&arr)
+	changeArrByPointer(&arr)
 	fmt.Println(arr) // [0 121212 0 0]
 }

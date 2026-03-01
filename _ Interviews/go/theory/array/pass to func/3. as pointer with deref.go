@@ -7,7 +7,7 @@ import "fmt"
 массив также изменится, так как работаем с одним и тем же адресом.
 */
 
-func changeArrByPointer(arr *[4]int) {
+func changeArrByDeref(arr *[4]int) {
 	fmt.Printf("%p\n", arr) // 0x1400012c000
 	(*arr)[1] = 121212
 }
@@ -17,6 +17,6 @@ func main() {
 	fmt.Println(arr)         // [0 0 0 0]
 	fmt.Printf("%p\n", &arr) // 0x1400012c000
 
-	changeArrByPointer(&arr)
+	changeArrByDeref(&arr)
 	fmt.Println(arr) // [0 121212 0 0]
 }

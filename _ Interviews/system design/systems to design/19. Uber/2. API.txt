@@ -288,3 +288,18 @@ Request:
 
 * `POST /v1/admin/feature_flags`
 * `GET /v1/admin/trips/{trip_id}/timeline`
+Response:
+
+```json
+{
+  "trip_id": "t_1001",
+  "events": [
+    { "type": "REQUESTED", "ts": 1700000000 },
+    { "type": "OFFER_SENT", "driver_id": "d_1" },
+    { "type": "MATCHED", "driver_id": "d_1" },
+    { "type": "STARTED" },
+    { "type": "COMPLETED" },
+    { "type": "PAYMENT_CAPTURED" }
+  ]
+}
+```

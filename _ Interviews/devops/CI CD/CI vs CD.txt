@@ -1,38 +1,30 @@
-Here's the difference between Continuous Integration (CI) and Continuous Delivery
-(CD) in software development:
+Continuous Integration (CI)
+Developers frequently merge code into a shared repository, and every commit triggers
+automatic builds and tests to catch errors early.
 
-**Continuous Integration (CI):**
-1. **Goal:** CI is focused on integrating code written by different developers into a
-common code repository. The primary goal of CI is to detect conflicts and errors as
-early as possible in the development process.
+Continuous Delivery (CD)
+After CI passes, the system automatically prepares the application for release.
+Deployment to production is a manual decision.
 
-2. **Frequency:** The CI process is executed with every commit to the code repository.
-This can happen tens or hundreds of times a day.
+Continuous Deployment
+Like Continuous Delivery, but deployment to production happens automatically after
+all tests pass.
 
-3. **Testing:** Automated code testing is an integral part of CI to ensure code quality.
-This includes unit testing, integration testing, and more.
+---
 
-4. **Integration:** Code is integrated into the shared repository after each commit.
-Errors and conflicts can be identified at an early stage.
+### Simple flow
+commit → CI (build + tests) → CD (release-ready) → deploy
 
-**Continuous Delivery (CD) and Continuous Deployment (CD):**
+---
 
-1. **Goal:** CD aims to deliver software that is ready for release to end users.
-Continuous Delivery means the software is always ready for release, but the decision
-to release is made by a human. Continuous Deployment, on the other hand, involves
-automatic release after successful checks.
+### Quick comparison
 
-2. **Frequency:** CD processes occur after passing CI and typically involve automated
-testing and deployment to testing and/or production servers.
+| Concept                   | Purpose                                           |
+| ------------------------- | ------------------------------------------------- |
+| CI                        | Automatically build and test code on every commit |
+| Continuous Delivery       | Keep software always ready for release            |
+| Continuous Deployment     | Automatically release to production               |
 
-3. **Testing:** CD includes thorough testing on various environments to ensure the
-software works as expected.
-
-4. **Release:** Continuous Delivery prepares the software for release, but the decision
-to release is usually made by a human. Continuous Deployment involves automated release
-without human intervention.
-
-**In summary, the main difference between CI and CD is that CI is focused on code
-integration and error detection, while CD is focused on delivering software ready
-for release. Both processes play crucial roles in software development and can be
-used together to streamline and improve the development process.**
+In short:
+* CI = integrate and test code
+* CD = deliver/deploy the software.

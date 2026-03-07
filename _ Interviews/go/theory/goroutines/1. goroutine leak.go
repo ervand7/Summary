@@ -5,7 +5,7 @@ import (
 )
 
 /*
-Here is normal input but goroutine leak in anonymous goroutine.
+Here is normal output but goroutine leak in anonymous goroutine.
 */
 
 func main() {

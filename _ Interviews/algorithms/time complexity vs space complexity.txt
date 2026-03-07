@@ -1,0 +1,32 @@
+### Time Complexity
+Measures how the runtime grows with input size `n`.
+
+Example:
+for i := 0; i < n; i++ {
+    fmt.Println(i)
+}
+
+Runs n times → O(n) time.
+
+---
+
+### Space Complexity
+
+Measures how much extra memory the algorithm uses as `n` grows.
+
+Example:
+arr := make([]int, n)
+Memory grows with `n` → O(n) space.
+
+---
+
+### Simple comparison
+
+| Concept          | Measures              | Example                      |
+| ---------------- | --------------------- | ---------------------------- |
+| Time Complexity  | Execution time growth | loop over `n` → O(n)     |
+| Space Complexity | Memory usage growth   | array of size `n` → O(n) |
+
+In short:
+* Time complexity = how long it runs
+* Space complexity = how much memory it uses.

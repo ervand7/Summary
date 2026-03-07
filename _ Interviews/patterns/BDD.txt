@@ -1,0 +1,24 @@
+BDD (Behavior-Driven Development) is an extension of TDD that focuses on describing
+the behavior of the system in business terms.
+
+Tests are written in a human-readable format so developers, testers, and product
+managers can understand them.
+
+### Common format (Given–When–Then)
+
+```text
+Given a user has $100
+When the user withdraws $30
+Then the balance should be $70
+```
+
+### Example (test idea)
+
+This description is then implemented as automated tests in code.
+
+---
+
+### Very short (interview answer)
+
+> BDD is a development approach where tests describe the expected behavior of the
+system in business-readable language, usually using the Given–When–Then format.

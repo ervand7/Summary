@@ -1,0 +1,48 @@
+### Basic Go Commands
+
+`go run <file.go>`
+Compile and run a Go program quickly (useful for testing).
+
+`go build [file.go]`
+Compile code into an executable without running it.
+
+`go install <package>`
+Build and install a package; binary is placed in `GOPATH/bin`.
+
+`go get <package>`
+Download and install a package and its dependencies.
+
+`go test [package]`
+Run tests in files ending with `_test.go`.
+
+`go fmt <file.go>` or `go fmt ./...`
+Format Go code according to standard style.
+
+`go mod <command>`
+Manage module dependencies:
+
+* `go mod init` – initialize a module
+* `go mod tidy` – add missing / remove unused deps
+* `go mod vendor` – copy deps to `vendor/`
+
+`go doc <package>` or `go doc <package>.<symbol>`
+Show documentation for packages or symbols.
+
+---
+
+### Advanced Commands
+
+`go list <args>`
+List packages or modules (useful for scripts).
+
+`go clean <args>`
+Remove build artifacts and cached files.
+
+`go env`
+Display Go environment variables.
+
+`go generate ./...`
+Run commands defined by `//go:generate` directives.
+
+`go tool <tool>`
+Access internal tools like `compile`, `cover`, or `vet`.

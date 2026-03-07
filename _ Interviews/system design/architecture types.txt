@@ -31,7 +31,6 @@ Pros: good structure, easier testing and maintenance.
 Cons: performance overhead, scaling limitations.
 
 7. SPA (Single-Pge Application)
-
 The UI loads once, and data updates dynamically via APIs.
 Pros: fast and responsive user experience.
 Cons: SEO challenges, heavier client logic.

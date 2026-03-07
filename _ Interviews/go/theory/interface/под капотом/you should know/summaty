@@ -1,0 +1,45 @@
+Интерфейс внутри хранит два значения:
+(type, value)
+
+Интерфейс равен `nil` только если оба nil:
+(type = nil, value = nil)
+
+---
+
+### Главная ловушка
+
+Если в интерфейсе:
+(type ≠ nil, value = nil)
+
+то интерфейс НЕ равен nil.
+
+---
+
+### Пример
+
+```go
+type MyError struct{}
+
+func (e *MyError) Error() string { return "error" }
+
+func main() {
+    var err *MyError = nil
+    var i error = err
+
+    fmt.Println(err == nil) // true
+    fmt.Println(i == nil)   // false
+}
+```
+
+Почему?
+i = (*MyError, nil)
+
+Тип есть → интерфейс не nil.
+
+---
+
+### Короткий ответ для интервью
+
+> Интерфейс в Go хранит `(type, value)`.
+> Он равен `nil` только если оба равны nil.
+> Если внутри лежит `nil pointer`, но тип известен — интерфейс не равен nil.

@@ -1,0 +1,33 @@
+TDD (Test-Driven Development) is a development approach where you write tests before
+writing the actual code.
+
+### Workflow (Red → Green → Refactor)
+
+1. Red – Write a test that fails.
+2. Green – Write the minimal code to make the test pass.
+3. Refactor – Improve the code while keeping tests passing.
+
+### Example
+
+Test first:
+
+```go
+func TestSum(t *testing.T) {
+    if Sum(2, 3) != 5 {
+        t.Fail()
+    }
+}
+```
+
+Then implement:
+
+```go
+func Sum(a, b int) int {
+    return a + b
+}
+```
+
+### Very short (interview answer)
+
+> TDD is a development methodology where tests are written before the implementation,
+following the cycle Red → Green → Refactor.

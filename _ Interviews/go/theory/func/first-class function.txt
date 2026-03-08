@@ -1,0 +1,57 @@
+First-class functions in Go mean that functions are treated like ordinary values.
+
+You can:
+
+* assign them to variables
+* pass them as arguments
+* return them from other functions
+
+---
+
+### 1️⃣ Assign function to a variable
+
+```go
+func add(a, b int) int {
+	return a + b
+}
+
+func main() {
+	f := add
+	fmt.Println(f(2, 3)) // 5
+}
+```
+
+---
+
+### 2️⃣ Pass function as an argument
+
+```go
+func apply(f func(int, int) int, a, b int) int {
+	return f(a, b)
+}
+```
+
+Usage:
+
+```go
+result := apply(add, 2, 3)
+```
+
+---
+
+### 3️⃣ Return a function
+
+```go
+func makeAdder(x int) func(int) int {
+	return func(y int) int {
+		return x + y
+	}
+}
+```
+
+---
+
+### Short definition
+
+> A first-class function is a function that can be used like any other value (stored,
+passed, returned).

@@ -1,0 +1,80 @@
+Waterfall is a linear software development methodology where work progresses through
+fixed sequential stages, and each stage must be completed before the next begins.
+
+Think of it like a waterfall flowing downward — you don’t go back upstream easily.
+
+---
+
+### Main Stages
+
+Typical flow:
+
+```text
+Requirements
+↓
+Design
+↓
+Implementation (coding)
+↓
+Testing
+↓
+Deployment
+↓
+Maintenance
+```
+
+Each phase is fully finished and documented before the next starts.
+
+---
+
+### Example
+
+1️⃣ First you write all requirements
+2️⃣ Then architects create system design
+3️⃣ Developers implement the system
+4️⃣ QA tests everything
+5️⃣ Product is released
+
+---
+
+### Key Characteristics
+
+* sequential process
+* heavy documentation
+* little flexibility
+* changes are expensive later
+
+---
+
+### When It Works Well
+
+Waterfall works better when:
+
+* requirements are very clear
+* system is stable
+* project is predictable
+
+Example:
+
+* government systems
+* embedded systems
+* aerospace software
+
+---
+
+### Main Problem
+
+If requirements change later:
+
+```text
+you must redo earlier phases
+```
+
+This makes it slow and expensive.
+
+---
+
+### Short Definition
+
+> Waterfall is a sequential development model where each phase must be completed before the
+next begins.

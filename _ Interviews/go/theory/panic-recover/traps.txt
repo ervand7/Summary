@@ -1,0 +1,29 @@
+1️⃣ `recover` works only inside `defer`
+
+```go
+defer func() {
+    if r := recover(); r != nil { ... }
+}()
+```
+
+Calling `recover()` outside `defer` does nothing.
+
+---
+
+2️⃣ `recover` works only in the same goroutine
+You cannot recover a panic from another goroutine.
+
+---
+
+3️⃣ Deferred functions still run during panic
+All `defer` statements execute before the program crashes.
+
+---
+
+4️⃣ `panic` should not replace error handling
+Use panic only for programmer errors or unrecoverable states, not normal errors.
+
+---
+
+5️⃣ After `recover`, execution continues
+The function continues after the deferred function.

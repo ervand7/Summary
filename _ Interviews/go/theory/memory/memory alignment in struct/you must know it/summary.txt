@@ -1,0 +1,32 @@
+1. Alignment & padding
+Go aligns struct fields for CPU efficiency. If fields are poorly ordered, the compiler inserts 
+padding bytes, increasing struct size.
+
+2. Order fields largest → smallest
+This minimizes padding.
+
+```go
+type Bad struct {
+    a bool
+    b int64
+    c bool
+}
+
+type Good struct {
+    b int64
+    a bool
+    c bool
+}
+```
+
+3. Why it matters
+Important when structs are stored in large slices/maps → saves memory, improves cache usage 
+and GC performance.
+
+4. How to check
+
+```go
+unsafe.Sizeof(MyStruct{})
+```
+
+✅ Key rule: arrange struct fields from largest to smallest to reduce padding.

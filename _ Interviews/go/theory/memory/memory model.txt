@@ -1,0 +1,16 @@
+Defines how goroutines see memory changes and when writes become visible to other goroutines.
+
+Key idea: happens-before relationship.
+
+Examples that establish happens-before:
+
+* `sync.Mutex` lock/unlock
+* `channel` send/receive
+* `sync.WaitGroup`
+* `atomic` operations
+
+Without synchronization → data races and undefined behavior.
+
+Senior takeaway:
+
+> Correct concurrent programs rely on synchronization primitives to guarantee memory visibility.

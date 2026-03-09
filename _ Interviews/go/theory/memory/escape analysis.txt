@@ -1,0 +1,25 @@
+The Go compiler decides whether variables live on the stack or heap.
+
+* Stack → faster, automatically freed
+* Heap → slower, involves GC
+
+If a variable escapes the function scope, it goes to the heap.
+
+Example:
+
+```go
+func f() *int {
+    x := 10
+    return &x // escapes → heap
+}
+```
+
+Check with:
+
+```bash
+go build -gcflags="-m"
+```
+
+Senior takeaway:
+
+> Avoid unnecessary heap allocations because they increase GC pressure.

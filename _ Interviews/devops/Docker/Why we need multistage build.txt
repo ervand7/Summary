@@ -1,0 +1,21 @@
+### Why Multi-Stage Builds Are Used
+
+Purpose:
+To keep the final Docker image small and include only the compiled application, not the
+build tools.
+
+Example (Go):
+
+The first stage builds the application using the Go image.
+The second `FROM` starts a new stage (e.g., `alpine`).
+
+```dockerfile
+COPY --from=builder
+```
+
+copies the compiled binary from the build stage to the final image.
+
+As a result, the Go SDK and build dependencies are not included in the final image.
+
+✅ Key idea:
+Multi-stage builds separate the build environment from the runtime image.

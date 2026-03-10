@@ -1,0 +1,58 @@
+### 1️⃣ OS-level virtualization (Docker)
+
+Containers share the host OS kernel but isolate processes.
+
+Example:
+
+* Docker
+
+Characteristics:
+
+* lightweight
+* fast startup
+* no full OS inside container
+* uses Linux namespaces + cgroups
+
+Architecture:
+
+```
+Host OS
+ └─ Docker Engine
+     ├─ Container A
+     ├─ Container B
+     └─ Container C
+```
+
+---
+
+### 2️⃣ x86 virtualization (Virtual machines)
+
+A hypervisor emulates full hardware, so each VM runs its own OS.
+
+Example:
+
+* Oracle VM VirtualBox
+
+Characteristics:
+
+* heavier
+* slower startup
+* full OS per VM
+* stronger isolation
+
+Architecture:
+
+```
+Host OS
+ └─ Hypervisor
+     ├─ VM (Linux + app)
+     ├─ VM (Windows + app)
+     └─ VM (Linux + app)
+```
+
+---
+
+✅ Senior short takeaway
+
+* Docker → OS-level virtualization (shared kernel, lightweight containers)
+* VirtualBox / VMs → hardware virtualization (each VM runs its own OS)

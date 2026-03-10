@@ -18,6 +18,10 @@ Run tests in files ending with `_test.go`.
 `go fmt <file.go>` or `go fmt ./...`
 Format Go code according to standard style.
 
+`go vet <package>` or `go vet ./...`
+Run static analysis to detect suspicious constructs (printf mistakes, unreachable
+code, struct tag issues, etc.).
+
 `go mod <command>`
 Manage module dependencies:
 
@@ -46,3 +50,12 @@ Run commands defined by `//go:generate` directives.
 
 `go tool <tool>`
 Access internal tools like `compile`, `cover`, or `vet`.
+
+golangci-lint is a fast linter aggregator for Go that runs multiple static analysis
+tools (like govet, errcheck, staticcheck, ineffassign, etc.) in a single command.
+Requires .golangci.yml file
+`golangci-lint run`
+
+
+golint analyzes Go code and reports style problems (naming, comments, exported identifiers, etc.).
+`golint ./...`

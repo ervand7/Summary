@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 // Тут не хватает sync.WaitGroup
@@ -19,6 +18,6 @@ func main() {
 			mu.Unlock()
 		}()
 	}
-	time.Sleep(1 * time.Second)
+
 	fmt.Println(len(m))
 }

@@ -18,5 +18,5 @@ func main() {
 
 	wg.Wait()
 
-	fmt.Println(len(data)) // 2837
+	fmt.Println(len(data))
 }

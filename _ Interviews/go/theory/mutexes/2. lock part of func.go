@@ -37,5 +37,5 @@ func main() {
 	}
 
 	wg.Wait()
-	fmt.Println(count) // 10000
+	fmt.Println(count)
 }

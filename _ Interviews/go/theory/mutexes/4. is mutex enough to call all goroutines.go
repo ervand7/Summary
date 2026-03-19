@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 
+// not enough
+
 func main() {
 	s := make([]int, 0, 10000)
 

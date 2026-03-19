@@ -23,5 +23,5 @@ func main() {
 	}
 
 	wg.Wait()
-	fmt.Printf("Maximum is %d", maximum) // Maximum is 10000
+	fmt.Printf("Maximum is %d", maximum)
 }

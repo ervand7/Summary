@@ -3,6 +3,12 @@ package main
 import "fmt"
 
 func main() {
-	s := "Привет!"
-	fmt.Println(string([]rune(s)[2]))
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Hello")
+		}
+
+	}()
+
+	panic("boom")
 }

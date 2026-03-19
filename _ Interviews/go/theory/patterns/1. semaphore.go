@@ -7,10 +7,10 @@ import (
 )
 
 func main() {
-	semaphore := make(chan struct{}, 3) // максимум 3 одновременно
+	semaphore := make(chan struct{}, 10)
 
 	var wg sync.WaitGroup
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		wg.Add(1)
 		semaphore <- struct{}{}
 
@@ -21,5 +21,6 @@ func main() {
 			time.Sleep(time.Second)
 		}(i)
 	}
+
 	wg.Wait()
 }

@@ -1,26 +1,26 @@
 Для продакшена — Prometheus, для анализа — pprof и trace, для глубокого
 дебага — Delve.
 
-* **pprof** — CPU / память / блокировки / goroutines
-* **go tool pprof** — анализ профилей, поиск hot spots
-* **go trace** — таймлайны, scheduler, goroutines во времени
-* **net/http/pprof** — визуальный анализ через браузер
-* **delve (dlv)** — глубокий runtime-дебаг
-* **Prometheus + Grafana** — метрики и алерты в продакшене
+* pprof — CPU / память / блокировки / goroutines
+* go tool pprof — анализ профилей, поиск hot spots
+* go trace — таймлайны, scheduler, goroutines во времени
+* net/http/pprof — визуальный анализ через браузер
+* delve (dlv) — глубокий runtime-дебаг
+* Prometheus + Grafana — метрики и алерты в продакшене
 
 
 ## 🔹 Типовой workflow: «сервис тормозит — что делать»
-1. **Prometheus / Grafana**
+1. Prometheus / Grafana
    * видим рост latency / CPU / memory
 
-2. **pprof (CPU / heap)**
+2. pprof (CPU / heap)
    * находим узкие места
 
-3. **go tool pprof**
+3. go tool pprof
    * смотрим hot functions
 
-4. **go trace**
+4. go trace
    * если подозрение на goroutines / блокировки
 
-5. **Delve**
+5. Delve
    * если нужна точечная отладка

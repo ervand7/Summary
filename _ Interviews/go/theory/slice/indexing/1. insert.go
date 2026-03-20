@@ -2,9 +2,7 @@ package main
 
 import "fmt"
 
-/*
-Индекс связан с длиной, а не с capacity.
-*/
+// Индекс связан с длиной, а не с capacity.
 
 func main() {
 	var nums []int

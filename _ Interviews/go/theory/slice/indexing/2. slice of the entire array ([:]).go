@@ -8,4 +8,5 @@ func main() {
 	fmt.Println(b) // []
 	// fmt.Println(b[1]) // panic: runtime error: index out of range [1] with length 0
 	fmt.Println(b[:cap(b)]) // [1 2 3 4 5]
+	fmt.Println(b[2:4])     // [3 4]
 }

@@ -25,5 +25,5 @@ func main() {
 	a = a[:0]
 	fmt.Println(a, len(a), cap(a)) // [] 0 5
 	// If the slice is extended again, the original data reappears.
-	fmt.Println(a[:2]) // [A B]
+	fmt.Println(a[:2], a[1:3]) // [A B] [B C]
 }

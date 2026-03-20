@@ -38,5 +38,10 @@ func main() {
 		10 1085
 	*/
 
-	fmt.Printf("%c%c%c%c%c%c", 1081, 1094, 1091, 1082, 1077, 1085) // йцукен
+	fmt.Printf("%c%c%c%c%c%c\n", 1081, 1094, 1091, 1082, 1077, 1085) // йцукен
+
+	// this would be the most proper variant
+	for i, val := range []rune(b) {
+		fmt.Println(i, string(val))
+	}
 }

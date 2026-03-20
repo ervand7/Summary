@@ -12,4 +12,7 @@ func main() {
 	a = "йцукен"
 	fmt.Println(len(a))    // 12
 	fmt.Println([]byte(a)) // [208 185 209 134 209 131 208 186 208 181 208 189]
+
+	// this would be the most proper variant
+	fmt.Println(len([]rune(a)))
 }

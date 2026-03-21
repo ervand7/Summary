@@ -11,12 +11,12 @@ func main() {
 	wg.Add(2)
 	go func() {
 		time.Sleep(50 * time.Millisecond)
-		fmt.Print(1)
+		fmt.Println(1)
 		wg.Done()
 	}()
 	wg.Add(-1)
 	go func() {
-		fmt.Print(2)
+		fmt.Println(2)
 		wg.Done()
 	}()
 	wg.Wait()

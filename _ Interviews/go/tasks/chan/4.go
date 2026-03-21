@@ -24,8 +24,8 @@ func main() {
 		}()
 	}
 
-	for _, s := range arr {
-		ch <- s
+	for _, v := range arr {
+		ch <- v
 	}
 
 	wg.Wait()

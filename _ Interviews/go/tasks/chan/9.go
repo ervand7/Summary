@@ -24,6 +24,7 @@ func main() {
 		}
 	}()
 
+	// many writers
 	for i := 0; i < jobsCount; i++ {
 		semaphore <- struct{}{}
 		wg.Add(1)

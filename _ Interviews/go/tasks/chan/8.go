@@ -37,9 +37,8 @@ func processInParallel(ctx context.Context, in <-chan int, out chan<- int, worke
 	// 2. В дополнение к этому необходимо добавить получение контекста и его обработку
 
 	var wg sync.WaitGroup
-	wg.Add(workers)
-
 	for i := 0; i < workers; i++ {
+		wg.Add(1)
 		go func() {
 			defer wg.Done()
 			for {

@@ -1,0 +1,4 @@
+In Go, failures are mainly:
+ - panic (recoverable)
+ - fatal runtime errors (non-recoverable, including deadlocks & OOM)
+ - data races / leaks (logical concurrency bugs)

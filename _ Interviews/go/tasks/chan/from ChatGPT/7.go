@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-// fanIn merges multiple input channels into a single output channel.
-func fanIn(ctx context.Context, out chan<- int, channels ...<-chan int) {
+// fanOut merges multiple input channels into a single output channel.
+func fanOut(ctx context.Context, out chan<- int, channels ...<-chan int) {
 	for _, ch := range channels {
 		// Start a goroutine per input channel
 		go func(c <-chan int) {
@@ -28,17 +28,17 @@ func main() {
 	defer cancel()
 
 	// Each writer has its own input channel
-	src1 := make(chan int)
-	src2 := make(chan int)
+	in1 := make(chan int)
+	in2 := make(chan int)
 	out := make(chan int)
 
 	// Merge multiple channels into one
-	fanIn(ctx, out, src1, src2)
+	fanOut(ctx, out, in1, in2)
 
 	// Writer #1
 	go func() {
 		for i := 0; i < 10; i++ {
-			src1 <- i
+			in1 <- i
 			time.Sleep(100 * time.Millisecond)
 		}
 	}()
@@ -46,7 +46,7 @@ func main() {
 	// Writer #2
 	go func() {
 		for i := 0; i < 20; i++ {
-			src2 <- i * 10
+			in2 <- i * 10
 			time.Sleep(50 * time.Millisecond)
 		}
 	}()

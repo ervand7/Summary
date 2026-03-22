@@ -21,8 +21,8 @@ import (
 
 func main() {
 	in := generator()
-	mid := processor(in)
-	consumer(mid)
+	out := processor(in)
+	consumer(out)
 }
 
 func generator() <-chan int {

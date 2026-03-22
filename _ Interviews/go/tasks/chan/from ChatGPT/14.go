@@ -37,7 +37,7 @@ func main() {
 	}
 
 	wg.Wait()
-	fmt.Println("final:", counter.Value()) // must be 5000
+	fmt.Println("final:", counter.Value())
 }
 
 type Counter struct {

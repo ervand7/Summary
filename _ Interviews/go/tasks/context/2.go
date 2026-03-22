@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-// What will be printed?
-
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	go func() {

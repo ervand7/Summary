@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-// GOMAXPROCS restricts number of CPU that can be used simultaneously.
+// GOMAXPROCS limits the number of logical CPU cores (OS threads) used for parallel
+// execution of goroutines.
 // This program will be single threaded and have a single P/M to execute
 // all Goroutines. The function is capitalized because it’s also an
 // environment variable. Though this function call will overwrite the variable.

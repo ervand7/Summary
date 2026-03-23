@@ -8,9 +8,12 @@ import (
 type Stats struct {
 	sum   int
 	count int
+	mu    sync.RWMutex
 }
 
 func (s *Stats) Avg() float64 {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 	if s.count == 0 {
 		return 0
 	}
@@ -18,6 +21,8 @@ func (s *Stats) Avg() float64 {
 }
 
 func (s *Stats) Add(v int) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
 	s.sum += v
 	s.count++
 }
@@ -31,7 +36,8 @@ func main() {
 		go func(i int) {
 			defer wg.Done()
 			stats.Add(i)
-			fmt.Println(stats.Avg())
+			fmt.Printf("count: %d, sum: %d, average: %f\n",
+				stats.count, stats.sum, stats.Avg())
 		}(i)
 	}
 

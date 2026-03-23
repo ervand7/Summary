@@ -48,7 +48,9 @@ func main() {
 
 	for idx := range users {
 		officeID := users[idx].OfficeId
-		users[idx].OfficeAddress = hashTable[officeID]
+		if address, ok := hashTable[officeID]; ok {
+			users[idx].OfficeAddress = address
+		}
 	}
 
 	fmt.Printf("%+v", users)

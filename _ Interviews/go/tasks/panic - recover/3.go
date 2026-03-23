@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 func main() {
@@ -24,7 +23,6 @@ func main() {
 
 	wg.Wait()
 	fmt.Println("All workers finished")
-	time.Sleep(300 * time.Millisecond)
 }
 
 func worker(id int, wg *sync.WaitGroup) {

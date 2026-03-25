@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// Without capacity → new array each time → independent slices
+
 func main() {
 	s := make([]int, 0)
 	a := append(s, 1)

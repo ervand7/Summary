@@ -6,13 +6,11 @@ from typing import List
 def minimum_area(grid: List[List[int]]) -> int:
     m, n = len(grid), len(grid[0])
 
-    # find ones by borders
     up = m - 1
     right = 0
     down = 0
     left = n - 1
 
-    # find up
     for i in range(m):
         for j in range(n):
             if grid[i][j] == 1:

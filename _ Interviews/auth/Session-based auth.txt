@@ -1,0 +1,21 @@
+Server stores session (stateful). Client holds only session ID (cookie).
+
+---
+
+### 🔄 Flow
+
+1. User logs in
+2. Server creates session (DB/Redis)
+3. Server → sets cookie `session_id=abc123`
+4. Client sends cookie on each request
+5. Server looks up session → authenticates user
+
+---
+
+### ❌ Revocation (logout / kill session)
+
+1. User logs out or server decides to revoke
+2. Server deletes session from storage
+3. Next request with same `session_id` → ❌ not found → unauthorized
+
+👉 Key idea: instant revocation (just delete session on server)

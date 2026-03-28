@@ -1,0 +1,26 @@
+Okta = a service that manages login (authentication) for your apps
+
+---
+
+### 👉 Simple idea
+
+Instead of building login yourself, you use Okta:
+
+* user logs in via Okta
+* Okta tells your backend:
+
+  > “this user is authenticated”
+
+---
+
+### 👉 What it does
+
+* handles SSO
+* supports SAML / OAuth / OpenID Connect
+* manages users, passwords, MFA
+
+---
+
+### 👉 One-liner
+
+👉 Okta = external login system you trust to authenticate users

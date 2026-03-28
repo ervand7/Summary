@@ -1,0 +1,34 @@
+SAML = login via another trusted system
+
+Instead of checking passwords yourself, you trust someone else to do it
+
+---
+
+### 👉 Simple example
+
+You open a service →
+it says:
+
+> “Go login via company account (e.g. Okta)”
+
+Then:
+
+1. You log in to Okta
+2. Okta tells your service:
+
+   > “This user is legit”
+3. You are logged in
+
+---
+
+### 👉 Key idea
+
+* Your service does NOT check password
+* There is a trusted party (IdP) that does
+* It sends you a signed XML (proof)
+
+---
+
+### 👉 One-liner
+
+👉 SAML = someone else authenticates the user and sends you a signed proof

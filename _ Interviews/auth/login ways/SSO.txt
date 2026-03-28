@@ -1,0 +1,21 @@
+SSO (Single Sign-On) = log in once, get access to multiple apps
+
+---
+
+### 👉 Simple example
+
+You log in to Google →
+then you can open Gmail, YouTube, Drive without logging in again
+
+---
+
+### 👉 Key idea
+
+* One login → many services
+* A central system handles authentication (IdP)
+
+---
+
+### 👉 One-liner
+
+👉 SSO = one login for many applications

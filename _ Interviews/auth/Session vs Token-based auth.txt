@@ -1,6 +1,6 @@
 ### 🔑 Session-based
 
-* Server stores state (Redis/DB)
+* Stateful, server stores state (Redis/DB)
 * Easy revocation (delete session)
 * Harder to scale (shared storage needed)
 
@@ -26,5 +26,3 @@
 
 👉 In real systems → often hybrid:
 
-* JWT (access, short-lived)
-* * refresh tokens / session store for control

@@ -1,0 +1,14 @@
+* Digital signatures (authenticity/integrity):
+  ✔️ Sign with private key
+  ✔️ Verify with public key
+
+* Encryption (confidentiality):
+  ✔️ Encrypt with public key
+  ✔️ Decrypt with private key
+
+👉 So:
+
+* Sign → private → verify → public
+* Encrypt → public → decrypt → private
+
+That’s the full correct picture.

@@ -30,7 +30,32 @@ On an iPhone, the private key is stored in the Secure Enclave — a protected
 hardware area that apps cannot access directly. It's used internally when you
 approve with Face ID or Touch ID.
 
-Example:
+
+Flow:
+1. User opens app/site and chooses “Create passkey”
+2. Client → Server (start registration)
+3. Server → Client (registration challenge + options)
+4. Client → Device authenticator (request passkey creation)
+5. User → Device (confirms via Face ID / Touch ID / PIN)
+6. Device authenticator generates key pair
+7. Device authenticator → Client (public key + credential ID + attestation)
+8. Client → Server (sends registration result)
+9. Server stores public key and credential ID
+
+10. User later chooses “Sign in with passkey”
+11. Client → Server (start authentication)
+12. Server → Client (authentication challenge + allowed credentials)
+13. Client → Device authenticator (request challenge signing)
+14. User → Device (confirms via Face ID / Touch ID / PIN)
+15. Device authenticator signs challenge with private key
+16. Device authenticator → Client (signed assertion)
+17. Client → Server (sends signed assertion)
+18. Server verifies signature using stored public key
+19. Server → Client (authentication success / failure)
+20. Client logs user into the app/site
+
+
+Code example:
 ```
 package main
 

@@ -51,6 +51,32 @@ If valid — you can trust the `user_id`, `role`, etc. inside.
 
 🔁 JWT = stateless authentication
 
+---
+
+### 🔄 Access token vs Refresh token
+
+* Access token (JWT):
+
+  * Short-lived (e.g., 5–15 min)
+  * Sent on every request
+  * Used to access APIs
+
+* Refresh token:
+
+  * Long-lived (days/weeks)
+  * Stored securely (httpOnly cookie / DB)
+  * Used to get a new access token when it expires
+
+👉 Flow:
+
+1. User logs in → gets access + refresh token
+2. Access token expires
+3. Client sends refresh token → server issues new access token
+
+> ⚠️ Refresh tokens are usually stored in DB → allow revocation (logout, ban)
+
+---
+
 ### 🔐 Symmetric vs Asymmetric:
 
 | Method    | Use case                      | Keys used                              |
@@ -61,4 +87,6 @@ If valid — you can trust the `user_id`, `role`, etc. inside.
 
 > JWT is a stateless, signed token that lets you verify the user's identity
 without saving sessions in your database.
-> It’s fast, secure, and ideal for modern APIs and microservices.
+Access tokens are short-lived, and refresh tokens provide controlled renewal.
+It’s fast, secure, scalable, and ideal for modern APIs and microservices.
+

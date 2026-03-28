@@ -1,0 +1,30 @@
+### 🔑 Session-based
+
+* Server stores state (Redis/DB)
+* Easy revocation (delete session)
+* Harder to scale (shared storage needed)
+
+---
+
+### 🔐 Token-based (JWT)
+
+* Stateless (no DB lookup)
+* Easy to scale (great for microservices)
+* Hard to revoke (need blacklist / short TTL)
+
+---
+
+### ⚖️ Trade-offs you must know
+
+* Revocation: sessions ✅ easy / JWT ❌ hard
+* Scaling: sessions ❌ / JWT ✅
+* Security: JWT risks (leak = full access), must use short expiry + refresh tokens
+
+---
+
+### 🧠 Senior insight:
+
+👉 In real systems → often hybrid:
+
+* JWT (access, short-lived)
+* * refresh tokens / session store for control

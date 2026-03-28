@@ -89,4 +89,3 @@ If valid — you can trust the `user_id`, `role`, etc. inside.
 without saving sessions in your database.
 Access tokens are short-lived, and refresh tokens provide controlled renewal.
 It’s fast, secure, scalable, and ideal for modern APIs and microservices.
-

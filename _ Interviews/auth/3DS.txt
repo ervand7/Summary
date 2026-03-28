@@ -1,0 +1,43 @@
+A 3DS Server is part of the 3D Secure (3DS) payment authentication flow
+(used by Visa, Mastercard, etc.).
+
+---
+
+### 💳 What is 3D Secure?
+
+A system that adds an extra authentication step when paying online
+👉 like OTP / bank app confirmation
+
+---
+
+### 🧠 What does a 3DS Server do?
+
+It sits on the merchant side and:
+
+* Sends authentication requests to card networks
+* Communicates with the bank (issuer)
+* Handles the 3DS flow
+
+---
+
+### 🔄 Simple flow:
+
+1. User pays online (enters card details on merchant site)
+2. Merchant → PSP (sends card, amount, device info)
+3. PSP → 3DS Server (PSP uses its internal 3DS Server)
+4. 3DS Server → card network → bank (routes request to issuing bank)
+5. Bank evaluates risk (decides frictionless or challenge)
+6. Bank → User (if needed: asks to confirm via OTP / push / biometrics)
+7. User → Bank (confirms payment)
+8. Bank → card network → 3DS Server (returns authentication result)
+9. 3DS Server → PSP (returns result)
+10. PSP → Merchant (sends result: authenticated / failed)
+11. PSP → card network → bank (continues with payment authorization if success)
+
+
+---
+
+### ⚡ In one sentence:
+
+👉 3DS Server = component that manages card authentication with the user’s bank
+during online payments

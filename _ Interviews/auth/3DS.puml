@@ -1,0 +1,42 @@
+@startuml
+actor User
+participant Merchant
+participant PSP
+participant "3DS Server" as ThreeDS
+participant "Card Network" as Network
+participant Bank
+
+User -> Merchant : Pay (enter card details)
+Merchant -> PSP : card + amount + device info
+PSP -> ThreeDS : start 3DS authentication
+
+ThreeDS -> Network : AReq (Authentication Request: who, amount, device info)
+Network -> Bank : forward AReq
+
+Bank -> Bank : risk evaluation
+
+alt frictionless
+    Bank -> Network : ARes (Authentication Response: approved, no user action)
+else challenge
+    Bank -> Network : ARes (challenge required)
+    Network -> ThreeDS : ARes
+    ThreeDS -> User : show challenge (OTP / push / biometrics)
+
+    User -> Bank : confirm identity
+
+    Bank -> Network : CRes (Challenge Response: success / failure after user action)
+end
+
+Network -> ThreeDS : final authentication result
+ThreeDS -> PSP : authentication result
+PSP -> Merchant : authenticated / failed
+
+opt if authenticated
+    PSP -> Network : authorization request (charge money)
+    Network -> Bank : authorize payment
+    Bank -> Network : auth result (approved / declined)
+    Network -> PSP : result
+    PSP -> Merchant : payment result
+end
+
+@enduml

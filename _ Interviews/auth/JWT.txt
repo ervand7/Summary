@@ -37,9 +37,10 @@ but only your server can verify it's valid.
 Use a secret key (HMAC) or public key (RSA/ECDSA) to verify the signature:
 
 ```go
-jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-	return []byte("your-secret-key"), nil
-})
+jwt.Parse(
+    tokenString,
+    func(token *jwt.Token) (interface{}, error) { return []byte("your-secret-key"), nil },
+)
 ```
 
 The server checks:

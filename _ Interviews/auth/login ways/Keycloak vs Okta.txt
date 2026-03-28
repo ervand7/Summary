@@ -1,0 +1,18 @@
+### 🔑 Keycloak
+
+* Open-source
+* You host it yourself
+* Free (you manage infra)
+
+---
+
+### ☁️ Okta
+
+* Commercial SaaS
+* Hosted for you
+* Paid (managed service)
+
+---
+
+### ⚡ One sentence:
+👉 Both do auth (OAuth/JWT), but Keycloak = self-hosted, Okta = managed cloud service

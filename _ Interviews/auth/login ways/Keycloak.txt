@@ -1,0 +1,12 @@
+Keycloak is an open-source identity and access management (IAM) system.
+
+👉 It handles:
+
+* Login / registration
+* JWT tokens
+* OAuth2 / OpenID Connect
+* User roles & permissions
+
+### ⚡ One sentence:
+
+👉 Keycloak = ready-made auth server so you don’t build authentication yourself

@@ -1,22 +1,20 @@
-Правильный ответ:
+Correct answer:
+- At least once, and potentially multiple times (Kafka provides at-least-once by default).
 
-- Минимум 1 раз, максимум — потенциально несколько раз (по умолчанию Kafka
-обеспечивает at-least-once).
+Explanation:
+By default, Kafka guarantees at-least-once delivery semantics: every message
+will be delivered and processed at least once, but in case of failures
+(consumer crash, rebalance, retries, commit timeouts), the same message may be
+processed more than once.
 
-Объяснение:
-Kafka по умолчанию обеспечивает семантику доставки at-least-once: каждое сообщение
-будет доставлено и обработано не менее одного раза, но при сбоях (падение consumer’а,
-ребаланс, ретраи, таймауты commit’ов) одно и то же сообщение может быть обработано
-повторно.
+Kafka does not guarantee at-most-once or exactly-once without additional configuration.
 
-Kafka не гарантирует at-most-once или exactly-once без дополнительной настройки.
+To achieve exactly-once semantics, you need:
+- Kafka transactions,
+- proper handling of consumer offsets,
+- idempotency or transactional guarantees on the producer and sink side.
 
-Для семантики exactly-once требуется:
-- использование Kafka transactions,
-- корректная работа с consumer offsets,
-- поддержка идемпотентности или транзакционности на стороне producer’а и sink’ов.
-
-Таким образом:
-- at-most-once → возможна потеря сообщений,
-- at-least-once → возможны дубликаты,
-- exactly-once → возможно, но только при явной конфигурации и ограничениях.
+Summary:
+- at-most-once → messages may be lost
+- at-least-once → duplicates are possible
+- exactly-once → possible, but only with explicit configuration and constraints

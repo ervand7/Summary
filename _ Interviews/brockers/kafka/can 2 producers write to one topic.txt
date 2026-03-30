@@ -1,16 +1,16 @@
-* В один Kafka-топик могут писать сколько угодно продюсеров одновременно
-* Продюсеры не блокируют друг друга, глобального порядка сообщений нет
-* Kafka гарантирует порядок только внутри одной partition
-* Если продюсеры отправляют сообщения с одинаковым key (например `user_1`)
-  → Kafka по `hash(key)` отправляет их в одну и ту же partition
-* В результате:
-  * все события `user_1` попадают в одну partition
-  * их порядок строго сохраняется
-* Гарантия нарушается, если:
-  * изменили число partition
-  * используется кастомный partitioner
-  * сообщения отправляются без key
+* Multiple producers can write to the same Kafka topic simultaneously
+* Producers do not block each other; there is no global ordering of messages
+* Kafka guarantees ordering only within a single partition
+* If producers send messages with the same key (e.g., `user_1`)
+  → Kafka uses hash(key) to route them to the same partition
+* As a result:
+  * all events for `user_1` go to the same partition
+  * their order is strictly preserved
+* This guarantee can be broken if:
+  * the number of partitions changes
+  * a custom partitioner is used
+  * messages are sent without a key
 
-Формулировка для интервью:
-> Kafka обеспечивает упорядоченность сообщений по ключу внутри одной partition,
-даже при наличии нескольких продюсеров.
+Interview phrasing:
+> Kafka guarantees message ordering per key within a single partition,
+even with multiple producers.

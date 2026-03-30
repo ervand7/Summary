@@ -1,2 +1,5 @@
-> Kafka stores consumer offsets in its internal, replicated topic __consumer_offsets,
-which makes offsets durable and fault-tolerant even if consumers crash.
+> Kafka stores consumer offsets in the __consumer_offsets topic, which is a replicated
+Kafka log, making offsets durable and fault-tolerant.
+
+> Kafka has a single internal __consumer_offsets topic shared by all consumer groups;
+each group’s offsets are stored as records within it.

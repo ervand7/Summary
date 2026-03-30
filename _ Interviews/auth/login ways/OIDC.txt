@@ -1,0 +1,12 @@
+OIDC (OpenID Connect)
+An authentication layer on top of OAuth 2.0 that lets apps verify who the user is using
+ID tokens (usually JWT).
+
+OIDC Provider (IdP)
+The service that authenticates the user and issues tokens (ID token, access token).
+Examples: Keycloak, Okta, Auth0.
+
+👉 In short:
+
+* OIDC = protocol (how auth works)
+* OIDC Provider = server (who logs user in and gives tokens)

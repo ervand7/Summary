@@ -1,61 +1,24 @@
-## 1. `acks` — гарантия записи
-`acks` — это настройка producer-а, которая определяет, когда Kafka считает сообщение
-успешно записанным.
+## 1. `acks` — write guarantee
+`acks` is a producer setting that defines when Kafka considers a message successfully written.
 
-Что именно гарантирует `acks`:
-сколько реплик (брокеров), входящих в ISR, подтвердили запись сообщения в лог партиции
-до того, как producer получит подтверждение (ack)
+It determines:
+how many replicas (brokers) in the ISR must confirm the write to the partition log
+before the producer receives an acknowledgment.
 
-
-Значения:
-* `acks=0` — не ждём подтверждений (быстро, но можно потерять)
-* `acks=1` — подтвердил лидер
-* `acks=all` — подтвердили все ISR
+Values:
+* `acks=0` — no acknowledgments (fast, but messages can be lost)
+* `acks=1` — only the leader acknowledges
+* `acks=all` — all ISR replicas acknowledge
 
 
-## 2. at-most-once / at-least-once / exactly-once — это семантика доставки
-Это не одна настройка Kafka, а end-to-end поведение системы.
+## 2. at-most-once / at-least-once / exactly-once — delivery semantics
+These are not a single Kafka setting, but end-to-end system behavior.
 
-Кратко:
-> Delivery / processing semantics — как система в целом доставляет и обрабатывает сообщения.
+In short:
+> Delivery semantics describe how the system delivers and processes messages.
 
-Они определяются:
-* логикой producer-а
-* моментом commit offset в consumer-е
-* идемпотентностью
-* транзакциями
-
-
-## 3. Где и как формируются семантики
-### At-most-once
-* commit offset ДО обработки
-* возможен `acks=0/1`
-* сообщения могут теряться
-* дубликатов нет
-
-📍 Формируется в consumer-коде
-
-
-### At-least-once (дефолт Kafka)
-* commit offset ПОСЛЕ обработки
-* обычно `acks=all`
-* сообщения не теряются
-* возможны дубликаты
-
-📍 Формируется в consumer-коде + producer config
-
-
-### Exactly-once
-Требует строгого набора условий:
-Producer:
-* `enable.idempotence=true`
-* `acks=all`
-* `transactional.id`
-
-Consumer:
-* `isolation.level=read_committed`
-* commit offset в транзакции
-
-Kafka:
-* поддержка транзакций
-📍 Формируется producer + consumer + Kafka
+They depend on:
+* producer logic
+* when offsets are committed in the consumer
+* idempotency
+* transactions

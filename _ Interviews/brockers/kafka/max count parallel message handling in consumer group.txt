@@ -1,15 +1,12 @@
-12. Какое максимальное количество параллельно обрабатываемых сообщений в случае
-наличия 1 topic, 3 topic partition и 6 consumer в рамках одной consumer group?
+What is the maximum number of messages that can be processed in parallel:
+given 1 topic, 3 partitions, and 6 consumers in the same consumer group?
 
-Правильный ответ:
+Correct answer:
+- 3
 
-- **3**.
+Explanation:
+In Kafka, each message belongs to a partition. Within a consumer group, each partition
+can be assigned to only one consumer. Therefore, even with 6 consumers and only 3 partitions,
+only 3 messages can be processed in parallel — one per partition.
 
-Объяснение:
-В Kafka каждое сообщение в топике хранится в одном из partitions. В рамках
-одной consumer group каждый partitions может быть назначен только одному consumer.
-Таким образом, даже если у вас 6 consumers, но всего 3 партиции, то одновременно может
-быть обработано только 3 сообщения — по одному от каждую партицию.
-
-Количество параллельно обрабатываемых сообщений в данном случае определяется количеством
-партиций, а не количеством consumers.
+Parallelism is determined by the number of partitions, not the number of consumers.

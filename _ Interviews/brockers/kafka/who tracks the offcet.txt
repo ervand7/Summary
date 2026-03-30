@@ -4,7 +4,6 @@
   ```
   (consumer_group, topic, partition) → offset
   ```
-* Not `(consumer_group, consumer_id, partition)`
 
 
 * ✔️ The consumer client is responsible for:

@@ -1,3 +1,7 @@
+ - replication-factor ≤ number of brokers
+ - RF=3 ⇒ requires ≥3 brokers
+ - otherwise → topic creation fails
+
 👉 You manually set the number of Kafka brokers.
 Replication factor does NOT create brokers automatically.
 
@@ -15,3 +19,53 @@ One-line interview answer:
 
 > Kafka brokers are provisioned manually; replication factor only controls how many
 existing brokers store replicas.
+
+
+Example:
+docker-compose.yml:
+```
+version: '3.8'
+
+services:
+  zookeeper:
+    image: bitnami/zookeeper:3.8
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka1:
+    image: bitnami/kafka:3.6
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka1:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+  kafka2:
+    image: bitnami/kafka:3.6
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=2
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka2:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+```
+
+run script:
+```
+docker exec -it kafka1 kafka-topics.sh \
+  --create \
+  --topic test \
+  --partitions 2 \
+  --replication-factor 2 \
+  --bootstrap-server kafka1:9092
+```
+
+
+result:
+partition 0 → leader: kafka1, replica: kafka2
+partition 1 → leader: kafka2, replica: kafka1

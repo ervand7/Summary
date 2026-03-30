@@ -1,24 +1,22 @@
-👉 Consumer может существовать вне consumer group.
+👉 A consumer can exist outside a consumer group.
 
-Обычно используется для:
-* отладки
-* админских утилит
+Typically used for:
+* debugging
+* admin utilities
 * batch / one-off jobs
 
+Comparison:
+| Consumer group     | Without group |
+|--------------------|---------------|
+| Auto rebalance     | ❌            |
+| Offset storage     | ❌            |
+| Scalability        | ❌            |
+| Production default | ✅            |
+| Debug / batch      | ✅            |
 
-Сравнение:
-| Consumer group     | Без группы  |
-| ------------------ | ----------  |
-| Auto rebalance     | ❌          |
-| Offset storage     | ❌          |
-| Scalability        | ❌          |
-| Production default | ✅          |
-| Debug / batch      | ✅          |
-
-
-### Интервью-фраза
+### Interview phrasing
 > Kafka consumers can operate either as part of a consumer group or independently with
 manual partition assignment; only consumer groups provide automatic rebalancing
 and scalable consumption.
 
-В продакшене почти всегда используют consumer groups.
+In production, consumer groups are almost always used.

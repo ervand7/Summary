@@ -1,24 +1,33 @@
 ## 1. `acks` — write guarantee
-`acks` is a producer setting that defines when Kafka considers a message successfully written.
 
-It determines:
-how many replicas (brokers) in the ISR must confirm the write to the partition log
-before the producer receives an acknowledgment.
+`acks` defines when the partition leader acknowledges a produce request:
 
-Values:
-* `acks=0` — no acknowledgments (fast, but messages can be lost)
-* `acks=1` — only the leader acknowledges
-* `acks=all` — all ISR replicas acknowledge
+* `acks=0`  — no acknowledgment (fast, may lose data)
+* `acks=1`  — leader acknowledges after local write
+* `acks=all` — leader waits for all in-sync replicas (ISR) to replicate
 
 
-## 2. at-most-once / at-least-once / exactly-once — delivery semantics
-These are not a single Kafka setting, but end-to-end system behavior.
+## 2. Delivery semantics
 
-In short:
-> Delivery semantics describe how the system delivers and processes messages.
+at-most-once / at-least-once / exactly-once are end-to-end guarantees,
+not a single Kafka setting.
 
 They depend on:
-* producer logic
-* when offsets are committed in the consumer
-* idempotency
-* transactions
+* producer config
+* when consumer commits offsets
+* idempotency and transactions
+
+
+## 3. Semantics
+
+At-most-once
+* commit BEFORE processing
+* possible data loss, no duplicates
+
+At-least-once (default)
+* commit AFTER processing
+* no loss, duplicates possible
+
+Exactly-once
+* requires idempotent producer + transactions
+* commit offsets within transaction

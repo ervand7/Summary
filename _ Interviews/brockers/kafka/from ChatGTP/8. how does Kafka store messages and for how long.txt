@@ -3,11 +3,6 @@ and keeps them according to a retention policy, not based on whether they
 were consumed.
 
 
-Each partition is a sequence of log segments stored on disk. Messages are retained
-for a configured time (`retention.ms`) or size (`retention.bytes`), after which
-old segments are deleted (or compacted).
-
-
 * Messages are persisted to disk, not memory
 * Kafka does not delete messages after consumption
 * Retention is based on:

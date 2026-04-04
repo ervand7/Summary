@@ -1,20 +1,17 @@
-Количество партиций в Kafka можно только увеличивать, уменьшать нельзя, потому
-что это нарушит порядок сообщений и распределение по ключам.
+The number of partitions in Kafka can only be increased, not decreased,
+because reducing partitions would break message ordering and key-based distribution.
 
-Кто увеличивает:
-администратор (DevOps) или реже само приложение через Kafka Admin API. Kafka
-автоматически этого НИКОГДА не делает.
+Who increases partitions:
+Typically an administrator (DevOps), or less commonly the application via the Kafka Admin API.
+Kafka never does this automatically.
 
-Когда увеличивают:
-когда не хватает пропускной способности, растёт нагрузка или нужен больший параллелизм
-у consumer’ов.
+When to increase:
+When throughput is insufficient, load grows, or more consumer parallelism is needed.
 
-Как увеличивают:
-явной командой или через API, например:
+How to increase:
+Via an explicit command or API, for example:
 
-```bash
 kafka-topics.sh --alter --topic my-topic --partitions 12
-```
 
-Это ручное действие, которое можно сделать во время работы приложения; после этого
-consumer group автоматически ребалансится.
+This is a manual operation that can be performed at runtime;
+after that, the consumer group will automatically rebalance.

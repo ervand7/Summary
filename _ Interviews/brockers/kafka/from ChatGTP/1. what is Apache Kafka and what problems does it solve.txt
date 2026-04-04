@@ -1,4 +1,4 @@
-Apache Kafka is a distributed event streaming platform** used to reliably publish,
+Apache Kafka is a distributed event streaming platform used to reliably publish,
 store, and consume events at scale.
 It solves problems of asynchronous communication, service decoupling, high throughput,
 fault tolerance, and event replay.

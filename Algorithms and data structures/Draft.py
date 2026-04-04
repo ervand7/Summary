@@ -50,5 +50,3 @@ def largest_combination(candidates: List[int]) -> int:
 
 
 print(largest_combination([16, 17, 71, 62, 12, 24, 14]))
-
-print(largest_combination(candidates=[16, 17, 71, 62, 12, 24, 14]))

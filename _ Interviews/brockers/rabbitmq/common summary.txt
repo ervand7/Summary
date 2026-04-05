@@ -1,0 +1,11 @@
+In RabbitMQ, we have producers, exchanges, bindings, queues, and consumers.
+
+* Many producers can publish to one exchange, and one producer can publish to many exchanges.
+* Exchanges route messages to queues via bindings; one exchange can route to multiple queues,
+and a queue can receive messages from multiple exchanges.
+* Queues are consumed by one or more consumers, but each message in a queue is delivered to
+only one consumer.
+* A consumer represents a unit of parallelism. For example, one application instance can be
+a consumer. More instances → more consumers → more parallel message processing.
+
+The exchange is the decoupling layer between producers and queues.

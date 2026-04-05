@@ -1,30 +1,15 @@
-Kafka is the wrong choice when you need low-latency request/response, simple 
-task queues, or fully managed infrastructure with minimal ops.
+Here’s a concise comparison:
+
+| Feature / Use Case     | **Kafka**                       | **RabbitMQ**                   | **SQS**                       |
+| ---------------------- | ------------------------------- | ------------------------------ | ----------------------------- |
+| **Purpose**            | High-throughput event streaming | Flexible messaging & routing   | Simple, managed message queue |
+| **Latency**            | Milliseconds–hundreds ms        | Low (ms)                       | Moderate (~tens ms)           |
+| **Throughput**         | Very high                       | Moderate                       | Moderate                      |
+| **Message ordering**   | Per partition                   | Guaranteed per queue           | FIFO optional                 |
+| **Routing & patterns** | Minimal (topic/partition)       | Advanced (exchanges, bindings) | Basic                         |
+| **Replay / retention** | Yes (log, time travel)          | No                             | No                            |
+| **Ops / management**   | More effort                     | Moderate                       | Almost zero                   |
+| **Best for**           | Event streams, analytics        | Complex routing, task queues   | Simple queue, serverless apps |
 
 
-### When not to use Kafka
-* Simple job queues
-  * RabbitMQ / SQS are simpler and cheaper
-
-* Per-message acknowledgments & routing
-  * RabbitMQ excels at complex routing, priorities, TTL
-
-* Very low latency (< milliseconds)
-  * Kafka favors throughput over latency
-
-* No ops / serverless environments
-  * SQS requires almost zero operational effort
-
-* Strict FIFO across all messages
-  * Kafka only guarantees ordering per partition
-
-
-### When Kafka *is* the right choice (contrast)
-* High throughput event streams
-* Replay & time travel
-* Multiple independent consumers
-* Event-driven architectures
-
-
-### One-liner to remember
-> Kafka is a log for streams, not a queue for tasks.
+> Kafka = event log, RabbitMQ = flexible queue, SQS = managed simple queue.

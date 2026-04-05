@@ -1,0 +1,3 @@
+Kafka: log-centric (time or size based), retention independent of consumption.
+RabbitMQ: queue-centric, messages removed after ack or TTL.
+SQS: simple managed queue, retention only until deletion or max time.

@@ -1,0 +1,2 @@
+Kafka’s time- and size-based retention controls how long or how much stored log
+data is kept, regardless of whether messages were consumed/committed.

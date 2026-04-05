@@ -4,7 +4,7 @@
 | Модель                 | Pub/Sub + stream           | Append-only log                 |
 | Latency                | **Очень низкая** (мс → µs) | Выше (мс–десятки мс)            |
 | Throughput             | Высокий                    | **Очень высокий**               |
-| Хранение сообщений     | ✅ (JetStream)             | ✅                              |
+| Хранение сообщений     | ✅                         | ✅                              |
 | Replay сообщений       | ✅                         | ✅                              |
 | Consumer offsets       | ✅ (managed)               | ✅ (consumer-managed)           |
 | Consumer groups        | ✅                         | ✅                              |

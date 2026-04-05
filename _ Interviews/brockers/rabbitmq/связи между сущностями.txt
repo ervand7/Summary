@@ -1,57 +1,25 @@
-### 1. Producer → Exchange
-* Один producer → один exchange
-* Один producer → несколько exchanges ✅
-* Много producers → один exchange ✅
+1. Producer → Exchange
 
-📌 Producer всегда пишет в exchange, никогда напрямую в queue.
+* Producers always publish to exchanges, never directly to queues.
+* One producer can publish to multiple exchanges; many producers can share an exchange.
 
+2. Exchange → Queue (bindings)
 
-### 2. Exchange → Queue (bindings)
-* Один exchange → одна queue ✅
-* Один exchange → много queues ✅
-* Одна queue ← много exchanges ✅
+* Exchanges route messages to one or multiple queues via bindings.
+* A queue can receive messages from multiple exchanges.
 
-📌 Связь настраивается через bindings
-📌 Exchange может отправить одно сообщение в несколько очередей
+3. Queue → Consumer
 
+* Queues can be consumed by one or many consumers (competing consumers).
+* Each message is delivered to only one consumer per queue.
 
-### 3. Queue → Consumer
-* Одна queue → один consumer ✅
-* Одна queue → много consumers ✅ *(competing consumers)*
-* Один consumer → одна queue ✅
-* Один consumer → много queues ✅
+4. Delivery & Ordering
 
-📌 Если несколько consumers читают одну очередь —
-сообщения распределяются между ними, не дублируются
+* Exchanges can fan out messages to multiple queues; each queue holds its own copy.
+* Message priority is set by the producer; queues determine delivery order.
+* Consumers just read the queue’s ready messages.
 
+Key Takeaway:
 
-### 4. Сколько сущностей может быть одновременно
-
-| Связь                            | Разрешено          |
-| -------------------------------- | ------------------ |
-| Много producers → одна queue     | ✅ (через exchange) |
-| Один producer → много queues     | ✅ (через exchange) |
-| Одна queue → много consumers     | ✅                  |
-| Один consumer → много queues     | ✅                  |
-| Одно сообщение → много queues    | ✅                  |
-| Одно сообщение → много consumers | ❌                  |
-
-
-### 5. Гарантии доставки (важно понимать связи)
-* Очередь → consumer: сообщение получает ровно один consumer
-* Fanout / topic exchange: сообщение может попасть в несколько очередей
-* Каждая очередь — своя копия сообщения
-
-
-### 6. Приоритет и порядок
-* Producer задаёт `priority` ✔
-* Exchange не участвует ❌
-* Queue решает порядок выдачи ✔
-* Consumers просто получают готовый поток ✔
-
-
-## Итог в 3 строках (идеально для ответа)
-> В RabbitMQ продюсеры публикуют сообщения в exchanges, которые маршрутизируют их в одну
-или несколько очередей.
-> Очередь может обслуживаться одним или несколькими consumers по модели competing consumers.
-> Одно сообщение всегда обрабатывается одним consumer из конкретной очереди.
+> Producers send messages to exchanges → exchanges route to queues → queues are consumed
+by one or more consumers. Each message is handled by a single consumer per queue.

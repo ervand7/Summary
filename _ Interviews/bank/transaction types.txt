@@ -1,0 +1,32 @@
+Authorization — проверка средств и холд (деньги не списаны)
+Clearing — передача транзакции на списание
+Settlement — финальное списание денег
+
+---
+
+Refund — возврат денег мерчантом
+Chargeback — возврат через банк (спор клиента)
+
+---
+
+Reversal — отмена авторизации (разморозка средств)
+Void — отмена операции до списания
+Adjustment — корректировка суммы
+
+---
+
+Pre-authorization — временная блокировка средств (залог)
+Partial Capture — списание части суммы
+Incremental Authorization — увеличение ранее заблокированной суммы
+
+---
+
+Force Post — списание без авторизации
+Late Presentment — позднее списание после авторизации
+Recurring Transaction — регулярное автосписание (подписка)
+Merchant-Initiated Transaction (MIT) — списание по инициативе мерчанта
+
+---
+
+No-show Transaction — штраф за неявку (отели, брони)
+3DS Authentication — подтверждение операции через 3D Secure

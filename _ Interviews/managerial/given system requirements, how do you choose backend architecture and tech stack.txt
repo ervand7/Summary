@@ -1,0 +1,22 @@
+I start from requirements, not technology — mainly load, latency, consistency, and team
+constraints.
+
+Then I make key architectural decisions:
+
+* Monolith vs microservices based on complexity and scaling needs
+* Sync vs async depending on latency vs reliability (queues for decoupling)
+* Storage choice (SQL for consistency, NoSQL for scale/access patterns)
+* API style (REST vs gRPC based on clients and performance needs)
+
+After that, I pick the stack:
+
+* prioritize team expertise and operational simplicity
+* choose tools that are proven and easy to maintain, not trendy
+
+Finally, I design for:
+
+* scalability (horizontal scaling, stateless services)
+* observability (metrics, logs, tracing)
+* failure handling (retries, idempotency, timeouts)
+
+👉 In short: *requirements → trade-offs → simple, scalable, maintainable solution*

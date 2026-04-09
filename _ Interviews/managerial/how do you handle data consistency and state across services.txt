@@ -1,0 +1,31 @@
+I try to keep services as stateless as possible and store state in the right 
+place — usually a database as the source of truth, with Redis or cache only as a 
+performance layer.
+
+For consistency across services, I avoid distributed transactions where possible and
+prefer:
+
+* clear service boundaries
+* event-driven communication
+* idempotent handlers
+* retries with deduplication
+
+If a flow spans multiple services, I usually design for eventual consistency using
+patterns like:
+
+* transactional outbox
+* message queues
+* saga / compensating actions when needed
+
+For operations that must be strongly consistent, I keep them inside one service boundary
+and one database transaction if possible.
+
+I also pay a lot of attention to:
+
+* ordering
+* race conditions
+* timeouts
+* observability
+
+So overall, my approach is: strong consistency locally, eventual consistency across services,
+and design everything to be retry-safe.

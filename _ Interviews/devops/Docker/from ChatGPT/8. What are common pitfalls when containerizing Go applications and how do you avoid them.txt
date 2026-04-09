@@ -1,0 +1,11 @@
+* Large images → use multi-stage builds
+* CGO / libc issues → build static binary when possible (`CGO_ENABLED=0`)
+* Wrong OS/arch → match target platform
+* Running as root → use non-root user
+* Bad signal handling / PID 1 issues → use exec form, proper shutdown handling
+* Config baked into image → pass via env/config at runtime
+* No healthchecks / readiness → add health endpoints if needed
+* Poor layer caching → copy `go.mod`/`go.sum` first, download deps before copying source
+
+👉 In short:
+Keep image small, binary portable, process safe, and config external

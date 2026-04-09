@@ -1,0 +1,12 @@
+Docker uses Linux namespaces and cgroups:
+
+* Namespaces → provide *isolation*
+  Each container gets its own view of the system (PID, network, filesystem, users, etc.),
+  so it feels like a separate machine.
+
+* cgroups (control groups) → provide *resource limits*
+  They control and limit CPU, memory, disk I/O, etc., preventing one container from
+  exhausting system resources.
+
+👉 In short:
+Namespaces isolate, cgroups limit.

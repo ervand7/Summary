@@ -1,0 +1,16 @@
+* Docker uses external storage so data survives container restarts/removal
+
+### Volumes
+
+* Managed by Docker (stored in `/var/lib/docker/...`)
+* Easier to use, portable, better for production
+* Can be shared between containers
+
+### Bind mounts
+
+* Map a host directory directly into container
+* More control, but tied to host structure
+* Good for dev (live code reload), less portable
+
+👉 In short:
+Volumes = Docker-managed (recommended), Bind mounts = host-controlled (flexible, dev use)

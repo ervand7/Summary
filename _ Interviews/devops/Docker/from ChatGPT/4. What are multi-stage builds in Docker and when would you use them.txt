@@ -1,0 +1,11 @@
+Multi-stage builds → multiple FROM in one Dockerfile
+
+Stage 1 (builder):
+- compile / build the artifact (Go binary, frontend build, jar, etc.)
+- uses full tooling (compilers, dependencies)
+
+Stage 2 (final):
+- copy only the built artifact
+- run it in a minimal image (alpine, distroless, nginx)
+
+👉 Result: smaller, safer image (no build tools inside)

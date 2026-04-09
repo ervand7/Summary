@@ -1,0 +1,11 @@
+* Bridge (default) → containers on same host communicate via virtual network + NAT
+  👉 Use for single-host apps, dev, typical setups
+
+* Host → container shares host’s network (no isolation, no NAT)
+  👉 Use for max performance / low latency, or when ports must match exactly
+
+* Overlay → connects containers across multiple hosts (via Docker Swarm / orchestration)
+  👉 Use for distributed systems / microservices across nodes
+
+👉 In short:
+Bridge = single host, Host = no isolation + fast, Overlay = multi-host networking

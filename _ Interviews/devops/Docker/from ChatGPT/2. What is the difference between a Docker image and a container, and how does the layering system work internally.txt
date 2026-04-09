@@ -1,0 +1,11 @@
+* Image → read-only template (blueprint) with app + dependencies
+* Container → running instance of that image (adds a writable layer)
+
+Layering system:
+
+* Images are built from immutable layers (each Dockerfile step = new layer)
+* Layers are cached and shared across images
+* When a container runs → Docker adds a thin writable layer on top (copy-on-write)
+
+👉 In short:
+Image = static layers, Container = image + writable layer

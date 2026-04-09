@@ -1,0 +1,11 @@
+* Use a small base image (`alpine`, distroless, slim), if compatible
+* Use multi-stage builds to keep only the final binary/artifacts
+* Put rarely changing steps first to maximize layer cache
+* Copy dependency files first, install deps, then copy source code
+* Use .dockerignore to avoid sending unnecessary files to build context
+* Combine related commands to reduce extra layers when appropriate
+* Remove build caches, temp files, package manager leftovers
+* For Go: build a static binary and run it in a minimal runtime image
+
+👉 In short:
+Smaller base + multi-stage build + good cache usage + minimal final image

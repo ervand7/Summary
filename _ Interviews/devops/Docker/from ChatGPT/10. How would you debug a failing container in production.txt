@@ -1,0 +1,11 @@
+* Check container logs first
+* Inspect exit code and container state
+* Use `docker ps -a` and `docker inspect`
+* Verify env vars, config, mounts, ports
+* Enter container with `docker exec -it` if it is still running
+* Check healthcheck status
+* Look at resource limits (OOM, CPU, disk)
+* Compare image version and recent deploy changes
+
+👉 In short:
+Logs → inspect → config/resources → exec into container if possible

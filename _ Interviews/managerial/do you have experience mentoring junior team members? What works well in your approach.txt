@@ -1,0 +1,19 @@
+Yes, I’ve mentored junior and mid-level engineers in several teams.
+
+My approach is a mix of guidance and autonomy:
+
+* I try not to just give answers, but help them understand *how to think* — breaking 
+problems down and making trade-offs
+* At the same time, I make sure they’re not blocked for too long
+
+What works well for me:
+
+* regular 1:1s to understand their goals and challenges
+* pair programming / code reviews as the main teaching tool
+* encouraging them to take ownership of small features and grow from there
+
+I also focus a lot on confidence — creating a safe space where it’s okay to ask 
+questions and make mistakes.
+
+👉 Overall, I see mentoring as helping someone become independent and confident, 
+not dependent on me.

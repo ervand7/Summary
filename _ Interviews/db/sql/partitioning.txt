@@ -1,5 +1,3 @@
-Perfect explanation:
-
 1) Create parent metadata table
 ```sql
 CREATE TABLE orders (

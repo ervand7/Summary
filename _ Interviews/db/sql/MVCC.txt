@@ -1,58 +1,42 @@
-## ✅ **MVCC = Multi-Version Concurrency Control**
+MVCC (Multi-Version Concurrency Control)
 
-**MVCC** — это **механизм**, с помощью которого СУБД (например, PostgreSQL) позволяет
-**нескольким транзакциям одновременно читать и писать**, **без блокировок**.
+MVCC lets databases (e.g., PostgreSQL) handle concurrent reads/writes without locking.
 
+### 🧠 Core idea
 
-## 🧠 Основная идея:
-Вместо блокировки строк база данных **хранит несколько версий** одной и той же строки.
-* Читатели видят **снимок данных (snapshot)** на момент начала запроса или транзакции.
-* Писатели создают **новые версии строк**, не затирая старые.
+* Store multiple versions of rows instead of overwriting
+* Readers see a snapshot (consistent view)
+* Writers create new versions
 
+### 🔧 Isolation levels (via MVCC)
 
-## 🔧 Связь с уровнями изоляции
-> **MVCC — это реализация**,
-> а **уровень изоляции — это настройка**, определяющая, **какие версии строк ты видишь**
-> и **какие аномалии допустимы**.
+* READ COMMITTED → latest committed data each query
+* REPEATABLE READ → same snapshot for whole transaction
+* SERIALIZABLE → + conflict checks for full consistency
 
-| Уровень изоляции    | Поведение через MVCC                                          |
-| ------------------- | ------------------------------------------------------------- |
-| **READ COMMITTED**  | Каждое чтение получает **самую новую подтверждённую версию**  |
-| **REPEATABLE READ** | Все чтения в транзакции используют **один и тот же snapshot** |
-| **SERIALIZABLE**    | MVCC + дополнительные проверки конфликтов между транзакциями  |
+### 📦 Example
 
+* A reads → sees `v1`
+* B updates → creates `v2`
+* A still sees `v1` (snapshot isolation)
 
-## 📦 Пример:
-1. Транзакция A читает строку → видит версию **v1**
-2. Транзакция B обновляет строку → создаёт версию **v2**
-3. Транзакция A всё ещё видит **v1**, хотя B уже изменила строку
-4. Когда A делает коммит, она остаётся согласованной с тем снимком, с которым работала
+### 📚 Key points
 
+* No dirty reads
+* Repeatable reads (stable data in txn)
+* Phantom reads possible (except SERIALIZABLE)
+* Old versions cleaned by VACUUM
 
-## 📚 Ключевые понятия
+### 💥 Pitfalls
 
-| Понятие                                   | Что это значит                                                       |
-| ----------------------------------------- | -------------------------------------------------------------------- |
-| **Repeatable reads** (повторяемые чтения) | Все чтения внутри транзакции возвращают одинаковые значения          |
-| **No dirty reads** (без грязных чтений)   | Нельзя прочитать **неподтверждённые изменения** из другой транзакции |
-| **Phantom reads** (фантомные чтения)      | Можно увидеть новые строки, если не используется `SERIALIZABLE`      |
-| **Версионность строк**                    | Обновления создают **новые версии**, старые остаются до VACUUM       |
+* Long transactions → block cleanup
+* Concurrent writes → conflicts / retries
+* READ COMMITTED → inconsistent multiple reads
 
+---
 
-## 💥 Типовые проблемы
-| Проблема                           | Почему это важно                                               |
-| ---------------------------------- | -------------------------------------------------------------- |
-| **Долгоживущие транзакции**        | Мешают очищать старые версии → ведёт к росту таблицы           |
-| **Параллельные обновления**        | Могут привести к `serialization failure` при строгих изоляциях |
-| **Read Skew (чтение с перекосом)** | В `READ COMMITTED` два чтения могут вернуть разные значения    |
+## ✅ Summary
 
-
-## ✅ Итоги
-* **MVCC** — это **механизм версионности**, который позволяет читать без блокировок.
-* **Уровень изоляции** — это **настройка**, управляющая тем, какие версии будут читаться.
-* Отлично подходит для систем с **высокой параллельностью**.
-* Важно следить за:
-
-  * **долгими транзакциями** (не задерживать VACUUM),
-  * **правильным выбором уровня изоляции**,
-  * **обработкой ошибок конкурентного доступа**.
+* MVCC = versioning instead of locking
+* Isolation level = which versions you see
+* Great for high concurrency, but watch transactions & conflicts

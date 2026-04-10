@@ -1,0 +1,23 @@
+A phantom read =
+you run the same query twice and get more rows the second time
+because another transaction added data.
+
+### Example
+
+* First query → 5 rows
+* Another transaction inserts a row
+* Second query → 6 rows → 👻 phantom
+
+---
+
+## PostgreSQL behavior
+
+* READ COMMITTED → ❌ phantoms possible
+* REPEATABLE READ → ✅ no phantoms (same snapshot)
+* SERIALIZABLE → ✅ strongest, may abort transactions
+
+---
+
+## One-liner
+
+> Phantom read = new rows appear between repeated queries.

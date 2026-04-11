@@ -55,10 +55,3 @@ Always (all isolation levels):
 
 > In REPEATABLE READ, PostgreSQL fails only when an update would violate the
 transaction’s snapshot.
-
----
-
-### One-liner (interview-perfect):
-
-> One transaction locks the row and the other waits; whether the second succeeds or
-fails depends on the isolation level and whether its snapshot was invalidated.

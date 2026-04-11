@@ -1,0 +1,53 @@
+## 🔓 Non-exclusive (read / no row lock)
+
+```sql
+-- Transaction 1
+BEGIN;
+SELECT * FROM users WHERE id = 1;
+-- does NOT block anything (no row-level lock that blocks writes)
+
+-- Transaction 2 (at the same time)
+SELECT * FROM users WHERE id = 1;  -- ✅ works
+
+-- Transaction 3
+UPDATE users SET name = 'John' WHERE id = 1;  -- ✅ works
+```
+
+👉 Reads do NOT block writes in PostgreSQL (MVCC)
+
+---
+
+## 🔒 Exclusive (write / row lock)
+
+```sql
+-- Transaction 1
+BEGIN;
+UPDATE users SET name = 'John' WHERE id = 1;
+-- holds a row-level lock
+
+-- Transaction 2
+SELECT * FROM users WHERE id = 1;  -- ✅ works
+
+-- Transaction 3
+UPDATE users SET name = 'Mike' WHERE id = 1;  -- ⏳ waits
+```
+
+👉 Write blocks other writes, but NOT reads
+
+---
+
+## 🧠 Super short (correct)
+
+* **SELECT → does not block anything**
+* **UPDATE → blocks writes, allows reads**
+
+❌ Wrong (old version):
+
+* “Shared lock blocks writes”
+* “Exclusive lock blocks reads”
+
+✔ Correct (PostgreSQL):
+
+* **Reads don’t block writes**
+* **Writes don’t block reads**
+* **Only writes block other writes**

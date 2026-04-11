@@ -1,0 +1,33 @@
+### Short answer:
+
+`SELECT ... FOR UPDATE` is used to lock rows before updating them, to prevent other
+transactions from changing them at the same time.
+
+---
+
+### Example:
+
+```sql
+-- Transaction 1
+BEGIN;
+SELECT * FROM users WHERE id = 1 FOR UPDATE;
+-- row is locked
+
+-- do some logic in app...
+
+UPDATE users SET balance = balance - 100 WHERE id = 1;
+COMMIT;
+```
+
+👉 While T1 is running:
+
+```sql
+-- Transaction 2
+UPDATE users SET balance = balance - 50 WHERE id = 1;  -- ⏳ waits
+```
+
+---
+
+### One-liner:
+
+> `SELECT FOR UPDATE` = "lock row now, update later safely"

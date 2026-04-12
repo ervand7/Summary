@@ -71,6 +71,29 @@ def create_binary_tree(descriptions: List[List[int]]) -> Optional[TreeNode]:
         child = child_parent[child]
 
 
+# refined version
+def create_binary_tree(descriptions: List[List[int]]) -> Optional[TreeNode]:
+    nodes = {}
+    children = set()
+
+    for parent, child, is_left in descriptions:
+        if parent not in nodes:
+            nodes[parent] = TreeNode(parent)
+        if child not in nodes:
+            nodes[child] = TreeNode(child)
+
+        if is_left == 1:
+            nodes[parent].left = nodes[child]
+        else:
+            nodes[parent].right = nodes[child]
+
+        children.add(child)
+
+    for parent, _, _ in descriptions:
+        if parent not in children:
+            return nodes[parent]
+
+
 # ChatGPT solution
 # Time: O(n)
 # Space: O(n)

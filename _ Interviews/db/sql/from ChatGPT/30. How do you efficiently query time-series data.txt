@@ -1,5 +1,5 @@
-To query time-series data efficiently in PostgreSQL, you optimize for 
-append-heavy writes and time-based reads.
+To query time-series data efficiently in PostgreSQL, you optimize for append-heavy
+writes and time-based reads.
 
 Key techniques:
 

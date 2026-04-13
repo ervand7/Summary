@@ -1,0 +1,22 @@
+> Django migrations are version-controlled schema changes generated from model diffs or 
+written manually. Django stores migration history, applies them in order, and uses them 
+to evolve the database safely across environments.
+
+How I handle complex production changes:
+
+* Make changes backward-compatible first
+* Avoid long locks: do large backfills separately, not inside one blocking migration
+* Add new columns/tables first, migrate data gradually, then remove old fields later
+* Be careful with defaults, non-null constraints, and index creation on large tables
+* Test migrations on production-like data before release
+* Have a rollback or safe fallback plan
+
+Senior-level note:
+
+> In production, migration strategy is less about Django itself and more about minimizing 
+locks, downtime, and compatibility risks during rolling deploys.
+
+One-liner:
+
+> Django migrations are versioned schema changes, and in production I handle complex ones 
+with backward-compatible, staged rollouts that minimize locks and downtime.

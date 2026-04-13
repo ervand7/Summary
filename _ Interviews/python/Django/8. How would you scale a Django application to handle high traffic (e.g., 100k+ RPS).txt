@@ -1,0 +1,27 @@
+> At that scale, I would treat Django as just one layer in a broader distributed system.
+The main approach is horizontal scaling of stateless app instances behind a load balancer,
+aggressive caching, async/background processing, and reducing database pressure as much as
+possible.
+
+What I’d do:
+
+* Keep Django stateless → scale app instances horizontally
+* Put Nginx / LB + CDN in front for static content and edge caching
+* Use Redis for hot data, page fragments, rate limiting, sessions if needed
+* Reduce DB load with query optimization, replicas, partitioning/sharding where justified
+* Offload heavy work to Celery / queues / event-driven workers
+* Use async only where it gives real benefit, not as a magic fix
+* Add observability: metrics, tracing, slow query analysis, error budgets
+* For extreme hot paths, move some endpoints to lighter specialized services if Django
+becomes the bottleneck
+
+Senior-level note:
+
+> At 100k+ RPS, the challenge is usually not Django itself, but caching strategy, database
+architecture, and system decomposition.
+
+One-liner:
+
+> I’d scale Django by keeping it stateless, pushing caching aggressively, offloading heavy
+work asynchronously, and designing the database and surrounding architecture so the app
+layer does as little work as possible.

@@ -1,0 +1,20 @@
+> Django middleware is a chain of hooks that wraps request and response processing 
+globally. It is used for cross-cutting concerns like authentication, logging, security 
+headers, sessions, and rate limiting.
+
+> A custom middleware is usually designed as a thin, reusable layer that inspects the 
+request before the view, optionally short-circuits it, and can also process the 
+response after the view. For logging, I would capture method, path, status code, 
+latency, and correlation ID. For authentication, I would validate the token/session, 
+attach user context to the request, and reject unauthorized requests early.
+
+Senior-level note:
+
+> Middleware should stay lightweight and not contain heavy business logic; complex 
+logic should go into dedicated services.
+
+One-liner:
+
+> Middleware is Django’s global request/response interception layer, and I design 
+custom middleware for concerns like logging or auth by keeping it thin, fast, and
+focused on request context plus early validation.

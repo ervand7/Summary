@@ -1,0 +1,25 @@
+> First, I identify the real bottleneck using Django Debug Toolbar, query logging, 
+and `EXPLAIN ANALYZE`. Then I reduce query count, fetch only needed data, and make 
+sure the database can use proper indexes.
+
+What I usually do:
+
+* Fix N+1 queries with `select_related` / `prefetch_related`
+* Use `only()`, `defer()`, `values()`, `values_list()` to avoid loading unnecessary fields
+* Add or improve indexes for filtering, joins, and ordering
+* Replace loops with bulk operations (`bulk_create`, `bulk_update`)
+* Move heavy aggregation/filtering into the database using `annotate()` and
+database functions
+* Avoid unnecessary queryset evaluation and duplicate queries
+* For hot paths, use raw SQL if ORM generates inefficient queries
+
+Senior-level note:
+
+> ORM optimization is not just about Django code — it is mostly about query shape, index 
+usage, and avoiding unnecessary database round trips.
+
+One-liner:
+
+> I optimize slow Django ORM queries by measuring first, then reducing query count, 
+selecting less data, fixing N+1 problems, and making sure indexes and SQL plans are 
+efficient.

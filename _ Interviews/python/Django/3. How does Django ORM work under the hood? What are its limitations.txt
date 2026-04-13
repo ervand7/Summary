@@ -1,0 +1,27 @@
+> Django ORM is a high-level abstraction that maps Python models to database tables.
+Under the hood, it builds a lazy QuerySet, translates it into SQL via a query compiler,
+executes it through a database backend, and maps the results back into Python model
+instances.
+
+Key internals (senior-level):
+
+* QuerySets are lazy and only hit DB on evaluation
+* Uses a query compiler to generate vendor-specific SQL
+* Maintains a connection pool/DB wrapper
+* Supports joins, annotations, aggregations via query expressions
+* Has a limited identity map (no full Unit of Work like SQLAlchemy)
+
+Limitations:
+
+* ❌ Hard to express very complex queries (CTEs, window functions, recursive queries)
+cleanly
+* ❌ Can produce inefficient SQL if misused (N+1, implicit queries)
+* ❌ Limited control over query planning compared to raw SQL
+* ❌ No true Unit of Work → less control over batching/flush behavior
+* ❌ ORM abstraction leaks at scale (need raw SQL for performance-critical paths)
+
+One-liner:
+
+> Django ORM lazily builds QuerySets, compiles them into SQL, executes via the DB backend,
+and maps results to models—but it trades fine-grained control and complex query
+expressiveness for developer productivity.

@@ -1,0 +1,18 @@
+> Django receives a request through the web server (WSGI/ASGI), passes it through 
+the middleware stack (request phase), resolves the URL via the URLconf to a view, 
+executes the view (which may interact with ORM, services, etc.), then wraps the 
+result into a response. The response goes back through middleware (response phase) 
+and is returned to the client.
+
+Key points to highlight (interview-ready):
+
+* Entry point: WSGI/ASGI handler
+* Middleware: runs before and after the view
+* URL resolver maps request → view
+* View contains business logic
+* Template rendering (if used)
+* Response flows back through middleware
+
+One-liner (perfect):
+
+> Django processes requests via WSGI/ASGI → middleware → URL resolution → view → response → middleware → client.

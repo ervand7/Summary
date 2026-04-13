@@ -1,0 +1,20 @@
+> Django runs in autocommit mode by default, so each query is committed immediately 
+unless it is inside a transaction. `transaction.atomic()` creates a transactional 
+boundary: either all operations inside succeed and commit, or any exception causes a rollback.
+
+When I use `atomic`:
+
+* When multiple writes must succeed as one unit
+* When I need consistency across several models/tables
+* Around critical business operations like payments, order creation, balance updates
+* Together with `select_for_update()` when I need safe concurrent updates
+
+Senior-level note:
+
+> I keep atomic blocks as small as possible, because long transactions increase lock time
+and hurt concurrency.
+
+One-liner:
+
+> Django uses autocommit by default, and I use `atomic` when several DB operations must
+either all succeed or all roll back together.

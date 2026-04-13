@@ -1,0 +1,6 @@
+> `select_related` performs a SQL JOIN and fetches related objects in a single query,
+while `prefetch_related` performs separate queries and joins them in Python.
+
+
+* Use `select_related` → for one-to-one / many-to-one
+* Use `prefetch_related` → for one-to-many / many-to-many

@@ -1,0 +1,16 @@
+Main strategies:
+
+* Per-view cache
+  Cache the whole response of an endpoint for a TTL
+
+* Template fragment cache
+  Cache only expensive parts of a page, not the whole page
+
+* Low-level cache
+  Use cache API directly for custom keys and values
+
+* Database/query caching pattern
+  Cache expensive query results in Redis/Memcached
+
+* Session/cache-backed data
+  Store temporary user-specific data efficiently

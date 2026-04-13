@@ -1,0 +1,5 @@
+I separate authentication (who the user is) from authorization (what they can do), using
+Django auth or an external IdP (Identity Provider) with sessions or JWT/OAuth for identity.
+For authorization, I combine role-based, object-level, and service-layer checks, keeping
+critical business rules centralized and close to the domain logic to ensure consistency,
+security, and maintainability.

@@ -1,0 +1,15 @@
+> I use async views in Django when the work is mostly I/O-bound: calling external 
+APIs, waiting on network responses, handling WebSockets, or streaming. I would use `async def` 
+views together with async-friendly libraries so the request can wait without blocking a worker.
+
+Pitfalls:
+
+* Django ORM is still mostly synchronous
+* Calling sync code inside async views can block the event loop
+* Mixing sync and async carelessly adds overhead and complexity
+* Async does not help CPU-bound work
+
+One-liner:
+
+> I use async views for I/O-bound concurrency, but I avoid them for DB-heavy or CPU-heavy 
+paths because much of Django is still synchronous.

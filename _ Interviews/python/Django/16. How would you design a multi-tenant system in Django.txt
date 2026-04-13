@@ -1,0 +1,13 @@
+> I’d choose between three patterns: shared DB + tenant_id, schema-per-tenant, or DB-per-tenant.
+
+Typical approach:
+
+* Start with tenant_id in shared DB
+* Resolve tenant from subdomain/request
+* Enforce isolation via query filters/service layer
+* Make auth, caching, and jobs tenant-aware
+
+One-liner:
+
+> I start with shared DB + `tenant_id`, enforce strict isolation, and move to schemas or
+separate DBs only if needed.

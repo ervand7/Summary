@@ -1,0 +1,13 @@
+> WSGI is synchronous and blocking (one request per worker), while ASGI is asynchronous
+and event-driven, allowing many concurrent connections (e.g., WebSockets).
+
+Django support:
+
+* Django now supports ASGI and async views (`async def`)
+* Uses sync ↔ async adapters for compatibility
+* ORM is still mostly sync, so async mainly helps with I/O-bound work
+
+One-liner:
+
+> WSGI is sync and blocking, ASGI is async and concurrent, and Django supports async views
+but remains partly synchronous internally.

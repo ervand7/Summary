@@ -1,0 +1,14 @@
+> I usually start with a modular monolith: one Django project, split into domain-oriented
+apps with clear boundaries.
+
+How I structure it:
+
+* Organize apps by business domain
+* Keep views thin, move logic to service layer
+* Share only common infrastructure, not business logic
+* Extract microservices only when needed (scale, ownership, deployment)
+
+One-liner:
+
+> I use a modular monolith with domain-based apps and evolve to microservices only when it
+provides real value.

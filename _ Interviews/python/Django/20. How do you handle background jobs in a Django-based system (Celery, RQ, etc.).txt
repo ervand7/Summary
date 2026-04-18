@@ -1,0 +1,20 @@
+> I handle background jobs by moving slow, non-request-critical work out of Django 
+views into a task queue like Celery or RabbitMQ. Django handles the request, and
+workers process emails, reports, integrations, or other long-running tasks asynchronously.
+
+Key points:
+
+* Use a broker like Redis or RabbitMQ
+* Keep tasks idempotent and retry-safe
+* Pass IDs, not heavy objects
+* Monitor failures, retries, and queue lag
+* Use scheduled jobs for periodic tasks
+
+
+User → Django → Celery → Broker → Worker (Celery)
+
+* In Django: **Celery client** sends task → broker
+* In Worker: **Celery worker** pulls task → executes
+
+> Celery is both the sender (in Django) and the worker; the broker just stores tasks in
+between.

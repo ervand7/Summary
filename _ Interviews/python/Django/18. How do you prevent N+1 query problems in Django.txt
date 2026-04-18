@@ -1,0 +1,14 @@
+> I prevent N+1 queries by spotting places where Django loads related objects inside 
+loops, then fetching those relations upfront.
+
+Main tools:
+
+* `select_related()` for ForeignKey / OneToOne
+* `prefetch_related()` for ManyToMany / reverse relations
+* Use query logging / Django Debug Toolbar to detect repeated queries
+* Avoid hidden ORM calls inside serializers, templates, and loops
+
+One-liner:
+
+> I prevent N+1 problems by loading related data upfront with `select_related` and 
+`prefetch_related` instead of triggering extra queries row by row.

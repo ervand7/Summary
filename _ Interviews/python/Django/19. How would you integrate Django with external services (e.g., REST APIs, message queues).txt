@@ -1,0 +1,16 @@
+> I integrate Django with external services through a clear service layer. For
+REST APIs, I use dedicated clients with timeouts, retries, auth handling, and proper
+error mapping. For message queues, I publish events or consume messages through background
+workers like Celery-based jobs or separate consumers.
+
+Key principles:
+
+* Keep integration logic in separate clients/services
+* Add timeouts, retries, idempotency, and logging
+* Use async/background processing for slow or unreliable external systems
+* Isolate failures so third-party issues do not break core flows
+
+One-liner:
+
+> I integrate Django with external systems via dedicated service/client layers and
+background workers, with strong focus on resilience, observability, and failure isolation.

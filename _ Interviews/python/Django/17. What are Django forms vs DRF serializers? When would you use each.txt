@@ -1,0 +1,12 @@
+> Django forms are for handling and validating HTML form input in server-rendered Django
+apps. DRF serializers are for validating and transforming data for APIs, usually JSON.
+
+When to use each:
+
+* Forms → traditional Django templates, browser form submissions
+* Serializers → REST APIs, request/response payloads, JSON output/input
+
+Extra difference:
+
+* Forms are tied to the HTML form layer
+* Serializers are tied to the API/data representation layer

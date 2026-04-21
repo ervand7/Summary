@@ -6,8 +6,6 @@ import (
 	"time"
 )
 
-// this explicitly shows the error from prev example
-
 func main() {
 	ch := make(chan int)
 

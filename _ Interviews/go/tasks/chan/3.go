@@ -17,6 +17,7 @@ func deposit(val int, wg *sync.WaitGroup, ch chan bool) {
 	<-ch
 	wg.Done()
 }
+
 func main() {
 	var wg sync.WaitGroup
 	ch := make(chan bool, 1)

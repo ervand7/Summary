@@ -13,16 +13,16 @@ func (e *myError) Error() string {
 
 func returnsError() error {
 	var e *myError = nil
-	return e
+	return e // returns a typed nil (*myError) stored in an interface -> interface != nil
 }
 
 func main() {
 	err := returnsError()
 
-	fmt.Println(err == nil)
-	fmt.Println(errors.Is(err, nil))
+	fmt.Println(err == nil)          // false: interface has type (*myError) even though value is nil
+	fmt.Println(errors.Is(err, nil)) // false: Is checks error chain; typed nil != nil
 
 	var target *myError
-	fmt.Println(errors.As(err, &target))
-	fmt.Println(target == nil)
+	fmt.Println(errors.As(err, &target)) // true: err has type *myError, so it matches
+	fmt.Println(target == nil)           // true: underlying value is nil
 }

@@ -2,12 +2,12 @@ package main
 
 import "fmt"
 
+// when copying slices with nested slices, the nested ones remain with the same addresses
+
 type A struct {
 	a [][]string
 	b []string
 }
-
-// when copying slices with nested slices, the nested ones remain with the same addresses
 
 func main() {
 	a1 := A{

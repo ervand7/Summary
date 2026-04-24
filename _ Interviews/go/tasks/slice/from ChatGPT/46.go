@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// `b`is slice from slice for `a`, but for `b` main slice itself
-
 func modify5(p []int) {
 	p = append(p, 100)
 }

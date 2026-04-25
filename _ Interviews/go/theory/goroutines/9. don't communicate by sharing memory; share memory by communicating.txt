@@ -1,0 +1,37 @@
+### ❌ Bad (sharing memory)
+
+```go
+var counter int
+var mu sync.Mutex
+
+go func() {
+    mu.Lock()
+    counter++
+    mu.Unlock()
+}()
+```
+
+👉 Multiple goroutines fight over the same variable → need locks → error-prone
+
+---
+
+### ✅ Good (communicating)
+
+```go
+ch := make(chan int)
+
+go func() {
+    ch <- 1 // send data
+}()
+
+counter := <-ch // receive data
+```
+
+👉 No shared state → just pass data safely through channels
+
+---
+
+**In short:**
+
+* Bad = many goroutines touch same memory
+* Good = goroutines talk via channels and avoid sharing state

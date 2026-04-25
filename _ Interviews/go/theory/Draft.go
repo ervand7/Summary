@@ -1,14 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"sync"
+)
 
 func main() {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Hello")
-		}
 
+	var wg sync.WaitGroup
+
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
 	}()
 
-	panic("boom")
+	wg.Wait()
 }

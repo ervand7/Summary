@@ -1,10 +1,22 @@
-If you call Add(n) with a value larger than the number of Done() calls,
+ - If you call Add(n) with a value larger than the number of Done() calls,
 Wait() will block forever → deadlock.
 Rule:
 Add count must match Done count.
 
-If Done() is called more times than Add(), the counter becomes negative → panic.
+ - If Done() is called more times than Add(), the counter becomes negative → panic.
 
-If Add() is called after Wait() starts, or concurrently in the wrong order,
+ - If Add() is called after Wait() starts, or concurrently in the wrong order,
 you can get race conditions or incorrect behavior (e.g., Wait returns too early
 or goroutines are missed).
+
+ - Call Add() before starting the goroutine, not inside it. Otherwise, you have a
+race between Wait() and Add():
+// BUG: Race condition
+for i := 0; i < 5; i++ {
+    go func() {
+        wg.Add(1)  // Might run after Wait() is called!
+        defer wg.Done()
+        // work
+    }()
+}
+wg.Wait()  // Might return before Add() is called

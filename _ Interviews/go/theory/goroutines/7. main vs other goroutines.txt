@@ -1,0 +1,8 @@
+The critical thing to understand: the main goroutine doesn't wait. If main finishes,
+the program exits, killing all other goroutines without letting them complete.
+```
+func main() {
+    go fmt.Println("I might not print!")
+    // main exits immediately, program terminates
+}
+```

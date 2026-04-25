@@ -1,0 +1,2 @@
+go func() → placed into LRQ of the current P
+If LRQ is full → goes to Global Run Queue (GLQ)

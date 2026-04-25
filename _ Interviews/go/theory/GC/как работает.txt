@@ -1,37 +1,62 @@
-Основная логика GC реализована в файле: src/runtime/mgc.go
+GC uses the Mark and Sweep algorithm.
 
-GC реализован с использованием алгоритма Mark and Sweep:
+========================
+FULL GC FLOW (ORDER)
+========================
 
-Mark — фаза разметки:
-- Реализована с помощью трехцветного алгоритма. Он конкурентный и выполняется
-параллельно с основной программой.
-  - Все данные в куче представляются в виде графа связанных объектов.
-  - Каждый объект может быть окрашен в один из трёх цветов: белый, серый, черный.
-  - Обход начинается с корневых объектов (например, глобальных переменных).
-  - Объекты, на которые есть ссылки, становятся черными.
-  - Серые — это объекты, которые были найдены, но их ссылки еще не обработаны.
-  - Белые — это объекты, на которые нет ссылок; они считаются "мертвыми" и будут удалены.
+1) Mark Setup – STW (Stop-The-World)
+- Very short pause
+- All goroutines are stopped
+- GC captures root objects (stacks, globals)
 
-Sweep — фаза очистки:
-- Удаляются объекты, оставшиеся белыми после фазы Mark.
-- Выполняется конкурентно (без stop-the-world), часто лениво при новых аллокациях.
+------------------------
 
-Дополнительно:
-- GC можно вызвать вручную с помощью функции `runtime.GC()`.
-- На работу GC по умолчанию выделяется около 25% CPU, используемого приложением.
+2) Marking – Concurrent
+- Main phase
+- Your program CONTINUES running
+- GC works in background
 
------------------------------------------------------------------------------
+Tri-color algorithm:
+- Objects = graph
+- White → not visited (potential garbage)
+- Gray → found, but references not processed yet
+- Black → fully processed (alive)
 
-📌 Этапы фазы Mark:
- - Mark Setup – STW
-Очень короткая пауза. Подготовка: все потоки приостанавливаются, чтобы GC мог
-безопасно начать фазу Mark (зафиксировать корни: stack, globals).
+Flow:
+- Start from roots
+- Move objects: white → gray → black
+- Everything reachable becomes black
+- Unreachable stays white
 
- - Marking – ✅ Concurrent
-Главная часть фазы Mark. GC работает параллельно с вашим кодом.
-Потоки продолжают выполнять программу, а GC просматривает граф объектов в фоне.
+------------------------
 
- - Mark Termination – STW
-Завершающая короткая пауза. GC проверяет, не появились ли новые объекты, и завершает разметку.
+3) Mark Termination – STW
+- Second short pause
+- Stop program again
+- GC finishes marking
+- Ensures no new objects are missed
 
-То есть STW происходит 2 раза.
+=> After this step:
+- Black = alive
+- White = garbage
+
+------------------------
+
+4) Sweep – Concurrent
+- No STW
+- GC deletes all white objects
+- Runs in background (often lazily during allocations)
+
+========================
+
+Summary:
+- STW #1 → start Mark
+- Concurrent → Marking
+- STW #2 → finish Mark
+- Concurrent → Sweep
+
+========================
+
+Additionally:
+- You can trigger GC manually: runtime.GC()
+- GC uses ~25% CPU by default

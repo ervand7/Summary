@@ -1,12 +1,13 @@
-1. GOGC — это переменная окружения в Go, которая управляет частотой сборки мусора
-(Garbage Collection). Если GOGC = 100, то сборщик запустится, когда объём памяти увеличится
-на 100% от предыдущего значения. Уменьшая GOGC, вы чаще запускаете сборку мусора, и наоборот.
-Это soft threshold
+1) GOGC
+Environment variable that controls GC frequency.
+GOGC=100 → GC runs when heap grows by 100%.
+Lower = more frequent GC, higher = less frequent.
+(soft threshold)
 
-2. Pacer — это механизм, который контролирует скорость и частоту работы сборщика мусора,
-чтобы поддерживать баланс между очисткой памяти и производительностью приложения. Он старается
-запустить сборку мусора в нужный момент, не замедляя приложение.
+2) Pacer
+Controls *when and how fast* GC runs
+→ keeps balance between memory cleanup and app performance
 
-3. GP Percentage — это процент времени, который программа тратит на работу сборщика мусора
-по сравнению с основной работой (как General Program percentage). Если значение высокое, это
-значит, что сборщик занимает значительное время работы приложения.
+3) GC Percentage (GP)
+% of time spent in GC vs program work
+High value → GC takes significant time

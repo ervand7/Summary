@@ -1,0 +1,26 @@
+* pprof (built-in Go tool)
+  → “snapshot” of the program
+
+  * goroutine profile (part of pprof)
+    → where goroutines are *currently stuck* (stack traces)
+
+  * block profile (part of pprof)
+    → where they *block* (channels, mutex)
+
+* trace (separate Go tool)
+  → “video” of execution: creation, blocking, scheduler
+
+---
+
+Common leak causes:
+
+* send to channel without receiver
+* read from channel that is never closed
+* missing `context` cancel
+* no timeout (HTTP, etc.)
+* forgot `ticker.Stop()`
+
+---
+
+Idea:
+find goroutines that are stuck and never finish

@@ -1,0 +1,36 @@
+Circuit Breaker = “fuse” for an external service
+
+👉 Imagine:
+
+* You call a service (e.g., payments)
+* It starts failing / slowing down
+
+---
+
+### Without circuit breaker
+
+* You keep sending requests
+* Everything slows down more
+* Your system also starts failing ❌
+
+---
+
+### With circuit breaker
+
+* Detect too many errors
+* Stop calling the service for a while
+* Return error or fallback immediately ✅
+
+---
+
+### States (simple)
+
+* Closed → normal
+* Open → stop calls
+* Half-open → try a few requests
+
+---
+
+### One-liner:
+
+👉 *“If a service is failing — stop hitting it, let it recover”*

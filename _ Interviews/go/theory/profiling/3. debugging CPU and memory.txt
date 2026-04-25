@@ -1,0 +1,28 @@
+* pprof (built-in Go tool)
+  → “snapshot” of program performance
+
+  * CPU profile (pprof)
+    → where CPU time is spent (hot functions)
+
+  * Memory / heap profile (pprof)
+    → where memory is allocated / used
+
+  * goroutine profile (pprof)
+    → where goroutines are *currently stuck*
+
+  * block profile (pprof)
+    → where execution *blocks* (channels, mutex)
+
+---
+
+Common issues you find:
+
+* CPU: heavy loops, inefficient algorithms
+* Memory: leaks, too many allocations
+* Goroutines: stuck / leaked goroutines
+* Blocking: contention on channels or locks
+
+---
+
+Idea:
+pprof helps you find *what is slow, heavy, or stuck* in your program

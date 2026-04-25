@@ -1,0 +1,18 @@
+* gRPC
+
+  * HTTP/2 + Protobuf (binary)
+  * Fast, low latency
+  * Supports streaming
+  * Best for microservices (backend ↔ backend)
+
+* REST
+
+  * HTTP + JSON (text)
+  * Simpler, universal
+  * No real streaming
+  * Best for public APIs (frontend ↔ backend)
+
+👉 Rule of thumb:
+
+* Internal → gRPC
+* External → REST

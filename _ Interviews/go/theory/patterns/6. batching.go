@@ -46,7 +46,7 @@ func main() {
 		jobs <- i
 		time.Sleep(100 * time.Millisecond)
 	}
-
 	close(jobs)
+
 	wg.Wait()
 }

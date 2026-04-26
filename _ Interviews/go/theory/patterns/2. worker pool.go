@@ -9,16 +9,16 @@ import (
 func work(wg *sync.WaitGroup, jobs <-chan int, workerID int) {
 	defer wg.Done()
 	for job := range jobs {
-		fmt.Printf("worker %d processes job %d\n", workerID, job)
 		time.Sleep(time.Second) // simulate hard work
+		fmt.Printf("worker %d processes job %d\n", workerID, job)
 	}
 }
 
 func main() {
 	var (
-		jobsCount    = 100
-		workersCount = 10
 		wg           sync.WaitGroup
+		workersCount = 10
+		jobsCount    = 100
 		jobs         = make(chan int)
 	)
 

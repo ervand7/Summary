@@ -7,18 +7,22 @@ import (
 )
 
 func main() {
-	semaphore := make(chan struct{}, 10)
+	var (
+		wg        sync.WaitGroup
+		limit     = 10
+		jobsCount = 100
+		semaphore = make(chan struct{}, limit)
+	)
 
-	var wg sync.WaitGroup
-	for i := 0; i < 100; i++ {
+	for i := 0; i < jobsCount; i++ {
 		wg.Add(1)
 		semaphore <- struct{}{}
 
-		go func(n int) {
+		go func(jobID int) {
 			defer wg.Done()
 			defer func() { <-semaphore }()
-			fmt.Println("Task", n)
-			time.Sleep(time.Second)
+			time.Sleep(time.Second) // simulate hard work
+			fmt.Printf("job %d\n", jobID)
 		}(i)
 	}
 

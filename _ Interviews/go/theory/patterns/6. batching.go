@@ -2,42 +2,51 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
-// Goal: collect many small requests → process them together as one batch.
-
 func main() {
+	var wg sync.WaitGroup
 	jobs := make(chan int)
+	batchSize := 3
+	batch := make([]int, 0, batchSize)
 
-	// worker that batches
+	wg.Add(1)
 	go func() {
-		batch := []int{}
+		defer wg.Done()
 
 		for {
 			select {
-			case job := <-jobs:
+			case job, ok := <-jobs:
+				if !ok {
+					if len(batch) > 0 {
+						fmt.Printf("process final batch: %v\n", batch)
+					}
+					return
+				}
+
 				batch = append(batch, job)
 
-				if len(batch) >= 3 {
-					fmt.Println("Process batch:", batch)
-					batch = nil
+				if len(batch) == batchSize {
+					fmt.Printf("process batch: %v\n", batch)
+					batch = make([]int, 0, batchSize)
 				}
 
 			case <-time.After(500 * time.Millisecond):
 				if len(batch) > 0 {
-					fmt.Println("Process batch (timeout):", batch)
-					batch = nil
+					fmt.Printf("process batch after timeout: %v\n", batch)
+					batch = make([]int, 0, batchSize)
 				}
 			}
 		}
 	}()
 
-	// send jobs quickly
-	for i := 1; i <= 5; i++ {
+	for i := 0; i < 5; i++ {
 		jobs <- i
 		time.Sleep(100 * time.Millisecond)
 	}
 
-	time.Sleep(1 * time.Second)
+	close(jobs)
+	wg.Wait()
 }

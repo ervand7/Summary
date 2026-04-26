@@ -18,5 +18,3 @@ func main() {
 	close(ch)
 	time.Sleep(time.Second)
 }
-
-// false

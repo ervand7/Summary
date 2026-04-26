@@ -15,12 +15,13 @@ import (
 var channel = make(chan struct{})
 
 func worker(wg *sync.WaitGroup, id int) {
+	defer wg.Done()
+
 	for {
 		select {
 		// после закрытия канала получаем нулевое значение
 		case <-channel:
 			fmt.Println("Завершаем", id)
-			wg.Done()
 			return
 		default:
 			fmt.Println(id)

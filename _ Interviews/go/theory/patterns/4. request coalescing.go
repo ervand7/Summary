@@ -32,8 +32,7 @@ func fetch() string {
 	mu.Unlock()
 	fmt.Println("only one will be here")
 
-	// simulate slow work
-	time.Sleep(1 * time.Second)
+	time.Sleep(1 * time.Second) // simulate hard work
 	result = "data"
 
 	mu.Lock()

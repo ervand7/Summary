@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// here we use original error because we override initial err
+// we just overrode initial err
 
 func doA() error {
 	return errors.New("original failure")

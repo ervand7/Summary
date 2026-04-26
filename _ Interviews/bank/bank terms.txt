@@ -1,0 +1,13 @@
+* Debit — money is taken from an account
+* Credit — money is added to an account
+* Balance — total amount on the account
+* Available balance — spendable amount (after holds)
+* Hold / Authorization — temporary lock on funds (not yet charged)
+* Capture — final charge after authorization
+* Refund — money returned after a charge
+* Reversal — cancel before the transaction is completed
+* Chargeback — forced refund via bank (customer dispute)
+* Transaction — any operation (debit/credit)
+* Settlement — final clearing between parties
+* Ledger — record of all transactions
+* Double-entry — every transaction has two sides (debit/credit)

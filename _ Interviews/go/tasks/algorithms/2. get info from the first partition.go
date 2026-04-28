@@ -32,8 +32,8 @@ type Service struct {
 	partitions []Rediser
 }
 
-// GetFirst1 first option of implementation
-func (s Service) GetFirst1(ctx context.Context, key string) (string, error) {
+// GetFirst first option of implementation
+func (s Service) GetFirst(ctx context.Context, key string) (string, error) {
 	if len(s.partitions) == 0 {
 		return "", errors.New("no partitions")
 	}
@@ -84,64 +84,6 @@ func (s Service) GetFirst1(ctx context.Context, key string) (string, error) {
 	return "", errors.Join(errs...)
 }
 
-// GetFirst2 second option of implementation
-func (s Service) GetFirst2(ctx context.Context, key string) (string, error) {
-	if len(s.partitions) == 0 {
-		return "", errors.New("no partitions")
-	}
-
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
-	resultCh := make(chan string, 1)
-	errCh := make(chan error, len(s.partitions))
-
-	var wg sync.WaitGroup
-
-	for _, partition := range s.partitions {
-		wg.Add(1)
-
-		go func(p Rediser) {
-			defer wg.Done()
-
-			value, err := p.Get(ctx, key)
-			if err != nil {
-				errCh <- err
-				return
-			}
-
-			select {
-			case resultCh <- value:
-				cancel()
-			case <-ctx.Done():
-			}
-		}(partition)
-	}
-
-	go func() {
-		wg.Wait()
-		close(resultCh)
-		close(errCh)
-	}()
-
-	select {
-	case value, ok := <-resultCh:
-		if ok {
-			return value, nil
-		}
-
-		var errs []error
-		for err := range errCh {
-			errs = append(errs, err)
-		}
-
-		return "", errors.Join(errs...)
-
-	case <-ctx.Done():
-		return "", ctx.Err()
-	}
-}
-
 func main() {
 	s := Service{
 		partitions: []Rediser{
@@ -154,7 +96,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 
-	result, err := s.GetFirst1(ctx, "key")
+	result, err := s.GetFirst(ctx, "key")
 
 	if err != nil {
 		fmt.Println("error:", err)

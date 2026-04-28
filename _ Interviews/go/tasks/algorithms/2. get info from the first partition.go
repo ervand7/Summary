@@ -58,9 +58,9 @@ func (s Service) GetFirst1(ctx context.Context, key string) (string, error) {
 
 			value, err := p.Get(ctx, key)
 
-			resultCh <- result{
-				value: value,
-				err:   err,
+			select {
+			case resultCh <- result{value: value, err: err}:
+			case <-ctx.Done():
 			}
 		}(partition)
 	}

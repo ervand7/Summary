@@ -32,7 +32,6 @@ type Service struct {
 	partitions []Rediser
 }
 
-// GetFirst first option of implementation
 func (s Service) GetFirst(ctx context.Context, key string) (string, error) {
 	if len(s.partitions) == 0 {
 		return "", errors.New("no partitions")

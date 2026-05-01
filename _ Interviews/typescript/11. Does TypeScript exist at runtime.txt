@@ -1,0 +1,2 @@
+No — TypeScript does not exist at runtime; it’s compiled to plain JavaScript and
+types are removed.

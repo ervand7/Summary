@@ -1,0 +1,3 @@
+Event loop: a mechanism that runs async tasks in a single thread, taking them from a
+
+queue and executing when ready.

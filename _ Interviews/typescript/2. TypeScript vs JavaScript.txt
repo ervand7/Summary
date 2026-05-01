@@ -1,0 +1,3 @@
+JavaScript: dynamic, no types at compile time.
+TypeScript: statically typed superset of JS, compiled to JS, adds safety and better
+tooling.

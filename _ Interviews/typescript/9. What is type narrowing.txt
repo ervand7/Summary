@@ -1,0 +1,2 @@
+Type narrowing: refining a variable’s type at runtime using checks (e.g., `typeof`,
+`instanceof`, conditions).

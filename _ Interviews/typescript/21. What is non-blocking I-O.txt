@@ -1,0 +1,2 @@
+Non-blocking I/O: operations don’t stop the program — they run in background and
+return result later via callback/Promise.

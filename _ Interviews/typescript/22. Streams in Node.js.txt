@@ -1,0 +1,2 @@
+Streams: process data chunk by chunk instead of loading it all into memory (good for
+large files/network).

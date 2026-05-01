@@ -1,0 +1,5 @@
+TypeScript is a superset of JavaScript that adds static typing.
+
+Why use it:
+To catch errors at compile time, improve code quality, and make large codebases
+easier to maintain.

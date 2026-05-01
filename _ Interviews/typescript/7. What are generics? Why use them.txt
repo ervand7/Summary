@@ -1,0 +1,3 @@
+Generics: allow writing reusable, type-safe code with placeholders for types.
+
+Why: to keep flexibility without losing type safety (avoid `any`).

@@ -1,0 +1,3 @@
+Using runtime validation libraries like Zod, Joi, or class-validator.
+
+Example: validate API request body before using it.

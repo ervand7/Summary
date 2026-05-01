@@ -1,0 +1,3 @@
+* Runtime errors (types removed)
+* Invalid external data (API/user input)
+* Logic/business bugs

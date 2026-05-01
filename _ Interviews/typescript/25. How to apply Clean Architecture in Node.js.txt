@@ -1,0 +1,8 @@
+Separate layers:
+
+```text
+API/controllers -> use cases -> interfaces -> infrastructure
+```
+
+Core business logic should not depend on Express/NestJS/DB.
+Frameworks and DB are just replaceable details.

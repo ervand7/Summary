@@ -1,0 +1,2 @@
+TypeScript is type-checked, then transpiled to plain JavaScript, and all types
+are removed.

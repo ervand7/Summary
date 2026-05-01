@@ -1,0 +1,8 @@
+```text
+controllers -> services -> repositories -> database
+```
+
+* controllers handle HTTP
+* services contain business logic
+* repositories work with DB
+* DTOs/types define contracts

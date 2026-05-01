@@ -1,0 +1,5 @@
+Microtasks: run immediately after current code, before next event loop tick
+(e.g., `Promise.then`, `queueMicrotask`)
+
+Macrotasks: run in next tick
+(e.g., `setTimeout`, `setInterval`)

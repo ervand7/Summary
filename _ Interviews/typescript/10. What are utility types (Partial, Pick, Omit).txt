@@ -1,0 +1,5 @@
+Utility types: built-in helpers to transform types.
+
+* Partial<T> – makes all fields optional
+* Pick<T, K> – selects specific fields
+* Omit<T, K> – removes specific fields

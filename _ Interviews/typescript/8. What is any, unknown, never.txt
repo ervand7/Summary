@@ -1,0 +1,3 @@
+* any: disables type checking (unsafe)
+* unknown: safe any, must be checked before use
+* never: value that never occurs (e.g., function that throws)

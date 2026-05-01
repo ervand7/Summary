@@ -1,0 +1,2 @@
+Single-threaded: one thread executes code (Node.js event loop).
+Multithreaded: multiple threads run code in parallel (e.g., Go).

@@ -1,0 +1,17 @@
+NestJS: structured Node.js framework, like Spring Boot.
+Why: modules, DI, decorators, good for large backend apps.
+
+Express vs NestJS:
+Express is minimal and flexible. NestJS is opinionated, structured, and built on top of Express/Fastify.
+
+Decorators:
+Special annotations like `@Controller()`, `@Get()`, `@Injectable()` that add metadata.
+
+Middleware:
+Code that runs before request reaches handler.
+
+Guards:
+Decide whether request is allowed, e.g. auth/roles.
+
+Interceptors:
+Wrap request/response logic, e.g. logging, transforming response, timing.

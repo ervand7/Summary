@@ -1,0 +1,4 @@
+Node.js handles concurrency via the event loop + non-blocking I/O.
+
+👉 It runs in a single thread, but delegates work (I/O, timers) to the system, and
+processes results asynchronously.

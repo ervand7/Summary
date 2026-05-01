@@ -1,0 +1,6 @@
+Type inference is when TypeScript automatically determines a variable’s type without
+explicit annotation.
+
+```
+let x = 10  // inferred as number
+```

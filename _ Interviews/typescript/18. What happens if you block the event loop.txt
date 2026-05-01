@@ -1,0 +1,1 @@
+Everything stops — no requests, no timers, no callbacks are processed.

@@ -1,0 +1,2 @@
+Union (`|`): value can be one of multiple types.
+Intersection (`&`): value must satisfy all combined types.

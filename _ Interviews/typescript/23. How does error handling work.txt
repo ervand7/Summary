@@ -1,0 +1,2 @@
+* sync code: `try/catch`
+* async (Promise): `.catch()` or `try/catch` with `await`

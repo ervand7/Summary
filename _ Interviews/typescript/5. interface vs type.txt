@@ -1,0 +1,14 @@
+interface: for object shapes, extendable (OOP-style).
+type: more flexible (unions, primitives, complex types).
+
+// interface
+interface User {
+  name: string
+  age: number
+}
+
+// type
+type User = {
+  name: string
+  age: number
+}

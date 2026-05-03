@@ -100,6 +100,9 @@ func ProcessLogs(
 	}()
 
 	select {
+	case <-doneCh:
+		return nil
+
 	case err := <-errCh:
 		cancel()
 		<-doneCh
@@ -108,9 +111,6 @@ func ProcessLogs(
 	case <-ctx.Done():
 		<-doneCh
 		return ctx.Err()
-
-	case <-doneCh:
-		return nil
 	}
 }
 

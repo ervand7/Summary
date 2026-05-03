@@ -1,14 +1,18 @@
 ORM:
-* Faster development
-* Safer queries
-* Database abstraction
-* Less control, possible overhead
+* Faster CRUD development (less boilerplate)
+* Reduces simple SQL mistakes
+* Consistent data access style across team
+* Convenient for basic queries and relations
+* Not ideal for complex or high-load queries
 
 Raw SQL:
 * Full control
-* Better performance tuning
-* Database-specific
-* More boilerplate and risk
+* Maximum performance
+* transparency (you see exactly what runs)
+* Better for complex queries and tuning
 
-Rule of thumb:
-> ORM for productivity, SQL for performance-critical paths
+
+👉 Better rule of thumb:
+
+> ORM for simple CRUD and productivity,
+> SQL for complex and performance-critical parts.

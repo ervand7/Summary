@@ -97,5 +97,3 @@ So OS rule is:
 ## One-line summary
 
 > Threads share memory, processes don’t — they communicate instead.
-
-That’s all this text is saying.

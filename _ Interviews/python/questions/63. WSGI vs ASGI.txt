@@ -1,10 +1,15 @@
-WSGI:
+👉 WSGI и ASGI — это контракты (как сервер должен вызывать Python-приложение),
+а Gunicorn и Uvicorn — это серверы, которые реализуют эти контракты и реально
+принимают HTTP и вызывают твой код.
+
+
+WSGI (Web Server Gateway Interface):
 * Synchronous interface
 * One request per thread/process
 * Designed for blocking I/O
 * Used by Flask, Django (classic)
 
-ASGI:
+ASGI (Asynchronous Server Gateway Interface):
 * Asynchronous interface
 * Supports async/await
 * Handles long-lived connections (WebSockets)

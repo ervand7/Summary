@@ -12,3 +12,15 @@ Why faster:
 
 Key idea:
 > Vectorization replaces Python loops with native array ops
+
+
+```
+# slow (Python loop)
+result = [x * 2 for x in range(5)]
+
+# fast (vectorized)
+import numpy as np
+arr = np.arange(5)
+result = arr * 2
+```
+

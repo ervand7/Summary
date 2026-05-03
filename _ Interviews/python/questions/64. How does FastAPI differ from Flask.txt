@@ -1,0 +1,19 @@
+FastAPI is more “modern and batteries-included” for APIs:
+
+* async-first
+* automatic OpenAPI/Swagger docs
+* request/response validation via Pydantic
+* type hints are central
+* usually better for high-performance APIs
+
+Flask is more minimal and flexible:
+
+* simpler core
+* fewer built-in API features
+* you add extensions yourself
+* good for small apps or when you want full control
+
+Interview phrase:
+
+FastAPI is more API-focused and type-driven, while Flask is a lightweight microframework
+where you assemble more pieces yourself.

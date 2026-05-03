@@ -1,0 +1,8 @@
+* Define clear ownership (services/modules per engineer)
+* Align on standards (Python + TS conventions, linting, CI)
+* Use short iterations (1–2 week sprints, clear priorities)
+* Do regular syncs (daily async + weekly 1:1)
+* Enforce code reviews and knowledge sharing
+* Remove blockers fast and protect focus time
+
+Goal: autonomy + alignment, not micromanagement.

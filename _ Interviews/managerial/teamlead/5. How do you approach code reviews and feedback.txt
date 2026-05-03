@@ -1,0 +1,6 @@
+* Focus on correctness, readability, tests, and maintainability
+* Keep feedback specific and respectful
+* Explain “why,” not only “change this”
+* Avoid bikeshedding; automate style checks
+* Encourage small merge requests
+* Treat code review as knowledge sharing, not criticism

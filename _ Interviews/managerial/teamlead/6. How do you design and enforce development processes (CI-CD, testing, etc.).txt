@@ -1,0 +1,8 @@
+* Define a clear development flow: branch → MR → review → CI → merge
+* Make CI mandatory: tests, linters, type checks
+* Require tests for critical business logic
+* Automate formatting and static checks
+* Keep deployments predictable and documented
+* Improve the process with team feedback
+
+Goal: make quality automatic, not dependent on memory.

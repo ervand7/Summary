@@ -1,0 +1,8 @@
+* Identify the root cause (skills, motivation, personal issues)
+* Give clear, specific feedback with examples
+* Set short-term improvement goals and expectations
+* Provide support (mentoring, pairing, training)
+* Track progress regularly (1:1s)
+* If no improvement → escalate or adjust role
+
+Goal: help first, act decisively if needed.

@@ -1,0 +1,8 @@
+* Prioritize leadership first (team, decisions, blockers)
+* Reserve focused time for coding (no meetings)
+* Work on critical or complex parts only
+* Delegate tasks and avoid becoming a bottleneck
+* Stay involved in code via reviews
+* Adjust balance based on team needs
+
+Goal: lead effectively without losing technical context.

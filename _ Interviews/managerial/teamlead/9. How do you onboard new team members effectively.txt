@@ -1,0 +1,8 @@
+* Prepare environment, docs, and access in advance
+* Give clear onboarding plan (first days/weeks)
+* Assign a buddy/mentor
+* Start with small, real tasks
+* Do regular check-ins (1:1)
+* Encourage questions and knowledge sharing
+
+Goal: fast integration and confidence.

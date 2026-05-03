@@ -1,0 +1,6 @@
+* Prioritize by impact and urgency (business value, risk, deadlines)
+* Break work into small, estimable tasks
+* Use clear priority levels (P0/P1/P2)
+* Communicate trade-offs early
+* Re-negotiate scope or timelines if needed
+* Avoid overloading the team and reduce context switching

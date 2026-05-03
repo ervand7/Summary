@@ -1,0 +1,6 @@
+* Clarify requirements and expected outcomes with stakeholders
+* Ask questions to remove ambiguity
+* Break requirements into small, actionable tasks
+* Prioritize based on business value
+* Translate into clear tickets with acceptance criteria
+* Keep stakeholders updated on progress and risks

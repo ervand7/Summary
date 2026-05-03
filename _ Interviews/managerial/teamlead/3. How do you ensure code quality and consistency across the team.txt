@@ -1,0 +1,8 @@
+* Define coding standards for Python and TypeScript
+* Use linters, formatters, and static checks
+* Require code reviews for all merge requests
+* Add tests for important business logic
+* Keep CI/CD strict: tests must pass before merge
+* Share knowledge through short tech discussions
+
+Goal: quality by process, not by personal control.

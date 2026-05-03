@@ -9,3 +9,24 @@ How to handle it:
 
 Goal:
 > Slow producers when consumers can’t keep up
+
+
+Bounded queue example:
+```
+jobs := make(chan int, 2) // bounded queue (capacity = 2)
+
+// producer
+go func() {
+	for i := 1; i <= 5; i++ {
+		jobs <- i // blocks when queue is full → backpressure
+		fmt.Println("produced", i)
+	}
+	close(jobs)
+}()
+
+// consumer (slow)
+for j := range jobs {
+	time.Sleep(time.Second) // slow processing
+	fmt.Println("consumed", j)
+}
+```

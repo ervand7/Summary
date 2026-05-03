@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"sync"
-	"sync/atomic"
 	"time"
 )
 
@@ -57,67 +56,61 @@ func ProcessLogs(
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	var (
-		wg             sync.WaitGroup
-		lenLogs        = int64(len(logs))
-		errorsCh       = make(chan error, lenLogs)
-		logsCh         = make(chan LogEntry)
-		processedCount = int64(0)
-	)
+	logsCh := make(chan LogEntry)
+	errCh := make(chan error, 1)
+
+	var wg sync.WaitGroup
 
 	for i := 0; i < workers; i++ {
 		wg.Add(1)
 
-		// worker
 		go func() {
 			defer wg.Done()
 
-			for {
-				select {
-				case <-ctx.Done():
+			for log := range logsCh {
+				if err := processor.Process(ctx, log); err != nil {
+					select {
+					case errCh <- err:
+						cancel()
+					default:
+					}
 					return
-
-				case log, ok := <-logsCh:
-					if !ok {
-						return
-					}
-
-					err := processor.Process(ctx, log)
-					if err == nil {
-						atomic.AddInt64(&processedCount, 1)
-					} else {
-						select {
-						case <-ctx.Done():
-							return
-						case errorsCh <- err:
-						}
-					}
 				}
 			}
 		}()
 	}
 
 	go func() {
-		wg.Wait()
-		close(logsCh)
-	}()
+		defer close(logsCh)
 
-	go func() {
 		for _, log := range logs {
-			logsCh <- log
-		}
-	}()
-
-	for {
-		select {
-		case err := <-errorsCh:
-			cancel()
-			return err
-		default:
-			if atomic.LoadInt64(&processedCount) == lenLogs {
-				return nil
+			select {
+			case logsCh <- log:
+			case <-ctx.Done():
+				return
 			}
 		}
+	}()
+
+	doneCh := make(chan struct{})
+
+	go func() {
+		wg.Wait()
+		close(doneCh)
+	}()
+
+	select {
+	case err := <-errCh:
+		cancel()
+		<-doneCh
+		return err
+
+	case <-ctx.Done():
+		<-doneCh
+		return ctx.Err()
+
+	case <-doneCh:
+		return nil
 	}
 }
 

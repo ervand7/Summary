@@ -56,10 +56,11 @@ func ProcessLogs(
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
-	logsCh := make(chan LogEntry)
-	errCh := make(chan error, 1)
-
-	var wg sync.WaitGroup
+	var (
+		logsCh = make(chan LogEntry)
+		errCh  = make(chan error, 1)
+		wg     sync.WaitGroup
+	)
 
 	for i := 0; i < workers; i++ {
 		wg.Add(1)
@@ -85,9 +86,9 @@ func ProcessLogs(
 
 		for _, log := range logs {
 			select {
-			case logsCh <- log:
 			case <-ctx.Done():
 				return
+			case logsCh <- log:
 			}
 		}
 	}()

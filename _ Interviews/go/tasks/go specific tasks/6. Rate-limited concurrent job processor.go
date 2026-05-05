@@ -36,22 +36,21 @@ func ExecuteJob(ctx context.Context, job Job) (Resultat, error) {
 
 func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps int) ([]Resultat, error) {
 	if workers <= 0 {
-		return nil, errors.New("workers must be positive")
+		return nil, errors.New("workers count should be positive")
 	}
 	if rps <= 0 {
-		return nil, errors.New("rps must be positive")
+		return nil, errors.New("rps be positive")
 	}
 
-	jobsCh := make(chan Job)
-
 	var (
-		wg      sync.WaitGroup
-		mu      sync.Mutex
-		results []Resultat
-		errs    []error
+		wg     sync.WaitGroup
+		mu     sync.Mutex
+		jobsCh = make(chan Job)
+		errs   = make([]error, 0)
+		result = make([]Resultat, 0)
 	)
 
-	limiter := time.NewTicker(time.Second / time.Duration(rps))
+	limiter := time.NewTicker(time.Duration(rps))
 	defer limiter.Stop()
 
 	for i := 0; i < workers; i++ {
@@ -67,24 +66,24 @@ func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps int) ([]Resul
 				case <-limiter.C:
 				}
 
-				res, err := ExecuteJob(ctx, job)
+				processed, err := ExecuteJob(ctx, job)
 
 				mu.Lock()
 				if err != nil {
 					errs = append(errs, err)
 				} else {
-					results = append(results, res)
+					result = append(result, processed)
 				}
 				mu.Unlock()
 			}
 		}()
 	}
 
-producerLoop:
+stopProduce:
 	for _, job := range jobs {
 		select {
 		case <-ctx.Done():
-			break producerLoop
+			break stopProduce
 		case jobsCh <- job:
 		}
 	}
@@ -93,14 +92,14 @@ producerLoop:
 	wg.Wait()
 
 	if ctx.Err() != nil {
-		return results, ctx.Err()
+		return result, ctx.Err()
 	}
 
-	if len(errs) > 0 {
-		return results, errs[0]
+	if len(errs) != 0 {
+		return result, errors.Join(errs...)
 	}
 
-	return results, nil
+	return result, nil
 }
 
 func main() {

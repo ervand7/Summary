@@ -1,0 +1,456 @@
+## Goal
+
+Become a practical AI / LLM / Agentic AI Engineer who can build real systems, not just “play
+with ChatGPT.”
+
+Modern agentic systems usually involve LLMs that can plan, call tools, keep state, collaborate
+across specialized agents, and complete multi-step workflows. OpenAI describes agents in a
+similar way in its Agents SDK docs.
+
+---
+
+# Month 1 Roadmap
+
+## Stage 1 — Core LLM Foundations
+
+Learn:
+
+1. What an LLM is
+2. Tokens and context window
+3. System/user/assistant messages
+4. Temperature, top_p, max tokens
+5. Prompt engineering
+6. Structured output
+7. JSON mode / schemas
+8. Streaming responses
+9. Model limitations
+10. Hallucinations
+11. Cost and latency basics
+
+Practice project:
+
+> Build a simple FastAPI service: `/ask`, which sends user input to an LLM and returns a
+structured JSON answer.
+
+---
+
+## Stage 2 — OpenAI / Claude API Basics
+
+Learn:
+
+1. How to call LLM APIs from Python
+2. How to manage API keys
+3. Sync vs async calls
+4. Error handling
+5. Rate limits
+6. Retries
+7. Timeouts
+8. Logging prompts and responses
+9. Basic observability
+10. Prompt versioning
+
+Practice project:
+
+> Build a backend service that receives a text, classifies it, summarizes it, and returns
+structured output.
+
+---
+
+## Stage 3 — Embeddings
+
+Learn:
+
+1. What embeddings are
+2. Why text can be converted into vectors
+3. Similarity search
+4. Cosine similarity
+5. Chunking documents
+6. Chunk size and overlap
+7. Embedding models
+8. Storing embeddings
+9. Searching relevant chunks
+10. Re-ranking basics
+
+Practice project:
+
+> Upload several documents and search them semantically: “Find the paragraph where this topic
+is discussed.”
+
+---
+
+## Stage 4 — Vector Databases
+
+Learn:
+
+1. What a vector DB is
+2. Chroma
+3. Qdrant
+4. Pinecone conceptually
+5. pgvector
+6. Indexes
+7. Metadata filtering
+8. Hybrid search: keyword + vector
+9. Similarity thresholds
+10. Vector DB limitations
+
+Practice project:
+
+> Build a mini knowledge base over your own docs with Qdrant or pgvector.
+
+---
+
+## Stage 5 — RAG
+
+RAG means Retrieval-Augmented Generation: first find relevant knowledge, then pass it to the LLM.
+
+Learn:
+
+1. Basic RAG pipeline
+2. Document loading
+3. Text splitting
+4. Embedding generation
+5. Retrieval
+6. Context injection
+7. Answer generation
+8. Source citations
+9. “I don’t know” behavior
+10. RAG evaluation
+11. Common RAG bugs
+12. Bad chunking
+13. Irrelevant retrieval
+14. Too much context
+15. Missing citations
+
+Practice project:
+
+> Build “Chat with PDF / docs” with citations.
+
+This is one of the most important portfolio projects.
+
+---
+
+## Stage 6 — Tool Calling / Function Calling
+
+Tool calling is where an LLM decides to call your backend functions. OpenAI’s docs treat
+tool/function calling as a core pattern for building useful AI apps.
+
+Learn:
+
+1. What tool calling is
+2. Function schema
+3. Tool arguments
+4. Validation
+5. Returning tool results to the model
+6. Multiple tool calls
+7. Tool call errors
+8. Safe tool execution
+9. Preventing dangerous actions
+10. Human confirmation before important actions
+
+Practice project:
+
+> Build an assistant that can call tools: `get_weather`, `search_docs`, `create_ticket`,
+`send_email_draft`.
+
+---
+
+## Stage 7 — Agents
+
+Learn:
+
+1. What an agent is
+2. Difference between chatbot and agent
+3. Planning
+4. Tool use
+5. Memory
+6. State
+7. Reflection
+8. ReAct pattern
+9. Agent loop
+10. When NOT to use agents
+11. Agent failure modes
+12. Infinite loops
+13. Wrong tool selection
+14. Bad reasoning
+15. Expensive calls
+
+Practice project:
+
+> Build a “Research Agent” that receives a topic, searches documents, summarizes findings,
+and creates a final report.
+
+---
+
+## Stage 8 — LangChain Basics
+
+Learn:
+
+1. What LangChain is
+2. Prompts
+3. Chains
+4. Runnables
+5. Output parsers
+6. Retrievers
+7. Document loaders
+8. Tools
+9. Simple agents
+10. When LangChain helps
+11. When LangChain adds complexity
+
+Practice project:
+
+> Rebuild your RAG app using LangChain.
+
+---
+
+## Stage 9 — LangGraph
+
+LangGraph is very important for agentic AI because it gives more explicit control over agent
+workflows, state, branching, retries, and multi-step execution. It is described as an agent
+orchestration framework for reliable AI agents.
+
+Learn:
+
+1. Graph-based agent workflows
+2. Nodes
+3. Edges
+4. State
+5. Conditional routing
+6. Retries
+7. Human-in-the-loop
+8. Multi-agent flows
+9. Supervisor agent
+10. Worker agents
+11. Persistence
+12. Checkpointing
+
+Practice project:
+
+> Build a LangGraph workflow: planner → researcher → critic → final answer generator.
+
+This should be your main portfolio project.
+
+---
+
+## Stage 10 — OpenAI Agents SDK
+
+Learn:
+
+1. What the Agents SDK is
+2. Agent definition
+3. Tools
+4. Handoffs
+5. Guardrails
+6. Tracing
+7. Memory
+8. Multi-agent workflows
+9. File/document workflows
+10. Production agent patterns
+
+OpenAI now has official Agents SDK documentation, and the 2026 update added more advanced
+capabilities around memory, orchestration, files, and agent runtime patterns.
+
+Practice project:
+
+> Build the same agent workflow once with LangGraph and once with OpenAI Agents SDK. Compare both.
+
+---
+
+## Stage 11 — MCP: Model Context Protocol
+
+MCP is a protocol for connecting AI systems to tools and data sources. It was introduced by
+Anthropic to reduce custom one-off integrations between models and external systems.
+
+Learn:
+
+1. What MCP is
+2. MCP server
+3. MCP client
+4. Tools over MCP
+5. Resources
+6. Prompts
+7. Local tools
+8. Filesystem access
+9. GitHub-like integrations
+10. Security risks
+11. Permission boundaries
+
+Practice project:
+
+> Create a simple MCP server that exposes tools like `search_notes`, `create_task`, `read_file`.
+
+---
+
+## Stage 12 — AI Agent Security
+
+Learn:
+
+1. Prompt injection
+2. Tool injection
+3. Data exfiltration
+4. Unsafe tool execution
+5. Secrets leakage
+6. Permission boundaries
+7. Sandboxing
+8. Human approval
+9. Input/output validation
+10. Logging sensitive data safely
+
+Practice project:
+
+> Add safety checks to your agent: confirmation before sending emails, deleting data, or
+calling external APIs.
+
+---
+
+## Stage 13 — Production AI Backend
+
+This is where your backend experience becomes powerful.
+
+Learn:
+
+1. FastAPI architecture
+2. Background jobs
+3. Queues: Kafka/NATS/RabbitMQ
+4. Retries
+5. Idempotency
+6. Rate limiting
+7. Caching
+8. Redis
+9. Observability
+10. OpenTelemetry
+11. Prompt logging
+12. Cost tracking
+13. Token usage tracking
+14. Model fallback
+15. Timeout strategy
+16. Async workers
+17. Docker
+18. Kubernetes deployment
+
+Practice project:
+
+> Build a production-ready AI backend service with API, queue, worker, vector DB, Redis,
+and observability.
+
+---
+
+## Stage 14 — Evaluation
+
+Learn:
+
+1. Why AI apps need evaluation
+2. Golden datasets
+3. Expected answers
+4. RAG evaluation
+5. Faithfulness
+6. Relevance
+7. Hallucination detection
+8. Tool call correctness
+9. Regression testing prompts
+10. A/B testing prompts
+
+Practice project:
+
+> Create test cases for your RAG/agent app and automatically check answer quality.
+
+---
+
+## Stage 15 — Portfolio Projects
+
+You need 3 strong projects.
+
+### Project 1: RAG Knowledge Base
+
+Features:
+
+1. Upload docs
+2. Chunk docs
+3. Store embeddings
+4. Ask questions
+5. Return answer with citations
+6. Show source chunks
+
+### Project 2: Agentic Research Assistant
+
+Features:
+
+1. Takes a topic
+2. Creates a research plan
+3. Searches sources/docs
+4. Critiques answer
+5. Produces final report
+6. Uses LangGraph
+
+### Project 3: AI Support Automation System
+
+Features:
+
+1. Classifies customer issue
+2. Searches knowledge base
+3. Creates draft response
+4. Escalates if uncertain
+5. Creates ticket
+6. Uses tool calling
+7. Has human approval step
+
+These 3 projects are enough to start applying.
+
+---
+
+# Exact Learning Order
+
+I would learn in this order:
+
+1. LLM basics
+2. OpenAI API
+3. Prompting
+4. Structured output
+5. Embeddings
+6. Vector DB
+7. RAG
+8. Tool calling
+9. Agents
+10. LangChain
+11. LangGraph
+12. OpenAI Agents SDK
+13. MCP
+14. Agent security
+15. Production architecture
+16. Evaluation
+17. Portfolio polishing
+18. Interview preparation
+
+---
+
+# What We Should Do in Separate Chats
+
+I suggest we create separate chats like this:
+
+1. AI Engineering — LLM Basics
+2. AI Engineering — OpenAI API
+3. AI Engineering — Embeddings
+4. AI Engineering — Vector DB
+5. AI Engineering — RAG
+6. AI Engineering — Tool Calling
+7. AI Engineering — Agents
+8. AI Engineering — LangChain
+9. AI Engineering — LangGraph
+10. AI Engineering — OpenAI Agents SDK
+11. AI Engineering — MCP
+12. AI Engineering — Agent Security
+13. AI Engineering — Production AI Backend
+14. AI Engineering — Evaluation
+15. AI Engineering — Portfolio Projects
+16. AI Engineering — Interview Preparation
+
+---
+
+# Main Idea
+
+Your positioning should be:
+
+> Senior Backend Engineer transitioning into AI Engineering, focused on LLM applications, RAG,
+tool calling, and agentic AI systems.
+
+That sounds strong, realistic, and attractive for LinkedIn vacancies.

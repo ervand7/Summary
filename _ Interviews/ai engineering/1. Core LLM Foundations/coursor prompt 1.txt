@@ -1,0 +1,45 @@
+Create a minimal production-style AI backend project in Python using FastAPI and OpenAI API.
+
+Requirements:
+
+* use FastAPI
+
+* create POST /ask endpoint
+
+* request body:
+  {
+  "question": "string"
+  }
+
+* use OpenAI API
+
+* use system + user messages
+
+* set temperature and max_tokens
+
+* return structured JSON response:
+  {
+  "answer": "...",
+  "model": "...",
+  "tokens_used": 123
+  }
+
+Additional requirements:
+
+* use async/await
+* use environment variable for OPENAI_API_KEY
+* add requirements.txt
+* add clear project structure
+* add error handling
+* add README with run instructions
+* use modern OpenAI Python SDK
+* code should be simple and beginner-friendly
+* explain every important part with comments
+
+After generating the project, explain:
+
+1. where the prompt is
+2. where messages are formed
+3. where temperature/max_tokens are configured
+4. where response parsing happens
+5. how FastAPI endpoint works

@@ -1,0 +1,54 @@
+Extend my existing FastAPI + OpenAI backend project with the following features:
+
+1. Add streaming responses
+
+* create new endpoint: POST /ask-stream
+* stream tokens gradually to client
+* use StreamingResponse in FastAPI
+* explain how streaming works internally
+* add curl example for testing streaming
+
+2. Add structured JSON schema output
+
+* create endpoint: POST /classify
+
+* request:
+  {
+  "text": "string"
+  }
+
+* return STRICT JSON:
+  {
+  "sentiment": "positive|negative|neutral",
+  "summary": "string",
+  "keywords": ["string"]
+  }
+
+* use proper schema validation
+
+* explain where structured output is configured
+
+3. Add logging of prompts/messages
+
+* log full messages before sending request to OpenAI
+* log model name
+* log token usage
+* log latency
+* use Python logging module
+* explain why logging is important in AI systems
+
+4. Add additional AI endpoints
+
+* POST /summarize
+* POST /extract-keywords
+* POST /translate
+
+Requirements:
+
+* keep project beginner-friendly
+* use async/await
+* use clean project structure
+* add comments explaining important AI-engineering concepts
+* explain every new feature step-by-step
+* use modern OpenAI Python SDK
+* add README updates with curl examples

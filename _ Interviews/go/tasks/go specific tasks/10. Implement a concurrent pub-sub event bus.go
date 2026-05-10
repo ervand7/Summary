@@ -17,13 +17,13 @@ Requirements:
  - closing the bus must close all subscriber channels
 */
 
-type Subscribers map[int64]chan string
+type Subscribers map[int]chan string
 
 type EventBus struct {
 	mu     sync.RWMutex
 	topics map[string]Subscribers
 	closed bool
-	nextID int64
+	nextID int
 }
 
 func NewEventBus() *EventBus {
@@ -49,7 +49,6 @@ func (b *EventBus) Subscribe(topic string, buffer int) (<-chan string, func()) {
 	if _, ok := b.topics[topic]; !ok {
 		b.topics[topic] = make(Subscribers)
 	}
-
 	b.topics[topic][subscriberID] = ch
 
 	var once sync.Once
@@ -113,13 +112,13 @@ func (b *EventBus) Close() {
 
 	b.closed = true
 
-	for topic, subs := range b.topics {
-		for id, ch := range subs {
+	for _, subs := range b.topics {
+		for _, ch := range subs {
 			close(ch)
-			delete(subs, id)
 		}
-		delete(b.topics, topic)
 	}
+
+	b.topics = make(map[string]Subscribers)
 }
 
 func main() {

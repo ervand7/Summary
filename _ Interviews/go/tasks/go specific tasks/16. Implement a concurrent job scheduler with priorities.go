@@ -19,12 +19,12 @@ type job struct {
 type PriorityScheduler struct {
 	mu       sync.Mutex
 	isClosed bool
-
-	submitCh chan job
-	workCh   chan job
+	jobs     []job
+	ids      map[int]struct{}
+	sem      chan struct{}
+	notify   chan struct{}
 	closeCh  chan struct{}
-
-	wg sync.WaitGroup
+	wg       sync.WaitGroup
 }
 
 func NewPriorityScheduler(workers int, queueSize int) *PriorityScheduler {
@@ -36,13 +36,12 @@ func NewPriorityScheduler(workers int, queueSize int) *PriorityScheduler {
 	}
 
 	s := &PriorityScheduler{
-		submitCh: make(chan job, queueSize),
-		workCh:   make(chan job),
-		closeCh:  make(chan struct{}),
+		jobs:    make([]job, 0, queueSize),
+		ids:     make(map[int]struct{}),
+		sem:     make(chan struct{}, queueSize),
+		notify:  make(chan struct{}, workers),
+		closeCh: make(chan struct{}),
 	}
-
-	s.wg.Add(1)
-	go s.dispatcher()
 
 	for i := 0; i < workers; i++ {
 		s.wg.Add(1)
@@ -50,6 +49,46 @@ func NewPriorityScheduler(workers int, queueSize int) *PriorityScheduler {
 	}
 
 	return s
+}
+
+func (s *PriorityScheduler) worker() {
+	defer s.wg.Done()
+
+	for {
+		s.mu.Lock()
+
+		if len(s.jobs) == 0 {
+			if s.isClosed {
+				s.mu.Unlock()
+				return
+			}
+
+			s.mu.Unlock()
+
+			select {
+			case <-s.notify:
+				continue
+			case <-s.closeCh:
+				continue
+			}
+		}
+
+		bestIdx := 0
+		for i := 1; i < len(s.jobs); i++ {
+			if s.jobs[i].Priority > s.jobs[bestIdx].Priority {
+				bestIdx = i
+			}
+		}
+
+		j := s.jobs[bestIdx]
+		s.jobs = append(s.jobs[:bestIdx], s.jobs[bestIdx+1:]...)
+		delete(s.ids, j.ID)
+		<-s.sem
+
+		s.mu.Unlock()
+
+		j.Execute()
+	}
 }
 
 func (s *PriorityScheduler) Submit(ctx context.Context, j job) error {
@@ -62,6 +101,10 @@ func (s *PriorityScheduler) Submit(ctx context.Context, j job) error {
 		s.mu.Unlock()
 		return ErrPrioritySchedulerIsClosed
 	}
+	if _, exists := s.ids[j.ID]; exists {
+		s.mu.Unlock()
+		return errors.New("job already exists")
+	}
 	s.mu.Unlock()
 
 	select {
@@ -69,9 +112,26 @@ func (s *PriorityScheduler) Submit(ctx context.Context, j job) error {
 		return ctx.Err()
 	case <-s.closeCh:
 		return ErrPrioritySchedulerIsClosed
-	case s.submitCh <- j:
-		return nil
+	case s.sem <- struct{}{}:
 	}
+
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if s.isClosed {
+		<-s.sem
+		return ErrPrioritySchedulerIsClosed
+	}
+
+	s.jobs = append(s.jobs, j)
+	s.ids[j.ID] = struct{}{}
+
+	select {
+	case s.notify <- struct{}{}:
+	default:
+	}
+
+	return nil
 }
 
 func (s *PriorityScheduler) Close() {
@@ -86,63 +146,6 @@ func (s *PriorityScheduler) Close() {
 	s.mu.Unlock()
 
 	s.wg.Wait()
-}
-
-func (s *PriorityScheduler) dispatcher() {
-	defer s.wg.Done()
-	defer close(s.workCh)
-
-	jobs := make([]job, 0)
-
-	for {
-		var next job
-		var out chan job
-
-		if len(jobs) > 0 {
-			bestIdx := 0
-			for i := 1; i < len(jobs); i++ {
-				if jobs[i].Priority > jobs[bestIdx].Priority {
-					bestIdx = i
-				}
-			}
-
-			next = jobs[bestIdx]
-			jobs = append(jobs[:bestIdx], jobs[bestIdx+1:]...)
-			out = s.workCh
-		}
-
-		select {
-		case j := <-s.submitCh:
-			jobs = append(jobs, j)
-
-		case out <- next:
-
-		case <-s.closeCh:
-			for len(jobs) > 0 {
-				bestIdx := 0
-				for i := 1; i < len(jobs); i++ {
-					if jobs[i].Priority > jobs[bestIdx].Priority {
-						bestIdx = i
-					}
-				}
-
-				next := jobs[bestIdx]
-				jobs = append(jobs[:bestIdx], jobs[bestIdx+1:]...)
-
-				s.workCh <- next
-			}
-
-			return
-		}
-	}
-}
-
-func (s *PriorityScheduler) worker() {
-	defer s.wg.Done()
-
-	for j := range s.workCh {
-		j.Execute()
-	}
 }
 
 func main() {

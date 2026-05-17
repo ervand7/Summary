@@ -1,0 +1,50 @@
+Python `dict` is a hash table.
+
+1. Python computes a hash of the key:
+
+```python
+hash(key)
+```
+
+2. The hash determines an index in an internal array.
+
+3. Key-value pair is stored there.
+
+4. If two keys land in the same place (collision), Python probes nearby slots until
+it finds the correct one.
+
+Important details:
+
+* Average complexity:
+
+  * lookup → O(1)
+  * insert → O(1)
+  * delete → O(1)
+* Python dict preserves insertion order (since Python 3.7).
+* When dict becomes too full, Python resizes and rehashes entries.
+* Keys must be hashable (immutable-like behavior):
+
+  * valid: `str`, `int`, `tuple`
+  * invalid: `list`, `dict`
+
+Tiny mental model:
+
+```python
+{
+    "name": "John"
+}
+```
+
+Internally becomes roughly:
+
+```text
+hash("name") -> index 42
+table[42] = ("name", "John")
+```
+
+CPython uses an optimized compact hash table implementation with:
+
+* open addressing
+* sparse arrays
+* probing for collisions
+* cached hashes for speed.

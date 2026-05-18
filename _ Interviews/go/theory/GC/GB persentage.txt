@@ -7,7 +7,3 @@ Lower = more frequent GC, higher = less frequent.
 2) Pacer
 Controls *when and how fast* GC runs
 → keeps balance between memory cleanup and app performance
-
-3) GC Percentage (GP)
-% of time spent in GC vs program work
-High value → GC takes significant time

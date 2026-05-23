@@ -1,0 +1,110 @@
+Extend my existing project agentic-ai-core with Stage 3: Embeddings and Semantic Search.
+
+Goal:
+Build a minimal semantic document search system using embeddings.
+
+Requirements:
+
+1. Add embeddings support
+
+* use OpenAI embeddings API
+* create separate embedding service
+* explain what embeddings are in comments
+
+2. Add document upload endpoint
+   Create:
+   POST /documents/upload
+
+Requirements:
+
+* upload .txt files
+* read file content
+* split document into chunks
+* generate embeddings for each chunk
+* store chunks and embeddings in memory for now (simple implementation)
+* no database yet
+
+3. Add semantic search endpoint
+   Create:
+   POST /documents/search
+
+Request:
+{
+"query": "string"
+}
+
+Behavior:
+
+* generate embedding for query
+* compare query embedding against stored document chunk embeddings
+* use cosine similarity
+* return top relevant chunks
+
+Response:
+{
+"query": "...",
+"results": [
+{
+"text": "...",
+"similarity": 0.92
+}
+]
+}
+
+4. Implement chunking
+
+* create chunking utility
+* support:
+
+  * chunk_size
+  * overlap
+* explain in comments why overlap matters
+
+5. Implement cosine similarity
+
+* implement manually in Python
+* explain mathematically in comments
+* do not use black-box libraries for similarity
+
+6. Logging
+
+* log embedding generation
+* log chunk counts
+* log search latency
+* log similarity scores
+
+7. Project structure
+   Separate:
+
+* routers
+* embedding service
+* chunking service
+* vector storage
+* schemas
+
+8. README
+   Explain:
+
+* what embeddings are
+* what vectors are
+* what cosine similarity is
+* why semantic search is useful
+* how chunking works
+* how to run the project
+* include curl examples
+
+Important:
+
+* keep implementation beginner-friendly
+* keep code simple
+* explain all important concepts with comments
+* do not introduce heavy frameworks yet
+* use async/await where appropriate
+
+After implementation, explain:
+
+1. what embeddings actually are
+2. why semantic search works
+3. why cosine similarity is used
+4. why chunking is needed
+5. how this relates to RAG systems

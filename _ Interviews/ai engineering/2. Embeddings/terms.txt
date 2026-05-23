@@ -1,0 +1,205 @@
+# Stage 2 — Embeddings
+
+## 1. What embeddings are
+
+Embeddings are numerical representations of text.
+
+The AI converts text into vectors (arrays of numbers) that represent meaning.
+
+Example:
+
+* “I love cats” → `[0.91, 0.44, 0.77]`
+* “Cats are amazing” → `[0.89, 0.46, 0.75]`
+
+Because meanings are similar, vectors are close.
+
+---
+
+## 2. Why text can be converted into vectors
+
+Neural networks learn language patterns during training.
+
+The model learns:
+
+* similar words → nearby vectors
+* unrelated words → distant vectors
+
+Example:
+
+* “dog” is close to “puppy”
+* “database” is far from “banana”
+
+This allows mathematical comparison of meaning.
+
+---
+
+## 3. Similarity search
+
+Similarity search means:
+
+> “Find text with similar meaning.”
+
+Not exact keyword matching.
+
+Example:
+
+User asks:
+
+> “How can I reset password?”
+
+System may find:
+
+* “Password recovery”
+* “Forgot password flow”
+
+even if words are different.
+
+---
+
+## 4. Cosine similarity
+
+Cosine similarity measures how similar two vectors are.
+
+Main idea:
+
+* vectors pointing in similar directions → similar meaning
+* vectors pointing differently → different meaning
+
+Range:
+
+* `1` → very similar
+* `0` → unrelated
+* `-1` → opposite
+
+\cos(\theta)=\frac{A\cdot B}{|A||B|}
+
+You usually use libraries — not manual math.
+
+---
+
+## 5. Chunking documents
+
+Large documents are split into smaller pieces called chunks.
+
+Why:
+
+* embedding models have token limits
+* smaller chunks improve search precision
+
+Example:
+
+Large document:
+
+* chunk 1 → lines 1–100
+* chunk 2 → lines 101–200
+
+Each chunk gets its own embedding.
+
+---
+
+## 6. Chunk size and overlap
+
+### Chunk size
+
+How much text is inside one chunk.
+
+Example:
+
+* 200 tokens
+* 500 tokens
+* 1000 tokens
+
+### Overlap
+
+Repeating some text between neighboring chunks.
+
+Example:
+
+* chunk 1 → lines 1–100
+* chunk 2 → lines 90–190
+
+Why overlap helps:
+
+* prevents losing context at chunk boundaries
+
+---
+
+## 7. Embedding models
+
+Special AI models that convert text into vectors.
+
+Examples:
+
+* OpenAI embedding models
+* BGE models
+* E5 models
+
+Goal:
+
+> capture semantic meaning of text.
+
+---
+
+## 8. Storing embeddings
+
+Embeddings are stored in vector databases.
+
+Why:
+
+* efficient similarity search over millions of vectors
+
+Popular solutions:
+
+* Pinecone
+* Qdrant
+* Weaviate
+* pgvector for PostgreSQL
+
+---
+
+## 9. Searching relevant chunks
+
+Flow:
+
+### Step 1
+
+User question:
+
+> “How do I reset my password?”
+
+### Step 2
+
+Question becomes embedding.
+
+### Step 3
+
+System searches nearest vectors.
+
+### Step 4
+
+Most relevant chunks are returned.
+
+### Step 5
+
+Chunks are sent into the LLM.
+
+This is the core of RAG systems.
+
+---
+
+## 10. Re-ranking basics
+
+Initial vector search is fast but approximate.
+
+Re-ranking improves result quality.
+
+Flow:
+
+1. vector DB returns top 20 chunks
+2. re-ranker analyzes them more carefully
+3. best chunks move higher
+
+Result:
+
+* more accurate context
+* better final LLM answers

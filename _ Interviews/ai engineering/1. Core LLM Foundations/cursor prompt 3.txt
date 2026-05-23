@@ -1,0 +1,107 @@
+Improve my existing FastAPI + OpenAI project for Stage 2: OpenAI / Claude API Basics.
+
+Goal:
+Refactor the project into a cleaner AI backend architecture.
+
+Add/improve:
+
+1. OpenAI client wrapper
+- create a separate service/client for OpenAI calls
+- no OpenAI logic directly inside routes
+
+2. API key management
+- use .env
+- use pydantic-settings
+- validate that OPENAI_API_KEY exists on startup
+- make sure .env is ignored by git
+
+3. Async calls
+- use async OpenAI client
+- keep endpoints async
+
+4. Error handling
+- handle OpenAI API errors
+- handle invalid input
+- return clean FastAPI HTTP errors
+
+5. Retries
+- add retry logic for temporary failures
+- use exponential backoff
+- keep it simple and readable
+
+6. Timeouts
+- configure request timeout for LLM calls
+- return friendly timeout error
+
+7. Rate limits
+- add simple explanation/comment where rate-limit errors are handled
+- do not build complex rate limiter yet
+
+8. Logging
+- log request id
+- log endpoint name
+- log model name
+- log latency
+- log token usage
+- log errors
+- do NOT log API key
+
+9. Prompt versioning
+- move prompts into separate files or separate Python module
+- add prompt name and version, for example:
+  classify_v1
+  summarize_v1
+  extract_keywords_v1
+  translate_v1
+
+10. Better project structure
+Use something like:
+
+app/
+  main.py
+  core/
+    config.py
+    logging.py
+  ai/
+    openai_client.py
+    prompts.py
+  routers/
+    ai.py
+  schemas/
+    requests.py
+    responses.py
+
+11. Keep existing endpoints working:
+- POST /ask
+- POST /ask-stream
+- POST /classify
+- POST /summarize
+- POST /extract-keywords
+- POST /translate
+
+12. Add one combined endpoint:
+POST /analyze-text
+
+Request:
+{
+  "text": "string"
+}
+
+Response:
+{
+  "summary": "string",
+  "sentiment": "positive|negative|neutral",
+  "keywords": ["string"],
+  "language": "string",
+  "model": "string",
+  "tokens_used": 123,
+  "prompt_version": "analyze_text_v1"
+}
+
+Requirements:
+- beginner-friendly code
+- comments explaining important AI engineering concepts
+- update README with curl examples
+- keep code simple, not over-engineered
+- use modern OpenAI Python SDK
+- make sure the project runs after changes

@@ -1,0 +1,47 @@
+1. LLM (Large Language Model)
+   A neural network trained on huge amounts of text to predict the next token and
+   generate human-like text.
+
+2. Tokens & context window
+
+* Token = small chunk of text (word part, word, punctuation).
+* Context window = maximum number of tokens the model can “remember” in one request.
+
+3. System / user / assistant messages
+
+* System = rules/instructions for the model.
+* User = what the user asks.
+* Assistant = model’s previous responses.
+
+4. Temperature, top_p, max tokens
+
+* Temperature = randomness/creativity.
+* top_p = limits token selection to most probable options.
+* max tokens = maximum response length.
+
+5. Prompt engineering
+   Writing clear and effective prompts to get better model outputs.
+
+6. Structured output
+   Returning data in a fixed format (JSON, table, schema) instead of free text.
+
+7. JSON mode / schemas
+
+* JSON mode forces valid JSON output.
+* Schema defines exact fields/types the output must follow.
+
+8. Streaming responses
+   The model sends output gradually token-by-token instead of waiting for the full
+   response.
+
+9. Model limitations
+   LLMs can make mistakes, forget context, lack real understanding, and may have
+   outdated knowledge.
+
+10. Hallucinations
+    When the model confidently generates false or invented information.
+
+11. Cost & latency basics
+
+* Cost usually depends on token usage.
+* Latency = response speed; larger prompts/models usually increase delay.

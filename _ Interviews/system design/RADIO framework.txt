@@ -1,0 +1,21 @@
+### ✅ RADIO Framework
+
+It’s a system design interview framework, with 5 steps:
+
+1. Requirements — clarify what we are building
+   Example: “Users can upload photos.”
+
+2. Architecture — high-level components/services
+   Example: “API server + database + object storage.”
+
+3. Data Model — main entities and fields
+   Example: “Photo: id, user_id, url.”
+
+4. Interfaces — APIs between components
+   Example: “POST /photos/upload”
+
+5. Optimizations — scalability and improvements
+   Example: “Use CDN and caching for faster loading.”
+
+### 🧠 Goal:
+> Structure your system design answer clearly and not miss important parts.

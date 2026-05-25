@@ -8,7 +8,7 @@
 | Operational complexity | Simple                     | Harder to operate              |
 | Typical ecosystem      | Kubernetes (native)        | Hadoop, Kafka (legacy)         |
 | Client simplicity      | Easy                       | More complex                   |
-| Current trend          | Modern default             | Legacy / declining         |
+| Current trend          | Modern default             | Legacy / declining             |
 
 ### One-liner for interview
 

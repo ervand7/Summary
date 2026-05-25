@@ -1,33 +1,18 @@
-👉 The difference is how you increase system capacity.
-
 Vertical scaling (scale up):
-* Add more resources to a single machine
-* More CPU, RAM, faster disk
-* Simple to implement
-* Has hard physical limits
+* make one server stronger
+* more CPU/RAM
 
 Horizontal scaling (scale out):
-* Add more machines or service instances
-* Load is distributed across instances
-* Requires stateless services and load balancing
-* More complex, but far more scalable
+* add more servers/instances
+* distribute traffic between them
 
-Key differences:
-* Vertical scaling improves one instance
-* Horizontal scaling increases parallelism
-* Vertical scaling has a ceiling
-* Horizontal scaling enables fault tolerance
+Vertical:
+* simpler
+* has hardware limits
 
-In Go services:
-* Vertical scaling helps CPU-bound handlers
-* Horizontal scaling is preferred for high RPS
-* Stateless Go services scale horizontally very well
+Horizontal:
+* more scalable
+* fault tolerant
+* needs load balancing
 
-Key insight:
-* High-load systems rely on horizontal scaling
-* Vertical scaling is usually a temporary solution
-
-One-line interview answer:
-> Vertical scaling adds more resources to a single machine, while horizontal scaling adds
-more instances and distributes load, making it the preferred approach for high-RPS,
-fault-tolerant systems.
+> High-load systems usually use horizontal scaling.

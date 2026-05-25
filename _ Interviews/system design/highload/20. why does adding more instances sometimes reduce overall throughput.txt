@@ -1,30 +1,20 @@
-👉 Because scaling out increases coordination, contention, and pressure on shared 
-resources.
+More instances ≠ always more performance.
 
-What people expect:
-* More instances → more capacity → higher throughput
+Problem:
+all instances still share:
+* DB
+* Redis
+* external APIs
+* network
 
-What actually happens:
-* All instances still depend on shared bottlenecks
-* Contention grows faster than useful work
+Under high load:
+* contention increases
+* latency grows
+* retries increase
+* pools become exhausted
 
-Common reasons throughput drops:
-* Shared database saturation — more instances = more DB connections and lock contention
-* Connection pool exhaustion — DB / Redis / external APIs become overloaded
-* Increased latency — causes higher concurrency and resource usage
-* Lock contention — on shared caches, queues, or coordination services
-* Load balancer imbalance — traffic is not evenly distributed
+Result:
+* throughput stops growing
+* sometimes even drops
 
-Hidden amplification effects:
-* More instances generate more retries under partial failures
-* More network chatter (heartbeats, health checks, coordination)
-* GC and memory pressure increases across the fleet
-
-Key insight:
-* Scaling works only if bottlenecks are also scalable
-* Adding instances without removing shared limits makes things worse
-
-One-line interview answer:
-> Adding more instances can reduce throughput when shared dependencies like databases,
-caches, or external services become bottlenecks, increasing contention, latency, and
-retries instead of parallelism.
+> Scaling helps only if shared bottlenecks can also scale.

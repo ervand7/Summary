@@ -1,29 +1,19 @@
-👉 Because systems fail gradually through waiting, not instantly through crashes.
+Requests first start waiting on:
+* CPU
+* DB
+* locks
+* connections
 
-What happens first:
-* Requests start waiting on limited resources (CPU, DB, locks, connections)
-* Queues form inside the system
-* Processing still succeeds, but takes longer
+So the system still works, just slower.
 
-Why errors don’t appear immediately:
-* Resources are still available, just slower
-* Timeouts haven’t been hit yet
-* Requests are blocked, not rejected
+Higher latency →
+more in-flight requests →
+even more slowdown.
 
-Latency → concurrency feedback loop:
-* Higher latency increases in-flight requests (`RPS × latency`)
-* More in-flight requests consume more memory and goroutines
-* This further slows the system
+Errors appear later when:
+* timeouts happen
+* pools are exhausted
+* memory/GC pressure becomes too high
 
-When errors finally appear:
-* Timeouts are exceeded
-* Connection pools are fully exhausted
-* Memory pressure or GC pauses stall the system
-
-Key insight:
-* Latency growth is an early warning signal
-* Errors are a late-stage symptom of overload
-
-One-line interview answer:
-> Latency increases first because requests start waiting on constrained resources;
-errors appear later when timeouts, pool limits, or memory exhaustion are finally reached.
+> Latency is the first warning sign.
+> Errors come later.

@@ -1,26 +1,20 @@
-👉 Go’s scheduler determines how efficiently goroutines are executed under load.
+Go runs many goroutines on a small number of OS threads.
 
-How it works:
-* Goroutines (G) are scheduled onto processors (P)
-* Each P runs on an OS thread (M)
-* Number of active Ps ≈ number of CPU cores
+Why it scales well:
+* cheap goroutines
+* fast scheduling
+* work stealing between CPUs
 
-Why this scales well:
-* Millions of goroutines are multiplexed onto few OS threads
-* Blocking syscalls don’t block the entire scheduler
-* Work stealing balances load between Ps
+Problems under high RPS:
+* too many runnable goroutines
+* blocked goroutines use memory
+* more context switching
+* lock contention
 
-Where performance degrades under high RPS:
-* Too many runnable goroutines → scheduler overhead
-* Goroutines blocking on I/O still consume memory
-* Excessive context switching reduces CPU efficiency
-* Lock contention between goroutines limits parallelism
+This increases:
+* scheduler overhead
+* GC pressure
+* latency
 
-Key insight:
-* High RPS performance depends on keeping goroutines runnable but bounded
-* The scheduler is efficient, but not magic
-
-One-line interview answer:
-> The GMP scheduler allows Go to efficiently multiplex many goroutines onto limited
-OS threads, but under high RPS too many runnable or blocked goroutines increase
-scheduler overhead, memory usage, and reduce throughput.
+> The Go scheduler is efficient,
+> but too many goroutines still degrade performance.

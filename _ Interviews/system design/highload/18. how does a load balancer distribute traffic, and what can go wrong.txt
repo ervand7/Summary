@@ -1,42 +1,25 @@
-👉 A load balancer routes incoming requests across multiple service instances to
-spread load and improve availability.
+A load balancer spreads requests across multiple servers.
 
-How traffic is distributed:
-* Round-robin — requests sent evenly in order
-* Least connections — sends traffic to the least busy instance
-* Hash-based — based on IP, headers, or cookies (sticky sessions)
-* Consistent hashing — minimizes remapping when instances are added/removed
-* Weighted — instances get traffic proportional to capacity
+Common strategies:
+* round-robin
+* least connections
+* hashing / sticky sessions
+* weighted routing
 
-How load balancers are physically implemented:
-* Software — Nginx, HAProxy
-* Cloud-managed — AWS ALB/NLB, GCP Load Balancer, Azure Front Door
-* In-cluster — Kubernetes Service
-* DNS-based — traffic distributed via DNS (latency-based, geo-based)
+Can be:
+* Nginx / HAProxy
+* cloud LB
+* Kubernetes Service
 
-What a load balancer relies on:
-* Health checks to detect unhealthy instances
-* Timeouts and retries
-* Connection reuse (keep-alive)
+Important:
+* health checks
+* retries
+* timeouts
 
-Common things that go wrong:
-* Uneven load — slow instances still receive traffic
-* Sticky sessions / hashing — reduce rebalancing flexibility
-* Slow health checks — traffic sent to dying instances
-* Retry storms — retries amplify load during failures
-* Connection imbalance — some instances overloaded, others idle
+Problems under load:
+* uneven traffic
+* retry storms
+* bad health checks
+* LB itself becomes overloaded
 
-Under high RPS:
-* Load balancer itself can become a bottleneck
-* Misconfigured timeouts cause cascading failures
-* Network limits (ports, NAT, TLS) are hit
-
-Key insight:
-* Load balancing is about fairness and failure handling, not just routing
-
-One-line interview answer:
-> A load balancer distributes requests using strategies like round-robin,
-least-connections, or consistent hashing, and can be implemented as software,
-managed cloud services, hardware appliances, or in-cluster components; poor
-health checks, sticky routing, retries, or uneven instance performance can cause
-overload and cascading failures.
+> A load balancer spreads traffic and helps handle failures.

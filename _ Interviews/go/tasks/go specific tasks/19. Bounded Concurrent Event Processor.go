@@ -33,11 +33,12 @@ type statsInner struct {
 }
 
 type InMemoryProcessor struct {
-	isClosed bool
-	mu       sync.Mutex
-	wg       sync.WaitGroup
-	events   chan Evnt
-	stats    statsInner
+	isClosed  bool
+	isStarted bool
+	mu        sync.RWMutex
+	wg        sync.WaitGroup
+	events    chan Evnt
+	stats     statsInner
 }
 
 func NewInMemoryProcessor(capacity int) *InMemoryProcessor {
@@ -50,8 +51,8 @@ func NewInMemoryProcessor(capacity int) *InMemoryProcessor {
 // Sends event to a buffered channel.
 // Returns false if the queue is full or processor is stopped.
 func (p *InMemoryProcessor) Submit(event Evnt) bool {
-	p.mu.Lock()
-	defer p.mu.Unlock()
+	p.mu.RLock()
+	defer p.mu.RUnlock()
 
 	if p.isClosed {
 		p.stats.dropped.Add(1)
@@ -74,10 +75,12 @@ func (p *InMemoryProcessor) Submit(event Evnt) bool {
 // Must stop gracefully when context is canceled.
 func (p *InMemoryProcessor) Start(ctx context.Context, workers int) {
 	p.mu.Lock()
-	if p.isClosed {
+	if p.isStarted || p.isClosed {
 		p.mu.Unlock()
 		return
 	}
+
+	p.isStarted = true
 	p.mu.Unlock()
 
 	go func() {
@@ -93,7 +96,7 @@ func (p *InMemoryProcessor) Start(ctx context.Context, workers int) {
 
 			for e := range p.events {
 				p.stats.currentQueueSize.Add(-1)
-				time.Sleep(time.Second * 1)
+				time.Sleep(time.Second)
 				fmt.Printf("event %s processed\n", e.ID)
 				p.stats.processed.Add(1)
 			}

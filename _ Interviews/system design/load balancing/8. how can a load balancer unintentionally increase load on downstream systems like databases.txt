@@ -1,39 +1,14 @@
-👉 A load balancer can increase DB load by multiplying concurrency and synchronizing
-traffic bursts across many instances.
+Load balancers can increase DB load by multiplying concurrency across instances.
 
+Common causes:
+* Connection pool explosion
+* Cache stampedes and cold caches
+* Traffic arriving faster than DB capacity
+* Autoscaling creating many cold instances
 
-### Common ways this happens
+Key insight:
+* The DB sees the combined concurrency of all instances
 
-1. Connection pool explosion
-* Each instance has its own DB pool
-* 30 instances × 10 connections = 300 DB connections
-* DB gets overloaded despite “balanced” traffic
-
-
-2. Cache misses and stampedes
-* Cache expires or is cold
-* All instances miss at the same time
-* Many identical DB queries hit simultaneously
-
-
-3. Fast fan-out, slow DB
-* Load balancer accepts traffic faster than DB can handle
-* Requests queue in app memory
-* Latency and timeouts spike
-
-
-4. Autoscaling amplification
-* LB sends traffic to newly started pods
-* New pods have empty caches
-* DB load increases instead of decreasing
-
-
-### Key insight (interview gold)
-> Load balancers distribute traffic evenly, but downstream systems feel the *sum* of
-all instance concurrency.
-
-
-### One-liner interview answer:
-> Load balancers can unintentionally overload databases by multiplying connection
-pools, synchronizing cache misses, and sending traffic faster than downstream systems
-can handle.
+Interview version:
+Load balancers can overload databases by multiplying connection pools, cache misses,
+and downstream concurrency across many service instances.

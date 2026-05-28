@@ -1,38 +1,15 @@
-👉 A load balancer distributes traffic by selecting a backend instance for each
-request or connection using a routing algorithm.
+A load balancer distributes traffic using routing algorithms.
 
-### Common algorithms
+Common algorithms:
+* Round robin — rotate requests evenly
+* Weighted round robin — stronger instances get more traffic
+* Least connections — choose the least busy instance
+* Hashing — same key goes to the same instance
+* Consistent hashing — minimizes remapping when instances change
 
-Round robin
-* Requests go to instances in order
-* Simple, fair for identical instances
+Key insight:
+* Even traffic distribution does not guarantee even load
 
-Weighted round robin
-* More traffic to stronger instances
-* Useful with different instance sizes
-
-Least connections
-* Sends traffic to the least busy instance
-* Good for long or uneven requests
-
-Hash-based routing
-* Same key → same instance
-* Useful for cache locality or affinity
-
-Consistent hashing
-* Minimizes remapping when instances change
-* Used in large-scale caching systems
-
----
-
-### Key insight (interview gold)
-
-> Even traffic distribution does not mean even load — slow requests and DB limits
-> still cause bottlenecks.
-
----
-
-### One-liner answer
-
-> Load balancers route traffic using algorithms like round-robin, least-connections,
-or hashing to balance load, latency, and affinity.
+Interview version:
+Load balancers use algorithms like round robin, least connections, and hashing
+to distribute traffic across instances efficiently.

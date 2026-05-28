@@ -1,89 +1,24 @@
-Load balancers бывают L4 и L7 — по уровню работы.
+L4 and L7 load balancers work at different layers.
 
+L4 (Transport):
+* Balances TCP connections
+* Sees only IP/port
+* Very fast
+* Good for gRPC, TCP, TLS passthrough
 
-## 🔹 L4 (Transport)
+L7 (Application):
+* Balances HTTP requests
+* Sees paths, headers, methods
+* Supports routing, auth, rate limits
+* Used in API gateways and microservices
 
-👉 L4 = TCP-прокси
-* Видит: IP, порт, TCP
-* Балансирует TCP-соединения
-* 1 TCP = 1 инстанс
-* Не понимает HTTP
+Typical production setup:
+Client → L4 → L7 proxy → Apps
 
-```
-Client ─TCP─► L4 ─TCP─► Instance
-```
+Key insight:
+* L4 distributes connections
+* L7 distributes requests
 
-Алгоритмы:
-* round-robin / least-conn / hash
-
-Плюсы:
-* 🔥 максимально быстрый
-* любые протоколы (HTTP, gRPC, TCP)
-
-Минусы:
-* keep-alive может перегрузить инстанс
-* нет request-level логики
-
-Когда:
-* высокий RPS, gRPC, TLS passthrough
-
----
-
-## 🔹 L7 (Application)
-
-👉 L7 = HTTP-прокси
-* Видит: method, path, headers
-* Балансирует HTTP-запросы
-* Делает smart-routing
-
-```
-/api    → Service A
-/admin → Service B
-```
-
-Плюсы:
-* routing, auth, rate-limit
-
-Минусы:
-* медленнее L4
-
-Когда:
-* микросервисы, API Gateway
-
----
-
-## 🔹 Вместе (ключевая идея)
-
-👉 L4 выбирает L7-прокси
-👉 L7 выбирает приложение
-
-```
-Client
- ↓
-L4 (cloud TCP)
- ↓
-L7 (NGINX / Envoy)
- ↓
-Apps
-```
-
----
-
-## 🎯 One-liner
-> L4 балансирует TCP-соединения, L7 — HTTP-запросы.
-> В проде обычно используют оба.
-
-                 Internet
-                     |
-              public IP:443
-                     |
-                  L4 Load Balancer
-            (распределяет TCP)
-                /          \
-               /            \
-        L7 Proxy #1      L7 Proxy #2
-       (NGINX/Envoy)    (NGINX/Envoy)
-           |    |            |    |
-           |    |            |    |
-        App A  App B      App A  App B
-       (pods) (pods)    (pods) (pods)
+Interview version:
+L4 load balancers route TCP connections, while L7 load balancers route HTTP requests
+with application-level logic; production systems often use both together.

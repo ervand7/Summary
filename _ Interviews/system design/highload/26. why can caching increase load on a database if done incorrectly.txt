@@ -5,7 +5,8 @@
   TTL истёк у популярного ключа → весь трафик в БД в одну секунду
 
 * Cache stampede
-  Кэш пуст → many concurrent requests miss the cache and all hit the database for the same data
+  Кэш пуст → many concurrent requests miss the cache and all hit the database for the
+  same data
 
 Одна строка:
 > Instead of absorbing load, cache failures can funnel traffic straight into the database.

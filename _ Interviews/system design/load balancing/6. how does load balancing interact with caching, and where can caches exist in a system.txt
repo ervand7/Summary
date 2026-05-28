@@ -1,49 +1,20 @@
-👉 Load balancing affects caching by determining where requests land, which 
-directly impacts cache hit rates, duplication, and consistency.
+Load balancing affects caching because it determines which instance receives requests.
 
+Cache types:
+* Client/browser cache
+* CDN/edge cache
+* Proxy cache (NGINX, Envoy)
+* Local in-memory cache
+* Shared cache (Redis, Memcached)
 
-### Where caches can exist in a system
-1. Client-side cache
+Key interaction:
+* Random routing lowers local cache hit rates
+* Sticky sessions improve local cache hits but hurt scalability
+* Shared caches work best with load balancing
 
-* Browser, mobile app
-* Reduces requests entirely
-* No server involvement
+Key insight:
+* Load balancing distributes traffic, while caching concentrates data
 
-2. CDN / edge cache
-* Caches static and public content
-* Reduces load before traffic reaches services
-
-3. Load balancer / proxy cache
-* NGINX, Envoy
-* Caches HTTP responses centrally
-
-4. Per-instance (local) cache
-* In-memory cache inside each service
-* Fast but duplicated across instances
-
-5. Shared cache
-* Redis, Memcached
-* Single logical cache for all instances
-
-
-### How load balancing interacts with caching
-* При random load balancing запросы одного и того же ключа попадают на разные инстансы,
-поэтому локальный кэш не прогревается и cache hit rate низкий. Это плохо.
-
-* Sticky sessions
-  * Improves local cache hits
-  * Harms scalability and resilience
-
-* Shared cache
-  * Works well with load balancing
-  * Consistent cache view for all instances
-
-
-### Key insight (interview gold)
-> Load balancing spreads traffic, but caching concentrates data — choosing where the
-cache lives determines whether they work together or against each other.
-
-
-### One-liner interview answer
-> Load balancing decides request distribution, while cache placement determines hit
-rates and consistency, with shared or edge caches working best behind load balancers.
+Interview version:
+Load balancing affects cache hit rates and consistency; shared or edge caches usually
+work best behind load balancers.

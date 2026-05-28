@@ -1,26 +1,23 @@
-👉 By isolating failures and applying backpressure, so slow dependencies don’t 
-take down the whole system.
+```text
+Protect the system by isolating failures and applying backpressure, so slow dependencies
+don’t overload everything else.
 
-Primary protection mechanisms:
-* Timeouts — limit how long you wait on downstream calls
-* Circuit breakers — stop sending requests to failing services
-* Retries with limits — retry carefully, with backoff and caps
+Main protections:
+* Timeouts — stop waiting too long
+* Circuit breakers — stop calling unhealthy services
+* Retries with backoff and limits
+* Bounded goroutines and worker pools
+* Concurrency limits and fail-fast behavior
 
-Concurrency & load control:
-* Bound goroutines and worker pools
-* Limit concurrent calls to downstream services
-* Fail fast when limits are reached
-
-Why this matters under high RPS:
+Why it matters:
 * Slow dependencies increase latency
 * Higher latency increases concurrency
-* Without protection, requests pile up and cause cascading failures
+* Requests pile up and trigger cascading failures
 
 Key insight:
-* The system must slow down or shed load when dependencies slow down
-* Protecting downstreams protects the whole system
+* When downstreams slow down, the system must slow down or shed load
 
-One-line interview answer:
-> You protect a system from slow or failing downstream services using timeouts, circuit
-breakers, bounded concurrency, and fallbacks, so failures are isolated instead of
-causing cascading overload.
+Interview version:
+You protect high-load systems with timeouts, circuit breakers, bounded concurrency,
+and backpressure to isolate failures and prevent cascading overload.
+```

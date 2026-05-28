@@ -1,38 +1,16 @@
-👉 A stateless service does not store user-specific or request-specific state
-in its own memory between requests.
+A stateless service stores no per-user state in memory between requests.
 
-Each request:
+Why it matters:
+* Any request can go to any instance
+* No sticky sessions are needed
+* Instances can scale horizontally easily
+* Crashed instances lose no user state
 
-* Is independent
-* Can be handled by any instance
-* Carries all required context (token, IDs, data)
-
-
-### Why this is critical for load balancing
-
-1. Any request → any instance
-* Load balancer can freely route traffic
-* No need to “remember” where a user was before
-
-2. No sticky sessions
-* Instances can be added or removed safely
-* Crashes don’t lose user state
-
-3. Easy horizontal scaling
-* Add 1 → add 100 instances
-* No rebalancing of in-memory data
-
-4. Better fault tolerance
-* If an instance dies, nothing is lost
-* Requests are retried on another instance
-
-
-### What breaks statelessness
+What breaks statelessness:
 * In-memory sessions
-* Local caches tied to users
-* Request affinity requirements
+* User-specific local caches
+* Request affinity
 
-
-### One-liner interview answer
-> A stateless service keeps no per-user state in memory, allowing any request to be
-handled by any instance, which is essential for effective load balancing and scaling.
+Interview version:
+A stateless service keeps no user state in memory, allowing any request to be
+handled by any instance, which simplifies load balancing and scaling.

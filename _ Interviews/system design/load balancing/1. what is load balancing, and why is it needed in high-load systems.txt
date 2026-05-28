@@ -1,51 +1,21 @@
-👉 Load balancing is the process of distributing incoming traffic across multiple
-service instances so that no single instance becomes a bottleneck or point of failure.
+Load balancing distributes traffic across multiple service instances to prevent
+overload and improve availability.
 
+Why it matters:
+* One server has CPU, memory, and connection limits
+* Overloaded instances become slow and unstable
+* Multiple instances allow horizontal scaling
+* Failed instances can be removed automatically
 
-### Why load balancing is needed in high-load systems
+Benefits:
+* Better scalability
+* Higher availability
+* Fault isolation
+* Graceful degradation under load
 
-1. One server has hard limits
-* CPU, memory, file descriptors, network bandwidth are finite
-* A single Go process can handle many requests, but not infinite ones
-* At some RPS, latency spikes and failures start
+Key Go insight:
+* Goroutines help concurrency, but a single instance still hits resource limits
 
-
-2. It prevents overload and cascading failures
-* Without load balancing, traffic concentrates on a few instances
-* Overloaded instances become slow
-* Slow instances hold goroutines longer
-* Goroutines pile up → memory & GC pressure → crash
-
-
-3. It enables horizontal scaling
-* Multiple identical service instances run in parallel
-* Load balancer spreads requests across them
-* Capacity increases roughly linearly with instance count
-```
-Client
-   |
-[ Load Balancer ]
-   |      |      |
- Service Service Service
-```
-
-
-4. It improves availability and fault tolerance
-* If one instance crashes, traffic is sent to healthy ones
-* Users don’t see downtime
-* Rolling deploys become possible
-
-
-5. It isolates failures
-* A slow or misbehaving instance affects only its share of traffic
-* The system degrades gracefully instead of collapsing
-
-
-### One-sentence interview answer
-> Load balancing distributes traffic across multiple instances to prevent overload,
-enable horizontal scaling, and improve availability in high-load systems.
-
-
-### Go-specific insight (very important)
-> Go’s goroutines make a single instance *appear* scalable, but without load balancing
-you eventually hit CPU, memory, connection pool, or downstream limits.
+Interview version:
+Load balancing spreads traffic across multiple instances to prevent overload,
+enable horizontal scaling, and improve reliability.

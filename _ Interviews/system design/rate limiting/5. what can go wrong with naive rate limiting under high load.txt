@@ -1,82 +1,36 @@
-1️⃣ Starvation (unfairness)
-* One noisy client consumes the entire limit
-* Other clients get 0 capacity
+Common rate limiting pitfalls:
 
-Why:
-* Global limits without per-key buckets
+1. Unfairness
+* One client consumes all capacity
+* Legit users get throttled
 
-Result:
-* Legit users are blocked despite low traffic
+2. Latency amplification
+* Requests wait instead of failing fast
+* Concurrency and memory usage grow
 
+3. Cascading failures
+* Dependencies slow down
+* Limiter still allows traffic through
 
-2️⃣ Latency amplification
-* Requests queue or wait instead of failing fast
-* Latency increases before errors
+4. Central bottleneck
+* Redis or shared limiter becomes overloaded
+* Limiter becomes the bottleneck
 
-Why:
-* Queue-based or blocking limiters
-* No concurrency cap
+5. Retry storms
+* Clients retry aggressively after 429/503
+* Load increases further
 
-Result:
-* Concurrency explodes (`RPS × latency`)
-* Memory and goroutines grow
+6. Distributed inconsistencies
+* Limits vary across instances
+* Scaling changes effective limits
 
-
-3️⃣ Cascading failures
-* Downstream (DB, Redis, APIs) slow down
-* Rate limiter keeps letting requests through
-
-Why:
-* Limiter checks only RPS, not dependency health
-
-Result:
-* Entire system degrades, not just one endpoint
-
-
-4️⃣ Central bottleneck
-* Shared limiter (e.g., Redis) becomes hot
-* Limiter itself limits throughput
-
-Why:
-* Every request hits the same key/store
-* No local fast path
-
-Result:
-* Limiter causes outages instead of preventing them
-
-
-5️⃣ Retry storms
-* Clients retry immediately after 429/503
-* Traffic multiplies under load
-
-Why:
-* No Retry-After
-* No client backoff
-
-Result:
-* System never recovers
-
-
-6️⃣ Incorrect behavior in distributed systems
-* Multiple instances allow more than intended
-* Limits change when scaling pods
-
-Why:
-* Per-instance-only limits
-* No global coordination when needed
-
-Result:
-* Limits are violated or unpredictable
-
-
-What naive designs usually miss:
-* Per-key fairness
-* Fast rejection vs queuing
+What good designs include:
+* Per-user fairness
+* Fast rejection
 * Concurrency limits
-* Dependency-aware limits
-* Observability and tuning
+* Observability
 
-One-line interview answer:
-> Naive rate limiting fails under high load due to unfairness, latency
-amplification, central bottlenecks, and retry storms, often causing cascading
-failures instead of protecting downstream systems.
+Interview version:
+Naive rate limiting can cause unfairness, latency amplification, retry storms, and
+cascading failures. Good designs fail fast, enforce fairness, and protect downstream
+dependencies.

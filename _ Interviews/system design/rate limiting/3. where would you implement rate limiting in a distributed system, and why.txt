@@ -1,64 +1,48 @@
-👉 In distributed systems, rate limiting is applied at different layers to
-protect the system early, locally, and globally.
+Rate limiting can be applied at different layers.
 
-1️⃣ Edge (API Gateway / Ingress)
-Example:
-* 1000 req/min per IP at NGINX / Envoy
-
+1. Edge (NGINX, Envoy)
 Why:
-* Blocks traffic spikes before they reach services
-* One rule protects all downstream services
+* Blocks spikes early
+* Protects all services
 
-Tradeoff:
-* Effective for abuse and floods
-* Not suitable for business-logic-specific limits
+Cons:
+* Cannot enforce business-specific limits
 
 
-2️⃣ Service-level (middleware in Go service)
-Example:
-* /cards/issue → 5 req/min per user
-* /cards/list  → 100 req/min per user
-
+2. Service-level
 Why:
-* Protects databases and external APIs
-* Limits reflect endpoint cost and business rules
+* Different limits per endpoint or user
+* Protects DBs and external APIs
 
-Tradeoff:
-* Rate-limit logic must be implemented per service
+Cons:
+* Must be implemented in each service
 
 
-3️⃣ Per-instance local (semaphore / worker pool)
-Example:
-* Max 200 concurrent requests per pod
-
+3. Local (per instance)
 Why:
-* Fastest possible protection
-* Prevents goroutine, memory, and connection pool exhaustion
+* Protects memory, goroutines, and connection pools
+* Fastest protection
 
-Tradeoff:
-* Effective limit scales with number of instances
+Cons:
+* Limits scale with the number of instances
 
 
-4️⃣ Shared store (Redis / global limiter)
-Example:
-* 100 req/min per API key across all pods
-
+4. Global (Redis)
 Why:
-* Enforces true global fairness
-* Required for multi-tenant or paid quotas
+* Enforces limits across all instances
+* Supports user and tenant quotas
 
-Tradeoff:
-* Adds network latency
-* Central store can become a bottleneck
-
-
-Typical senior choice (hybrid):
-* Edge → coarse protection from spikes and abuse
-* Service → limits for expensive business operations
-* Local → concurrency safety per instance
-* Redis → global per-user or per-tenant quotas
+Cons:
+* Additional latency
+* Extra infrastructure dependency
 
 
-One-line interview answer:
-> Apply coarse limits at the edge, protect each service and instance locally,
-and use a shared store only when global fairness across instances is required.
+Typical approach:
+* Edge → traffic spikes
+* Service → business rules
+* Local → instance protection
+* Redis → global quotas
+
+Interview version:
+Apply coarse limits at the edge, protect services and instances locally, and use
+Redis only when global limits across all instances are required.

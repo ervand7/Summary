@@ -1,4 +1,3 @@
-A detailed system design you should suggest
 ### Core requirements (what you restate back)
 
 Functional

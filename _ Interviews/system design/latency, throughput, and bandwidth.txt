@@ -1,0 +1,13 @@
+* Latency = how long one request takes
+  * Example: request → response = 50 ms
+
+* Throughput = how many operations per second
+  * Example: server handles 10,000 requests/sec
+
+* Bandwidth = how much data per second can be transferred
+  * Example: network can transfer 1 Gbps
+
+Simple analogy — highway:
+* Latency = time for one car to travel from A to B
+* Throughput = how many cars arrive per hour
+* Bandwidth = how wide the road is / maximum possible capacity

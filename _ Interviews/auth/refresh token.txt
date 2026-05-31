@@ -1,0 +1,22 @@
+1. Login with password
+        ↓
+2. Server returns:
+   - Access JWT (expires in 15 min)
+   - Refresh token (expires in 30 days)
+        ↓
+3. Client sends JWT with requests
+        ↓
+4. JWT expires
+        ↓
+5. Client sends refresh token
+        ↓
+6. Server validates refresh token
+        ↓
+7. Server gives new JWT
+
+
+Idea:
+* Access JWT → short life, used for API calls
+* Refresh token → long life, only used to get new JWTs
+
+If user logs out → delete/revoke refresh token.

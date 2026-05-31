@@ -19,10 +19,3 @@
 * Revocation: sessions ✅ easy / JWT ❌ hard
 * Scaling: sessions ❌ / JWT ✅
 * Security: JWT risks (leak = full access), must use short expiry + refresh tokens
-
----
-
-### 🧠 Senior insight:
-
-👉 In real systems → often hybrid:
-

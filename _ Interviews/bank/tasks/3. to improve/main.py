@@ -68,3 +68,58 @@ def create_transfer(req: TransferRequest, db: Session):
 12. **No observability**
 * Add logs, metrics, tracing
 """
+
+
+from decimal import Decimal
+from fastapi import HTTPException
+
+@app.post("/transfers")
+def create_transfer(
+    req: TransferRequest,
+    db: Session,
+    current_user: User,  # from JWT/auth middleware
+):
+    if req.amount <= 0:
+        raise HTTPException(400, "amount must be positive")
+
+    if current_user.account_id == req.to_account_id:
+        raise HTTPException(400, "cannot transfer to yourself")
+
+    with db.begin():
+        sender = (
+            db.query(Account)
+            .filter(Account.user_id == current_user.id)
+            .with_for_update()
+            .first()
+        )
+
+        receiver = (
+            db.query(Account)
+            .filter(Account.id == req.to_account_id)
+            .with_for_update()
+            .first()
+        )
+
+        if sender is None:
+            raise HTTPException(404, "sender not found")
+
+        if receiver is None:
+            raise HTTPException(404, "receiver not found")
+
+        if sender.balance < req.amount:
+            raise HTTPException(400, "insufficient funds")
+
+        sender.balance -= req.amount
+        receiver.balance += req.amount
+
+        db.add(
+            Transaction(
+                from_account_id=sender.id,
+                to_account_id=receiver.id,
+                amount=req.amount,
+            )
+        )
+
+    send_email(sender.email, f"You sent {req.amount}")
+
+    return {"status": "ok"}

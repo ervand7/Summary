@@ -31,20 +31,18 @@ var (
 )
 
 var (
-	ErrCircuitOpen         = errors.New("circuit breaker open")
-	ErrCircuitIsTerminated = errors.New("circuit breaker is stopped")
-	ErrFnIsNil             = errors.New("fn can not be nil")
+	ErrCircuitOpen = errors.New("circuit breaker open")
+	ErrFnIsNil     = errors.New("fn can not be nil")
 )
 
 type CircuitBreaker struct {
 	state        CircuitBeakerState
 	maxFailures  int
 	resetTimeout time.Duration
-	mu           sync.RWMutex
+	mu           sync.Mutex
 	failures     int
 	timeToReset  time.Time
-	isTerminated bool
-	once         sync.Once
+	testing      bool
 }
 
 func NewCircuitBreaker(
@@ -71,64 +69,34 @@ func (c *CircuitBreaker) Execute(
 	ctx context.Context,
 	fn func(context.Context) error,
 ) error {
-	/*
-		Requirements:
-		- CLOSED:
-		    execute all requests normally
-
-		- OPEN:
-		    reject immediately
-
-		- after resetTimeout:
-		    move to HALF_OPEN
-
-		- HALF_OPEN:
-		    allow only ONE request
-
-		- success:
-		    HALF_OPEN -> CLOSED
-
-		- failure:
-		    HALF_OPEN -> OPEN
-
-		- thread-safe
-		- respect ctx cancellation
-	*/
-	go c.once.Do(func() {
-		fmt.Println("should be executed once")
-
-		select {
-		case <-ctx.Done():
-			c.mu.Lock()
-			c.isTerminated = true
-			c.mu.Unlock()
-			return
-		}
-	})
-
 	if fn == nil {
 		return ErrFnIsNil
 	}
 
-	c.mu.RLock()
-	if c.isTerminated {
-		c.mu.RUnlock()
-		return ErrCircuitIsTerminated
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	default:
 	}
 
+	c.mu.Lock()
+
 	if c.state == Closed {
-		c.mu.RUnlock()
+		c.mu.Unlock()
 
 		err := fn(ctx)
 		if err == nil {
+			c.mu.Lock()
+			c.failures = 0
+			c.mu.Unlock()
 			return nil
 		}
 
 		c.mu.Lock()
 		c.failures++
-		if c.failures != c.maxFailures {
+		if c.failures < c.maxFailures {
 			c.mu.Unlock()
-			return nil
+			return err
 		}
 
 		c.state = Open
@@ -139,29 +107,42 @@ func (c *CircuitBreaker) Execute(
 	}
 
 	if c.state == Open {
-		c.mu.RUnlock()
-
 		if time.Now().Before(c.timeToReset) {
+			c.mu.Unlock()
 			return ErrCircuitOpen
 		}
 
-		c.mu.Lock()
 		c.state = HalfOpen
+	}
+
+	if c.state == HalfOpen {
+		if c.testing {
+			c.mu.Unlock()
+			return ErrCircuitOpen
+		}
+
+		c.testing = true
+		c.mu.Unlock()
+
 		err := fn(ctx)
+
+		c.mu.Lock()
+		defer c.mu.Unlock()
+
+		c.testing = false
+
 		if err != nil {
 			c.state = Open
 			c.timeToReset = time.Now().Add(c.resetTimeout)
-			c.mu.Unlock()
 			return err
 		}
 
 		c.state = Closed
-		c.mu.Unlock()
+		c.failures = 0
 		return nil
 	}
 
-	c.mu.RUnlock()
-
+	c.mu.Unlock()
 	return nil
 }
 

@@ -10,6 +10,16 @@ import (
 	"strings"
 )
 
+// strconv.ParseFloat(v, 64) errors are silently ignored → invalid values become 0.
+// CSV row errors are silently skipped with continue.
+// io.ReadAll(r.Body) has no size limit → potentially huge request body.
+// It sums every column, even columns that aren't numeric.
+// Rows with different numbers of fields may behave unexpectedly depending on csv.Reader settings.
+// No tests.
+// No graceful server configuration/timeouts.
+// string(data) creates an unnecessary conversion/copy; the function could accept an io.Reader.
+// Errors returned by json.Encoder.Encode are ignored.
+
 type summary struct {
 	Column string  `json:"column"`
 	Sum    float64 `json:"sum"`

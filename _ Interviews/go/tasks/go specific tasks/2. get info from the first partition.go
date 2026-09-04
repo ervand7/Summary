@@ -21,6 +21,7 @@ func (m mockRedis) Get(_ context.Context, _ string) (string, error) {
 	if m.err != nil {
 		return "", m.err
 	}
+
 	return m.value, nil
 }
 

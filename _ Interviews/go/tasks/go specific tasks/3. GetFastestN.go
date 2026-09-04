@@ -17,15 +17,6 @@ import (
 // As soon as you collected N successes → cancel everything else.
 // If it's impossible to get N successes (too many errors) → return: error
 
-// ⚠️ Edge Cases
-// n > len(providers) → error
-// n == 0 → return empty slice
-// slow providers must not block fast ones
-// some providers may:
-//  - return error immediately
-//  - hang until context is canceled
-//  - be very slow
-
 // 🔥 What is being tested
 // This is classic senior-level Go:
 // fan-out / fan-in
@@ -115,7 +106,7 @@ type mockProvider struct {
 	delay time.Duration
 }
 
-func (m mockProvider) Get(ctx context.Context, key string) (string, error) {
+func (m mockProvider) Get(ctx context.Context, _ string) (string, error) {
 	select {
 	case <-time.After(m.delay):
 		if m.err != nil {

@@ -1,0 +1,14 @@
+CQRS (Command Query Responsibility Segregation) — это паттерн, который разделяет запись и чтение данных.
+
+* Commands изменяют данные (`CreateOrder`, `TransferMoney`).
+* Queries только читают данные (`GetOrders`, `GetBalance`).
+* Write side и Read side могут использовать разные модели данных и даже разные хранилища.
+* Обычно запись идёт в PostgreSQL, а чтение может идти из Redis, Elasticsearch или DWH.
+* Основная польза — оптимизация и независимое масштабирование чтения и записи.
+* Часто используется вместе с Kafka, Event Sourcing и материализованными представлениями (read models).
+* Минус — дополнительная сложность и возможная eventual consistency.
+
+One-liner для интервью:
+
+> CQRS separates commands (writes) from queries (reads), allowing each side to be
+optimized and scaled independently.

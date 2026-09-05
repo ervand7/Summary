@@ -21,8 +21,6 @@ If any log processing returns an error:
 Logs that are already being processed are allowed to finish.
 No goroutine leaks.
 If ctx is canceled from outside → stop processing and return ctx.Err().
-If workers <= 0 → return error.
-If logs is empty → return nil.
 */
 
 type LogEntry struct {
@@ -57,11 +55,13 @@ func ProcessLogs(
 	defer cancel()
 
 	var (
-		logsCh = make(chan LogEntry)
-		errCh  = make(chan error, 1)
-		wg     sync.WaitGroup
+		logsCh  = make(chan LogEntry)
+		errCh   = make(chan error, 1)
+		wg      sync.WaitGroup
+		errOnce sync.Once
 	)
 
+	// fan out: process logs and collect errors
 	for i := 0; i < workers; i++ {
 		wg.Add(1)
 
@@ -70,17 +70,17 @@ func ProcessLogs(
 
 			for log := range logsCh {
 				if err := processor.Process(ctx, log); err != nil {
-					select {
-					case errCh <- err:
+					errOnce.Do(func() {
+						errCh <- err
 						cancel()
-					default:
-					}
+					})
 					return
 				}
 			}
 		}()
 	}
 
+	// fan in: move logs from slice to chan
 	go func() {
 		defer close(logsCh)
 
@@ -94,7 +94,6 @@ func ProcessLogs(
 	}()
 
 	doneCh := make(chan struct{})
-
 	go func() {
 		wg.Wait()
 		close(doneCh)
@@ -105,13 +104,18 @@ func ProcessLogs(
 		return nil
 
 	case err := <-errCh:
-		cancel()
 		<-doneCh
 		return err
 
 	case <-ctx.Done():
 		<-doneCh
-		return ctx.Err()
+
+		select {
+		case err := <-errCh:
+			return err
+		default:
+			return ctx.Err()
+		}
 	}
 }
 

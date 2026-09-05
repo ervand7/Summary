@@ -36,17 +36,18 @@ type Result struct {
 }
 
 var (
-	NotEnoughProviders = errors.New("not enough providers")
+	ErrNotEnoughProviders = errors.New("not enough providers")
+	ErrInvalidN           = errors.New("invalid n")
 )
 
 func GetFastestN(ctx context.Context, providers []Provider, key string, n int) ([]string, error) {
-	if n == 0 {
-		return []string{}, nil
+	if n <= 0 {
+		return nil, ErrInvalidN
 	}
 
 	providersCount := len(providers)
 	if n > providersCount {
-		return nil, NotEnoughProviders
+		return nil, ErrNotEnoughProviders
 	}
 
 	ctx, cancel := context.WithCancel(ctx)

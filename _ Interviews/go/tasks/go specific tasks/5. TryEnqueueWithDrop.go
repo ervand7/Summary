@@ -36,9 +36,8 @@ func StartProcessor(
 		return nil, errors.New("workers count must be positive")
 	}
 
-	queue := make(chan Event, queueSize)
-
 	var (
+		queue  = make(chan Event, queueSize)
 		wg     sync.WaitGroup
 		mu     sync.Mutex
 		closed bool

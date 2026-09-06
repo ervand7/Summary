@@ -3,7 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	a := []int(nil)
-	fmt.Println(a == nil)
-	fmt.Println(a)
+	workers := 10
+	for range workers {
+		fmt.Println("Hi")
+	}
 }

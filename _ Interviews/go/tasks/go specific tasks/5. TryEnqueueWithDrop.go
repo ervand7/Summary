@@ -38,39 +38,50 @@ func StartProcessor(
 
 	queue := make(chan Event, queueSize)
 
-	var wg sync.WaitGroup
+	var (
+		wg     sync.WaitGroup
+		mu     sync.Mutex
+		closed bool
+	)
 
-	for i := 0; i < workers; i++ {
+	for range workers {
 		wg.Add(1)
 
 		go func() {
 			defer wg.Done()
 
-			for {
-				select {
-				case <-ctx.Done():
-					return
-
-				case e, ok := <-queue:
-					if !ok {
-						return
-					}
-					if err := handler.Handle(ctx, e); err != nil {
-						fmt.Println("handler error:", err)
-					}
+			for e := range queue {
+				if err := handler.Handle(ctx, e); err != nil {
+					fmt.Println("handler error:", err)
 				}
 			}
 		}()
 	}
 
-	enqueue := func(e Event) bool {
-		select {
-		case <-ctx.Done():
-			return false
+	go func() {
+		<-ctx.Done()
 
+		mu.Lock()
+		if !closed {
+			closed = true
+			close(queue)
+		}
+		mu.Unlock()
+
+		wg.Wait()
+	}()
+
+	enqueue := func(e Event) bool {
+		mu.Lock()
+		defer mu.Unlock()
+
+		if closed {
+			return false
+		}
+
+		select {
 		case queue <- e:
 			return true
-
 		default:
 			return false
 		}

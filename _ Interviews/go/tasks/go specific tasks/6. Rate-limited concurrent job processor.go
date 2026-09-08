@@ -13,33 +13,33 @@ type Job struct {
 	Payload string
 }
 
-type Resultat struct {
+type Outcome struct {
 	JobID int
 	Value string
 }
 
-func ExecuteJob(ctx context.Context, job Job) (Resultat, error) {
+func ExecuteJob(ctx context.Context, job Job) (Outcome, error) {
 	select {
 	case <-time.After(100 * time.Millisecond):
 		if job.ID%7 == 0 {
-			return Resultat{}, errors.New("job failed")
+			return Outcome{}, errors.New("job failed")
 		}
-		return Resultat{
+		return Outcome{
 			JobID: job.ID,
 			Value: "processed: " + job.Payload,
 		}, nil
 
 	case <-ctx.Done():
-		return Resultat{}, ctx.Err()
+		return Outcome{}, ctx.Err()
 	}
 }
 
-func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps int) ([]Resultat, error) {
+func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps int) ([]Outcome, error) {
 	if workers <= 0 {
 		return nil, errors.New("workers count should be positive")
 	}
 	if rps <= 0 {
-		return nil, errors.New("rps be positive")
+		return nil, errors.New("rps should be positive")
 	}
 
 	var (
@@ -47,7 +47,7 @@ func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps int) ([]Resul
 		mu     sync.Mutex
 		jobsCh = make(chan Job)
 		errs   = make([]error, 0)
-		result = make([]Resultat, 0)
+		result = make([]Outcome, 0)
 	)
 
 	limiter := time.NewTicker(time.Duration(rps))
@@ -111,8 +111,8 @@ func main() {
 		jobs[i] = Job{ID: i + 1, Payload: fmt.Sprintf("payload-%d", i+1)}
 	}
 
-	Resultats, err := ProcessJobs(ctx, jobs, 5, 10)
+	Outcomes, err := ProcessJobs(ctx, jobs, 5, 10)
 
 	fmt.Println("error:", err)
-	fmt.Println("Resultats:", len(Resultats))
+	fmt.Println("Outcomes:", len(Outcomes))
 }

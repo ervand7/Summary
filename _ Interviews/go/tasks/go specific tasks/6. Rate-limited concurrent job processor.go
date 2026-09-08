@@ -34,7 +34,7 @@ func ExecuteJob(ctx context.Context, job Job) (Outcome, error) {
 	}
 }
 
-func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps int) ([]Outcome, error) {
+func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps time.Duration) ([]Outcome, error) {
 	if workers <= 0 {
 		return nil, errors.New("workers count should be positive")
 	}
@@ -50,7 +50,7 @@ func ProcessJobs(ctx context.Context, jobs []Job, workers int, rps int) ([]Outco
 		result = make([]Outcome, 0)
 	)
 
-	limiter := time.NewTicker(time.Duration(rps))
+	limiter := time.NewTicker(rps)
 	defer limiter.Stop()
 
 	for i := 0; i < workers; i++ {
@@ -111,7 +111,7 @@ func main() {
 		jobs[i] = Job{ID: i + 1, Payload: fmt.Sprintf("payload-%d", i+1)}
 	}
 
-	Outcomes, err := ProcessJobs(ctx, jobs, 5, 10)
+	Outcomes, err := ProcessJobs(ctx, jobs, 5, 10*time.Millisecond)
 
 	fmt.Println("error:", err)
 	fmt.Println("Outcomes:", len(Outcomes))

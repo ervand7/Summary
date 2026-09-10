@@ -38,14 +38,18 @@ func WarmCache(
 		return nil, errors.New("workers must be positive")
 	}
 
+	if len(keys) == 0 {
+		return map[string]Value{}, nil
+	}
+
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	var (
 		mu     sync.Mutex
 		wg     sync.WaitGroup
-		cache  = make(map[string]Value)
 		errs   []error
+		cache  = make(map[string]Value)
 		keysCh = make(chan string)
 		seen   = make(map[string]struct{})
 	)
@@ -67,8 +71,10 @@ func WarmCache(
 
 				mu.Lock()
 				if err != nil {
-					errs = append(errs, err)
-					cancel()
+					if ctx.Err() == nil {
+						errs = append(errs, err)
+						cancel()
+					}
 				} else {
 					cache[key] = val
 				}
@@ -79,13 +85,10 @@ func WarmCache(
 
 produceLoop:
 	for _, key := range keys {
-		mu.Lock()
 		if _, exists := seen[key]; exists {
-			mu.Unlock()
 			continue
 		}
 		seen[key] = struct{}{}
-		mu.Unlock()
 
 		select {
 		case <-ctx.Done():

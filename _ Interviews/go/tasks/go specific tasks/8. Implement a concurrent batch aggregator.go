@@ -50,70 +50,62 @@ func StartBatchProcessor(
 
 	var (
 		wg       sync.WaitGroup
-		mu       sync.Mutex
-		batch    = make([]event, 0, batchSize)
+		once     sync.Once
 		firstErr error
 		sem      = make(chan struct{}, maxConcurrentFlushes)
+		batch    = make([]event, 0, batchSize)
 	)
 
-	flush := func(batchToFlush []event) {
-		if len(batchToFlush) == 0 {
+	flush := func() {
+		if len(batch) == 0 {
 			return
 		}
 
-		batchCopy := append([]event(nil), batchToFlush...)
+		b := batch
+		batch = make([]event, 0, batchSize)
 
+		sem <- struct{}{}
 		wg.Add(1)
+
 		go func() {
 			defer wg.Done()
-
-			sem <- struct{}{}
 			defer func() { <-sem }()
 
-			if err := FlushBatch(ctx, batchCopy); err != nil {
-				mu.Lock()
-				if firstErr == nil {
-					firstErr = err
-				}
-				mu.Unlock()
+			if err := FlushBatch(ctx, b); err != nil {
+				once.Do(func() { firstErr = err })
 			}
 		}()
 	}
 
+loop:
 	for {
 		select {
 		case <-ctx.Done():
-			flush(batch)
-			wg.Wait()
-
-			if firstErr != nil {
-				return firstErr
-			}
-			return ctx.Err()
+			break loop
 
 		case <-ticker.C:
-			flush(batch)
-			batch = make([]event, 0, batchSize)
+			flush()
 
 		case e, ok := <-input:
 			if !ok {
-				flush(batch)
-				wg.Wait()
-
-				if firstErr != nil {
-					return firstErr
-				}
-				return nil
+				break loop
 			}
 
 			batch = append(batch, e)
-
 			if len(batch) == batchSize {
-				flush(batch)
-				batch = make([]event, 0, batchSize)
+				flush()
+				ticker.Reset(flushInterval)
 			}
 		}
 	}
+
+	flush()
+	wg.Wait()
+
+	if firstErr != nil {
+		return firstErr
+	}
+	return ctx.Err()
 }
 
 func main() {

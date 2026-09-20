@@ -19,17 +19,10 @@ Requirements:
 */
 
 type Task struct {
-	id          string
-	runAt       time.Time
-	f           func()
-	stopCh      chan struct{}
-	wasCanceled bool
-	mu          sync.Mutex
-	once        sync.Once
+	cancel chan struct{}
 }
 
 type Scheduler struct {
-	workers int
 	tasks   map[string]*Task
 	mu      sync.Mutex
 	wg      sync.WaitGroup
@@ -43,9 +36,8 @@ func NewScheduler(workers int) *Scheduler {
 	}
 
 	return &Scheduler{
-		workers: workers,
-		tasks:   make(map[string]*Task),
-		sem:     make(chan struct{}, workers),
+		tasks: make(map[string]*Task),
+		sem:   make(chan struct{}, workers),
 	}
 }
 
@@ -69,13 +61,7 @@ func (s *Scheduler) Schedule(id string, runAt time.Time, task func()) error {
 		return fmt.Errorf("task with id %s already exists", id)
 	}
 
-	t := &Task{
-		id:     id,
-		runAt:  runAt,
-		f:      task,
-		stopCh: make(chan struct{}),
-	}
-
+	t := &Task{cancel: make(chan struct{})}
 	s.tasks[id] = t
 	s.wg.Add(1)
 	s.mu.Unlock()
@@ -87,33 +73,27 @@ func (s *Scheduler) Schedule(id string, runAt time.Time, task func()) error {
 		defer timer.Stop()
 
 		select {
-		case <-t.stopCh:
-			t.mu.Lock()
-			t.wasCanceled = true
-			t.mu.Unlock()
+		case <-t.cancel:
 			return
-
 		case <-timer.C:
 		}
 
 		select {
-		case <-t.stopCh:
+		case <-t.cancel:
 			return
 		case s.sem <- struct{}{}:
 		}
 		defer func() { <-s.sem }()
 
-		t.mu.Lock()
-		canceled := t.wasCanceled
-		t.mu.Unlock()
-
-		if !canceled {
-			t.f()
-		}
-
 		s.mu.Lock()
+		if s.tasks[id] != t {
+			s.mu.Unlock()
+			return
+		}
 		delete(s.tasks, id)
 		s.mu.Unlock()
+
+		task()
 	}()
 
 	return nil
@@ -121,23 +101,12 @@ func (s *Scheduler) Schedule(id string, runAt time.Time, task func()) error {
 
 func (s *Scheduler) Cancel(id string) {
 	s.mu.Lock()
-	task, ok := s.tasks[id]
-	if ok {
+	defer s.mu.Unlock()
+
+	if task, ok := s.tasks[id]; ok {
+		close(task.cancel)
 		delete(s.tasks, id)
 	}
-	s.mu.Unlock()
-
-	if !ok {
-		return
-	}
-
-	task.mu.Lock()
-	task.wasCanceled = true
-	task.mu.Unlock()
-
-	task.once.Do(func() {
-		close(task.stopCh)
-	})
 }
 
 func (s *Scheduler) Stop() {
@@ -149,21 +118,11 @@ func (s *Scheduler) Stop() {
 
 	s.stopped = true
 
-	tasks := make([]*Task, 0, len(s.tasks))
 	for _, task := range s.tasks {
-		tasks = append(tasks, task)
+		close(task.cancel)
 	}
+	s.tasks = make(map[string]*Task)
 	s.mu.Unlock()
-
-	for _, task := range tasks {
-		task.mu.Lock()
-		task.wasCanceled = true
-		task.mu.Unlock()
-
-		task.once.Do(func() {
-			close(task.stopCh)
-		})
-	}
 
 	s.wg.Wait()
 }

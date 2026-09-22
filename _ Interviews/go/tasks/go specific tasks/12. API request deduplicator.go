@@ -20,22 +20,20 @@ Requirements:
  - failed requests must be removable for future retries
 */
 
-type Request struct {
-	isLocked bool
-	ch       chan struct{}
-	fn       func(context.Context) (string, error)
-	value    string
-	err      error
+type call struct {
+	done  chan struct{}
+	value string
+	err   error
 }
 
 type RequestGroup struct {
-	requests map[string]*Request
+	requests map[string]*call
 	mu       sync.Mutex
 }
 
 func NewRequestGroup() *RequestGroup {
 	return &RequestGroup{
-		requests: make(map[string]*Request),
+		requests: make(map[string]*call),
 	}
 }
 
@@ -53,36 +51,29 @@ func (g *RequestGroup) Do(
 	}
 
 	g.mu.Lock()
-	r, exists := g.requests[key]
-	if exists {
+	if c, ok := g.requests[key]; ok {
 		g.mu.Unlock()
 
 		select {
 		case <-ctx.Done():
 			return "", ctx.Err()
-		case <-r.ch:
-			return r.value, r.err
+		case <-c.done:
+			return c.value, c.err
 		}
 	}
 
-	r = &Request{
-		isLocked: true,
-		ch:       make(chan struct{}),
-		fn:       fn,
-	}
-
-	g.requests[key] = r
+	c := &call{done: make(chan struct{})}
+	g.requests[key] = c
 	g.mu.Unlock()
 
-	r.value, r.err = fn(ctx)
+	c.value, c.err = fn(ctx)
 
 	g.mu.Lock()
-	r.isLocked = false
 	delete(g.requests, key)
-	close(r.ch)
+	close(c.done)
 	g.mu.Unlock()
 
-	return r.value, r.err
+	return c.value, c.err
 }
 
 func main() {

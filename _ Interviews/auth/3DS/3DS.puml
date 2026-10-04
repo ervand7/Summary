@@ -1,42 +1,41 @@
 @startuml
-actor User
-participant Merchant
-participant PSP
-participant "3DS Server" as ThreeDS
-participant "Card Network" as Network
-participant Bank
 
-User -> Merchant : Pay (enter card details)
-Merchant -> PSP : card + amount + device info
-PSP -> ThreeDS : start 3DS authentication
+actor "You\n(Cardholder)" as User
+participant "Online Shop\n(Merchant)" as Shop
 
-ThreeDS -> Network : AReq (Authentication Request: who, amount, device info)
-Network -> Bank : forward AReq
+box "Payment Provider / PSP\n(e.g. Stripe, Adyen)"
+    participant "Payment System\n+ 3DS Server" as PSP
+end box
 
-Bank -> Bank : risk evaluation
+participant "Visa / Mastercard" as Network
+participant "Your Bank\n(Issuer + ACS)" as Bank
 
-alt frictionless
-    Bank -> Network : ARes (Authentication Response: approved, no user action)
-else challenge
-    Bank -> Network : ARes (challenge required)
-    Network -> ThreeDS : ARes
-    ThreeDS -> User : show challenge (OTP / push / biometrics)
+User -> Shop: 1. Click Pay
+Shop -> PSP: 2. Create payment
 
-    User -> Bank : confirm identity
+== 3DS Authentication ==
 
-    Bank -> Network : CRes (Challenge Response: success / failure after user action)
+PSP -> Network: 3. Authenticate cardholder
+Network -> Bank: 4. Authentication request
+
+alt Bank wants challenge
+    Bank -> User: 5. Approve in app / OTP
+    User -> Bank: Approved
 end
 
-Network -> ThreeDS : final authentication result
-ThreeDS -> PSP : authentication result
-PSP -> Merchant : authenticated / failed
+Bank --> Network: Authentication OK
+Network --> PSP: Authentication OK
 
-opt if authenticated
-    PSP -> Network : authorization request (charge money)
-    Network -> Bank : authorize payment
-    Bank -> Network : auth result (approved / declined)
-    Network -> PSP : result
-    PSP -> Merchant : payment result
-end
+== Payment Authorization ==
+
+PSP -> Network: 6. Charge €100
+Network -> Bank: 7. Authorize €100
+
+Bank -> Bank: Check balance,\ncard limits, fraud, etc.
+
+Bank --> Network: 8. APPROVED
+Network --> PSP: APPROVED
+PSP --> Shop: 9. Payment successful
+Shop --> User: Order confirmed
 
 @enduml

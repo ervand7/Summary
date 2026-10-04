@@ -29,8 +29,13 @@ session data in the database.
    * `role`: user role
 3. Signature – ensures the token wasn't tampered with
 
-> ⚠️ JWTs are not encrypted — they are signed. Anyone can read the payload,
-but only your server can verify it's valid.
+> ⚠️ JWTs are usually not encrypted — they are signed. Anyone who has the token can decode
+and read its payload, but only someone with the correct verification key can verify that the
+token is authentic and has not been modified.
+
+HEADER.PAYLOAD.SIGNATURE
+   ↑       ↑       ↑
+ encoded  encoded  cryptographic signature
 
 
 ### 🛡️ How do we verify a JWT?

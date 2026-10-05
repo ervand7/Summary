@@ -16,10 +16,10 @@ type Connection struct {
 }
 
 type Pool struct {
-	slots  chan *Connection
-	closed chan struct{}
-	once   sync.Once
-	nextID atomic.Int64
+	semaphore chan *Connection
+	closed    chan struct{}
+	once      sync.Once
+	nextID    atomic.Int64
 
 	mu    sync.Mutex
 	inUse map[*Connection]struct{}
@@ -29,12 +29,12 @@ func NewPool(maxSize int) *Pool {
 	maxSize = max(maxSize, 1)
 
 	p := &Pool{
-		slots:  make(chan *Connection, maxSize),
-		closed: make(chan struct{}),
-		inUse:  make(map[*Connection]struct{}, maxSize),
+		semaphore: make(chan *Connection, maxSize),
+		closed:    make(chan struct{}),
+		inUse:     make(map[*Connection]struct{}, maxSize),
 	}
 	for range maxSize {
-		p.slots <- nil
+		p.semaphore <- nil
 	}
 
 	return p
@@ -50,7 +50,7 @@ func (p *Pool) Acquire(ctx context.Context) (*Connection, error) {
 		return nil, ctx.Err()
 	case <-p.closed:
 		return nil, ErrPoolClosed
-	case conn := <-p.slots:
+	case conn := <-p.semaphore:
 		if conn == nil {
 			conn = &Connection{ID: int(p.nextID.Add(1))}
 		}
@@ -76,7 +76,7 @@ func (p *Pool) Release(conn *Connection) {
 	}
 
 	// Never blocks: inUse guarantees at most maxSize tokens in circulation.
-	p.slots <- conn
+	p.semaphore <- conn
 }
 
 func (p *Pool) Close() {

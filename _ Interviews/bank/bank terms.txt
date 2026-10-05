@@ -1,13 +1,14 @@
-* Debit - money is taken from an account
-* Credit - money is added to an account
-* Balance - total amount on the account
-* Available balance - spendable amount (after holds)
-* Hold / Authorization - temporary lock on funds (not yet charged)
-* Capture - final charge after authorization
-* Refund - money returned after a charge
-* Reversal - cancel before the transaction is completed
-* Chargeback - forced refund via bank (customer dispute)
-* Transaction - any operation (debit/credit)
-* Settlement - final clearing between parties
-* Ledger - record of all transactions
-* Double-entry - every transaction has two sides (debit/credit)
+* Debit - you buy coffee for $5 → your account goes down by $5
+* Credit - your employer pays you $3,000 → your account goes up by $3,000
+* Deposit - you put $500 cash into your bank account → balance goes up by $500
+* Balance - you have $1,000 in your bank account
+* Available balance - you have $1,000, but $200 is blocked → you can spend $800
+* Hold / Authorization - a hotel temporarily blocks $200 on your card
+* Capture - the hotel actually takes the $200 that was blocked
+* Refund - you return shoes → the shop sends your money back
+* Reversal - a payment is canceled before completion → the blocked money is released
+* Chargeback - you dispute a card payment → your bank takes the money back from the merchant
+* Transaction - you buy coffee → that payment is one transaction
+* Settlement - Visa and the banks actually transfer the money to the coffee shop
+* Ledger - your bank's list of all money going in and out
+* Double-entry - you pay $5 → your account -$5, coffee shop +$5

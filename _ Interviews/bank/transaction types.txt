@@ -1,32 +1,32 @@
-Authorization — проверка средств и холд (деньги не списаны)
-Clearing — передача транзакции на списание
-Settlement — финальное списание денег
+1. 3DS Authentication - customer verifies the payment
 
----
+2. Authorization - funds are checked and reserved
+   → Reversal - authorization is canceled and funds are released
 
-Refund — возврат денег мерчантом
-Chargeback — возврат через банк (спор клиента)
+3. Pre-authorization - funds are temporarily reserved
+   → Incremental Authorization - reserved amount is increased
+   → Reversal - reserved funds are released
 
----
+4. Capture - authorized funds are charged
+   → Partial Capture - only part of the authorized amount is charged
+   → Void - capture is canceled before settlement
+   → Adjustment - charged amount is corrected
 
-Reversal — отмена авторизации (разморозка средств)
-Void — отмена операции до списания
-Adjustment — корректировка суммы
+5. Clearing - transaction is sent for processing
 
----
+6. Settlement - money is finally transferred
+   → Refund - merchant returns the money
+   → Chargeback - bank returns the money after a dispute
 
-Pre-authorization — временная блокировка средств (залог)
-Partial Capture — списание части суммы
-Incremental Authorization — увеличение ранее заблокированной суммы
+7. Force Post - charge without prior authorization
 
----
+8. Late Presentment - transaction is submitted late. Example: You stayed at a hotel in
+June, but the hotel sends the $200 charge to the bank only in July.
 
-Force Post — списание без авторизации
-Late Presentment — позднее списание после авторизации
-Recurring Transaction — регулярное автосписание (подписка)
-Merchant-Initiated Transaction (MIT) — списание по инициативе мерчанта
+9. Recurring Transaction - automatic recurring payment
 
----
+10. Merchant-Initiated Transaction (MIT) - merchant initiates the payment.
+Example: A hotel charges your card later for minibar use after you checked out.
 
-No-show Transaction — штраф за неявку (отели, брони)
-3DS Authentication — подтверждение операции через 3D Secure
+11. No-show Transaction - charge for missing a booking
+Example: You book a hotel, don't arrive, and the hotel charges you $100.

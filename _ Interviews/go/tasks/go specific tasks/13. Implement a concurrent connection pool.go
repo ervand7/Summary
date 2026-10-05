@@ -5,71 +5,58 @@ import (
 	"errors"
 	"fmt"
 	"sync"
+	"sync/atomic"
 	"time"
 )
+
+var ErrPoolClosed = errors.New("pool is closed")
 
 type Connection struct {
 	ID int
 }
 
 type Pool struct {
-	maxSize          int
-	connections      chan *Connection
-	connectionsCount int
-	mu               sync.Mutex
-	isClosed         bool
-	connectionsMap   map[*Connection]struct{}
-	closeCh          chan struct{}
+	slots  chan *Connection
+	closed chan struct{}
+	once   sync.Once
+	nextID atomic.Int64
+
+	mu    sync.Mutex
+	inUse map[*Connection]struct{}
 }
 
 func NewPool(maxSize int) *Pool {
-	if maxSize <= 0 {
-		maxSize = 1
+	maxSize = max(maxSize, 1)
+
+	p := &Pool{
+		slots:  make(chan *Connection, maxSize),
+		closed: make(chan struct{}),
+		inUse:  make(map[*Connection]struct{}, maxSize),
+	}
+	for range maxSize {
+		p.slots <- nil
 	}
 
-	return &Pool{
-		maxSize:        maxSize,
-		connections:    make(chan *Connection, maxSize),
-		connectionsMap: make(map[*Connection]struct{}),
-		closeCh:        make(chan struct{}),
-	}
+	return p
 }
 
 func (p *Pool) Acquire(ctx context.Context) (*Connection, error) {
-	p.mu.Lock()
-	if p.isClosed {
-		p.mu.Unlock()
-		return nil, errors.New("pool is closed")
+	if p.isClosed() {
+		return nil, ErrPoolClosed
 	}
-
-	select {
-	case conn := <-p.connections:
-		p.mu.Unlock()
-		return conn, nil
-	default:
-	}
-
-	if p.connectionsCount < p.maxSize {
-		p.connectionsCount++
-		id := p.connectionsCount
-		conn := &Connection{ID: id}
-		p.connectionsMap[conn] = struct{}{}
-		p.mu.Unlock()
-		return conn, nil
-	}
-	p.mu.Unlock()
 
 	select {
 	case <-ctx.Done():
 		return nil, ctx.Err()
-
-	case <-p.closeCh:
-		return nil, errors.New("pool is closed")
-
-	case conn, ok := <-p.connections:
-		if !ok {
-			return nil, errors.New("pool is closed")
+	case <-p.closed:
+		return nil, ErrPoolClosed
+	case conn := <-p.slots:
+		if conn == nil {
+			conn = &Connection{ID: int(p.nextID.Add(1))}
 		}
+		p.mu.Lock()
+		p.inUse[conn] = struct{}{}
+		p.mu.Unlock()
 		return conn, nil
 	}
 }
@@ -80,39 +67,29 @@ func (p *Pool) Release(conn *Connection) {
 	}
 
 	p.mu.Lock()
-	_, exists := p.connectionsMap[conn]
-	if !exists {
-		p.mu.Unlock()
-		return
-	}
-
-	if p.isClosed {
-		delete(p.connectionsMap, conn)
-		p.mu.Unlock()
-		return
-	}
+	_, ok := p.inUse[conn]
+	delete(p.inUse, conn)
 	p.mu.Unlock()
 
-	select {
-	case <-p.closeCh:
+	if !ok || p.isClosed() {
 		return
-	case p.connections <- conn:
 	}
+
+	// Never blocks: inUse guarantees at most maxSize tokens in circulation.
+	p.slots <- conn
 }
 
 func (p *Pool) Close() {
-	p.mu.Lock()
-	defer p.mu.Unlock()
+	p.once.Do(func() { close(p.closed) })
+}
 
-	if p.isClosed {
-		return
+func (p *Pool) isClosed() bool {
+	select {
+	case <-p.closed:
+		return true
+	default:
+		return false
 	}
-
-	p.isClosed = true
-	p.connectionsMap = make(map[*Connection]struct{})
-
-	close(p.closeCh)
-	close(p.connections)
 }
 
 func main() {

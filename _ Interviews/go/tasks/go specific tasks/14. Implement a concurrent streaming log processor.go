@@ -88,6 +88,20 @@ func (p *LogProcessor) Write(log string) error {
 	return nil
 }
 
+func (p *LogProcessor) Close() error {
+	p.mu.Lock()
+	if p.closed {
+		p.mu.Unlock()
+		return ErrClosed
+	}
+	p.closed = true
+	close(p.queue)
+	p.mu.Unlock()
+
+	p.wg.Wait()
+	return nil
+}
+
 func (p *LogProcessor) batchLoop() {
 	defer p.wg.Done()
 	defer close(p.batches)
@@ -132,20 +146,6 @@ func (p *LogProcessor) flushLoop() {
 			fmt.Println("flush error:", err)
 		}
 	}
-}
-
-func (p *LogProcessor) Close() error {
-	p.mu.Lock()
-	if p.closed {
-		p.mu.Unlock()
-		return ErrClosed
-	}
-	p.closed = true
-	close(p.queue)
-	p.mu.Unlock()
-
-	p.wg.Wait() // wait until all remaining logs are flushed
-	return nil
 }
 
 func main() {

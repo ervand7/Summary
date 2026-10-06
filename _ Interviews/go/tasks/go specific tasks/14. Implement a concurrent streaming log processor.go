@@ -28,19 +28,19 @@ func FlushLogs(batch []string) error {
 	return nil
 }
 
+var ErrClosed = errors.New("log processor is closed")
+
 type LogProcessor struct {
 	batchSize     int
 	flushInterval time.Duration
-	queueSize     int
 
-	mu       sync.Mutex
-	isClosed bool
+	mu     sync.RWMutex
+	closed bool
 
-	queue  chan string
-	ticker *time.Ticker
+	queue   chan string
+	batches chan []string
 
-	wg      sync.WaitGroup
-	flushWG sync.WaitGroup
+	wg sync.WaitGroup
 }
 
 func NewLogProcessor(
@@ -48,42 +48,52 @@ func NewLogProcessor(
 	flushInterval time.Duration,
 	queueSize int,
 ) *LogProcessor {
+	if batchSize < 1 {
+		batchSize = 1
+	}
+	if queueSize < 0 {
+		queueSize = 0
+	}
+	if flushInterval <= 0 {
+		flushInterval = time.Second
+	}
+
 	p := &LogProcessor{
 		batchSize:     batchSize,
 		flushInterval: flushInterval,
-		queueSize:     queueSize,
 		queue:         make(chan string, queueSize),
-		ticker:        time.NewTicker(flushInterval),
+		batches:       make(chan []string, 1),
 	}
 
-	p.wg.Add(1)
-	go p.run()
+	p.wg.Add(2)
+	go p.batchLoop()
+	go p.flushLoop()
 
 	return p
 }
 
 func (p *LogProcessor) Write(log string) error {
-	if len(log) == 0 {
+	if log == "" {
 		return nil
 	}
 
-	p.mu.Lock()
-	if p.isClosed {
-		p.mu.Unlock()
-		return errors.New("processor is closed")
+	p.mu.RLock()
+	defer p.mu.RUnlock()
+
+	if p.closed {
+		return ErrClosed
 	}
 
-	// Important: keep lock while sending.
-	// This prevents Close from closing the channel at the same time.
 	p.queue <- log
-	p.mu.Unlock()
-
 	return nil
 }
 
-func (p *LogProcessor) run() {
+func (p *LogProcessor) batchLoop() {
 	defer p.wg.Done()
-	defer p.ticker.Stop()
+	defer close(p.batches)
+
+	ticker := time.NewTicker(p.flushInterval)
+	defer ticker.Stop()
 
 	batch := make([]string, 0, p.batchSize)
 
@@ -91,18 +101,9 @@ func (p *LogProcessor) run() {
 		if len(batch) == 0 {
 			return
 		}
-
-		batchCopy := append([]string(nil), batch...)
-		batch = batch[:0]
-
-		p.flushWG.Add(1)
-		go func() {
-			defer p.flushWG.Done()
-
-			if err := FlushLogs(batchCopy); err != nil {
-				fmt.Println("flush error:", err)
-			}
-		}()
+		p.batches <- batch
+		batch = make([]string, 0, p.batchSize)
+		ticker.Reset(p.flushInterval)
 	}
 
 	for {
@@ -112,35 +113,38 @@ func (p *LogProcessor) run() {
 				flush()
 				return
 			}
-
 			batch = append(batch, log)
-
 			if len(batch) == p.batchSize {
 				flush()
 			}
 
-		case <-p.ticker.C:
+		case <-ticker.C:
 			flush()
+		}
+	}
+}
+
+func (p *LogProcessor) flushLoop() {
+	defer p.wg.Done()
+
+	for batch := range p.batches {
+		if err := FlushLogs(batch); err != nil {
+			fmt.Println("flush error:", err)
 		}
 	}
 }
 
 func (p *LogProcessor) Close() error {
 	p.mu.Lock()
-
-	if p.isClosed {
+	if p.closed {
 		p.mu.Unlock()
-		return errors.New("pool already closed")
+		return ErrClosed
 	}
-
-	p.isClosed = true
+	p.closed = true
 	close(p.queue)
-
 	p.mu.Unlock()
 
-	p.wg.Wait()
-	p.flushWG.Wait()
-
+	p.wg.Wait() // wait until all remaining logs are flushed
 	return nil
 }
 

@@ -33,14 +33,11 @@ var ErrClosed = errors.New("log processor is closed")
 type LogProcessor struct {
 	batchSize     int
 	flushInterval time.Duration
-
-	mu     sync.RWMutex
-	closed bool
-
-	queue   chan string
-	batches chan []string
-
-	wg sync.WaitGroup
+	closed        bool
+	queue         chan string
+	batches       chan []string
+	mu            sync.RWMutex
+	wg            sync.WaitGroup
 }
 
 func NewLogProcessor(
@@ -143,11 +140,10 @@ func (p *LogProcessor) flushLoop() {
 
 	for batch := range p.batches {
 		if err := FlushLogs(batch); err != nil {
-			fmt.Println("flush error:", err)
+			fmt.Printf("lush error: %v", err)
 		}
 	}
 }
-
 func main() {
 	p := NewLogProcessor(
 		3,
@@ -157,14 +153,13 @@ func main() {
 
 	var wg sync.WaitGroup
 
-	for i := 0; i < 20; i++ {
+	for i := range 20 {
 		wg.Add(1)
 
 		go func(i int) {
 			defer wg.Done()
 
-			err := p.Write(fmt.Sprintf("log-%d", i))
-			if err != nil {
+			if err := p.Write(fmt.Sprintf("log-%d", i)); err != nil {
 				fmt.Println("write error:", err)
 			}
 		}(i)

@@ -18,7 +18,7 @@ func main() {
 	ch <- 1
 	ch <- 2
 	ch <- 3
-	ch <- 4 // blocks here
+	ch <- 4
 
 	fmt.Println("main() stopped")
 }

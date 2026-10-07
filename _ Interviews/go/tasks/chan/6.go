@@ -21,10 +21,10 @@ func main() {
 	ch <- 1
 	ch <- 2
 	ch <- 3
-	ch <- 4 // тут main горутина заморозится
+	ch <- 4
 	ch <- 5
 	ch <- 6
-	ch <- 7 // только тут будет deadlock
+	ch <- 7
 
 	time.Sleep(time.Second)
 	fmt.Println("main() stopped")

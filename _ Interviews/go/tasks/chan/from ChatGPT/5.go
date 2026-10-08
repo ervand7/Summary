@@ -4,8 +4,6 @@ import (
 	"fmt"
 )
 
-// this chan closing is dangerous, because there are more than one writer
-
 func main() {
 	ch := make(chan int)
 

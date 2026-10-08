@@ -9,7 +9,7 @@ import (
 
 // Goal:
 // Write a worker-pool that transforms input values into output values using transform().
-// Stop processing immediately when context is cancelled.
+// Stop processing immediately when context is canceled.
 // Question:
 // Implement the function parallelMap().
 
@@ -38,8 +38,7 @@ func main() {
 func parallelMap(ctx context.Context, workers int, in <-chan int, out chan<- int) {
 	var wg sync.WaitGroup
 	wg.Add(workers)
-
-	for i := 0; i < workers; i++ {
+	for range workers {
 		go func() {
 			defer wg.Done()
 
@@ -47,12 +46,12 @@ func parallelMap(ctx context.Context, workers int, in <-chan int, out chan<- int
 				select {
 				case <-ctx.Done():
 					return
-				case v, ok := <-in:
+				case val, ok := <-in:
 					if !ok {
 						return
 					}
 
-					result := transform(v)
+					result := transform(val)
 
 					select {
 					case <-ctx.Done():

@@ -6,10 +6,8 @@ import (
 	"time"
 )
 
-// fanOut merges multiple input channels into a single output channel.
 func fanOut(ctx context.Context, out chan<- int, channels ...<-chan int) {
 	for _, ch := range channels {
-		// Start a goroutine per input channel
 		go func(c <-chan int) {
 			for {
 				select {
@@ -27,12 +25,10 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	// Each writer has its own input channel
 	in1 := make(chan int)
 	in2 := make(chan int)
 	out := make(chan int)
 
-	// Merge multiple channels into one
 	fanOut(ctx, out, in1, in2)
 
 	// Writer #1

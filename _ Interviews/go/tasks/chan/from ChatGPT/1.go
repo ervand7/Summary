@@ -5,9 +5,6 @@ import (
 	"time"
 )
 
-// there is no deadlock because the main goroutine is not blocked (it sleeps
-// and then exits), so not all goroutines are blocked at the same time.
-
 func main() {
 	ch := make(chan int)
 

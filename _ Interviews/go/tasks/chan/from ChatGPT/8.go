@@ -2,9 +2,6 @@ package main
 
 import "fmt"
 
-// in this case it doesn't matter is the chan buffer or no. The buffer size also
-// doesn't matter
-
 func main() {
 	ch := make(chan int, 1)
 

@@ -35,15 +35,14 @@ func runTasks(tasks []func() int, maxConcurrent int) []int {
 
 	for i, task := range tasks {
 		wg.Add(1)
-
 		semaphore <- struct{}{}
 
-		go func(i int, t func() int) {
+		go func(item int, t func() int) {
 			defer wg.Done()
 			defer func() { <-semaphore }()
 
 			result := t()
-			results[i] = result
+			results[item] = result
 		}(i, task)
 	}
 

@@ -28,10 +28,11 @@ func main() {
 }
 
 func runTasks(tasks []func() int, maxConcurrent int) []int {
-	semaphore := make(chan struct{}, maxConcurrent)
-	results := make([]int, len(tasks))
-
-	var wg sync.WaitGroup
+	var (
+		semaphore = make(chan struct{}, maxConcurrent)
+		wg        = sync.WaitGroup{}
+		results   = make([]int, len(tasks))
+	)
 
 	for i, task := range tasks {
 		wg.Add(1)

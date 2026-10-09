@@ -41,10 +41,11 @@ func producer(label string, delay time.Duration) <-chan string {
 }
 
 func merge(ctx context.Context, chans ...<-chan string) <-chan string {
-	var wg sync.WaitGroup
-	out := make(chan string)
-
-	for _, channel := range chans {
+	var (
+		wg  sync.WaitGroup
+		out = make(chan string)
+	)
+	for _, ch := range chans {
 		wg.Add(1)
 
 		go func(ch <-chan string) {
@@ -65,7 +66,7 @@ func merge(ctx context.Context, chans ...<-chan string) <-chan string {
 					}
 				}
 			}
-		}(channel)
+		}(ch)
 	}
 
 	go func() {

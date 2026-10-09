@@ -39,25 +39,19 @@ func generator() <-chan int {
 }
 
 func processor(in <-chan int) <-chan int {
-	// Requirements:
-	// 1. Read from in
-	// 2. Process with time.Sleep(20ms)
-	// 3. Write to out
-	// 4. Close out correctly
-
 	var (
-		workersCount = 10
-		out          = make(chan int)
-		wg           sync.WaitGroup
+		out     = make(chan int)
+		wg      sync.WaitGroup
+		workers = 10
 	)
 
-	for i := 0; i < workersCount; i++ {
+	for range workers {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
 			for val := range in {
+				out <- val
 				time.Sleep(time.Second)
-				out <- val * val
 			}
 		}()
 	}
@@ -71,7 +65,7 @@ func processor(in <-chan int) <-chan int {
 }
 
 func consumer(ch <-chan int) {
-	for i := range ch {
-		fmt.Printf("received %d\n", i)
+	for val := range ch {
+		fmt.Printf("process value %d\n", val)
 	}
 }

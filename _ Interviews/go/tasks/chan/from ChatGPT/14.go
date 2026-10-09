@@ -27,7 +27,7 @@ func main() {
 
 	counter := newCounter()
 
-	for i := 0; i < workers; i++ {
+	for range workers {
 		go func() {
 			defer wg.Done()
 			for j := 0; j < 1000; j++ {

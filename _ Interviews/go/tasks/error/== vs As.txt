@@ -1,0 +1,3 @@
+`==` checks whether two values are equal (including their dynamic types for interfaces), while
+`errors.As()` checks whether an error matches a target type and assigns the matching error to the
+target variable.

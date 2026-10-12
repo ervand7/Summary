@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// With capacity → shared array → overwriting
-
 func main() {
 	s := make([]int, 0, 3)
 	a := append(s, 1)

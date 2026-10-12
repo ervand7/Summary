@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-// because after first append we have slice capacity = 6
+// because after the second append we didn't exceed the capacity
 
 func changeOne(slice []int) {
 	slice = append(slice, 5)

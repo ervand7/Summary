@@ -2,10 +2,9 @@ package main
 
 import "fmt"
 
-// because here we exceed the capacity
+// because after the second append we exceed the capacity
 
 func ChangeOne(slice []int) {
-	fmt.Println(cap(slice))
 	slice = append(slice, 5, 4)
 
 	slice[1] = 0

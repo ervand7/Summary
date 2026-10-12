@@ -14,7 +14,7 @@ var num int
 
 func main() {
 	runtime.GOMAXPROCS(1)
-	for i := 0; i < 1000; i++ {
+	for i := range 1000 {
 		go func(item int) {
 			num = item
 		}(i)

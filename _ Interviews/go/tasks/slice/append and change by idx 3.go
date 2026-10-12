@@ -5,6 +5,7 @@ import "fmt"
 func changeOneByDereferencing(slice *[]int) {
 	*slice = append(*slice, 5)
 	(*slice)[1] = 0
+	fmt.Println(*slice)
 }
 
 func main() {

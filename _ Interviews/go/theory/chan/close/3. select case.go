@@ -6,12 +6,6 @@ import (
 	"time"
 )
 
-/*
-В данном примере много горутин будут пытаться прочесть из одного канала.
-Пока в канал ничего не будет поступать, будет отрабатывать блок default. А после закрытия
-канала все горутины получат нулевое значение канала.
-*/
-
 var channel = make(chan struct{})
 
 func worker(wg *sync.WaitGroup, id int) {
@@ -19,7 +13,6 @@ func worker(wg *sync.WaitGroup, id int) {
 
 	for {
 		select {
-		// после закрытия канала получаем нулевое значение
 		case <-channel:
 			fmt.Println("Завершаем", id)
 			return

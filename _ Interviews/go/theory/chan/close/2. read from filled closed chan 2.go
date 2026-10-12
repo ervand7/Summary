@@ -2,11 +2,6 @@ package main
 
 import "fmt"
 
-/*
-И с помощью for-range мы можем прочесть все значения из закрытого канала.
-for-range перестанет работать как в закрытом канале закончатся значения.
-*/
-
 func main() {
 	ch := make(chan int, 5)
 	ch <- 1
@@ -20,11 +15,3 @@ func main() {
 		fmt.Println(value)
 	}
 }
-
-/*
-1
-2
-3
-4
-5
-*/

@@ -2,11 +2,6 @@ package main
 
 import "fmt"
 
-/*
-Здесь даже WaitGroup не нужен, так как после переполнения буфера
-планировщик разбудит горутину squares. И она прочтет все значения
-*/
-
 func squares(c chan int) {
 	for i := 0; i <= 3; i++ {
 		num := <-c
@@ -23,16 +18,7 @@ func main() {
 	c <- 1
 	c <- 2
 	c <- 3
-	c <- 4 // blocks here
+	c <- 4
 
 	fmt.Println("main() stopped")
 }
-
-/*
-main() started
-1
-4
-9
-16
-main() stopped
-*/

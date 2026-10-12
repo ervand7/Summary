@@ -5,8 +5,6 @@ import (
 	"time"
 )
 
-// при закрытии канала в него поступает дефолтное значение
-
 func main() {
 	ch := make(chan bool)
 	go func() {

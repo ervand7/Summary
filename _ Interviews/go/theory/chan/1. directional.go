@@ -2,15 +2,6 @@ package main
 
 import "fmt"
 
-/*
-chan T → bidirectional
-<-chan T → receive-only
-chan<- T → send-only
-
-1) с помощью функции make можно сразу создавать канал нужной направленности
-2) каналы `<-chan int` и `chan<- int` являются разными типами данных
-*/
-
 func main() {
 	roc := make(<-chan int)
 	soc := make(chan<- int)

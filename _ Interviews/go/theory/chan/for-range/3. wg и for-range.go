@@ -5,14 +5,6 @@ import (
 	"sync"
 )
 
-/*
-Словим deadlock так как мы будем заблокированы в for-range и defer wg.Done()
-не отработает.
-
-Данный пример изначально написан неправильно. Нам вообще wg тут не нужен будет
-если канал сделать небуфф.
-*/
-
 func main() {
 	ch := make(chan int, 10)
 
@@ -31,12 +23,3 @@ func main() {
 
 	wg.Wait()
 }
-
-/*
-0
-1
-2
-3
-4
-fatal error: all goroutines are asleep - deadlock!
-*/

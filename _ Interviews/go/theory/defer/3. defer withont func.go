@@ -2,11 +2,6 @@ package main
 
 import "fmt"
 
-/*
-defer возвращает то значение переменной, которое у нее было на момент
-объявления defer
-*/
-
 func main() {
 	i := 0
 	defer fmt.Println(i)
@@ -16,8 +11,3 @@ func main() {
 
 	i += 1
 }
-
-/*
-3
-0
-*/

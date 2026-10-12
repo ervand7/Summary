@@ -25,6 +25,6 @@ func intuitive() string {
 }
 
 func main() {
-	fmt.Println(unintuitive()) // На самом деле
-	fmt.Println(intuitive())   // Казалось бы
+	fmt.Println(unintuitive())
+	fmt.Println(intuitive())
 }

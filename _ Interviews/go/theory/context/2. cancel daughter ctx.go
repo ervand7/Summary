@@ -7,11 +7,6 @@ import (
 	"time"
 )
 
-/*
-Программа зависнет, так как отмена дочернего контекста не аффектит
-на родительский контекст.
-*/
-
 func some(ctx context.Context, wg *sync.WaitGroup) {
 	defer wg.Done()
 	i := 0

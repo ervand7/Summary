@@ -19,15 +19,15 @@ func NewMyError(code string) *MyError {
 	}
 }
 
-func some(err error, msg string) error {
+func wrapErr(err error, msg string) error {
 	return fmt.Errorf("%s: %w", msg, err)
 }
 
 func main() {
 	a := NewMyError("Hello")
-	b := some(a, "first")
-	c := some(b, "second")
-	d := some(c, "third")
+	b := wrapErr(a, "first")
+	c := wrapErr(b, "second")
+	d := wrapErr(c, "third")
 	fmt.Println(d) // third: second: first: Error detected: Hello
 
 	// Is сравнивает значение, возвращает true, если err == target, либо
@@ -38,7 +38,7 @@ func main() {
 
 	// As сравнивает тип, берет target и присваивает ему рутовою ошибку из err
 	var e *MyError
-	if errors.As(a, &e) && errors.As(b, &e) && errors.As(c, &e) && errors.As(d, &e) {
+	if errors.As(d, &e) && errors.As(c, &e) && errors.As(b, &e) && errors.As(a, &e) {
 		fmt.Println(e) // Error detected: Hello
 	}
 }

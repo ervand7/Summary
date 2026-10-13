@@ -2,8 +2,6 @@ package main
 
 import "fmt"
 
-// тот же результат будет и с dereferencing
-
 func changeMapByDereferencing(m *map[int]int) {
 	(*m)[1] = 777
 }

@@ -9,6 +9,6 @@ func main() {
 	fmt.Println(data, data == nil)
 	fmt.Println(in, in == nil)
 
-	in = data // here (type = *byte, value = nil)
+	in = data
 	fmt.Println(in, in == nil)
 }

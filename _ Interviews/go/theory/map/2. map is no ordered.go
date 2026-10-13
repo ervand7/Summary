@@ -2,10 +2,6 @@ package main
 
 import "fmt"
 
-/*
-map in go is not ordered.
-*/
-
 func main() {
 	m := map[int]string{
 		1: "a",

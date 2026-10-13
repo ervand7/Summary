@@ -4,8 +4,6 @@ import (
 	"sync"
 )
 
-// fatal error: concurrent map writes
-
 func main() {
 	var m = make(map[int]int)
 	var wg sync.WaitGroup

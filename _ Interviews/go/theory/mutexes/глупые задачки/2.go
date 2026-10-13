@@ -5,8 +5,6 @@ import (
 	"sync"
 )
 
-// Тут не хватает sync.WaitGroup
-
 func main() {
 	var mu sync.Mutex
 	m := make(map[int]int)

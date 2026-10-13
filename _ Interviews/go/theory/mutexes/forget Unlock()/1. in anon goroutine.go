@@ -6,12 +6,6 @@ import (
 	"time"
 )
 
-/*
-No deadlock because main is not waiting.
-One goroutine locks the mutex and never unlocks it. All other goroutines block on Lock().
-But main just Sleeps and exits, so the program finishes before Go can detect a global deadlock.
-Deadlock is detected only when all goroutines are blocked and main is blocked too.*/
-
 func main() {
 	var x int
 	mux := sync.Mutex{}

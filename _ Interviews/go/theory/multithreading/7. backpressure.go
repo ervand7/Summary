@@ -10,16 +10,14 @@ func main() {
 
 	// consumer (slow)
 	go func() {
-		for j := range jobs {
+		for range jobs {
 			time.Sleep(1 * time.Second)
-			fmt.Println("processed", j)
 		}
 	}()
 
 	// producer (fast)
 	for i := 0; i < 5; i++ {
-		fmt.Println("sending", i)
-		jobs <- i // blocks when buffer is full
+		jobs <- i
 		fmt.Println("sent", i)
 	}
 	close(jobs)

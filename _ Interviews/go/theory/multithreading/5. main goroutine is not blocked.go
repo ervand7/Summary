@@ -16,6 +16,6 @@ func main() {
 
 	val := <-ch
 	fmt.Println(val)
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 2)
 	fmt.Println("Ok")
 }

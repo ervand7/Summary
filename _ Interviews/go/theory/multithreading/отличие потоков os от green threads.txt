@@ -1,6 +1,4 @@
 отличие потоков os от green threads:
-https://en.wikipedia.org/wiki/Green_thread
-https://www.youtube.com/watch?v=rloqQY9CT8I
  - Goroutine - это всего лишь coroutine
  - green threads управляются планировщиком Go, а системный - планировщиком os
  - переключение задач с потока на поток в os ~1000 ns ~= потере 12000 инструкций.

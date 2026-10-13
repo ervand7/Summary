@@ -1,5 +1,3 @@
-tutorial: https://www.youtube.com/watch?v=P_SXTUiA-9Y&t=6s
-
 src/runtime/map.go
 Под капотом есть бакеты. Записи должны быть равномерно распределены по бакетам.
 Можно привести пример с группами из алфавита (A-E, F-K, L-Z).
@@ -15,54 +13,11 @@ src/runtime/map.go
 | Поле         | Описание                                              |
 | ------------ | ----------------------------------------------------- |
 | `tophash[8]` | 8 байт: старшие биты хеша ключей — ускоряют поиск     |
-| `keys[8]`    | 8 ключей (того типа, который ты используешь в `map`)  |
-| `values[8]`  | 8 значений (того типа, что ты хранишь)                |
+| `keys[8]`    | 8 ключей                                              |
+| `values[8]`  | 8 значений                                            |
 | `overflow`   | Указатель на следующий бакет, если текущий переполнен |
 
 
-В реализации мапы задействовано несколько структур:
-1) структура maptype:
-type maptype struct {
-	typ    _type
-	key    *_type
-	elem   *_type
-	bucket *_type // internal type representing a hash bucket
-	// function for hashing keys (ptr to key, seed) -> hash
-	hasher     func(unsafe.Pointer, uintptr) uintptr
-	keysize    uint8  // size of key slot
-	elemsize   uint8  // size of elem slot
-	bucketsize uint16 // size of bucket
-	flags      uint32
-}
-
-Как видим из этой структуры:
- - для определения типа ключа и значения используется дескриптор типа *_type
- - hasher - хеш-функция
-
-2) структура hmap (Header map):
-// A header for a Go map.
-type hmap struct {
-	// Note: the format of the hmap is also encoded in cmd/compile/internal/reflectdata/reflect.go.
-	// Make sure this stays in sync with the compiler's definition.
-	count     int // # live cells == size of map. Must be first (used by len() builtin)
-	flags     uint8
-	B         uint8  // log_2 of # of buckets (can hold up to loadFactor * 2^B items)
-	noverflow uint16 // approximate number of overflow buckets
-	hash0     uint32 // hash seed
-
-	buckets    unsafe.Pointer // array of 2^B buckets; may be nil if count == 0
-	oldbuckets unsafe.Pointer // previous bucket array of half the size, non-nil only when growing
-	nevacuate  uintptr        // progress counter for evacuation
-
-	extra *mapextra // optional fields
-}
-
-Как видим из этой структуры:
- - count - размер мапы
- - buckets - ссылка на бакеты
- - B - кол-во бакетов расчитаное как log_2
-
---------------------------------------------------------------------
 Рост мапы:
 Память под новую мапу выделяется тогда, когда процент заполнения бакетов
 равен 6,5. Когда достигается это значение, происходит эвакуация данных.

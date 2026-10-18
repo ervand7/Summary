@@ -6,9 +6,9 @@ import "fmt"
 
 func main() {
 	var nums = make([]int, 0, 10)
+	fmt.Println(nums[:]) // []
 	// fmt.Println(nums[5]) // panic: runtime error: index out of range [5] with length 0
-	fmt.Println(nums[:])          // []
-	fmt.Println(nums[3:7])        // [0 0 0 0]
+	fmt.Println(nums[3:7])        // [0 0 0 0] - однако так можно. Это исключение нужно запомнить
 	fmt.Println(nums[:cap(nums)]) // [0 0 0 0 0 0 0 0 0 0]
 
 	a := make([]int, 1, 10)

@@ -1,57 +1,56 @@
-src/runtime/slice.go
-
-`slice` — это дескриптор над массивом, а не контейнер сам по себе.
+`slice` is a descriptor over an array, not a container itself.
 
 ```
 type slice struct {
-    ptr *T   // указатель на базовый массив
-    len int  // текущая длина
-    cap int  // вместимость
+    ptr *T   // Pointer to the underlying array
+    len int  // Current length
+    cap int  // Capacity
 }
 ```
 
-* `slice` не владеет памятью
-* несколько слайсов могут ссылаться на один базовый массив
-* изменение через один slice может быть видно через другой
+- A slice references an underlying array
+- Multiple slices can reference the same underlying array
+- Changes through one slice can be visible through another
 
 ## Slice operations
-### 1) Срезы
-```
-s[:n]  → len уменьшается, cap сохраняется
-s[n:]  → len уменьшается, cap = cap - n
-```
-📌 Никакой новой памяти не выделяется
 
+### 1) Slicing
+```
+s[:n]  // len = n, cap remains unchanged
+s[n:]  // len decreases, cap = cap - n
+```
+
+📌 No new underlying array is allocated.
 
 ### 2) append
 ```
 append(s, x)
 ```
 
-* ✅ если `len+1 <= cap`
-  → запись в тот же базовый массив
-  → меняется только slice-header
+- ✅ If `len+1 <= cap`
+  - Writes to the same underlying array
+  - Returns a new slice header with updated length
+- ✅ If `len+1 > cap`
+  - Allocates a new underlying array
+  - Copies existing elements
+  - Returns a new slice referencing the new array
 
-* ✅ если `len+1 > cap`
-  → выделяется новый массив
-  → копируются данные
-  → возвращается новый slice
+📌 Always use the returned slice if you need the updated length and elements.
 
-📌 Поэтому результат append всегда нужно присваивать
+## Can you store a pointer to a slice element?
+Yes, even if `append` causes reallocation:
 
+- `append` may allocate a new underlying array
+- Existing pointers remain valid and reference the old array
+- The garbage collector keeps the old array alive while references exist
 
-## Почему нельзя хранить указатель на элемент слайса?
-Можно, пока не случился append с realloc:
-* `append` может переместить массив
-* старые указатели станут висячими
+## Common mistakes (top 3)
 
+1. Ignoring the result of `append`
+2. Unexpected modifications due to shared underlying arrays
+3. Large `cap` allowing `append` to modify data shared with other slices
 
-## Частые ошибки (top-3)
-1. `append`, результат которого не присвоен
-2. Неожиданные изменения из-за общего массива
-3. Большой `cap` → append меняет «чужие» слайсы
+## Golden rule (for interviews)
 
-
-## Золотое правило (для собеса)
-> Slice — это view на массив.
-> Память реаллоцируется только при realloc в append.
+> A slice is a view over an array.
+> `append` reallocates the underlying array only when capacity is insufficient.

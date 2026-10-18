@@ -16,11 +16,11 @@ type Person struct {
 func main() {
 	p1 := Person{}
 	var p2 Person
-	fmt.Println(p1 == p2) // true
+	fmt.Println(p1 == p2)
 
 	p3 := Person{"Ivan", "qew@qwe.ru"}
 	p4 := Person{Name: "Ivan", Email: "qew@qwe.ru"}
-	fmt.Println(p3 == p4) // true
+	fmt.Println(p3 == p4)
 
-	fmt.Println(p1 == p3) // false
+	fmt.Println(p1 == p3)
 }

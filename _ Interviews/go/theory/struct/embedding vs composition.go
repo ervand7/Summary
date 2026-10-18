@@ -8,12 +8,10 @@ type Engine struct {
 	Power int
 }
 
-/* ---- Composition ---- */
 type CarWithComposition struct {
 	Engine Engine
 }
 
-/* ---- Embedding ---- */
 type CarWithEmbedding struct {
 	Engine
 }

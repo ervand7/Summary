@@ -24,12 +24,12 @@ func main() {
 		name: "Ivan",
 		age:  10,
 	}
-	fmt.Println(a == b) // true
+	fmt.Println(a == b)
 
 	m := map[person]int{person{name: "Ivan", age: 10}: 1}
 	key := person{name: "Ivan", age: 10}
 	val, ok := m[key]
-	fmt.Println(val, ok) // 1 true
+	fmt.Println(val, ok)
 
-	fmt.Println(&a == &b) // false
+	fmt.Println(&a == &b)
 }

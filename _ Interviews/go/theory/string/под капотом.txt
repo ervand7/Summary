@@ -1,21 +1,15 @@
-src/runtime/string.go
-
 type stringStruct struct {
-    str unsafe.Pointer // указатель на байтовый массив (неизменяемый)
-    len int            // длина строки в байтах
+    str unsafe.Pointer // Pointer to underlying bytes
+    len int            // Length in bytes
 }
 
-Строки в Go байтово-ориентированные: они хранят произвольную последовательность
-байтов, а не обязательные Unicode-символы. Один символ в UTF-8 может занимать
-от одного до четырёх байтов.
 
-Строки оптимизированы под производительность. Они могут указывать на данные,
-которые находятся внутри других объектов (например, массива байт или литерала).
-Создание подстроки может выполняться как с копированием данных, так и без него.
-В версиях Go до 1.20 подстроки почти всегда разделяли память с исходной строкой.
-Начиная с Go 1.20 рантайм может копировать данные подстроки, чтобы избежать
-удержания большого исходного массива в памяти.
+Strings in Go are immutable sequences of bytes, not necessarily valid UTF-8. A UTF-8 encoded Unicode code
+point occupies 1-4 bytes.
 
-Пример (до go1.20):
-b := []byte("hello world")
-s := string(b) // строка s указывает на те же байты, что и b (копирования нет)
+Memory and performance:
+- `len(s)` returns the number of bytes, not characters.
+- `range` iterates over Unicode code points (runes), returning byte offsets.
+- `s[a:b]` normally shares underlying memory without copying.
+- Small substrings can keep large underlying strings in memory. This is memory problem.
+- `strings.Clone(s)` explicitly copies the string.

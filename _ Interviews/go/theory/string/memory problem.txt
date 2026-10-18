@@ -1,0 +1,20 @@
+```
+s := strings.Repeat("A", 1_000_000) // 1 MB
+sub := s[:5]                        // "AAAAA"
+
+s = "" // Remove reference to original string
+```
+
+Problem: `sub` still points to the same underlying 1 MB memory allocation.
+
+Even though `sub` contains only 5 bytes, the garbage collector cannot free the 1 MB allocation while `sub`
+remains alive.
+
+Solution:
+
+```
+sub := strings.Clone(s[:5])
+```
+
+Now `sub` has its own 5-byte allocation, and the original 1 MB allocation can be garbage-collected when no
+longer referenced.

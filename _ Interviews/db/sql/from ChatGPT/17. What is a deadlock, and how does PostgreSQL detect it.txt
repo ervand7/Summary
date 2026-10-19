@@ -3,8 +3,15 @@ each waiting for locks held by the others.
 
 Example:
 
-* T1 locks row A → waits for row B
-* T2 locks row B → waits for row A
+T1:
+BEGIN;
+UPDATE accounts SET balance = 100 WHERE id = 1;
+UPDATE accounts SET balance = 200 WHERE id = 2; -- WAIT
+
+T2:
+BEGIN;
+UPDATE accounts SET balance = 300 WHERE id = 2;
+UPDATE accounts SET balance = 400 WHERE id = 1; -- WAIT
 
 How PostgreSQL detects it:
 

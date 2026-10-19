@@ -1,3 +1,3 @@
-> JSON stores text and is re-parsed on every read;
-> JSONB stores a binary format, supports indexing and faster queries but has slower writes.
-
+- JSON: Faster writes, slower queries because it requires re-parsing and doesn't support
+direct JSON indexing.
+- JSONB: Generally slower writes, faster queries because it's already parsed and supports indexing.

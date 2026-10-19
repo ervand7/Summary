@@ -2,7 +2,7 @@ In production, migrations must be safe, reversible, and automated.
 
 Best practices:
 
-* Use a migration tool (golang-migrate, Flyway, Liquibase)
+* Use a migration tool (golang-migrate, Flyway, Goose)
 * Run migrations before or during deploy, not manually
 * Make migrations backward-compatible
 * Avoid long locks (`ALTER TABLE ADD COLUMN` first, backfill later)

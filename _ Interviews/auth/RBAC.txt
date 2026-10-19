@@ -1,0 +1,41 @@
+## RBAC (Role-Based Access Control)
+
+RBAC is an authorization model where permissions are assigned to roles, and roles are assigned to users.
+
+### 1. Core concepts
+
+- User - authenticated identity.
+- Role - `admin`, `editor`, `viewer`.
+- Permission - `users:read`, `users:write`, `users:delete`.
+- Role assignment - a user can have multiple roles.
+
+### 2. Authentication vs Authorization
+
+- Authentication (AuthN) - Who are you? (JWT, OAuth2, OIDC)
+- Authorization (AuthZ) - What are you allowed to do? (RBAC)
+
+
+### 3. Senior-level considerations
+
+- 401 vs 403 - unauthenticated vs insufficient permissions.
+- Least privilege - grant minimum required permissions.
+- Default deny - deny access unless explicitly allowed.
+- JWT roles - can become stale when permissions change.
+- Multi-tenancy - roles should be scoped to organizations/tenants.
+- Permission checks - prefer checking permissions rather than hardcoding role names.
+- Defense in depth - enforce authorization in backend services, not only API middleware.
+- Audit logging - record sensitive authorization decisions/actions.
+
+### 5. RBAC vs ABAC
+
+| RBAC            | ABAC                             |
+| --------------- | -------------------------------- |
+| Based on roles  | Based on attributes and policies |
+| `role == admin` | `user.id == document.owner_id`   |
+| Simpler         | More flexible                    |
+
+Interview answer:
+
+> RBAC separates users, roles, and permissions. In Go, I typically enforce authorization through middleware
+and service-level permission checks. I follow least privilege and default-deny principles, handle tenant
+isolation, and avoid relying solely on potentially stale JWT role claims.

@@ -16,8 +16,9 @@ Always (all isolation levels):
 
   * waits
   * re-reads the row
-  * updates the latest committed version
-* ✅ Always succeeds
+  * re-evaluates the WHERE condition
+  * updates the latest committed version if the condition still matches
+* ✅ Normally succeeds (may update zero rows)
 
 ---
 
@@ -27,31 +28,32 @@ Always (all isolation levels):
 
   * waits
   * uses a fixed snapshot
-  * fails only if:
+  * fails if:
 
-    * it read the row before, and
     * the row was modified and committed by another transaction
-* ❌ May fail with:
+    * after the current transaction's snapshot was established
+* ❌ Fails with:
 
   ```text
   ERROR: could not serialize access due to concurrent update
   ```
-* ✅ If the row was not previously read, the update can succeed
+* ✅ If the conflicting update committed before the snapshot, the update can succeed
+* 📌 Whether the row was previously read does not matter
 
 ---
 
 #### SERIALIZABLE
 
-* Uses predicate locking
+* Uses SSI (Serializable Snapshot Isolation), including predicate locking
 * Even without direct row conflicts, transactions may:
 
   * abort with serialization failure
-* ❌ Conflicts are common
+* ❌ Serialization failures are possible
 * 🔁 Application must retry
 
 ---
 
 ### Key mental model (interview gold):
 
-> In REPEATABLE READ, PostgreSQL fails only when an update would violate the
-transaction’s snapshot.
+> In REPEATABLE READ, PostgreSQL fails when an update conflicts with a change
+committed after the transaction's snapshot was established.

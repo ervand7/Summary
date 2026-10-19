@@ -1,0 +1,16 @@
+`CREATE INDEX CONCURRENTLY` позволяет создать индекс, не блокируя обычные операции с таблицей.
+
+- Без `CONCURRENTLY` - `SELECT` работает, но `INSERT`, `UPDATE`, `DELETE` блокируются до завершения
+создания индекса.
+- С `CONCURRENTLY` - `SELECT`, `INSERT`, `UPDATE`, `DELETE` продолжают работать.
+
+Минусы `CONCURRENTLY`:
+
+- Создание индекса занимает больше времени.
+- Нельзя выполнять внутри явной транзакции (`BEGIN ... COMMIT`).
+- При ошибке может остаться невалидный индекс (`INVALID`).
+
+Для собеседования:
+
+> We use CREATE INDEX CONCURRENTLY to avoid blocking reads and writes while building an index on a
+production table.

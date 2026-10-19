@@ -1,53 +1,6 @@
-## 🔓 Non-exclusive (read / no row lock)
+- Exclusive lock - запрещает конфликтующие операции. Например, `ALTER TABLE users ADD COLUMN age INT`
+использует `ACCESS EXCLUSIVE`, блокируя чтение и запись таблицы.
 
-```sql
--- Transaction 1
-BEGIN;
-SELECT * FROM users WHERE id = 1;
--- does NOT block anything (no row-level lock that blocks writes)
-
--- Transaction 2 (at the same time)
-SELECT * FROM users WHERE id = 1;  -- ✅ works
-
--- Transaction 3
-UPDATE users SET name = 'John' WHERE id = 1;  -- ✅ works
-```
-
-👉 Reads do NOT block writes in PostgreSQL (MVCC)
-
----
-
-## 🔒 Exclusive (write / row lock)
-
-```sql
--- Transaction 1
-BEGIN;
-UPDATE users SET name = 'John' WHERE id = 1;
--- holds a row-level lock
-
--- Transaction 2
-SELECT * FROM users WHERE id = 1;  -- ✅ works
-
--- Transaction 3
-UPDATE users SET name = 'Mike' WHERE id = 1;  -- ⏳ waits
-```
-
-👉 Write blocks other writes, but NOT reads
-
----
-
-## 🧠 Super short (correct)
-
-* **SELECT → does not block anything**
-* **UPDATE → blocks writes, allows reads**
-
-❌ Wrong (old version):
-
-* “Shared lock blocks writes”
-* “Exclusive lock blocks reads”
-
-✔ Correct (PostgreSQL):
-
-* **Reads don’t block writes**
-* **Writes don’t block reads**
-* **Only writes block other writes**
+- Non-exclusive lock - разрешает совместный доступ, ограничивая конфликтующие операции. Например,
+`UPDATE users SET age = 25 WHERE id = 1` блокирует изменение этой строки другими транзакциями, но
+разрешает её чтение и изменение других строк.

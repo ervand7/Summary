@@ -1,0 +1,2 @@
+I’d use CloudWatch to find bottlenecks, scale workers based on queue demand, and compare the cost
+of added capacity with the impact of delays or failures.

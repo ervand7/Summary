@@ -1,0 +1,2 @@
+I’d identify the problem, compare the current approach with simpler options, and test a small change
+before planning a broader migration.

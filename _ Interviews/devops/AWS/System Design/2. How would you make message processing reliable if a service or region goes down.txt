@@ -1,0 +1,7 @@
+I’d make sure messages are stored durably before processing (SQS), so a service failure doesn’t lose
+them. Workers can retry failed messages (SQS visibility timeout and redrive policy), while a dead-letter
+queue (SQS DLQ) holds messages that repeatedly fail. For a regional outage, I’d fail over to another
+region with its own workers (Lambda or ECS on EKS) and queue (SQS), and replicate the required data
+there (DynamoDB Global Tables or cross-region replication, depending on the database). I’d also make
+processing idempotent (application logic, optionally backed by DynamoDB) to prevent duplicate
+notifications during retries or failover.

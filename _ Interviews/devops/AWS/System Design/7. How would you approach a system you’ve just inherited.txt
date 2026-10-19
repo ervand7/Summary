@@ -1,0 +1,2 @@
+I’d trace a message through the system, review its AWS resources and dashboards, and document the
+main failure points before proposing changes.

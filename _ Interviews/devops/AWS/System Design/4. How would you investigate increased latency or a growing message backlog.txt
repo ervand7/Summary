@@ -1,0 +1,2 @@
+I’d check queue depth and processing latency in CloudWatch, inspect logs and traces, then scale
+workers or fix the slow processing step.

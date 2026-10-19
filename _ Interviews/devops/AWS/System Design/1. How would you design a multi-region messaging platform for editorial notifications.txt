@@ -1,0 +1,4 @@
+I’d accept notification requests through an API (API Gateway), store them in a database (DynamoDB),
+and queue them for workers (SQS with Lambda). I’d add retries and a dead-letter queue (SQS DLQ), replicate
+data across regions (DynamoDB Global Tables), and use Route 53 for failover. I’d make processing
+idempotent to prevent duplicate notifications and monitor the system with CloudWatch.

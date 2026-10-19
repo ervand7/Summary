@@ -1,0 +1,2 @@
+I’d track delivery latency, failures, retries, queue depth, and regional health using CloudWatch
+metrics, logs, and alarms.

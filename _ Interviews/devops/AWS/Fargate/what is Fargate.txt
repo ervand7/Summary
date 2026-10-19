@@ -1,0 +1,9 @@
+AWS Fargate runs Docker containers without managing servers.
+
+Use Fargate instead of Lambda when:
+
+- Tasks exceed Lambda's 15-minute limit.
+- You need long-running services or workers.
+- You need more control over the runtime.
+
+Lambda = short, event-driven tasks. Fargate = long-running containers.

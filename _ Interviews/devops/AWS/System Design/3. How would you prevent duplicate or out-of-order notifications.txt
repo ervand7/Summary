@@ -1,0 +1,2 @@
+I’d make each notification idempotent using a unique ID stored in DynamoDB, and use an SQS FIFO
+queue when ordering is required.

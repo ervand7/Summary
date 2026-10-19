@@ -1,0 +1,2 @@
+I’d buffer requests in SQS and scale workers to send emails through SES, using retries and an SQS
+DLQ for persistent failures.

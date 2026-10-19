@@ -1,0 +1,82 @@
+### 1. What is GraphQL?
+
+GraphQL is a query language for APIs where clients request exactly the fields they need.
+
+- One endpoint: usually `POST /graphql`
+- Schema: defines available types and fields
+- Resolver: function that fetches data for a field
+
+### 2. Query vs Mutation vs Subscription
+
+- Query: Read data (`SELECT`)
+- Mutation: Modify data (`INSERT`, `UPDATE`, `DELETE`)
+- Subscription: Receive real-time updates (usually WebSocket)
+
+Example:
+
+```
+query {
+  user(id: 1) {
+    name
+    email
+  }
+}
+```
+
+Response:
+
+```
+{
+  "data": {
+    "user": {
+      "name": "John",
+      "email": "john@example.com"
+    }
+  }
+}
+```
+
+### 3. GraphQL vs REST
+
+| REST                              | GraphQL                  |
+| --------------------------------- | ------------------------ |
+| Multiple endpoints                | Usually one endpoint     |
+| Server defines response structure | Client selects fields    |
+| May overfetch or underfetch       | Fetches requested fields |
+| Easier HTTP caching               | More complex caching     |
+| Simple to implement               | More complex             |
+
+### 4. What is a Resolver?
+A resolver is a function that provides data for a GraphQL field, often by querying a database
+or another service.
+For example, the `user` resolver fetches a user by ID.
+
+### 5. What is the N+1 Problem in GraphQL?
+Fetching 100 users and then fetching each user's orders separately causes 101 database queries.
+Solution: DataLoader, which batches database requests using `WHERE IN (...)` and caches
+results within one request.
+
+### 6. How Do You Secure GraphQL?
+- Authentication: JWT / Bearer token
+- Authorization: Check permissions inside resolvers or service layer
+- Query depth limits: Prevent deeply nested queries
+- Query complexity limits: Prevent expensive queries
+- Rate limiting: Prevent abuse
+
+### 7. How Does GraphQL Handle Errors?
+GraphQL can return HTTP `200 OK` even when some fields fail.
+Errors are returned in the `errors` array, sometimes alongside partial `data`.
+
+### 8. How Do You Version GraphQL APIs?
+Usually without `/v1` or `/v2`.
+Add new fields and mark old ones as `@deprecated`, allowing clients to migrate gradually.
+
+### 9. When Should You Use GraphQL?
+- GraphQL: Multiple clients (web, mobile) requiring different data structures.
+- REST: Simple CRUD APIs, straightforward HTTP caching.
+- gRPC: High-performance service-to-service communication.
+
+### Interview one-liner
+> GraphQL is a typed API query language that allows clients to request exactly the fields
+they need through a single endpoint. Its main challenges are N+1 queries, caching, authorization,
+and query complexity.

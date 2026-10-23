@@ -13,42 +13,31 @@ reuse the result.
 */
 
 var (
-	mu      sync.Mutex
-	loading bool
-	result  string
-	waitCh  = make(chan struct{})
+	once   sync.Once
+	result string
 )
 
 func fetch() string {
-	mu.Lock()
-
-	if loading {
-		mu.Unlock()
-		<-waitCh // wait for result
-		return result
-	}
-
-	loading = true
-	mu.Unlock()
-	fmt.Println("only one will be here")
-
-	time.Sleep(1 * time.Second) // simulate hard work
-	result = "data"
-
-	mu.Lock()
-	loading = false
-	close(waitCh) // wake all waiters
-	mu.Unlock()
+	once.Do(func() {
+		fmt.Println("only one will be here")
+		time.Sleep(time.Second)
+		result = "data"
+	})
 
 	return result
 }
 
 func main() {
-	for i := 0; i < 5; i++ {
+	var wg sync.WaitGroup
+
+	for i := range 5 {
+		wg.Add(1)
+
 		go func(id int) {
+			defer wg.Done()
 			fmt.Println(id, fetch())
 		}(i)
 	}
 
-	time.Sleep(2 * time.Second)
+	wg.Wait()
 }

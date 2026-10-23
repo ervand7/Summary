@@ -1,28 +1,11 @@
-DynamoDB — what you must know:
+## DynamoDB - key points
 
-👉 DynamoDB is query-driven, not schema-driven.
-
-* NoSQL, key-value + wide-column store (not relational, no joins)
-* Primary key design is everything
- - Partition key = decides how data is spread across servers
-   → bad choice = hot partition (physical shard), no scalability
- - Sort key = decides how you can query data inside one partition
-   → ranges, ordering, filtering
-* Access patterns first, schema second (design for queries, not normalization)
-* Strong vs eventual consistency (default is eventual)
-* Indexes
- - GSI → lets you query by a different partition key
-* Throughput & scaling
-
-  * On-demand vs provisioned
-  * Hot partitions = your main enemy
-* Query vs Scan
-
-  * Query = fast, cheap
-  * Scan = slow, expensive (avoid in prod)
-* Transactions exist, but limited and costly
-* TTL for automatic item expiration
-* Conditional writes = optimistic locking / idempotency
-* Pricing model: pay per read/write + storage
-* Typical use cases: high-scale APIs, session storage, counters, event/state storage
-* Not good for: ad-hoc analytics, complex relations, joins
+- NoSQL database; design tables around how the app reads and writes data.
+- Primary key identifies each item:
+  - Partition key distributes data.
+  - Sort key orders items with the same partition key.
+- GSI lets you query using a different key.
+- `Query` reads matching keys; `Scan` reads the whole table.
+- Choose on-demand or provisioned capacity; avoid hot partition keys.
+- Supports eventual and strong reads, conditional writes, transactions, and TTL.
+- Best for predictable, high-scale access patterns; poor fit for joins and ad-hoc analytics.

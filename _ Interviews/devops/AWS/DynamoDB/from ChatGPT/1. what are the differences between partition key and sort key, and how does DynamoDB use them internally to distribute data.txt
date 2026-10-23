@@ -1,28 +1,7 @@
-Partition key vs sort key in DynamoDB
+- Partition key: required; DynamoDB hashes it to distribute data.
+- Sort key: optional; with the partition key, it allows multiple items and ordered/range queries.
+- Same partition key groups items logically. DynamoDB manages their physical storage.
+- Poor key design can create hot partitions and throttling.
 
-Partition key:
-
-* Mandatory attribute
-* Hashed by DynamoDB to determine the physical partition
-* Controls data distribution and scalability
-* Items with the same partition key go to the same partition
-
-Sort key:
-
-* Optional attribute (used with partition key)
-* Determines item ordering within a partition
-* Enables range queries (>, <, BETWEEN, begins_with)
-* Allows multiple items per partition key
-
-How DynamoDB uses them internally:
-
-* Hash(partition key) → selects physical partition
-* Sort key → stored in sorted order inside that partition
-* Read/write capacity is consumed per partition
-* Poor partition key choice → hot partitions and throttling
-
-Interview one-liner:
-
-> DynamoDB hashes the partition key to distribute data across partitions, while the
-sort key orders items within a partition and enables efficient range queries.
-Good partition keys prevent hot partitions and enable horizontal scaling.
+> DynamoDB hashes the partition key to distribute data; the sort key orders items with the same partition
+key and supports range queries.

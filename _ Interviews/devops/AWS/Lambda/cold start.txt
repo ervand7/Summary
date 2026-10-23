@@ -1,20 +1,8 @@
-Cold start is the initial delay when a serverless function (e.g. Lambda) runs for
-the first time or after being idle, because the platform needs to create the
-runtime and load the code before executing it.
+A cold start is the delay when Lambda creates a new execution environment, often on the first request
+or when scaling out.
 
-* Happen on first run or after inactivity
-* Increase latency (Python is affected by heavy imports)
-* Are worse with **VPC**, large packages, or big init code
-* Can be mitigated by:
+- Reduce startup work: keep code and initialization lightweight.
+- Use Provisioned Concurrency for predictable low latency.
+- Use SnapStart where supported (including Python 3.12+).
 
-  * minimizing global imports
-  * keeping functions small
-  * Keeping Lambdas warm with scheduled invokes
-  * using **Provisioned Concurrency** for critical paths
-  * using SnapStart: Lambda initializes the function once, takes a snapshot, and
-  restores it on cold starts instead of re-running init code.
-* Matter mainly for **latency-sensitive** workloads, not async jobs
-
-
-Cold start optimization matters primarily for synchronous, user-facing Lambdas. For
-async or background processing, the latency impact is usually negligible.
+Cold starts matter most for latency-sensitive requests; for background jobs, startup delay may be acceptable. 

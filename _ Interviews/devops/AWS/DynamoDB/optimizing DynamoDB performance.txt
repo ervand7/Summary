@@ -1,25 +1,8 @@
-Optimizing DynamoDB performance (short & senior-level):
+## DynamoDB performance
 
-* Normalization + synthetic keys
+- Design keys for access patterns; use `Query` instead of `Scan`.
+- Avoid hot partition keys. Denormalize when it reduces reads.
+- Choose on-demand for variable traffic; provisioned with auto scaling for predictable traffic.
+- Add DAX for frequent, read-heavy workloads where eventual consistency is acceptable.
 
-  * Model tables around access patterns, not relations.
-  * Use composite (synthetic) keys like `PK = USER#123`, `SK = ORDER#2026-01` to avoid
-  scans and hot partitions.
-  * Denormalize *only when it reduces queries*.
-
-* Capacity modes
-
-  * On-demand → unpredictable traffic, spiky workloads, zero capacity planning.
-  * Provisioned → stable traffic, lower cost at scale; tune RCUs/WCUs.
-  * Auto-scaling → provisioned + elasticity; still needs good baseline settings.
-
-* DAX (DynamoDB Accelerator)
-
-  * In-memory cache for read-heavy, low-latency workloads.
-  * Use when reads are repetitive and milliseconds matter.
-  * Not good for write-heavy or strongly consistent reads.
-
-Rule of thumb (interview):
-
-> *Fix data modeling first, then choose capacity mode, and add DAX only if read
-latency is still a problem.*
+> Fix the data model first, tune capacity next, and add caching only if needed.

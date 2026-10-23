@@ -1,9 +1,4 @@
-Lambda concurrency = how many Lambdas run at the same time.
-
-* Account limit → global max for all Lambdas
-* Reserved concurrency → guaranteed + capped share for one function
-* Provisioned concurrency → pre-warmed instances (no cold starts, paid even if idle)
-
-One-liner:
-
-> Account sets the ceiling, reserved slices capacity, provisioned keeps Lambdas warm.
+- Account limit: максимум одновременных запусков всех Lambda в аккаунте.
+- Reserved concurrency: лимит запусков одной Lambda; эта ёмкость зарезервирована за ней.
+- Provisioned concurrency: заранее запущенные экземпляры Lambda, чтобы избежать cold start; за них платят,
+даже когда они простаивают.

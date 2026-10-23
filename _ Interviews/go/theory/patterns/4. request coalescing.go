@@ -13,29 +13,26 @@ reuse the result.
 */
 
 var (
-	once   sync.Once
-	result string
+	once sync.Once
+	wg   sync.WaitGroup
 )
 
-func fetch() string {
+func fetch(id int) string {
 	once.Do(func() {
-		fmt.Println("only one will be here")
-		time.Sleep(time.Second)
-		result = "data"
+		fmt.Printf("Only one can be here: %d\n", id)
+		time.Sleep(time.Second) // simulate hard work
 	})
 
-	return result
+	return "data"
 }
 
 func main() {
-	var wg sync.WaitGroup
-
 	for i := range 5 {
 		wg.Add(1)
 
 		go func(id int) {
 			defer wg.Done()
-			fmt.Println(id, fetch())
+			fmt.Println(fetch(id))
 		}(i)
 	}
 

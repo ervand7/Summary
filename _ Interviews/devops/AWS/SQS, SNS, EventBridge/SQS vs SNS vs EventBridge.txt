@@ -64,7 +64,6 @@ Use EventBridge when:
 
 Example:
 OrderService → EventBridge →
-
 * BillingService
 * Analytics
 * Email

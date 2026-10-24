@@ -1,45 +1,6 @@
-## S3 — Questions to Ask When Creating a Bucket (Cost-Aware)
-
-Beyond storage class, I always ask:
-
-### 1️⃣ Access pattern
-
-* How often is data read?
-* Latency requirements?
-  → choose Standard vs IA vs Glacier
-
-### 2️⃣ Data retention & lifecycle
-
-* How long must data be kept?
-* When can it be:
-
-  * moved to cheaper storage?
-  * deleted automatically?
-    → define Lifecycle Policies
-
-### 3️⃣ Cost drivers
-
-* Storage class cost
-* Request costs (GET/PUT)
-* Data transfer (especially cross-region)
-* Retrieval costs for Glacier tiers
-
-### 4️⃣ Compliance / retention constraints
-
-* Legal retention?
-* WORM / Object Lock required?
-
-
-### 5️⃣ Versioning
-
-
-### 6️⃣ Geography & availability
-* Single-region vs multi-region access?
-
-
----
-
-### Interview “gold” sentence
-
-> Cost optimization in S3 is driven not only by storage class, but by access
-patterns and lifecycle policies that control retention, tiering, and deletion over time.
+1. Access patterns: Read frequency and latency requirements → Standard, IA, or Glacier.
+2. Lifecycle: When to transition objects to cheaper storage or delete them.
+3. Costs: Storage, GET/PUT requests, retrieval, and data transfer.
+4. Compliance: Retention requirements and Object Lock (WORM).
+5. Versioning: Do we need it? How long should old versions be kept?
+6. Geography: Single-region or cross-region replication?

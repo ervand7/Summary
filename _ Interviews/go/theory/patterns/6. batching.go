@@ -7,10 +7,12 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
-	jobs := make(chan int)
-	batchSize := 3
-	batch := make([]int, 0, batchSize)
+	var (
+		wg        sync.WaitGroup
+		batchSize = 3
+		jobs      = make(chan int)
+		batch     = make([]int, 0, batchSize)
+	)
 
 	wg.Add(1)
 	go func() {
@@ -42,7 +44,7 @@ func main() {
 		}
 	}()
 
-	for i := 0; i < 5; i++ {
+	for i := range 11 {
 		jobs <- i
 		time.Sleep(100 * time.Millisecond)
 	}

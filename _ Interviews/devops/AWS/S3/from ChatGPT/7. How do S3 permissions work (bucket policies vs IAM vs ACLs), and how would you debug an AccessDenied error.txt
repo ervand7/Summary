@@ -1,7 +1,7 @@
-* IAM policies → grant permissions to identities (users, roles, services)
-* Bucket policies → grant permissions to principals on specific buckets/objects
-* ACLs → legacy, object-level permissions (generally avoid)
+- IAM Policy: Defines what a user or Lambda role can do in S3.
+- Bucket Policy: Defines who can access a specific S3 bucket.
+- ACL: Old permission mechanism, generally avoid.
 
+Example: Lambda needs `s3:GetObject` to download a file.
 
-> Most S3 access issues come from missing `ListBucket`, wrong ARNs, or hidden DENY rules—not
-from ACLs.
+Important: An explicit `Deny` overrides any `Allow`.

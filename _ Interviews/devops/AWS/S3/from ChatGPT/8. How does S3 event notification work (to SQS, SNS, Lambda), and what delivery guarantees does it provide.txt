@@ -1,25 +1,8 @@
-* S3 emits events (e.g. `ObjectCreated`, `ObjectRemoved`)
-* Events are filtered by prefix/suffix
-* Delivered to:
+- Events: Object created or deleted.
+- Filtering: By prefix or suffix.
+- Targets: Lambda, SQS, SNS.
+- Delivery: At least once, possible duplicates, delays, or missing events.
+- Ordering: Not guaranteed.
+- Best practices: Idempotent consumers, SQS for buffering and retries.
 
-  * Lambda (push, synchronous invocation)
-  * SQS (queue)
-  * SNS (topic → fan-out)
-
-Delivery guarantees:
-
-* At-least-once delivery (duplicates are possible)
-* Best-effort ordering (no strict ordering guarantee)
-* Events may arrive late or out of order
-* Very rare drops can happen → do not rely on events as the sole source of truth
-
-Best practices:
-
-* Make consumers idempotent
-* Use SQS + Lambda for retries and buffering
-* Validate object existence when processing
-
-Key takeaway:
-
-> S3 events are notifications, not transactions—design consumers to tolerate duplicates
-and delays.
+Example: S3 upload → SQS → Lambda processes the file.

@@ -1,30 +1,8 @@
-Lambda Layers are shared packages for Lambda functions.
+- Purpose: Share dependencies and common code across multiple Lambdas.
+- Example: Python libraries (`requests`) or shared utilities.
+- Setup: Upload a ZIP as a versioned layer and attach it to Lambdas (max 5).
+- Runtime: Layer files are available under `/opt`.
+- Benefit: Avoid duplicating dependencies in deployment packages.
 
-They are used to:
-
-* Share common libraries (e.g. Python deps)
-* Share runtime code (utils, helpers)
-* Reduce duplicate deployment size
-
-Example:
-
-* Layer contains `requests`, `boto3`, shared utils
-* Multiple Lambdas reuse the same layer
-
-Interview answer to “Have you used Lambda Layers?”
-
-> Yes. I’ve used Lambda Layers to package shared Python dependencies and common code,
-so multiple Lambda functions could reuse them without duplicating libraries
-in each deployment.
-
-👉 Think: `pip install once, reuse everywhere`.
-
-
-Lambda Layers are stored in AWS Lambda and configured per function.
-
-* You upload a layer to AWS Lambda (zip file)
-* AWS stores and versions it
-* You attach the layer to a Lambda function (up to 5 layers per Lambda function)
-
-
-👉 Lambda loads layers at runtime before your handler runs.
+Interview answer: "I've used Lambda Layers to share Python dependencies and reusable code across
+multiple Lambda functions."

@@ -1,20 +1,8 @@
-* Decouple with queues
+## AWS Lambda + SQS - Handling Traffic Spikes
 
-  * Put SQS between producers and consumers to absorb traffic spikes.
-  * Smooths bursts and protects downstream services from overload.
+- SQS: Buffers traffic spikes and decouples services.
+- Reserved Concurrency: Limits parallel Lambda executions.
+- Batching: Processes multiple messages per invocation, reducing overhead and cost.
 
-* Control Lambda concurrency
-
-  * Set reserved concurrency to cap parallel executions.
-  * Use account / function concurrency limits as a safety valve.
-
-* Batch processing
-
-  * Let one Lambda process multiple messages per invocation (SQS batch size).
-  * Reduces invocation count, cold starts, and downstream pressure.
-
-
-> Queues absorb spikes, concurrency limits protect systems, batching reduces cost
-and pressure.
-
-Applies directly to Amazon Web Services Lambda + SQS architectures.
+Key takeaway: SQS absorbs spikes, concurrency limits protect downstream services, and batching 
+improves efficiency.

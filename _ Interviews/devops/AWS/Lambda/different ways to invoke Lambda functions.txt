@@ -1,94 +1,30 @@
-AWS Lambda can be invoked in three main ways, depending on who waits for the result
-and who handles retries.
+### 1. Synchronous
+`API Gateway → Lambda → Response`
 
----
+- Client waits for the result.
+- Errors returned immediately.
+- Caller handles retries.
+- Use: REST APIs, authentication, payments.
 
-## 1️⃣ Synchronous (request → response)
+### 2. Asynchronous
+`S3 → Lambda`
 
-Example:
-User opens a website → clicks “Pay”
+- Caller doesn't wait for execution.
+- AWS queues the event internally.
+- Lambda automatically retries failures.
+- Failed events can go to DLQ/destinations.
+- Use: Notifications, image processing.
 
-```
-Browser → API Gateway → Lambda → response
-```
+### 3. Polling (Event Source Mapping)
+`SQS → Lambda`
 
-Characteristics
+- Lambda's event source mapping polls SQS.
+- Messages are deleted after successful processing.
+- Failed messages become available again after visibility timeout.
+- DLQ handles repeated failures when configured.
+- Use: Background workers, queue processing.
 
-* Client waits for the result
-* Lambda returns success or error immediately
-* If Lambda fails → caller sees the error
-* Retries are client-side (browser, SDK, API Gateway)
-
-👉 Like a normal HTTP request.
-
-Typical use
-
-* REST / GraphQL APIs
-* Authentication
-* Payments
-* Anything where the user needs an immediate answer
-
----
-
-## 2️⃣ Asynchronous (fire and forget)
-
-Example:
-User uploads a photo → thumbnails are generated later
-
-```
-S3 upload → Lambda (invoked later)
-```
-
-Characteristics
-
-* Client does NOT wait
-* Event is queued internally by AWS
-* Lambda runs in the background
-* AWS retries automatically if Lambda fails
-* Failures can be routed to DLQ / destinations
-
-👉 Like sending an email: you don’t wait for the recipient to read it.
-
-Typical use
-
-* Image / video processing
-* Notifications
-* Background data processing
-* Event-driven workflows
-
----
-
-## 3️⃣ Polling (Lambda pulls messages)
-
-Example:
-Order processing system
-
-```
-SQS queue ← Lambda polls → processes messages
-```
-
-Characteristics
-
-* Lambda pulls messages itself
-* Message stays in the queue until processed successfully
-* If Lambda crashes → message is retried
-* Retry behavior is controlled by the queue (visibility timeout, DLQ)
-
-👉 Like a worker checking a task list.
-
-Typical use
-
-* SQS-based workers
-* Kafka / stream processing
-* Reliable background processing
-* Decoupled services
-
----
-
-## 🧠 One-line comparison
-
-| Type    | Who waits? | Who retries? | Typical use cases        |
-| ------- | ---------- | ------------ | ------------------------ |
-| Sync    | Client     | Client       | APIs, user actions       |
-| Async   | Nobody     | AWS          | Background jobs, events  |
-| Polling | Nobody     | Queue        | Queues, streams, workers |
+Key difference:
+- Sync: Caller waits and handles retries.
+- Async: Lambda manages retries.
+- Polling: Event source controls redelivery.

@@ -1,23 +1,18 @@
-AWS Serverless means building applications on AWS without managing servers.
+AWS Serverless lets you build applications without managing servers.
 
-You write code and configure services, and AWS automatically:
+AWS automatically handles:
+- Infrastructure and maintenance
+- Scaling and availability
+- Resource provisioning
 
-* provisions servers
-* scales up/down
-* handles availability and maintenance
+Pricing: Pay based on usage instead of idle capacity.
 
-You pay only for actual usage, not idle infrastructure.
+Common AWS serverless services:
+- Lambda: Run code on events
+- API Gateway: Expose HTTP APIs
+- DynamoDB: NoSQL database
+- S3: Object storage
+- SQS / SNS / EventBridge: Messaging and events
+- Step Functions: Workflow orchestration
 
-Typical serverless AWS services:
-
-* AWS Lambda – run code on events
-* Step Functions
-* API Gateway – HTTP APIs
-* DynamoDB – serverless database
-* S3 – storage + event triggers
-* EventBridge / SQS / SNS – event-driven messaging
-
-In one sentence:
-
-> *Serverless on AWS lets you focus on business logic while AWS handles servers, scaling,
-and reliability.*
+In short: You focus on business logic while AWS manages the infrastructure.

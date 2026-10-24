@@ -1,0 +1,8 @@
+1. Scalability: Automatically scale resources based on demand.
+2. Reliability: High availability and fault tolerance with Multi-AZ and Multi-Region.
+3. Security: Encryption, access control (IAM), monitoring, and auditing.
+4. Wide range of services: Computing, databases, storage, analytics, and AI.
+5. Cost efficiency: Pay-as-you-go pricing based on resource usage.
+6. Global infrastructure: Deploy services closer to users to reduce latency.
+7. Innovation: Continuous improvements and new services.
+8. Integration: Compatibility with various tools and platforms.

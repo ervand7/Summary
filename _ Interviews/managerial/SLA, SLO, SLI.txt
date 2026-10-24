@@ -1,0 +1,5 @@
+Example: Payment API
+1. SLI (Service Level Indicator): We measure the percentage of successful API requests. Actual result: 99.8%.
+2. SLO (Service Level Objective): Our internal goal is to maintain at least 99.9% successful requests.
+3. SLA (Service Level Agreement): We guarantee customers at least 99.5% successful requests. If we fail,
+they receive service credits.

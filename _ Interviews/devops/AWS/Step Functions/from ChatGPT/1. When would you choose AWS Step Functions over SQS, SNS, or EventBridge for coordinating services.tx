@@ -1,15 +1,25 @@
-> Use AWS Step Functions when you need explicit workflow orchestration.
+- AWS Step Functions: Orchestrates workflows. Controls what happens next, tracks state, and
+handles failures.
+- SQS: Queues messages for asynchronous processing.
+- SNS: Pushes messages to multiple subscribers (fan-out).
+- EventBridge: Routes events to different targets based on rules.
 
-Choose Step Functions when you need:
 
-* Ordered steps (A → B → C)
-* State between steps
-* Built-in retries, timeouts, and error handling
-* Visibility into execution
-* Long-running workflows
+### Simple examples
 
-Use SQS / SNS / EventBridge for:
+Step Functions:
+Order → Validate Payment → Reserve Inventory → Ship
+Each step depends on the previous one.
 
-* Event-driven, loosely coupled systems
-* High throughput and fan-out
-* Fire-and-forget processing
+SQS:
+API → SQS → Workers
+Workers process messages asynchronously.
+
+SNS:
+Order Created → SNS → Email Service
+                       → Analytics Service
+                       → Inventory Service
+
+EventBridge:
+Order Created → EventBridge → Rule A → Lambda
+                            → Rule B → SQS

@@ -1,9 +1,9 @@
 It’s about event-driven orchestration without Step Functions.
 
-> Instead of a central workflow (Step Functions), you chain Lambdas via SNS/SQS.
+> Instead of a central workflow (Step Functions), you chain Lambdas via SQS.
 
 How it works (conceptually):
 
 ```
-Lambda A → SNS topic → Lambda B → SNS topic → Lambda C
+Lambda A → SQS topic → Lambda B → SQS topic → Lambda C
 ```

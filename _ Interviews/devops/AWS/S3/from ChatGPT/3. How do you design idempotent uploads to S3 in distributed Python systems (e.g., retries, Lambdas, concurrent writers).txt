@@ -1,25 +1,9 @@
-1. Make the object key deterministic (idempotency key)
+Scenario:
+1. Client → API Gateway → Lambda: Sends an upload request with an `idempotency_key`.
+2. Lambda → DynamoDB: Checks if the key already exists.
+3. If completed: Returns the existing S3 object key.
+4. If new: Atomically reserves the key in DynamoDB and generates an S3 pre-signed URL.
+5. Client → S3: Uploads the file directly using the URL.
+6. Lambda: After upload confirmation, marks the operation as completed in DynamoDB.
 
-* Key = `uploads/{user_id}/{sha256(content)}` or `.../{request_id}`
-* Retries write to the same key, so outcome is the same.
-
-2. Prevent overwrites
-
-* Use S3 conditional write: `If-None-Match: *` (create-only)
-* If it already exists → treat as success.
-
-3. Use two-phase “commit” for multipart
-
-* Upload to a staging key (`tmp/{upload_id}/...`)
-* After success, copy/rename to final key and mark done (e.g., `manifest.json` / tag).
-* Abort incomplete multipart uploads (lifecycle rule).
-
-4. Handle concurrent writers explicitly
-
-* “First writer wins” with create-only.
-* Or store a version/metadata and accept overwrites only if expected.
-
-5. Make the whole workflow idempotent
-
-* Persist `{idempotency_key -> final_s3_key, status}` in DynamoDB/Redis.
-* Lambda retries check the record first, then continue safely.
+Result: Retrying the same request reuses the existing upload instead of creating duplicates.

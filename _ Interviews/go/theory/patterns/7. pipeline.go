@@ -2,8 +2,7 @@ package main
 
 import "fmt"
 
-// Split work into stages, each stage runs in its own goroutine and passes data via
-// channels.
+// Split work into stages, each stage runs in its own goroutine and passes data via channels.
 
 // stage 1: generate numbers
 func gen() <-chan int {

@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
-	fmt.Println(string([]rune("Hello!")[3]))
+	timer := time.AfterFunc(500*time.Millisecond, func() {
+		fmt.Println("Searching:")
+	})
+	_ = timer
+
+	time.Sleep(time.Second)
 }

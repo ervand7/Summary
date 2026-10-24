@@ -12,13 +12,13 @@ import (
 func main() {
 	var timer *time.Timer
 
-	search := func(query string) {
+	search := func(val string) {
 		if timer != nil {
-			timer.Stop() // cancel previous scheduled call
+			timer.Stop()
 		}
 
-		timer = time.AfterFunc(500*time.Millisecond, func() {
-			fmt.Println("Searching:", query)
+		timer = time.AfterFunc(time.Millisecond*500, func() {
+			fmt.Printf("searching: %s", val)
 		})
 	}
 

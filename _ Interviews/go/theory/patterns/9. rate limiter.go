@@ -6,25 +6,25 @@ import (
 )
 
 func main() {
-	limit := 5
-	limiter := make(chan struct{}, limit) // burst capacity = 5
+	var (
+		limit   = 5
+		limiter = make(chan struct{}, limit)
+	)
 
-	// fill initial tokens (allow burst at start)
+	// allow initial spike
 	for range limit {
 		limiter <- struct{}{}
 	}
 
 	// refill tokens every 500ms
 	go func() {
-		ticker := time.NewTicker(500 * time.Millisecond)
+		ticker := time.NewTicker(time.Millisecond * 500)
 		defer ticker.Stop()
 
 		for range ticker.C {
 			select {
-			case limiter <- struct{}{}:
-				// added token
-			default:
-				// channel full → skip (no overflow)
+			case limiter <- struct{}{}: // added token
+			default: // channel full → skip (no overflow)
 			}
 		}
 	}()

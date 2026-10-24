@@ -10,8 +10,8 @@ func main() {
 	var (
 		wg        sync.WaitGroup
 		batchSize = 3
-		jobs      = make(chan int)
 		batch     = make([]int, 0, batchSize)
+		jobs      = make(chan int)
 	)
 
 	wg.Add(1)
@@ -29,15 +29,14 @@ func main() {
 				}
 
 				batch = append(batch, job)
-
 				if len(batch) == batchSize {
 					fmt.Printf("process batch: %v\n", batch)
 					batch = make([]int, 0, batchSize)
 				}
 
-			case <-time.After(500 * time.Millisecond):
+			case <-time.After(time.Millisecond * 500):
 				if len(batch) > 0 {
-					fmt.Printf("process batch after timeout: %v\n", batch)
+					fmt.Printf("process batch: %v\n", batch)
 					batch = make([]int, 0, batchSize)
 				}
 			}
@@ -46,7 +45,7 @@ func main() {
 
 	for i := range 11 {
 		jobs <- i
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(time.Millisecond * 100)
 	}
 	close(jobs)
 

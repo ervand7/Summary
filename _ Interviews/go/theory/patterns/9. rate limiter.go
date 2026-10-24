@@ -6,11 +6,11 @@ import (
 )
 
 func main() {
-	// burst capacity = 2
-	limiter := make(chan struct{}, 2)
+	limit := 5
+	limiter := make(chan struct{}, limit) // burst capacity = 5
 
 	// fill initial tokens (allow burst at start)
-	for i := 0; i < cap(limiter); i++ {
+	for range limit {
 		limiter <- struct{}{}
 	}
 
@@ -30,7 +30,7 @@ func main() {
 	}()
 
 	// simulate requests
-	for i := 1; i <= 10; i++ {
+	for i := range 10 {
 		<-limiter // acquire token
 
 		fmt.Println("request", i, time.Now().Format("15:04:05.000"))

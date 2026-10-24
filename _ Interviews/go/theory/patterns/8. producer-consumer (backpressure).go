@@ -17,7 +17,7 @@ func main() {
 	}()
 
 	// producer (fast)
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		fmt.Println("sending", i)
 		jobs <- i // blocks when buffer is full
 		fmt.Println("sent", i)

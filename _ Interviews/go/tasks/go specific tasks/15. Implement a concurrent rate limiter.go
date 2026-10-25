@@ -24,8 +24,8 @@ var ErrRateLimiterIsClosed = errors.New("rate limiter is closed")
 
 type RateLimiter struct {
 	tokens     chan struct{}
-	waitCh     chan struct{}
 	shutdownCh chan struct{}
+	waitCh     chan struct{}
 	once       sync.Once
 }
 
@@ -34,13 +34,13 @@ func NewRateLimiter(limit int, interval time.Duration) *RateLimiter {
 		limit = 1
 	}
 	if interval <= 0 {
-		interval = time.Nanosecond
+		interval = time.Second
 	}
 
 	r := &RateLimiter{
 		tokens:     make(chan struct{}, limit),
-		waitCh:     make(chan struct{}),
 		shutdownCh: make(chan struct{}),
+		waitCh:     make(chan struct{}),
 	}
 
 	go func() {

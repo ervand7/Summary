@@ -1,146 +1,47 @@
-## 1️⃣ CSRF — *Cross-Site Request Forgery*
+## 1. CSRF (Cross-Site Request Forgery)
+Attacker tricks a logged-in user's browser into sending unwanted requests using automatically attached cookies.
 
-What it is
-A malicious site makes a victim’s browser send an authenticated request to
-your backend.
+- Example: Unauthorized money transfer.
+- Prevention: CSRF tokens, SameSite cookies.
 
-Why it works
-Browsers automatically attach cookies.
+## 2. XSS (Cross-Site Scripting)
+Attacker injects malicious JavaScript into a website.
 
-Example
-User is logged in → visits evil site → backend receives valid request.
+- Example: Stealing tokens or performing actions as the user.
+- Prevention: Output escaping, CSP, HttpOnly cookies.
 
-Mitigation
+## 3. SQL Injection
+Attacker manipulates SQL queries through user input.
 
-* `SameSite=Strict/Lax` cookies
-* CSRF tokens
-* Do not use cookies for APIs (prefer Authorization headers)
+- Example: `' OR 1=1 --`
+- Prevention: Parameterized queries (prepared statements).
 
----
+## 4. IDOR (Insecure Direct Object Reference)
+User accesses another user's resources by changing an ID.
 
-## 2️⃣ XSS — *Cross-Site Scripting*
+- Example: `/orders/123` → `/orders/124`
+- Prevention: Backend authorization and ownership checks.
 
-What it is
-Attacker injects JavaScript into your page.
+## 5. JWT / Authentication Vulnerabilities
+Improper token validation allows unauthorized access.
 
-Impact
+- Example: Accepting expired or forged JWTs.
+- Prevention: Verify signature, expiration (`exp`), issuer (`iss`), audience (`aud`).
 
-* Steals tokens
-* Acts as the user
+## 6. Replay Attacks
+Attacker resends a previously valid request.
 
-Mitigation
+- Example: Repeating a payment request.
+- Prevention: Nonces, timestamps, replay protection, idempotency keys.
 
-* Escape output
-* Content Security Policy (CSP)
-* `HttpOnly` cookies
+## 7. DoS (Denial of Service)
+Attacker exhausts server resources with excessive requests.
 
----
+- Example: Thousands of requests creating unlimited goroutines.
+- Prevention: Rate limiting, timeouts, bounded worker pools.
 
-## 3️⃣ SQL Injection
+## 8. Race Conditions
+Concurrent requests exploit non-atomic business operations.
 
-What it is
-User input becomes part of SQL logic.
-
-Example
-
-```sql
-WHERE email = 'a' OR 1=1
-```
-
-Mitigation
-
-* Prepared statements only
-* Never build SQL with strings
-
----
-
-## 4️⃣ IDOR — *Insecure Direct Object Reference*
-
-What it is
-User accesses someone else’s resource by changing an ID.
-
-Example
-
-```
-GET /orders/123   → change to /orders/124
-```
-
-Key point
-Authentication ≠ Authorization
-
-Mitigation
-
-* Always check ownership on backend
-
----
-
-## 5️⃣ Authentication / JWT mistakes
-
-What it is
-
-* Token not verified properly
-* Missing `exp`, `aud`, `iss` checks
-
-Impact
-
-* Full account takeover
-
-Mitigation
-
-* Verify signature
-* Validate claims strictly
-
----
-
-## 6️⃣ Replay attacks
-
-What it is
-Valid request is captured and resent.
-
-Common in
-
-* Payments
-* Withdrawals
-
-Mitigation
-
-* Idempotency keys
-* Nonces / timestamps
-
----
-
-## 7️⃣ DoS (application-level)
-
-What it is
-Exhausting resources:
-
-* CPU
-* DB connections
-* Goroutines
-
-Go-specific
-Unbounded goroutines = DoS
-
-Mitigation
-
-* Rate limiting
-* Timeouts
-* Worker pools
-
----
-
-## 8️⃣ Race conditions (business logic)
-
-What it is
-Two requests modify the same state concurrently.
-
-Example
-
-* Double withdrawal
-* Double order
-
-Mitigation
-
-* DB transactions
-* Locks
-* Idempotency
+- Example: Two withdrawals spending the same balance.
+- Prevention: DB transactions, locks, atomic updates.

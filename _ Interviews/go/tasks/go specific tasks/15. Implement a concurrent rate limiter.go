@@ -23,102 +23,77 @@ Requirements:
 var ErrRateLimiterIsClosed = errors.New("rate limiter is closed")
 
 type RateLimiter struct {
-	isClosed bool
-	mu       sync.Mutex
-	wg       sync.WaitGroup
-	tokens   chan struct{}
-	limiter  *time.Ticker
-	limit    int
-	stopCh   chan struct{}
+	tokens     chan struct{}
+	waitCh     chan struct{}
+	shutdownCh chan struct{}
+	once       sync.Once
 }
 
-func NewRateLimiter(
-	limit int,
-	interval time.Duration,
-) *RateLimiter {
-	if limit == 0 {
+func NewRateLimiter(limit int, interval time.Duration) *RateLimiter {
+	if limit <= 0 {
 		limit = 1
 	}
-	if interval == 0 {
-		interval = 1
+	if interval <= 0 {
+		interval = time.Nanosecond
 	}
 
 	r := &RateLimiter{
-		tokens:  make(chan struct{}, limit),
-		stopCh:  make(chan struct{}),
-		limiter: time.NewTicker(interval),
-		limit:   limit,
+		tokens:     make(chan struct{}, limit),
+		waitCh:     make(chan struct{}),
+		shutdownCh: make(chan struct{}),
 	}
 
-	r.wg.Add(1)
-	go r.run()
+	go func() {
+		defer close(r.waitCh)
+
+		ticker := time.NewTicker(interval)
+		defer ticker.Stop()
+
+		for {
+			select {
+			case <-r.shutdownCh:
+				return
+			case <-ticker.C:
+				for range limit {
+					select {
+					case r.tokens <- struct{}{}:
+					default:
+					}
+				}
+			}
+		}
+	}()
 
 	return r
 }
 
 func (r *RateLimiter) Allow(ctx context.Context) error {
-	/*
-		Requirements:
-		- allow at most limit requests per interval
-		- wait if no tokens available
-		- respect context cancellation
-		- thread-safe
-	*/
-	r.mu.Lock()
-	if r.isClosed {
-		r.mu.Unlock()
+	select {
+	case <-r.shutdownCh:
 		return ErrRateLimiterIsClosed
+	default:
 	}
-	r.mu.Unlock()
 
 	select {
+	case <-r.shutdownCh:
+		return ErrRateLimiterIsClosed
 	case <-ctx.Done():
 		return ctx.Err()
-	case _, ok := <-r.tokens:
-		if !ok {
+	case <-r.tokens:
+		select {
+		case <-r.shutdownCh:
 			return ErrRateLimiterIsClosed
+		default:
+			return nil
 		}
-		return nil
 	}
 }
 
 func (r *RateLimiter) Close() {
-	r.mu.Lock()
-	if r.isClosed {
-		r.mu.Unlock()
-		return
-	}
-
-	r.isClosed = true
-	close(r.stopCh)
-	r.mu.Unlock()
-
-	r.wg.Wait()
-
-	close(r.tokens)
-}
-
-func (r *RateLimiter) run() {
-	defer r.wg.Done()
-	defer r.limiter.Stop()
-
-	for {
-		select {
-		case <-r.stopCh:
-			return
-
-		case <-r.limiter.C:
-			for i := 0; i < r.limit; i++ {
-				select {
-				case <-r.stopCh:
-					return
-				case r.tokens <- struct{}{}:
-				default:
-					// token bucket already full
-				}
-			}
-		}
-	}
+	r.once.Do(func() {
+		close(r.shutdownCh)
+	})
+	<-r.waitCh
 }
 
 func main() {

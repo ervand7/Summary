@@ -1,0 +1,2 @@
+Can this be simplified with keeping functionality and correctness? If yes - give me the fixed version.
+Do not touch main func and public functions signatures. This should be 100% safe solution.

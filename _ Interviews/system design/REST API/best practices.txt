@@ -1,211 +1,158 @@
-## 1️⃣ Fundamental REST Principles
+## 1. Core REST Principles
 
-### 1.1 Resource-oriented design
-
-* APIs expose resources, not actions
-* Resources are nouns, not verbs
-
-✅ `/users`
-❌ `/getUsers`
-
----
-
-### 1.2 HTTP semantics matter
-
-* Use HTTP methods, status codes, headers correctly
-* Don’t tunnel everything through `POST`
-
-| Method | Purpose                 |
-| ------ | ----------------------- |
-| GET    | Read (safe, idempotent) |
-| POST   | Create                  |
-| PUT    | Replace                 |
-| PATCH  | Partial update          |
-| DELETE | Remove                  |
-
----
-
-### 1.3 Statelessness
-
-* Each request contains all necessary context
-* No server-side sessions
-
-✅ Auth via `Authorization` header
-❌ Sticky sessions required
-
----
-
-## 2️⃣ URL Design Best Practices
-
-### 2.1 Naming rules
-
-* Lowercase
-* Kebab-case
-* Plural nouns
+Resources, not actions. URLs represent nouns, HTTP methods represent operations.
 
 ```
-/user-profiles
-/payment-methods
+GET    /users          # List
+GET    /users/123      # Read
+POST   /users          # Create
+PUT    /users/123      # Replace
+PATCH  /users/123      # Partial update
+DELETE /users/123      # Delete
 ```
 
----
+- `GET` is safe and idempotent.
+- `PUT` and `DELETE` are idempotent.
+- `POST` and `PATCH` are not necessarily idempotent.
+- Use HTTP methods, status codes, and headers correctly.
 
-### 2.2 Hierarchy rules
-
-Use nesting only when the relationship is strict
+Statelessness: Every request contains the necessary context. Servers should not depend on stored client sessions.
 
 ```
-/users/{id}/cards
+Authorization: Bearer <token>
+```
+
+## 2. URL Naming & Resource Design
+
+- Use lowercase, kebab-case, plural nouns.
+- Names describe business concepts, not implementation.
+- Avoid verbs and ambiguous names.
+
+```
+✅ /users
+✅ /payment-methods
+✅ /card-transactions
+
+❌ /getUsers
+❌ /create-payment
+❌ /redis-cache
+❌ /data
+```
+
+Relationships: Nest resources when the relationship is meaningful.
+
+```
+GET /users/123/cards
+GET /orders/123/items
 ```
 
 Avoid deep nesting:
 
 ```
-/users/{id}/accounts/{id}/cards/{id}/transactions
+❌ /users/123/accounts/456/cards/789/transactions
+
+✅ /transactions?card_id=789
 ```
 
-Flatten with filters:
+Many-to-many: Model relationships as resources.
 
 ```
-/transactions?card_id=123
+POST   /memberships
+DELETE /memberships/123
 ```
 
----
-
-### 2.3 Never leak implementation
-
-❌
+Actions: When standard CRUD is insufficient, use sub-resources or explicit actions.
 
 ```
-/sql-users
-/redis-cache
-/kafka-events
+POST /cards/123/activation
+POST /cards/123:activate
 ```
 
-✅
+Long-running operations:
 
 ```
-/users
-/events
+POST /verifications       # 202 Accepted
+GET  /operations/123      # Check progress
 ```
 
----
+## 3. JSON & Field Naming
 
-## 3️⃣ Request & Response Design
+Choose one naming convention and use it consistently.
 
-### 3.1 JSON conventions
-
-Pick one:
-
-* `snake_case` (backend-friendly)
-* `camelCase` (frontend-friendly)
-
-Never mix.
-
----
-
-### 3.2 Explicit fields
-
-❌
-
-```json
-{ "status": "ok" }
-```
-
-✅
-
-```json
-{ "payment_status": "approved" }
-```
-
----
-
-### 3.3 Booleans
-
-Use `is_`, `has_`, `can_`
-
-```json
-"is_active": true
-"has_3ds": false
-```
-
----
-
-### 3.4 Timestamps
-
-* ISO-8601
-* Always UTC
-
-```json
-"created_at": "2025-01-01T12:00:00Z"
-```
-
----
-
-## 4️⃣ Filtering, Sorting, Pagination
-
-### 4.1 Filtering
+- `snake_case` or `camelCase`.
+- Explicit, descriptive field names.
+- Booleans: `is_`, `has_`, `can_`.
+- Timestamps: ISO-8601, preferably UTC.
+- Enums: lowercase, stable, business-oriented.
 
 ```
-?status=approved
-?type=virtual
+{
+  "user_id": "123",
+  "payment_status": "approved",
+  "is_active": true,
+  "has_3ds": false,
+  "created_at": "2025-01-01T12:00:00Z"
+}
 ```
 
----
-
-### 4.2 Time filtering
+Avoid exposing internal implementation states.
 
 ```
-?from=2025-01-01
-?to=2025-01-31
+❌ WAITING_FOR_PROVIDER_CALLBACK
+✅ pending
 ```
 
----
+## 4. Filtering, Sorting & Pagination
 
-### 4.3 Pagination (choose one)
-
-#### Offset
+Filtering:
 
 ```
-?limit=50&offset=100
+GET /transactions?status=approved&type=virtual
 ```
 
-#### Cursor (recommended at scale)
+Time ranges:
 
 ```
-?limit=50&cursor=eyJpZCI6...
+GET /transactions?from=2025-01-01&to=2025-01-31
 ```
 
----
-
-### 4.4 Sorting
+Sorting:
 
 ```
 ?sort=created_at
-?sort=-created_at
+?sort=-created_at       # Descending
 ```
 
----
+Pagination:
 
-## 5️⃣ Error Handling Best Practices
+```
+?limit=50&offset=100    # Simple, but inefficient at scale
+?limit=50&cursor=abc    # Better for large/changing datasets
+```
 
-### 5.1 Use correct HTTP status codes
+Cursor pagination generally provides more stable results when records are inserted or deleted.
 
-| Code | Meaning          |
-| ---- | ---------------- |
-| 400  | Bad request      |
-| 401  | Unauthorized     |
-| 403  | Forbidden        |
-| 404  | Not found        |
-| 409  | Conflict         |
-| 422  | Validation error |
-| 500  | Server error     |
+## 5. HTTP Status Codes & Errors
 
----
+| Code | Meaning                         |
+| ---- | ------------------------------- |
+| 200  | OK                              |
+| 201  | Created                         |
+| 202  | Accepted for processing         |
+| 204  | Success, no response body       |
+| 400  | Bad request                     |
+| 401  | Authentication required/invalid |
+| 403  | Forbidden                       |
+| 404  | Not found                       |
+| 409  | Conflict                        |
+| 422  | Semantic/validation error       |
+| 429  | Too many requests               |
+| 500  | Internal server error           |
+| 503  | Service unavailable             |
 
-### 5.2 Structured errors
+Structured errors: Return stable, machine-readable error codes.
 
-```json
+```
 {
   "error_code": "card_not_found",
   "message": "Card does not exist",
@@ -215,207 +162,216 @@ Use `is_`, `has_`, `can_`
 }
 ```
 
----
+- Never return `200` for failed operations.
+- Keep error formats consistent.
+- Do not expose internal stack traces.
+- Treat error codes as part of the API contract.
 
-### 5.3 Stable error codes
+## 6. Idempotency & Safety
 
-* Snake_case
-* Never change once published
+Idempotency: Repeating the same request has the same intended effect as executing it once.
 
----
-
-## 6️⃣ Idempotency & Safety
-
-### 6.1 Idempotent endpoints
-
-* GET, PUT, DELETE must be idempotent
-* POST should be idempotent when money is involved
-
----
-
-### 6.2 Idempotency keys
+- `GET`, `PUT`, `DELETE` are idempotent by HTTP semantics.
+- `POST` should support idempotency keys for payments and other critical operations.
 
 ```
-Idempotency-Key: 8f9c-...
+POST /payments
+Idempotency-Key: 8f9c-1234
 ```
 
-Same key → same result
+Same key + same request means the server recognizes the retry and avoids duplicate processing.
 
----
+Use database constraints or atomic operations to enforce idempotency safely.
 
-## 7️⃣ Security Best Practices
+## 7. Security
 
-### 7.1 Authentication
+Authentication: Verify identity.
 
-* OAuth2 / JWT
-* mTLS for service-to-service
+- OAuth 2.0 / OpenID Connect
+- JWT or opaque access tokens
+- mTLS for service-to-service communication when appropriate
 
----
+Authorization: Verify permissions.
 
-### 7.2 Authorization
+- RBAC (Role-Based Access Control)
+- Scopes and resource ownership checks
+- Prevent IDOR (accessing another user's resources)
 
-* Role-based (RBAC)
-* Scope-based access
+Input validation:
 
----
+- Validate types, formats, lengths, and allowed values.
+- Use parameterized SQL queries.
+- Never trust client-provided identifiers or permissions.
 
-### 7.3 Never trust input
+Sensitive data:
 
-* Validate everything
-* Enforce schema
+- Use HTTPS.
+- Never expose secrets.
+- Mask sensitive information.
+- Never log passwords, tokens, or payment credentials.
 
----
+## 8. API Versioning & Compatibility
 
-### 7.4 Sensitive data
-
-* Never expose secrets
-* Mask PII
-
----
-
-## 8️⃣ Versioning
-
-### 8.1 Version APIs, not fields
+Common approach: URL versioning.
 
 ```
 /v1/users
 /v2/users
 ```
 
----
+- Avoid versioning individual fields (`user_name_v2`).
+- Preserve existing field meanings.
+- Do not remove or rename fields without a migration strategy.
+- Adding optional fields is usually backward-compatible, but strict clients may break.
+- Introduce a new version for incompatible changes.
 
-### 8.2 Backward compatibility
+## 9. Performance & Scalability
 
-* Add fields freely
-* Never remove or rename fields
-
----
-
-## 9️⃣ Performance & Scalability
-
-### 9.1 Caching
-
-Use headers:
+Caching:
 
 ```
-Cache-Control
-ETag
-If-None-Match
+Cache-Control: max-age=60
+ETag: "abc123"
+If-None-Match: "abc123"
 ```
 
----
+If the resource has not changed, the server can return `304 Not Modified`.
 
-### 9.2 Avoid chatty APIs
-
-❌
+Avoid chatty APIs:
 
 ```
-GET /user
-GET /user/profile
-GET /user/settings
+❌ GET /user
+❌ GET /user/profile
+❌ GET /user/settings
+
+✅ GET /user?include=profile,settings
 ```
 
-✅
+Compression:
 
 ```
-GET /user?include=profile,settings
+Accept-Encoding: gzip, br
 ```
 
----
+Additional practices:
 
-### 9.3 Compression
+- Avoid N+1 database queries.
+- Index frequently filtered fields.
+- Use pagination for large collections.
+- Cache frequently accessed data where appropriate.
 
-Enable:
+## 10. Rate Limiting & Resilience
 
-```
-gzip
-br
-```
-
----
-
-## 🔟 Rate Limiting & Resilience
-
-### 10.1 Rate limiting
-
-Return:
+Rate limiting:
 
 ```
-429 Too Many Requests
+HTTP/1.1 429 Too Many Requests
+Retry-After: 30
 ```
 
-Headers:
+- Limit requests per user, API key, or IP when appropriate.
+- Return useful rate-limit headers.
+
+Timeouts:
+
+- Configure explicit request and dependency timeouts.
+- Propagate cancellation and deadlines.
+- Avoid waiting indefinitely.
+
+Retries:
+
+- Retry transient failures with exponential backoff and jitter.
+- Retry only when operations are safe to repeat.
+
+Circuit breakers:
+
+- Stop repeatedly calling unhealthy dependencies.
+- Fail fast and allow recovery checks.
+
+## 11. Observability
+
+Request IDs: Identify individual requests across logs.
 
 ```
-Retry-After
-X-RateLimit-Remaining
+X-Request-ID: abc-123
 ```
 
----
-
-### 10.2 Timeouts
-
-* Short, explicit timeouts
-* Never rely on defaults
-
----
-
-### 10.3 Circuit breakers
-
-* Fail fast
-* Protect dependencies
-
----
-
-## 1️⃣1️⃣ Observability
-
-### 11.1 Correlation IDs
+Distributed tracing: Track requests across multiple services.
 
 ```
-X-Request-ID
-Traceparent
+traceparent: 00-<trace-id>-<span-id>-01
 ```
 
----
+Logging and metrics:
 
-### 11.2 Logging
+- Structured JSON logs.
+- Latency, request count, error rate.
+- HTTP status distribution.
+- Distributed tracing with OpenTelemetry.
+- Never log secrets or sensitive payloads.
 
-* Log requests, responses (carefully)
-* Never log secrets
+## 12. Documentation & API Contracts
 
----
+Use OpenAPI / Swagger to describe:
 
-## 1️⃣2️⃣ Documentation
+- Endpoints and HTTP methods.
+- Request/response schemas.
+- Authentication requirements.
+- Status codes and errors.
+- Filtering, sorting, and pagination.
+- Request/response examples.
 
-### 12.1 OpenAPI / Swagger
+Generate client SDKs and validate implementations against the contract when useful.
 
-* Source of truth
-* Generated clients
+REST vs gRPC:
 
----
+REST typically models resources:
 
-### 12.2 Examples
+```
+POST /cards/123/activation
+```
 
-* Request/response samples
-* Error samples
+gRPC explicitly models operations:
 
----
+```
+rpc ActivateCard(ActivateCardRequest) returns (ActivateCardResponse);
+```
 
-## 1️⃣3️⃣ Consistency Rules
+## 13. Consistency & Common Mistakes
 
-* One naming convention
-* One error format
-* One pagination style
-* One auth mechanism
+Consistency matters more than personal preference.
 
-Consistency > personal preference
+- One URL naming convention.
+- One JSON naming convention.
+- One error response format.
+- Consistent pagination and filtering.
+- Predictable authentication and authorization.
+- Stable resource and enum names.
 
----
+Avoid:
 
-## 1️⃣4️⃣ What NOT to Do
+- Using `POST` for every operation.
+- Returning `200` for errors.
+- Deeply nested URLs.
+- Exposing internal technologies or provider details.
+- Breaking backward compatibility unnecessarily.
+- Designing endpoints around temporary UI requirements.
+- Mixing naming styles.
 
-❌ Overloading POST for everything
-❌ Returning 200 on errors
-❌ Breaking backward compatibility
-❌ Exposing internal IDs accidentally
-❌ Designing APIs around UI quirks
+## 14. Interview Checklist
+
+Before approving an API design, ask:
+
+1. Are URLs resources and HTTP methods used correctly?
+2. Are naming conventions consistent and business-oriented?
+3. Are authentication, authorization, and validation enforced?
+4. Are errors structured with appropriate HTTP status codes?
+5. Are retries and critical operations idempotent?
+6. Are filtering, sorting, and pagination scalable?
+7. Are backward compatibility and versioning considered?
+8. Are caching, timeouts, and rate limiting configured?
+9. Are requests observable through logs, metrics, and traces?
+10. Is the API documented with OpenAPI?
+
+Key principle: Design APIs as stable contracts that clients can depend on, independently of backend
+implementation details.

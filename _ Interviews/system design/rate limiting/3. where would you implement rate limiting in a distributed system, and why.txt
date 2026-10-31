@@ -1,6 +1,6 @@
 Rate limiting can be applied at different layers.
 
-1. Edge (NGINX, Envoy)
+1. Edge (NGINX, Kubernetes Ingress, Envoy)
 Why:
 * Blocks spikes early
 * Protects all services

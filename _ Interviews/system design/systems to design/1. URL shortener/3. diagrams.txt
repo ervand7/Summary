@@ -182,8 +182,8 @@ This shows you understand performance isolation.
                       v
             +---------+----------+
             | Analytics Store   |
-            | (ClickHouse /    |
-            | BigQuery / OLAP) |
+            | (ClickHouse /     |
+            | BigQuery / OLAP)  |
             +------------------+
 ```
 

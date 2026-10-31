@@ -16,7 +16,7 @@ Non-functional
 Create short URL
 * `POST /v1/urls`
 
-  * body: `{ "long_url": "...", "custom_alias": "foo"?, "expires_at": "...?" }`
+  * body: `{ "long_url": "...", "custom_alias": "foo", "expires_at": "..." }`
   * returns: `{ "short_url": "https://sho.rt/abc123", "code": "abc123" }`
 
 Redirect

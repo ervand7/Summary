@@ -1,121 +1,16 @@
-## What does “high RPS” actually mean?
+RPS measures how many requests a system processes per second. High RPS doesn't necessarily mean high load.
 
-RPS (Requests Per Second) is simply:
-> How many requests a system processes per second
+Key factors:
 
-So:
-* 100 RPS → 100 requests/sec
-* 10,000 RPS → 10,000 requests/sec
-* 100,000+ RPS → typically considered “high RPS”
+1. Complexity: 10k RPS for `/health` ≠ 10k RPS for `/checkout`.
+2. Latency: Same RPS with p99 = 20ms vs 2s means very different performance.
+3. Concurrency: Higher latency means more in-flight requests.
+4. Error rate: 10k RPS with 0.01% vs 5% errors.
+5. Resources: CPU, memory, DB connections, external dependencies.
 
-But by itself, this number means almost nothing.
+Formula: `Concurrency ≈ RPS × Average Latency (seconds)`
 
-## Why “high RPS” is misleading on its own
-### 1️⃣ RPS says nothing about request cost
+Interview answer:
 
-100 RPS can be:
-* `GET /health` returning `"ok"`
-* OR `POST /checkout` with:
-  * DB transactions
-  * external API calls
-  * fraud checks
-  * synchronous Kafka writes
-
-Same RPS → orders of magnitude different load
-> Interviewer phrase:
-> “RPS without understanding request complexity is meaningless.”
-
-
-### 2️⃣ RPS hides latency
-Two systems:
-* System A: 10k RPS, p99 = 20ms
-* System B: 10k RPS, p99 = 2 seconds
-
-Same RPS — completely different user experience and stability.
-High RPS with high latency often means:
-* thread / goroutine pile-ups
-* DB saturation
-* connection pool exhaustion
-
-
-### 3️⃣ RPS ignores concurrency
-RPS is a *rate*, not *parallelism*.
-
-Example:
-* 1000 RPS
-* average latency = 1 second
-That means:
-~1000 concurrent in-flight requests
-
-If latency increases to 2s:
-~2000 concurrent requests
-
-👉 Even if RPS stays the same, resource usage doubles.
-
-> Key formula interviewers love:
-```
-Concurrency ≈ RPS × Latency
-```
-
-
-### 4️⃣ RPS doesn’t show tail behavior (p95 / p99)
-Most failures appear in:
-* p95
-* p99
-* p99.9
-
-Example:
-* average latency = 50ms
-* p99 latency = 5s
-
-System “handles” the RPS, but:
-* connections pile up
-* retries start
-* timeouts trigger
-* cascading failures begin
-
-RPS looks fine → system is actually dying.
-
-
-### 5️⃣ RPS ignores error rate
-10k RPS with:
-* 0.01% errors → healthy
-* 5% errors → production incident
-
-RPS alone doesn’t tell you:
-* how many requests fail
-* whether failures spike under load
-
-
-### 6️⃣ RPS is endpoint-dependent
-High RPS for:
-* `/metrics`
-* `/health`
-* `/status`
-
-≠
-High RPS for:
-* `/checkout`
-* `/transfer`
-* `/create-order`
-
-Senior engineers always ask:
-> “High RPS of what exactly?”
-
-
-## What metrics matter *together* with RPS
-A senior answer always expands RPS into a set:
-* RPS – traffic volume
-* Latency (p50 / p95 / p99) – responsiveness
-* Concurrency – memory & goroutine pressure
-* Error rate – correctness
-* Resource usage – CPU, memory, GC, DB pools
-* Dependency latency – DB, cache, APIs
-
-
-## Perfect interview answer (concise)
-> “High RPS just means a lot of requests per second, but by itself it’s misleading.
-> RPS doesn’t reflect request complexity, latency, concurrency, or error rate.
-> Two systems can have the same RPS and completely different load profiles.
-> In practice, I always evaluate RPS together with latency percentiles, concurrency,
-and downstream dependency behavior.”
+> RPS alone doesn't indicate system load. I evaluate it together with request complexity, latency (p95/p99),
+concurrency, error rates, and resource utilization.

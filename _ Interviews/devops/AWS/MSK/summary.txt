@@ -1,0 +1,2 @@
+MSK means Amazon Managed Streaming for Apache Kafka. It’s Kafka where AWS manages the cluster infrastructure.
+Use it when you need Kafka’s event log, replay, multiple independent consumers, or Kafka ecosystem compatibility.

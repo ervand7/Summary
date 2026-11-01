@@ -1,0 +1,21 @@
++----------------------+------------------------------------+------------------------------------+
+| Aspect               | MSK                                | Kinesis Data Streams               |
++----------------------+------------------------------------+------------------------------------+
+| What it is           | Apache Kafka managed by AWS.       | AWS's own streaming service.       |
+|                      | Uses Kafka clients and APIs.       | Uses AWS APIs and SDKs.            |
++----------------------+------------------------------------+------------------------------------+
+| Main concepts        | Topics, partitions, consumer       | Streams, shards, partition keys,   |
+|                      | groups, and offsets.               | and sequence numbers.              |
++----------------------+------------------------------------+------------------------------------+
+| Event ordering       | Preserved within a partition.      | Preserved within a shard for the   |
+|                      |                                    | same partition key.                |
++----------------------+------------------------------------+------------------------------------+
+| Replay               | Consumers can replay events by     | Consumers can read retained records|
+|                      | changing their offsets.            | within the retention period.       |
++----------------------+------------------------------------+------------------------------------+
+| When to choose it    | You already use Kafka or need      | You want AWS-native streaming and  |
+|                      | Kafka tools and compatibility.     | integration with AWS services.     |
++----------------------+------------------------------------+------------------------------------+
+| What you need to     | Learn AWS setup: networking,       | Learn Kinesis concepts: shards,    |
+| learn                | access, monitoring, and operations.| partition keys, and AWS APIs.      |
++----------------------+------------------------------------+------------------------------------+

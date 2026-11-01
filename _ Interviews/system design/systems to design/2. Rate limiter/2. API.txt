@@ -1,15 +1,64 @@
-POST /v1/ratelimit/check
+### 1. Check Rate Limit
 
-Checks whether a request is allowed under configured rate-limit rules.
+`POST /v1/ratelimit/check`
 
-**Request**
+Request:
 
-* Key (user / API key / IP / org)
-* Applied rules (limits, windows, burst)
-* Optional cost
+```
+{
+  "user_id": "456",
+  "org_id": "123",
+  "endpoint": "/payments",
+}
+```
 
-**Response**
+Response (Allowed):
 
-* `allowed: true|false`
-* Remaining quota
-* `retry_after` when blocked (HTTP 429)
+```
+{
+  "allowed": true,
+  "remaining": 42,
+  "retry_after_ms": 0
+}
+```
+
+Response (Rejected):
+
+```
+{
+  "allowed": false,
+  "remaining": 0,
+  "retry_after_ms": 2000
+}
+```
+
+The Gateway translates rejection into HTTP `429 Too Many Requests`.
+
+### 2. Manage Rate Limit Rules (Admin API)
+
+`PUT /v1/ratelimit/rules/{rule_id}`
+
+Request:
+
+```
+{
+  "scope": "per_user",
+  "endpoint": "/payments",
+  "capacity": 100,
+  "refill_rate": 10,
+  "enabled": true
+}
+```
+
+- `capacity`: Maximum burst size (tokens).
+- `refill_rate`: Tokens replenished per second.
+
+### 3. Implementation Options
+
+| Option               | How it works                                       | Trade-off                       |
+| -------------------- | -------------------------------------------------- | ------------------------------- |
+| A. Dedicated service | Gateway calls Rate Limiter API, which checks Redis | Centralized, extra network hop  |
+| B. Embedded limiter  | Gateway checks Redis directly using Lua            | Lower latency, tighter coupling |
+
+Interview recommendation: Start with Option A for a standalone Rate Limiter Service. Mention Option
+B as a latency optimization.

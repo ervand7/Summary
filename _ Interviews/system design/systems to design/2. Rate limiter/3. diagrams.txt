@@ -96,7 +96,7 @@ Decision:
 ### 4️⃣ Optimization path (token leasing: fewer Redis calls)
 
 ```
-+-------------------+           occasionally           +----------------------+
++-------------------+           occasionally            +----------------------+
 | Gateway instance  |  ----------------------------->   | Redis Cluster        |
 |-------------------|                                   |----------------------|
 | Local bucket:     |  lease 100 tokens for (rule,key)  | decrement 100 once   |

@@ -1,41 +1,26 @@
-👉 A cache can exist at multiple layers of a system, from the client to the database,
-each with different trade-offs in latency, consistency, scope, and complexity.
+1. Client cache (browser/mobile)
+   - Local storage for static or user-specific data.
 
-Why multiple cache layers exist:
-* Data can be reused at different points in the request path
-* Earlier caches reduce load on all downstream components
-* Different layers require different consistency guarantees
+2. CDN / Edge (Cloudflare, CloudFront)
+   - Caches static assets and HTTP responses close to users.
 
-Main cache locations and how they differ:
+3. Reverse proxy (Nginx, Varnish)
+   - Caches HTTP responses before reaching application servers.
 
-1️⃣ Client-side cache (browser / mobile app)
-* Stores data locally on the client
-* Suitable for static or user-specific data
+4. Application cache (Go map, Ristretto)
+   - Extremely fast, in-process memory.
+   - Not shared across replicas, potential inconsistency.
 
-2️⃣ CDN / Edge cache
-* Located geographically close to users
-* Caches static assets or HTTP responses
-* Best for images, JS, CSS, public APIs
+5. Distributed cache (Redis, Memcached)
+   - Shared across replicas, survives application restarts.
+   - Adds network latency and infrastructure complexity.
 
-3️⃣ Load balancer / reverse proxy cache (Nginx, Envoy)
-* Caches HTTP responses before hitting app servers
-* Limited awareness of business logic
+6. Database cache (PostgreSQL shared buffers)
+   - Automatically caches frequently accessed database pages.
+   - Managed by the DB, limited application control.
 
-4️⃣ Application in-memory cache (per instance)
-* Stored inside the application process (maps, LRU)
-* Fastest server-side access
-* Risk of inconsistency across pods
-
-5️⃣ Distributed cache (Redis / Memcached)
-* Shared cache across all application instances
-* Good balance of speed and consistency
-* Survives app restarts
-* Extra network hop and operational cost
-* Becomes a critical dependency
-
-6️⃣ Database cache (buffer pool, query cache)
-* Managed by the database itself
-* Transparent to the application
-* Strong consistency with stored data
-* Limited control from application side
-* Still bounded by DB scalability
+Key takeaway:
+- Closer to the client = lower latency and less downstream load.
+- Local cache = fastest, but harder to keep consistent.
+- Distributed cache = shared data, but additional network and operational costs.
+- More cache layers = more complex invalidation.

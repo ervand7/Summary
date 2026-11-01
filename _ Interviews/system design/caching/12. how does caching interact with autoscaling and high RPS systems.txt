@@ -1,0 +1,23 @@
+Autoscaling increases application capacity but can also amplify cache misses and database load.
+
+### Main Problems
+
+1. Cold Cache: New pods start with empty local caches → more DB queries.
+2. Cache Fragmentation: Each pod caches data independently → duplicated entries and potentially lower hit rates.
+3. Cache Stampede: Multiple pods refresh the same expired key → DB overload.
+4. Memory Pressure: Smaller caches or memory limits → more evictions and misses.
+5. Redis Bottleneck: Shared cache can become overloaded or a single point of failure.
+
+### Solutions
+
+- Shared Cache (Redis): Reuse cached data across pods.
+- Singleflight / Distributed Lock: Prevent duplicate fetches within or across pods.
+- TTL Jitter: Avoid synchronized expiration.
+- Cache Pre-warming: Populate caches before routing traffic.
+- Stale-While-Revalidate: Serve stale data during refresh.
+- DB Protection: Limit concurrent cache-miss queries.
+
+### Interview Takeaway
+
+Autoscaling can amplify cache misses and overload databases. Shared caching, coordinated refreshes, and DB
+protection help maintain stability during scaling.

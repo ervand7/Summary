@@ -1,49 +1,19 @@
-👉 Cache stampede — это когда много запросов одновременно промахиваются по 
-кэшу и все идут в БД.
+### Cache Stampede (Thundering Herd)
 
-Коротко:
-* Ключ в кэше истёк или отсутствует
-* Тысячи запросов приходят одновременно
-* Все делают запрос к БД
-* БД перегружается
+Occurs when many concurrent requests miss the cache and simultaneously hit the DB, potentially causing overload.
 
-👉 A cache stampede (thundering herd) happens when many concurrent requests
-miss the cache at the same time and all hit the database or downstream service
-simultaneously, causing overload.
+Example:
+- Hot key expires.
+- 1,000 requests miss the cache.
+- All query the DB → overload.
 
-Why cache stampedes happen:
-* Cache entry expires (TTL) for a hot key
-* Cache is cold after deploy or autoscaling
-* Cache eviction under memory pressure
-* Popular data accessed by many clients at once
+### Prevention
 
-What goes wrong during a stampede:
-* Hundreds or thousands of requests hit DB at once
-* DB latency spikes or connections are exhausted
-* Requests pile up in memory
-* Cascading failures across services
-* System becomes unstable instead of faster
+1. Request Coalescing (Singleflight): One request fetches data per key; others wait.
+2. TTL Jitter: Randomize expiration to prevent multiple keys expiring simultaneously.
+3. Background Refresh: Refresh popular keys before expiration.
+4. Stale-While-Revalidate: Serve stale data while refreshing asynchronously.
+5. Distributed Lock: Only one replica refreshes a key across all instances.
 
-Typical real-world scenario:
-* Hot key expires at time T
-* 1,000 requests arrive at time T+ε
-* All miss cache
-* All query DB
-* DB collapses
-
-Common stampede prevention techniques:
-1️⃣ Request coalescing - касательно одного и того же ключа
-* Only one request recomputes the value
-* Other requests wait for the result
-
-Pros:
-* Simple and effective
-* No DB overload
-
-Cons:
-* Waiting requests add latency
-
-
-2️⃣ Explicit invalidation
-3️⃣ TTL jitter (randomized expiration) - касательно разных ключей
-4️⃣ Background refresh
+Interview Takeaway: Use singleflight for concurrent misses on the same key, TTL jitter for mass expiration, 
+and background refresh to prevent cache misses.

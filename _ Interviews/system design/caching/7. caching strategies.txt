@@ -1,106 +1,48 @@
-👉 A caching strategy defines how reads and writes interact with the cache and the
-source of truth (usually a database), and determines consistency, latency, and
-failure behavior.
+A caching strategy defines how reads and writes interact with the cache and database, affecting 
+latency, consistency, and reliability.
 
-Why caching strategies matter:
-* Reads and writes have different performance and correctness requirements
-* Different workloads need different trade-offs
-* The wrong strategy can cause stale data or overload databases
+### 1. Cache-Aside (Lazy Loading)
+- Read: Cache → miss → DB → populate cache.
+- Write: Update DB, optionally invalidate cache.
+- Pros: Simple, flexible, cache failure doesn't block DB access if fallback exists.
+- Cons: Cache misses, stampedes, stale data.
+- Use: Most read-heavy applications.
 
-Main caching strategies and when to use them:
+### 2. Write-Through
+- Write: Cache → synchronously persist to DB.
+- Read: Usually from cache.
+- Pros: Cache updated on successful writes, read-after-write consistency when correctly implemented.
+- Cons: Higher write latency, cache dependency.
+- Use: Read-heavy workloads requiring fresh cached data.
 
-1️⃣ Cache-aside (lazy loading)
-* Application checks cache first
-* On miss → reads from DB → stores result in cache
-* Cache is not part of write path
+### 3. Write-Behind (Write-Back)
+- Write: Cache → asynchronously persist to DB.
+- Pros: Very fast writes, handles write bursts.
+- Cons: Data loss risk, eventual consistency, complex recovery.
+- Use: Write-heavy workloads where delayed persistence is acceptable.
 
-When to use:
-* Most common strategy
-* Read-heavy workloads
-* When occasional stale reads are acceptable
+### 4. Read-Through
+- Read: Cache automatically fetches from DB on miss.
+- Pros: Centralized caching logic, simpler application.
+- Cons: Cache dependency, less application control.
+- Use: Systems with dedicated caching infrastructure.
 
-Pros:
-* Simple and flexible
-* Cache can fail without breaking writes
+### 5. Explicit Invalidation
+- Write: Update DB → delete affected cache keys.
+- Pros: Reduces stale reads, simple to combine with TTL.
+- Cons: Race conditions, missed invalidations.
+- Use: Cache-aside systems requiring fresher data.
 
-Cons:
-* Cache misses hit DB directly
-* Risk of cache stampedes
-* Stale data until invalidation or TTL expiry
+### 6. Two-Level Cache (L1 + L2)
+`Application → Local Cache → Redis → DB`
 
+- Pros: Extremely fast reads, reduced Redis/DB load.
+- Cons: More complex invalidation, inconsistent local caches.
+- Use: High-throughput, latency-sensitive systems.
 
-2️⃣ Write-through cache
-* Application writes to cache
-* Cache synchronously writes to DB
-* Cache always contains fresh data
-
-When to use:
-* Strong read-after-write consistency required
-* Reads must always hit cache
-
-Pros:
-* Cache always up-to-date
-* No cold cache for written data
-
-Cons:
-* Higher write latency
-* Cache becomes critical dependency
-
-
-3️⃣ Write-behind (write-back) cache
-* Application writes only to cache
-* Cache asynchronously writes to DB
-
-When to use:
-* High write throughput
-* Eventual consistency acceptable
-
-Pros:
-* Very fast writes
-* Smooths write bursts
-
-Cons:
-* Risk of data loss if cache fails
-* Complex recovery logic
-
-
-4️⃣ Read-through cache
-* Application always reads from cache
-* Cache fetches from DB on miss
-
-When to use:
-* Want to centralize caching logic
-* Simple application code
-
-Pros:
-* Cleaner app logic
-* Cache controls load behavior
-
-Cons:
-* Cache hides DB load patterns
-* Cache failure blocks reads
-
-
-5️⃣ Explicit invalidation (hybrid approach)
-* Cache-aside + invalidation on writes
-* Often combined with TTLs
-
-When to use:
-* Balance between performance and correctness
-* Common in real systems
-
-Pros:
-* Reduced staleness
-* Flexible control
-
-Cons:
-* Easy to miss invalidation paths
-
-
-6️⃣ Two-level cache (local + shared)
-```
-local cache → Redis → DB
-```
-
-👉 Очень быстро
-👉 Сложнее в поддержке
+### Interview Takeaway
+- Cache-aside: Most common and flexible.
+- Write-through: Consistent cache updates, slower writes.
+- Write-behind: Fast writes, durability risks.
+- Read-through: Cache manages DB reads.
+- L1 + L2: Maximum read performance, harder consistency.

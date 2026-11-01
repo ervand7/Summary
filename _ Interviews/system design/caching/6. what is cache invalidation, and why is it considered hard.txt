@@ -1,28 +1,17 @@
-👉 Cache invalidation — это удаление кэша, когда данные в базе изменились.
+Cache invalidation means removing or marking cached data as stale when the source data changes.
 
-## Зачем
-* Кэш — копия
-* База — истина
-* Без инвалидирования кэш врёт
+### Why is it difficult?
+- Race conditions: Concurrent reads and writes can reintroduce stale data.
+- Distributed caches: Multiple replicas or cache layers must stay consistent.
+- Failures: Cache updates or invalidations can fail.
+- Missed invalidation: Developers may forget to invalidate affected keys.
 
+### Common Strategies
+1. TTL: Automatically expire entries after a period. Simple, but allows stale data.
+2. Delete on write: Invalidate cached entries after DB updates. Common with cache-aside.
+3. Write-through: Update the DB and cache on every write. Requires handling partial failures.
+4. Versioned keys: Change the cache key when data changes, making old entries obsolete.
 
-## Почему сложно
-* Параллельные запросы
-* Несколько кэшей
-* Сбои и гонки
-* Легко забыть очистить
-
-
-## Основные способы
-* TTL — сам протухает (просто, но устаревает)
-* Delete on write — удалять при записи (опасно ошибиться)
-* Write-through — писать в БД и кэш вместе
-* Versioned keys — менять ключ
-
-
-## Главная мысль
-> Сложно держать копию данных синхронной с оригиналом.
-
-
-## Фраза для собеса
-> Cache invalidation сложна из-за гонок и распределённости системы.
+### Interview Takeaway
+Cache invalidation is difficult because keeping cached copies synchronized with the source of truth
+introduces race conditions, consistency challenges, and failure scenarios in distributed systems.
